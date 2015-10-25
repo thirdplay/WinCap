@@ -1,0 +1,15 @@
+﻿<Application x:Class="WinCap.Application"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WinCap"
+             xmlns:v="clr-namespace:WinCap"
+             StartupUri="Views/MainWindow.xaml"
+             Startup="StartupHandler">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Elysium;component/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
