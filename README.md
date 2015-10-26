@@ -17,7 +17,7 @@
 
 > The MIT License (MIT)
 > 
-> Copyright (c) 2013 Grabacr07
+> Copyright (c) 2011-2013 Aleksandr Vishnyakov
 
 * **ライセンス :** The MIT License (MIT)
 * **ライセンス全文 :** [licenses/Elysium.txt](licenses/Elysium.txt)
