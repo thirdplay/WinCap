@@ -13,12 +13,15 @@
 
 以下のライブラリを使用して開発を行っています。
 
-#### [Elysium](http://elysium.asvishnyakov.com/en/)
+#### [MetroRadiance](https://github.com/Grabacr07/MetroRadiance)
 
 > The MIT License (MIT)
 > 
-> Copyright (c) 2013 Grabacr07
+> Copyright (c) 2014 Manato KAMEYA
 
 * **ライセンス :** The MIT License (MIT)
-* **ライセンス全文 :** [licenses/Elysium.txt](licenses/Elysium.txt)
+* **ライセンス全文 :** [licenses/MetroRadiance.txt](licenses/MetroRadiance.txt)
 
+#### Livet
+
+* **ライセンス : zlib/libpng
