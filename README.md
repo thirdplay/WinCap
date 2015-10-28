@@ -22,6 +22,15 @@
 * **ライセンス :** The MIT License (MIT)
 * **ライセンス全文 :** [licenses/MetroRadiance.txt](licenses/MetroRadiance.txt)
 
+#### [StatefulModel](https://github.com/ugaya40/StatefulModel)
+
+> The MIT License (MIT)
+> 
+> Copyright (c) 2015 Masanori Onoue
+
+* **ライセンス :** The MIT License (MIT)
+* **ライセンス全文 :** [licenses/StatefulModel.txt](licenses/StatefulModel.txt)
+
 #### Livet
 
 * **ライセンス : zlib/libpng

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows;
+using WinCap.Components;
 
 namespace WinCap
 {
@@ -14,5 +8,32 @@ namespace WinCap
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// 通知アイコン
+        /// </summary>
+        private NotifyIconWrapper notifyIcon;
+
+        /// <summary>
+        /// 起動イベント
+        /// </summary>
+        /// <param name="e">イベント引数</param>
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            //this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            this.notifyIcon = new NotifyIconWrapper(WinCap.Properties.Settings.Default.IconUri);
+
+            base.OnStartup(e);
+        }
+
+        /// <summary>
+        /// 終了イベント
+        /// </summary>
+        /// <param name="e">イベント引数</param>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            this.notifyIcon.Dispose();
+        }
     }
 }
