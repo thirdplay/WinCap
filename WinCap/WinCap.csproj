@@ -98,6 +98,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\ResidentIcon.cs" />
+    <Compile Include="Lifetime\DisposableExtensions.cs" />
+    <Compile Include="Lifetime\IDisposableHolder.cs" />
+    <Compile Include="Mvvm\PropertyChangedExtensions.cs" />
+    <Compile Include="Services\ResidentIconService.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Win32\NativeMethods.cs" />
+    <Compile Include="Win32\WM.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,12 +113,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\NotifyIconWrapper.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Components\NotifyIconWrapper.Designer.cs">
-      <DependentUpon>NotifyIconWrapper.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -131,9 +133,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Components\NotifyIconWrapper.resx">
-      <DependentUpon>NotifyIconWrapper.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -154,9 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\app.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,7 +16,7 @@
 		              UseLayoutRounding="True"
 		              TextOptions.TextFormattingMode="Display">
     <metro:MetroWindow.MetroChromeBehavior>
-        <Custom:MetroChromeBehavior Mode="VisualStudio2013"/>
+        <Custom:MetroChromeBehavior/>
     </metro:MetroWindow.MetroChromeBehavior>
     <Grid>
         <Grid.RowDefinitions>
@@ -49,6 +49,7 @@
 					VerticalAlignment="Top" />
             </Grid>
         </Border>
+        <!--
         <ScrollViewer Grid.Row="1">
             <StackPanel Orientation="Horizontal">
                 <TextBox HorizontalAlignment="Left" Height="22" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
@@ -56,5 +57,6 @@
                 <Button Content="White" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" />
             </StackPanel>
         </ScrollViewer>
+        -->
     </Grid>
 </metro:MetroWindow>

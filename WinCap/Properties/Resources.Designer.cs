@@ -59,5 +59,68 @@ namespace WinCap.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   キャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ContextMenu_Capture {
+            get {
+                return ResourceManager.GetString("ContextMenu_Capture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   選択コントロールをキャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ContextMenu_ControlCapture {
+            get {
+                return ResourceManager.GetString("ContextMenu_ControlCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   終了(&amp;X) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ContextMenu_Exit {
+            get {
+                return ResourceManager.GetString("ContextMenu_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ヘルプ(&amp;H) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ContextMenu_Help {
+            get {
+                return ResourceManager.GetString("ContextMenu_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   オプション(&amp;O) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ContextMenu_Option {
+            get {
+                return ResourceManager.GetString("ContextMenu_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ページ全体をキャプチャ(&amp;P) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ContextMenu_PageCapture {
+            get {
+                return ResourceManager.GetString("ContextMenu_PageCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   画面全体をキャプチャ(&amp;S) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ContextMenu_ScreenCapture {
+            get {
+                return ResourceManager.GetString("ContextMenu_ScreenCapture", resourceCulture);
+            }
+        }
     }
 }
