@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinCap.Core.Win32
+namespace WinCap.Win32
 {
     /// <summary>
     /// Windows Messages

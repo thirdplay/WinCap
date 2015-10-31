@@ -1,9 +1,10 @@
-﻿using System;
-using System.Drawing;
+﻿using Livet;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using WinCap.Components;
-using WinCap.Lifetime;
+using WinCap.Utilities.Lifetime;
 using WinCap.Properties;
 
 namespace WinCap.Services
@@ -11,17 +12,31 @@ namespace WinCap.Services
     /// <summary>
     /// 常駐アイコンサービス
     /// </summary>
-    public class ResidentIconService : ServiceBase
+    public sealed class ResidentIconService : IDisposableHolder
     {
+        #region フィールド
         /// <summary>
-        /// インスタンス
+        /// 基本CompositeDisposable
+        /// </summary>
+        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+        #endregion
+
+        #region プロパティ
+        /// <summary>
+        /// 現在のサービスを取得する。
         /// </summary>
         public static ResidentIconService Current { get; } = new ResidentIconService();
+        #endregion
 
         /// <summary>
         /// 常駐アイコン
         /// </summary>
         private ResidentIcon notifyIcon;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        private ResidentIconService() { }
 
         /// <summary>
         /// 初期化
@@ -70,5 +85,17 @@ namespace WinCap.Services
         {
             Application.Current.Shutdown();
         }
+
+        #region IDisposableHoloder members
+        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
+
+        /// <summary>
+        /// このインスタンスによって使用されているリソースを全て破棄する。
+        /// </summary>
+        public void Dispose()
+        {
+            this.compositeDisposable.Dispose();
+        }
+        #endregion
     }
 }

@@ -2,13 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Reflection;
 using System.Windows;
-using WinCap.Components;
-using WinCap.Lifetime;
-using WinCap.Properties;
+using WinCap.Utilities.Lifetime;
 using WinCap.Services;
 using WinCap.Views;
 
@@ -17,12 +13,12 @@ namespace WinCap
     /// <summary>
     /// App.xaml の相互作用ロジック
     /// </summary>
-    public partial class App : Application, IDisposableHolder
+    sealed partial class App : Application, IDisposableHolder
     {
         /// <summary>
         /// 基本CompositeDisposable。
         /// </summary>
-        protected readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
         /// 静的コンストラクタ
@@ -38,6 +34,8 @@ namespace WinCap
         /// <param name="e">イベント引数</param>
         protected override void OnStartup(StartupEventArgs e)
         {
+            //Console.WriteLine("Total Memory = {0} KB", GC.GetTotalMemory(true) / 1024);
+
             // TODO:多重起動防止チェック
 
             // 各サービスの初期化
@@ -56,25 +54,6 @@ namespace WinCap
             };
 
             base.OnStartup(e);
-
-            // * 常駐アイコンからのキャプチャ方法 ⇒ 通知アイコンの専用イベントを適せん追加？
-            //   常駐アイコン？常駐サービス？
-            //
-            // * ウィンドウ管理 ⇒ WindowService
-            //     ⇒ GetMainWindow
-            //     ⇒ GetOptionWindow
-            //
-            // * ホットキーの管理 ⇒ HotkeyService
-            //     ⇒ Initialize(); ※設定を元に登録（設定を監視し、ホットキー変更時に再設定する）
-            //     ⇒ private Add(id, fsModifiers, vk, x => CaptureService.CaptureScreen());
-            //     ⇒ private Clear();
-            //
-            // * キャプチャの管理 ⇒ CaptureService
-            //     ⇒ Initialize(); ※各キャプチャの生成（設定を監視し、各キャプチャへ反映する）
-            //     ⇒ CaptureScreen
-            //     ⇒ CaptureWindow
-            //     ⇒ CapturePage
-            //  状態管理：待機中or処理中
         }
 
         /// <summary>
@@ -84,7 +63,11 @@ namespace WinCap
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
+
             this.Dispose();
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         /// <summary>
@@ -119,7 +102,7 @@ ERROR, date = {0}, sender = {1},
             Application.Current.Shutdown();
         }
 
-        #region IDisposable members
+        #region IDisposableHolder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>

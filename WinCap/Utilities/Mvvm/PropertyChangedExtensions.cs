@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel;
 
-namespace WinCap.Mvvm
+namespace WinCap.Utilities.Mvvm
 {
     /// <summary>
     /// プロパティ変更イベントリスナーの拡張

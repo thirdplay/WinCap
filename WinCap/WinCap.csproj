@@ -98,12 +98,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Captures\ICapture.cs" />
     <Compile Include="Components\ResidentIcon.cs" />
-    <Compile Include="Lifetime\DisposableExtensions.cs" />
-    <Compile Include="Lifetime\IDisposableHolder.cs" />
-    <Compile Include="Mvvm\PropertyChangedExtensions.cs" />
+    <Compile Include="Utilities\Lifetime\DisposableExtensions.cs" />
+    <Compile Include="Utilities\Lifetime\IDisposableHolder.cs" />
+    <Compile Include="Utilities\Mvvm\PropertyChangedExtensions.cs" />
+    <Compile Include="Services\CaptureService.cs" />
     <Compile Include="Services\ResidentIconService.cs" />
-    <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Win32\NativeMethods.cs" />
     <Compile Include="Win32\WM.cs" />
     <Page Include="Views\MainWindow.xaml">
@@ -148,7 +149,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>

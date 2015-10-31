@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace WinCap.Core.Win32
+namespace WinCap.Win32
 {
     /// <summary>
     /// ネイティブメソッド
     /// </summary>
-    public class NativeMethods
+    internal static class NativeMethods
     {
         /// <summary>
         /// ホットキーを登録する
