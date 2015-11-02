@@ -39,12 +39,13 @@ namespace WinCap
             // TODO:多重起動防止チェック
 
             // 各サービスの初期化
-            //this.residentIcon = new ResidentIcon();
+            CaptureService.Current.AddTo(this).Initialize();
             ResidentIconService.Current.AddTo(this).Initialize();
+            WindowService.Current.AddTo(this).Initialize();
 
             // メインウィンドウ生成
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            this.MainWindow = new MainWindow();
+            this.MainWindow = WindowService.Current.GetMainWindow();
 
             // UnhandledExceptionイベント登録
             this.DispatcherUnhandledException += (sender, args) =>

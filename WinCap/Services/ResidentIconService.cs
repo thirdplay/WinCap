@@ -48,42 +48,13 @@ namespace WinCap.Services
 
             // コンテキストメニューの設定
             var contextMenu = this.notifyIcon.ContextMenuStrip;
-            contextMenu.ShowImageMargin = false;
             var contextMenuCapture = contextMenu.Items.Add(Resources.ContextMenu_Capture) as System.Windows.Forms.ToolStripMenuItem;
-            contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ScreenCapture);
+            contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ScreenCapture).Click += (sender, e) => CaptureService.Current.CaptureWholeScreen();
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ControlCapture);
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_PageCapture);
-            contextMenu.Items.Add(Resources.ContextMenu_Option, null, ContextMenuOption_Click);
-            contextMenu.Items.Add(Resources.ContextMenu_Help, null, ContextMenuHelp_Click);
-            contextMenu.Items.Add(Resources.ContextMenu_Exit, null, ContextMenuClose_Click);
-        }
-
-        /// <summary>
-        /// オプションクリックイベント。
-        /// </summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント引数</param>
-        private void ContextMenuOption_Click(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// ヘルプクリックイベント。
-        /// </summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント引数</param>
-        private void ContextMenuHelp_Click(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// 閉じるクリックイベント。
-        /// </summary>
-        /// <param name="sender">イベント発生元</param>
-        /// <param name="e">イベント引数</param>
-        private void ContextMenuClose_Click(object sender, EventArgs e)
-        {
-            Application.Current.Shutdown();
+            contextMenu.Items.Add(Resources.ContextMenu_Option);
+            contextMenu.Items.Add(Resources.ContextMenu_Help).Click += (sender, e) => CaptureService.Current.CaptureSelectControl();
+            contextMenu.Items.Add(Resources.ContextMenu_Exit).Click += (sender, e) => Application.Current.Shutdown();
         }
 
         #region IDisposableHoloder members
