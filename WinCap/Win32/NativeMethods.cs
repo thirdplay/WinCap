@@ -9,6 +9,15 @@ namespace WinCap.Win32
     internal static class NativeMethods
     {
         /// <summary>
+        /// Objectを削除する。
+        /// </summary>
+        /// <param name="hObject">オブジェクトハンドル</param>
+        /// <returns></returns>
+        [DllImport("gdi32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteObject(IntPtr hObject);
+
+        /// <summary>
         /// ホットキーを登録する
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>

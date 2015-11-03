@@ -1,22 +1,34 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using WinCap.Views;
 using System.Reactive.Linq;
+using WinCap.ViewModels;
+using WinCap.Utilities.Lifetime;
+using Livet;
 
 namespace WinCap.Services
 {
     /// <summary>
     /// ウィンドウサービス
     /// </summary>
-    public sealed class WindowService : IDisposable
+    public sealed class WindowService : IDisposableHolder
     {
         #region フィールド
+        /// <summary>
+        /// 基本CompositeDisposable
+        /// </summary>
+        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+
         /// <summary>
         /// ウィンドウコンテナ
         /// </summary>
         private Dictionary<string, Window> container = new Dictionary<string, Window>();
+
+        /// <summary>
+        /// 選択ウィンドウVM
+        /// </summary>
+        private SelectWindowViewModel selectWindowVm;
         #endregion
 
         #region プロパティ
@@ -36,6 +48,7 @@ namespace WinCap.Services
         /// </summary>
         public void Initialize()
         {
+            selectWindowVm = new SelectWindowViewModel();
         }
 
         /// <summary>
@@ -47,7 +60,12 @@ namespace WinCap.Services
             string key = nameof(MainWindow);
             if (!container.ContainsKey(key))
             {
-                createWindow<MainWindow>(key);
+                this.container.Add(key, new MainWindow());
+                Observable.FromEventPattern(
+                    handler => this.container[key].Closed += handler,
+                    handler => this.container[key].Closed -= handler
+                )
+                .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
             }
             return container[key] as MainWindow;
         }
@@ -61,7 +79,13 @@ namespace WinCap.Services
             string key = nameof(SelectWindow);
             if (!container.ContainsKey(key))
             {
-                createWindow<SelectWindow>(key);
+                this.selectWindowVm.Initialize();
+                this.container.Add(key, new SelectWindow() { DataContext = this.selectWindowVm });
+                Observable.FromEventPattern(
+                    handler => this.container[key].Closed += handler,
+                    handler => this.container[key].Closed -= handler
+                )
+                .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
             }
             return container[key] as SelectWindow;
         }
@@ -73,18 +97,21 @@ namespace WinCap.Services
         /// ウィンドウを生成し、クローズイベントを監視して後片付けをする。
         /// </remarks>
         /// <param name="key">ウィンドウキー</param>
+        /// <param name="dataContext">データコンテキスト</param>
         /// <typeparam name="T">ウィンドウを継承したクラス</typeparam>
-        private void createWindow<T>(string key) where T : Window, new()
-        {
-            container.Add(key, new T());
-            Observable.FromEventPattern(
-                handler => container[key].Closed += handler,
-                handler => container[key].Closed -= handler
-            )
-            .Subscribe(x => container.Remove(x.Sender.GetType().Name));
-        }
+        //private void createWindow<T>(string key, object dataContext = null) where T : Window, new()
+        //{
+        //    container.Add(key, new T() { DataContext = dataContext });
+        //    Observable.FromEventPattern(
+        //        handler => this.container[key].Closed += handler,
+        //        handler => this.container[key].Closed -= handler
+        //    )
+        //    .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
+        //}
 
-        #region IDisposable members
+        #region IDisposableHoloder members
+        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
+
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄する。
         /// </summary>
@@ -94,6 +121,7 @@ namespace WinCap.Services
             {
                 window.Close();
             }
+            this.compositeDisposable.Dispose();
         }
         #endregion
     }

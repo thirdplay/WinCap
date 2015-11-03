@@ -22,7 +22,7 @@ namespace WinCap.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace WinCap.Properties {
         ///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WinCap.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace WinCap.Properties {
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace WinCap.Properties {
         /// <summary>
         ///   キャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ContextMenu_Capture {
+        public static string ContextMenu_Capture {
             get {
                 return ResourceManager.GetString("ContextMenu_Capture", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace WinCap.Properties {
         /// <summary>
         ///   選択コントロールをキャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ContextMenu_ControlCapture {
+        public static string ContextMenu_ControlCapture {
             get {
                 return ResourceManager.GetString("ContextMenu_ControlCapture", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace WinCap.Properties {
         /// <summary>
         ///   終了(&amp;X) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ContextMenu_Exit {
+        public static string ContextMenu_Exit {
             get {
                 return ResourceManager.GetString("ContextMenu_Exit", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace WinCap.Properties {
         /// <summary>
         ///   ヘルプ(&amp;H) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ContextMenu_Help {
+        public static string ContextMenu_Help {
             get {
                 return ResourceManager.GetString("ContextMenu_Help", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace WinCap.Properties {
         /// <summary>
         ///   オプション(&amp;O) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ContextMenu_Option {
+        public static string ContextMenu_Option {
             get {
                 return ResourceManager.GetString("ContextMenu_Option", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace WinCap.Properties {
         /// <summary>
         ///   ページ全体をキャプチャ(&amp;P) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ContextMenu_PageCapture {
+        public static string ContextMenu_PageCapture {
             get {
                 return ResourceManager.GetString("ContextMenu_PageCapture", resourceCulture);
             }
@@ -117,9 +117,45 @@ namespace WinCap.Properties {
         /// <summary>
         ///   画面全体をキャプチャ(&amp;S) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ContextMenu_ScreenCapture {
+        public static string ContextMenu_ScreenCapture {
             get {
                 return ResourceManager.GetString("ContextMenu_ScreenCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   左クリックで領域を選択してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SelectInfo_Description {
+            get {
+                return ResourceManager.GetString("SelectInfo_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   名前 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SelectInfo_Name {
+            get {
+                return ResourceManager.GetString("SelectInfo_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   座標 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SelectInfo_Position {
+            get {
+                return ResourceManager.GetString("SelectInfo_Position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   サイズ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SelectInfo_Size {
+            get {
+                return ResourceManager.GetString("SelectInfo_Size", resourceCulture);
             }
         }
     }

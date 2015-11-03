@@ -124,22 +124,20 @@ namespace WinCap.Services
             )
             .Subscribe(x =>
             {
-                // 選択コントロールのウィンドウハンドル取得
-                //Console.WriteLine("Selected {0}", x.EventArgs.ToString());
-
                 // 選択ウィンドウを閉じる
                 selectWindow.Close();
 
                 // 選択コントロールをキャプチャする
-                ScreenCapture capture = new ScreenCapture();
-                using (Bitmap bitmap = capture.Capture())
-                {
-                    // キャプチャした画像をクリップボードに設定する
-                    Clipboard.SetDataObject(bitmap, true);
-                }
+                //ScreenCapture capture = new ScreenCapture();
+                //using (Bitmap bitmap = capture.Capture())
+                //{
+                //    // キャプチャした画像をクリップボードに設定する
+                //    Clipboard.SetDataObject(bitmap, true);
+                //}
 
                 // 待機状態に戻す
                 this.Status = CaptureServiceStatus.Wait;
+                //App.Current.Shutdown();
             });
 
             // 選択ウィンドウの表示

@@ -138,4 +138,16 @@
   <data name="ContextMenu_ScreenCapture" xml:space="preserve">
     <value>画面全体をキャプチャ(&amp;S)</value>
   </data>
+  <data name="SelectInfo_Description" xml:space="preserve">
+    <value>左クリックで領域を選択してください。</value>
+  </data>
+  <data name="SelectInfo_Name" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="SelectInfo_Position" xml:space="preserve">
+    <value>座標</value>
+  </data>
+  <data name="SelectInfo_Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
 </root>

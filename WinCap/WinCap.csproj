@@ -113,16 +113,26 @@
     <Compile Include="Components\ResidentIcon.cs" />
     <Compile Include="Models\Captures\ScreenCapture.cs" />
     <Compile Include="Services\WindowService.cs" />
+    <Compile Include="Utilities\Drawing\BitmapExtensions.cs" />
     <Compile Include="Utilities\Lifetime\DisposableExtensions.cs" />
     <Compile Include="Utilities\Lifetime\IDisposableHolder.cs" />
     <Compile Include="Utilities\Mvvm\PropertyChangedExtensions.cs" />
     <Compile Include="Services\CaptureService.cs" />
     <Compile Include="Services\ResidentIconService.cs" />
+    <Compile Include="Utilities\Mvvm\ViewModelExtensions.cs" />
+    <Compile Include="ViewModels\SelectWindowViewModel.cs" />
+    <Compile Include="Views\SelectInfo.xaml.cs">
+      <DependentUpon>SelectInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectWindow.xaml.cs">
       <DependentUpon>SelectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Win32\NativeMethods.cs" />
     <Compile Include="Win32\WM.cs" />
+    <Page Include="Views\SelectInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SelectWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -155,7 +165,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -168,9 +178,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\app.ico" />
   </ItemGroup>

@@ -12,7 +12,6 @@
 		              FontFamily="Segoe UI"
 		              Background="{DynamicResource ThemeBrushKey}"
 		              Foreground="{DynamicResource ActiveForegroundBrushKey}"
-		              WindowState="{Binding WindowState}"
 		              UseLayoutRounding="True"
 		              TextOptions.TextFormattingMode="Display">
     <metro:MetroWindow.MetroChromeBehavior>
