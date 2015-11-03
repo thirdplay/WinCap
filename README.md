@@ -33,4 +33,4 @@
 
 #### Livet
 
-* **ライセンス : zlib/libpng
+* **ライセンス :** zlib/libpng
