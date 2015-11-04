@@ -5,8 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using WinCap.Utilities.Lifetime;
-using WinCap.Services;
-using WinCap.Views;
+using WinCap.Models;
 
 namespace WinCap
 {

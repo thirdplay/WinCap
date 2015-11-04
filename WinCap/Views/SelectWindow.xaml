@@ -1,8 +1,11 @@
 ﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+        xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:b="clr-namespace:WinCap.Views.Behaviors"
         xmlns:views="clr-namespace:WinCap.Views"
         xmlns:prop="clr-namespace:WinCap.Properties"
         xmlns:vm="clr-namespace:WinCap.ViewModels"
@@ -31,6 +34,16 @@
         <Image Source="{Binding ScreenImage}"
                Width="525"
                Height="320">
+            <i:Interaction.Behaviors>
+                <b:MouseMoveBehavior Command="{Binding MouseMoveCommand}" />
+            </i:Interaction.Behaviors>
+            <!--
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseMove">
+                    <l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="MouseMove" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            -->
         </Image>
         <Button Content="Shutdown" HorizontalAlignment="Left" Click="Button_Click"/>
     </StackPanel>

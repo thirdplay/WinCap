@@ -6,8 +6,9 @@ using System.Windows;
 using WinCap.Components;
 using WinCap.Utilities.Lifetime;
 using WinCap.Properties;
+using WinCap.Models;
 
-namespace WinCap.Services
+namespace WinCap
 {
     /// <summary>
     /// 常駐アイコンサービス

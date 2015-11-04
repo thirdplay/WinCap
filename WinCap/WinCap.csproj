@@ -111,16 +111,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Components\ResidentIcon.cs" />
-    <Compile Include="Models\Captures\ScreenCapture.cs" />
-    <Compile Include="Services\WindowService.cs" />
+    <Compile Include="Models\ScreenCapture.cs" />
+    <Compile Include="Models\WindowHelper.cs" />
+    <Compile Include="Win32\DWMWA.cs" />
+    <Compile Include="Win32\GW.cs" />
+    <Compile Include="Win32\RECT.cs" />
+    <Compile Include="WindowService.cs" />
     <Compile Include="Utilities\Drawing\BitmapExtensions.cs" />
     <Compile Include="Utilities\Lifetime\DisposableExtensions.cs" />
     <Compile Include="Utilities\Lifetime\IDisposableHolder.cs" />
     <Compile Include="Utilities\Mvvm\PropertyChangedExtensions.cs" />
-    <Compile Include="Services\CaptureService.cs" />
-    <Compile Include="Services\ResidentIconService.cs" />
+    <Compile Include="Models\CaptureService.cs" />
+    <Compile Include="ResidentIconService.cs" />
     <Compile Include="Utilities\Mvvm\ViewModelExtensions.cs" />
     <Compile Include="ViewModels\SelectWindowViewModel.cs" />
+    <Compile Include="Views\Behaviors\MouseMoveBehavior.cs" />
     <Compile Include="Views\SelectInfo.xaml.cs">
       <DependentUpon>SelectInfo.xaml</DependentUpon>
     </Compile>
