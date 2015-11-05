@@ -11,12 +11,12 @@ namespace WinCap.Models
     public class WindowHelper
     {
         /// <summary>
-        /// 表示中のウィンドウ一覧をソートして取得する
+        /// ウィンドウ情報リストを表示順にソートして取得する
         /// </summary>
-        /// <returns>ウィンドウハンドル一覧</returns>
-        public List<IntPtr> GetWindowHandles()
+        /// <returns>ウィンドウ情報リスト</returns>
+        public List<WindowInfo> GetWindowList()
         {
-            List<IntPtr> list = new List<IntPtr>();
+            List<WindowInfo> list = new List<WindowInfo>();
 
             // フォアグラウンドウィンドウの取得
             IntPtr hWnd = NativeMethods.GetForegroundWindow();
@@ -31,15 +31,15 @@ namespace WinCap.Models
             do
             {
                 // 対象ウィンドウか判定する
-                if (isValidWindow(hWnd))
+                if (NativeMethods.IsWindowVisible(hWnd) != 0)
                 {
                     // 子ウィンドウ判定
                     IntPtr hWndChild = NativeMethods.GetWindow(hWnd, GW.CHILD);
                     if (hWndChild != IntPtr.Zero)
                     {
-                        getWindowHandles(hWndChild, list);
+                        getWindowList(hWndChild, ref list);
                     }
-                    list.Add(hWnd);
+                    list.Add(new WindowInfo(hWnd));
                 }
             } while ((hWnd = NativeMethods.GetWindow(hWnd, GW.HWNDNEXT)) != IntPtr.Zero);
 
@@ -47,49 +47,26 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 指定ウィンドウに紐付く子ウィンドウを全て取得する
+        /// 指定ウィンドウとそれに紐付く子ウィンドウを全て取得する
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="list">ウィンドウハンドルの格納先</param>
-        protected void getWindowHandles(IntPtr hWnd, List<IntPtr> list)
+        protected void getWindowList(IntPtr hWnd, ref List<WindowInfo> list)
         {
-            // 対象ウィンドウか判定する
-            if (isValidWindow(hWnd))
+            if (NativeMethods.IsWindowVisible(hWnd) != 0)
             {
-                // 子判定
                 IntPtr hWndChild = NativeMethods.GetWindow(hWnd, GW.CHILD);
                 if (hWndChild != IntPtr.Zero)
                 {
-                    getWindowHandles(hWndChild, list);
+                    getWindowList(hWndChild, ref list);
                 }
-                list.Add(hWnd);
+                list.Add(new WindowInfo(hWnd));
             }
 
-            // 次ノード判定
             if ((hWnd = NativeMethods.GetWindow(hWnd, GW.HWNDNEXT)) != IntPtr.Zero)
             {
-                getWindowHandles(hWnd, list);
+                getWindowList(hWnd, ref list);
             }
-        }
-
-        /// <summary>
-        /// 指定ウィンドウをキャプチャ対象ウィンドウとするか返す
-        /// </summary>
-        /// <param name="hWnd">ウィンドウハンドル</param>
-        /// <returns>対象ならtrue、それ以外はfalse</returns>
-        protected bool isValidWindow(IntPtr hWnd)
-        {
-            // ウィンドウの表示状態を取得する
-            if (NativeMethods.IsWindowVisible(hWnd) != 0)
-            {
-                // 矩形情報を取得する
-                Rectangle rect = NativeMethods.GetWindowRect(hWnd);
-                if (rect.Width != 0 && rect.Height != 0)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

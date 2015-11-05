@@ -113,6 +113,8 @@
     <Compile Include="Components\ResidentIcon.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\WindowHelper.cs" />
+    <Compile Include="Models\WindowInfo.cs" />
+    <Compile Include="Views\Behaviors\MouseCommandAction.cs" />
     <Compile Include="Win32\DWMWA.cs" />
     <Compile Include="Win32\GW.cs" />
     <Compile Include="Win32\RECT.cs" />
@@ -125,7 +127,6 @@
     <Compile Include="ResidentIconService.cs" />
     <Compile Include="Utilities\Mvvm\ViewModelExtensions.cs" />
     <Compile Include="ViewModels\SelectWindowViewModel.cs" />
-    <Compile Include="Views\Behaviors\MouseMoveBehavior.cs" />
     <Compile Include="Views\SelectInfo.xaml.cs">
       <DependentUpon>SelectInfo.xaml</DependentUpon>
     </Compile>

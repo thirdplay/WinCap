@@ -1,9 +1,8 @@
 ﻿using Livet;
 using Livet.Commands;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Input;
+using System.Linq;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using WinCap.Models;
 using WinCap.Utilities.Drawing;
@@ -17,9 +16,14 @@ namespace WinCap.ViewModels
     {
         #region フィールド
         /// <summary>
-        /// ウィンドウハンドルリスト
+        /// ウィンドウヘルパー
         /// </summary>
-        protected List<IntPtr> handles_ = new List<IntPtr>();
+        private WindowHelper windowHelper = new WindowHelper();
+
+        /// <summary>
+        /// ウィンドウ情報リスト
+        /// </summary>
+        private List<WindowInfo> windowList = new List<WindowInfo>();
         #endregion
 
         #region プロパティ
@@ -53,60 +57,50 @@ namespace WinCap.ViewModels
         {
             // 画面全体をキャプチャする
             ScreenCapture capturer = new ScreenCapture();
-            using (Bitmap bitmap = capturer.Capture())
+            using (System.Drawing.Bitmap bitmap = capturer.Capture())
             {
                 _ScreenImage = bitmap.ToBitmapSource();
             }
 
-            // 表示中のウィンドウハンドルを取得する
-            //handles_ = WindowXxxx.GetWindowHandles();
+            // 表示中のウィンドウ情報リストを取得する
+            windowList = windowHelper.GetWindowList().Where(x => !x.Size.IsEmpty).ToList();
         }
 
-        private ListenerCommand<MouseEventArgs> _MouseMoveCommand;
-        public ListenerCommand<MouseEventArgs> MouseMoveCommand
+        /// <summary>
+        /// マウス移動コマンド
+        /// </summary>
+        private ListenerCommand<Point> _MouseMoveCommand;
+        public ListenerCommand<Point> MouseMoveCommand
         {
             get
             {
                 if (_MouseMoveCommand == null)
                 {
-                    _MouseMoveCommand = new ListenerCommand<MouseEventArgs>(MouseMove);
+                    _MouseMoveCommand = new ListenerCommand<Point>(p =>
+                    {
+                        System.Console.WriteLine($"({p.X},{p.Y})");
+
+                        //Cursor.Position.X
+                        // 選択中のウィンドウ情報をクリアする
+                        //selectWindowInfo = null;
+
+                        /*
+                        // 全てのウィンドウを調べる
+                        foreach (WindowInfo windowInfo in windowList)
+                        {
+                            // ヒットチェック
+                            if (Cursor.Position.X >= windowInfo.Left && Cursor.Position.X <= windowInfo.Right
+                            && Cursor.Position.Y >= windowInfo.Top && Cursor.Position.Y <= windowInfo.Bottom) {
+                                // 選択したウィンドウの情報を設定する
+                                selectWindowInfo = windowInfo;
+                                break;
+                            }
+                        }
+                        */
+                    });
                 }
                 return _MouseMoveCommand;
             }
-        }
-
-        /// <summary>
-        /// マウス移動
-        /// </summary>
-        /// <param name="e">イベント引数</param>
-        private void MouseMove(MouseEventArgs e)
-        {
-            /*
-            // 選択中のウィンドウ情報をクリアする
-            //selectWindowInfo_.Clear();
-
-            // 全てのウィンドウを調べる
-            foreach (IntPtr handle in handles_)
-            {
-                // ハンドルの矩形情報の取得
-                Rectangle rect = Win32.GetWindowRect(handle);
-                if (rect != Rectangle.Empty)
-                {
-                    // ヒットチェック
-                    if (Cursor.Position.X >= rect.Left && Cursor.Position.X <= rect.Right
-                    && Cursor.Position.Y >= rect.Top && Cursor.Position.Y <= rect.Bottom) {
-                        // ウィンドウクラス名の取得
-                        string className = Win32.GetClassName(handle);
-
-                        // 選択したウィンドウの情報を設定する
-                        selectWindowInfo_.Handle = handle;
-                        selectWindowInfo_.Rectangle = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
-                        selectWindowInfo_.ClassName = className.ToString();
-                        break;
-                    }
-                }
-            }
-            */
         }
     }
 }
