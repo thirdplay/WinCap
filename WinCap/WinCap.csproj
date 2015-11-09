@@ -114,7 +114,10 @@
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\WindowHelper.cs" />
     <Compile Include="Models\WindowInfo.cs" />
+    <Compile Include="Utilities\Drawing\ScreenExtensions.cs" />
+    <Compile Include="ViewModels\Messages\SetWindowBoundsMessage.cs" />
     <Compile Include="Views\Behaviors\MouseCommandAction.cs" />
+    <Compile Include="Views\Behaviors\SetWindowSizeAction.cs" />
     <Compile Include="Win32\DWMWA.cs" />
     <Compile Include="Win32\GW.cs" />
     <Compile Include="Win32\RECT.cs" />
@@ -126,20 +129,23 @@
     <Compile Include="Models\CaptureService.cs" />
     <Compile Include="ResidentIconService.cs" />
     <Compile Include="Utilities\Mvvm\ViewModelExtensions.cs" />
-    <Compile Include="ViewModels\SelectWindowViewModel.cs" />
+    <Compile Include="ViewModels\ControlSelectWindowViewModel.cs" />
     <Compile Include="Views\SelectInfo.xaml.cs">
       <DependentUpon>SelectInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SelectWindow.xaml.cs">
-      <DependentUpon>SelectWindow.xaml</DependentUpon>
+    <Compile Include="Views\ControlSelectWindow.xaml.cs">
+      <DependentUpon>ControlSelectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Win32\NativeMethods.cs" />
     <Compile Include="Win32\WM.cs" />
+    <DesignData Include="SampleData\ControlSelectWindowViewModelSampleData.xaml">
+      <SubType>Designer</SubType>
+    </DesignData>
     <Page Include="Views\SelectInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SelectWindow.xaml">
+    <Page Include="Views\ControlSelectWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

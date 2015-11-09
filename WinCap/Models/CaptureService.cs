@@ -114,15 +114,15 @@ namespace WinCap.Models
             if (this.Status != CaptureServiceStatus.Wait) return;
             this.Status = CaptureServiceStatus.Capture;
 
-            // 選択ウィンドウの取得
-            var selectWindow = WindowService.Current.GetSelectWindow();
+            // コントロール選択ウィンドウの取得
+            var selectWindow = WindowService.Current.GetControlSelectWindow();
             Observable.FromEventPattern(
                 handler => selectWindow.Selected += handler,
                 handler => selectWindow.Selected -= handler
             )
             .Subscribe(x =>
             {
-                // 選択ウィンドウを閉じる
+                // ウィンドウを閉じる
                 selectWindow.Close();
 
                 // 選択コントロールをキャプチャする
@@ -135,7 +135,6 @@ namespace WinCap.Models
 
                 // 待機状態に戻す
                 this.Status = CaptureServiceStatus.Wait;
-                //App.Current.Shutdown();
             });
 
             // 選択ウィンドウの表示

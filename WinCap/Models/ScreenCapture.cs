@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using WinCap.Utilities.Drawing;
 
 namespace WinCap.Models
 {
@@ -16,18 +17,7 @@ namespace WinCap.Models
         public Bitmap Capture()
         {
             // 画面全体の解像度を求める
-            Rectangle scrRect = new Rectangle();
-            foreach (Screen screen in Screen.AllScreens)
-            {
-                scrRect.X = Math.Min(scrRect.X, screen.Bounds.Left);
-                scrRect.Y = Math.Min(scrRect.Y, screen.Bounds.Top);
-                scrRect.Width = Math.Max(scrRect.Width, screen.Bounds.Right);
-                scrRect.Height = Math.Max(scrRect.Height, screen.Bounds.Bottom);
-            }
-
-            // オフセット分のサイズ補正
-            scrRect.Width -= scrRect.X;
-            scrRect.Height -= scrRect.Y;
+            Rectangle scrRect = Screen.AllScreens.GetBounds();
 
             // 返却用のビットマップ生成
             Bitmap bmp = new Bitmap(scrRect.Width, scrRect.Height);

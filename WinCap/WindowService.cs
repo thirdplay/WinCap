@@ -26,9 +26,9 @@ namespace WinCap
         private Dictionary<string, Window> container = new Dictionary<string, Window>();
 
         /// <summary>
-        /// 選択ウィンドウVM
+        /// コントロール選択ウィンドウVM
         /// </summary>
-        private SelectWindowViewModel selectWindowVm;
+        private ControlSelectWindowViewModel controlSelectWindowVm;
         #endregion
 
         #region プロパティ
@@ -48,7 +48,7 @@ namespace WinCap
         /// </summary>
         public void Initialize()
         {
-            selectWindowVm = new SelectWindowViewModel();
+            controlSelectWindowVm = new ControlSelectWindowViewModel();
         }
 
         /// <summary>
@@ -71,23 +71,22 @@ namespace WinCap
         }
 
         /// <summary>
-        /// 選択ウィンドウ取得
+        /// コントロール選択ウィンドウ取得
         /// </summary>
         /// <returns>選択ウィンドウ</returns>
-        public SelectWindow GetSelectWindow()
+        public ControlSelectWindow GetControlSelectWindow()
         {
-            string key = nameof(SelectWindow);
+            string key = nameof(ControlSelectWindow);
             if (!container.ContainsKey(key))
             {
-                this.selectWindowVm.Initialize();
-                this.container.Add(key, new SelectWindow() { DataContext = this.selectWindowVm });
+                this.container.Add(key, new ControlSelectWindow() { DataContext = this.controlSelectWindowVm });
                 Observable.FromEventPattern(
                     handler => this.container[key].Closed += handler,
                     handler => this.container[key].Closed -= handler
                 )
                 .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
             }
-            return container[key] as SelectWindow;
+            return container[key] as ControlSelectWindow;
         }
 
         /// <summary>

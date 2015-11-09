@@ -4,41 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
-        xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
-        xmlns:b="clr-namespace:WinCap.Views.Behaviors"
+        xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
         xmlns:views="clr-namespace:WinCap.Views"
         xmlns:prop="clr-namespace:WinCap.Properties"
         xmlns:vm="clr-namespace:WinCap.ViewModels"
-        x:Class="WinCap.Views.SelectWindow"
+        x:Class="WinCap.Views.ControlSelectWindow"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance vm:SelectWindowViewModel}"
-        Title="SelectWindow"
-        Height="350"
-        Width="525"
-		Background="{DynamicResource ThemeBrushKey}"
-		Foreground="{DynamicResource ActiveForegroundBrushKey}"
+        d:DataContext="{d:DesignData /SampleData/ControlSelectWindowViewModelSampleData.xaml}"
+        Title="SelectControlWindow"
+        Background="#01000000"
         WindowStyle="None"
         AllowsTransparency="True"
         Topmost="True"
         ShowInTaskbar="False">
-    <DockPanel>
-        <Canvas Panel.ZIndex="1">
-            <Rectangle Canvas.Left="20" Canvas.Top="30"
-                       Width="480" Height="290"
-                       Stroke="#CCFF0000" StrokeThickness="4" />
-            <views:SelectInfo Width="230" />
-        </Canvas>
-        <Image Source="{Binding ScreenImage}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseMove">
-                    <b:MouseCommandAction Command="{Binding MouseMoveCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Image>
-        <!--
-        <Button Content="Shutdown" HorizontalAlignment="Left" Click="Button_Click"/>
-        -->
-    </DockPanel>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <livet:LivetCallMethodAction MethodTarget="{Binding}"
+										 MethodName="Initialize" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseMove">
+            <behaviors:MouseCommandAction Command="{Binding MouseMoveCommand}" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction />
+        </i:EventTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+										 MessageKey="Window.Bounds">
+            <behaviors:SetWindowBoundsAction />
+        </livet:InteractionMessageTrigger>
+    </i:Interaction.Triggers>
+    <Canvas>
+        <Rectangle Canvas.Left="20" Canvas.Top="30"
+                Width="480" Height="290"
+                Stroke="#CCFF0000" StrokeThickness="4" />
+        <views:SelectInfo Width="230" />
+        <!--<Button Content="Shutdown" HorizontalAlignment="Left" Click="Button_Click" VerticalAlignment="Bottom"/>-->
+    </Canvas>
 </Window>
 <!--<metro:MetroWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

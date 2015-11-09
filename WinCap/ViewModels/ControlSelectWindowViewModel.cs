@@ -1,18 +1,20 @@
 ﻿using Livet;
 using Livet.Commands;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using WinCap.Models;
 using WinCap.Utilities.Drawing;
+using WinCap.ViewModels.Messages;
 
 namespace WinCap.ViewModels
 {
     /// <summary>
     /// 選択ウィンドウVM
     /// </summary>
-    public class SelectWindowViewModel : ViewModel
+    public class ControlSelectWindowViewModel : ViewModel
     {
         #region フィールド
         /// <summary>
@@ -27,43 +29,32 @@ namespace WinCap.ViewModels
         #endregion
 
         #region プロパティ
-        /// <summary>
-        /// 画面イメージ
-        /// </summary>
-        private BitmapSource _ScreenImage;
-        public BitmapSource ScreenImage
-        {
-            get { return _ScreenImage; }
-            set
-            {
-                if (this._ScreenImage != value)
-                {
-                    this._ScreenImage = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
         #endregion
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public SelectWindowViewModel() { }
+        public ControlSelectWindowViewModel() { }
 
         /// <summary>
-        /// 初期化
+		/// <see cref="Window.ContentRendered"/>イベントが発生したときに
+        /// Livet インフラストラクチャによって呼び出されます。
         /// </summary>
         public void Initialize()
         {
-            // 画面全体をキャプチャする
-            ScreenCapture capturer = new ScreenCapture();
-            using (System.Drawing.Bitmap bitmap = capturer.Capture())
-            {
-                _ScreenImage = bitmap.ToBitmapSource();
-            }
-
             // 表示中のウィンドウ情報リストを取得する
             windowList = windowHelper.GetWindowList().Where(x => !x.Size.IsEmpty).ToList();
+
+            // ウィンドウに画面全体の範囲を設定する
+            System.Drawing.Rectangle rect = System.Windows.Forms.Screen.AllScreens.GetBounds();
+            this.Messenger.Raise(new SetWindowBoundsMessage
+            {
+                MessageKey = "Window.Bounds",
+                Left = rect.Left,
+                Top = rect.Top,
+                Width = rect.Width,
+                Height = rect.Height
+            });
         }
 
         /// <summary>
