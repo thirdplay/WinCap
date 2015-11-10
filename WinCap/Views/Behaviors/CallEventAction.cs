@@ -5,9 +5,9 @@ using System.Windows.Interactivity;
 namespace WinCap.Views.Behaviors
 {
     /// <summary>
-    /// マウス座標をCommandに渡すアクション
+    /// EventCommandを呼び出すアクション
     /// </summary>
-    public class MouseCommandAction : TriggerAction<DependencyObject>
+    public class CallEventAction : TriggerAction<DependencyObject>
     {
         public ICommand Command
         {
@@ -17,23 +17,20 @@ namespace WinCap.Views.Behaviors
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
             "Command",
             typeof(ICommand),
-            typeof(MouseCommandAction),
+            typeof(CallEventAction),
             new UIPropertyMetadata(null));
 
         /// <summary>
-        /// コマンド実行
+        /// EventCommand実行
         /// </summary>
         /// <param name="parameter">パラメータ</param>
         protected override void Invoke(object parameter)
         {
-            var element = this.AssociatedObject as IInputElement;
-            var args = parameter as MouseEventArgs;
-            if (args != null && element != null && this.Command != null)
+            if (parameter != null && this.AssociatedObject != null && this.Command != null)
             {
-                var point = args.GetPosition(element);
-                if (this.Command.CanExecute(point))
+                if (this.Command.CanExecute(parameter))
                 {
-                    this.Command.Execute(point);
+                    this.Command.Execute(parameter);
                 }
             }
         }

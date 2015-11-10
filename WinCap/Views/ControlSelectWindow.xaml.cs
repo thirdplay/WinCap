@@ -16,7 +16,7 @@ namespace WinCap.Views
         public ControlSelectWindow()
         {
             InitializeComponent();
-            this.MouseDown += Button_Click;
+            //this.MouseDown += Button_Click;
         }
 
         // TODO:実装時に下記をビヘイビアへ移動する
@@ -24,6 +24,7 @@ namespace WinCap.Views
         public event EventHandler Selected = null;
         private void Button_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            e.GetPosition(null);
             Selected?.Invoke(sender, e);
         }
     }

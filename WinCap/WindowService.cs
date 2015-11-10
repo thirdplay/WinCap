@@ -48,7 +48,7 @@ namespace WinCap
         /// </summary>
         public void Initialize()
         {
-            controlSelectWindowVm = new ControlSelectWindowViewModel();
+            controlSelectWindowVm = new ControlSelectWindowViewModel().AddTo(this);
         }
 
         /// <summary>

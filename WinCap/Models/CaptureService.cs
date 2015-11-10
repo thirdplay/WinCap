@@ -125,6 +125,8 @@ namespace WinCap.Models
                 // ウィンドウを閉じる
                 selectWindow.Close();
 
+                // TODO:キャプチャ前にスリープする？
+
                 // 選択コントロールをキャプチャする
                 //ScreenCapture capture = new ScreenCapture();
                 //using (Bitmap bitmap = capture.Capture())
