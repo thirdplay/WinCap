@@ -4,7 +4,7 @@ using System.Windows;
 namespace WinCap.ViewModels.Messages
 {
     /// <summary>
-    /// ウィンドウ範囲設定メッセージ
+    /// ウィンドウの位置とサイズを設定するメッセージ
     /// </summary>
     public class SetWindowBoundsMessage : InteractionMessage
     {

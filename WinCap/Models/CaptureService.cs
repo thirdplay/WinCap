@@ -117,16 +117,11 @@ namespace WinCap.Models
             // コントロール選択ウィンドウの取得
             var selectWindow = WindowService.Current.GetControlSelectWindow();
             Observable.FromEventPattern(
-                handler => selectWindow.Selected += handler,
-                handler => selectWindow.Selected -= handler
+                handler => selectWindow.Closed += handler,
+                handler => selectWindow.Closed -= handler
             )
             .Subscribe(x =>
             {
-                // ウィンドウを閉じる
-                selectWindow.Close();
-
-                // TODO:キャプチャ前にスリープする？
-
                 // 選択コントロールをキャプチャする
                 //ScreenCapture capture = new ScreenCapture();
                 //using (Bitmap bitmap = capture.Capture())

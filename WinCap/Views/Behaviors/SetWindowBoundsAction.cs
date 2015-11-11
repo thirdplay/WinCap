@@ -6,10 +6,14 @@ using WinCap.ViewModels.Messages;
 namespace WinCap.Views.Behaviors
 {
     /// <summary>
-    /// ウィンドウサイズ設定アクション
+    /// ウィンドウの位置、サイズを設定するアクション
     /// </summary>
     public class SetWindowBoundsAction : InteractionMessageAction<Window>
     {
+        /// <summary>
+        /// アクション実行
+        /// </summary>
+        /// <param name="message">メッセージ</param>
         protected override void InvokeAction(InteractionMessage message)
         {
             var setWindowBoundsMessage = message as SetWindowBoundsMessage;
