@@ -9,6 +9,7 @@
              Foreground="White"
 			 Background="#E5000000"
              FontFamily="Meiryo UI">
+    <!--d:DataContext="{d:DesignData /SampleData/ControlSelectInfoViewModelSampleData.xaml}"-->
     <Grid Margin="8,8,8,8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -28,23 +29,31 @@
             <Run Text=": "/>
         </TextBlock>
         <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,1">
-            <Run Text="TestName"/>
+            <Run Text="{Binding ControlInfo.ClassName}"/>
         </TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,1">
             <Run Text="{x:Static prop:Resources.SelectInfo_Position}"/>
             <Run Text=": "/>
         </TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,1">
-            <Run Text="(9999,9999)"/>
+            <TextBlock.Text>
+                <MultiBinding StringFormat="({0},{1})">
+                    <Binding Path="ControlInfo.Bounds.X"/>
+                    <Binding Path="ControlInfo.Bounds.Y"/>
+                </MultiBinding>
+            </TextBlock.Text>
         </TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,1">
             <Run Text="{x:Static prop:Resources.SelectInfo_Size}"/>
             <Run Text=": "/>
         </TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,1">
-            <Run Text="9999"/>
-            <Run Text="x"/>
-            <Run Text="9999"/>
+            <TextBlock.Text>
+                <MultiBinding StringFormat="({0} x {1})">
+                    <Binding Path="ControlInfo.Bounds.Width"/>
+                    <Binding Path="ControlInfo.Bounds.Height"/>
+                </MultiBinding>
+            </TextBlock.Text>
         </TextBlock>
         <Rectangle Grid.Row="3" Grid.ColumnSpan="2"
                    Height="1"

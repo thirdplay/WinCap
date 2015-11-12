@@ -50,7 +50,7 @@ namespace WinCap
             // コンテキストメニューの設定
             var contextMenu = this.notifyIcon.ContextMenuStrip;
             var contextMenuCapture = contextMenu.Items.Add(Resources.ContextMenu_Capture) as System.Windows.Forms.ToolStripMenuItem;
-            contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ScreenCapture).Click += (sender, e) => CaptureService.Current.CaptureWholeScreen();
+            contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ScreenCapture).Click += (sender, e) => CaptureService.Current.CaptureScreenWhole();
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ControlCapture);
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_PageCapture);
             contextMenu.Items.Add(Resources.ContextMenu_Option);

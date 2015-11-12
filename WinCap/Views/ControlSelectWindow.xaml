@@ -58,6 +58,7 @@
                 </livet:InteractionMessageTrigger>
             </i:Interaction.Triggers>
         </Rectangle>
-        <views:ControlSelectInfo Width="230" />
+        <views:ControlSelectInfo Width="230"
+                                 DataContext="{Binding ControlSelectInfo}"/>
     </Canvas>
 </Window>

@@ -16,11 +16,22 @@ namespace WinCap.Models
         /// <returns>ビットマップ</returns>
         public Bitmap Capture()
         {
-            // 画面全体の解像度を求める
             Rectangle scrRect = Screen.AllScreens.GetBounds();
+            return Capture(scrRect.X, scrRect.Y, scrRect.Width, scrRect.Height);
+        }
 
+        /// <summary>
+        /// 指定範囲の画面をキャプチャする。
+        /// </summary>
+        /// <param name="x">左上のX座標</param>
+        /// <param name="y">左上のY座標</param>
+        /// <param name="width">横幅</param>
+        /// <param name="height">高さ</param>
+        /// <returns>ビットマップ</returns>
+        public Bitmap Capture(int x, int y, int width, int height)
+        {
             // 返却用のビットマップ生成
-            Bitmap bmp = new Bitmap(scrRect.Width, scrRect.Height);
+            Bitmap bmp = new Bitmap(width, height);
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 // 黒でクリアする
@@ -30,7 +41,7 @@ namespace WinCap.Models
                 foreach (Screen screen in Screen.AllScreens)
                 {
                     Rectangle rect = screen.Bounds;
-                    g.CopyFromScreen(rect.X, rect.Y, rect.X - scrRect.X, rect.Y - scrRect.Y, rect.Size);
+                    g.CopyFromScreen(rect.X, rect.Y, rect.X - x, rect.Y - y, rect.Size);
                 }
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace WinCap.Win32
 {
@@ -46,31 +47,6 @@ namespace WinCap.Win32
         /// <returns>成功なら0以外、失敗なら0を返す</returns>
         [DllImport("user32.dll")]
         public static extern int GetWindowRect(IntPtr hWnd, ref RECT lpRect);
-        public static Rectangle GetWindowRect(IntPtr hWnd)
-        {
-            RECT rect = new RECT();
-
-            // Vista以降の場合、DWMでウィンドウサイズを取得する
-            if (Environment.OSVersion.Version.Major >= 6)
-            {
-                if (DwmGetWindowAttribute(hWnd, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(Win32.RECT))) == 0)
-                {
-                    return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-                    //Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-                    //if (rectangle.Width != 0 && rectangle.Height != 0)
-                    //{
-                    //    return rectangle;
-                    //}
-                }
-            }
-
-            // ウィンドウサイズの取得
-            if (GetWindowRect(hWnd, ref rect) != 0)
-            {
-                return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-            }
-            return Rectangle.Empty;
-        }
 
         /// <summary>
         /// フォアグラウンドウィンドウ（現在ユーザーが作業しているウィンドウ）のハンドルを返す
@@ -86,6 +62,16 @@ namespace WinCap.Win32
         /// <returns>表示状態</returns>
         [DllImport("user32.dll")]
         public static extern int IsWindowVisible(IntPtr hWnd);
+
+        /// <summary>
+        /// ウィンドウクラス名の取得
+        /// </summary>
+        /// <param name="hWnd">ウィンドウハンドル</param>
+        /// <param name="lpClassName">クラス名の格納先</param>
+        /// <param name="nMaxCount">クラス名バッファのサイズ</param>
+        /// <returns>成功すると0以外、失敗すると0</returns>
+        [DllImport("user32.dll", CharSet=CharSet.Unicode)]
+        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
         /// <summary>
         /// ホットキーを登録する

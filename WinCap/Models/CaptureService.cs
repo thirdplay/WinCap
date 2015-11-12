@@ -83,7 +83,7 @@ namespace WinCap.Models
         /// <summary>
         /// 画面全体をキャプチャする。
         /// </summary>
-        public void CaptureWholeScreen()
+        public void CaptureScreenWhole()
         {
             // 待機状態以外は処理しない
             if (this.Status != CaptureServiceStatus.Wait) return;

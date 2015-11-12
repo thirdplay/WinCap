@@ -7,33 +7,55 @@ using System.Windows;
 using System.Windows.Input;
 using WinCap.Models;
 using WinCap.Utilities.Drawing;
+using WinCap.Utilities.Mvvm;
 using WinCap.ViewModels.Messages;
 
 namespace WinCap.ViewModels
 {
     /// <summary>
-    /// 選択ウィンドウVM
+    /// コントロール選択ウィンドウViewModel
     /// </summary>
     public class ControlSelectWindowViewModel : ViewModel
     {
         #region フィールド
         /// <summary>
-        /// ウィンドウヘルパー
+        /// コントロール情報リスト
         /// </summary>
-        private WindowHelper windowHelper = new WindowHelper();
-
-        /// <summary>
-        /// ウィンドウ情報リスト
-        /// </summary>
-        private List<WindowInfo> windowList = new List<WindowInfo>();
+        private List<ControlInfo> controlList = new List<ControlInfo>();
         #endregion
 
-        #region プロパティ
         /// <summary>
-        /// 選択ウィンドウ情報
+        /// コントロール選択情報ViewModel
         /// </summary>
-        public WindowInfo SelectWindowInfo { get; set; }
+        public ControlSelectInfoViewModel ControlSelectInfo { get; set; }
+
+        #region SelectControlInfo 変更通知プロパティ
+        private ControlInfo _SelectControlInfo;
+        /// <summary>
+        /// 選択コントロール情報
+        /// </summary>
+        public ControlInfo SelectControlInfo
+        {
+            get { return _SelectControlInfo; }
+            set
+            {
+                if (_SelectControlInfo != value)
+                {
+                    _SelectControlInfo = value;
+                    ControlSelectInfo.ControlInfo = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
         #endregion
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ControlSelectWindowViewModel()
+        {
+            ControlSelectInfo = new ControlSelectInfoViewModel().AddTo(this);
+        }
 
         /// <summary>
 		/// <see cref="Window.ContentRendered"/>イベントが発生したときに
@@ -42,7 +64,7 @@ namespace WinCap.ViewModels
         public void Initialize()
         {
             // 表示中のウィンドウ情報リストを取得する
-            windowList = windowHelper.GetWindowList().Where(x => !x.Size.IsEmpty).ToList();
+            controlList = WindowHelper.GetWindowList().ToList();
 
             // ウィンドウに画面全体の範囲を設定する
             System.Drawing.Rectangle rect = System.Windows.Forms.Screen.AllScreens.GetBounds();
@@ -65,17 +87,17 @@ namespace WinCap.ViewModels
             Point p = e.GetPosition(null);
 
             // マウスカーソル上にあるウィンドウの情報を更新する
-            this.SelectWindowInfo = null;
-            foreach (WindowInfo windowInfo in windowList)
+            this.SelectControlInfo = null;
+            foreach (ControlInfo controlInfo in controlList)
             {
-                if (p.X >= windowInfo.Left && p.X <= windowInfo.Right
-                && p.Y >= windowInfo.Top && p.Y <= windowInfo.Bottom)
+                if (p.X >= controlInfo.Bounds.Left && p.X <= controlInfo.Bounds.Right
+                && p.Y >= controlInfo.Bounds.Top && p.Y <= controlInfo.Bounds.Bottom)
                 {
-                    this.SelectWindowInfo = windowInfo;
+                    this.SelectControlInfo = controlInfo;
                     this.Messenger.Raise(new SetRectangleBoundsMessage
                     {
                         MessageKey = "Rectangle.Bounds",
-                        Bounds = this.SelectWindowInfo.Bounds
+                        Bounds = this.SelectControlInfo.Bounds
                     });
                     break;
                 }
@@ -95,7 +117,7 @@ namespace WinCap.ViewModels
             }
             else
             {
-                this.SelectWindowInfo = null;
+                this.SelectControlInfo = null;
                 this.Messenger.Raise(new InteractionMessage("Window.Close"));
             }
         }
@@ -106,7 +128,7 @@ namespace WinCap.ViewModels
         /// <param name="e"></param>
         public void KeyDown(KeyEventArgs e)
         {
-            this.SelectWindowInfo = null;
+            this.SelectControlInfo = null;
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
     }

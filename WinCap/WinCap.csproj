@@ -71,7 +71,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
@@ -115,8 +117,9 @@
     <Compile Include="Components\ResidentIcon.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\WindowHelper.cs" />
-    <Compile Include="Models\WindowInfo.cs" />
+    <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="Utilities\Drawing\ScreenExtensions.cs" />
+    <Compile Include="ViewModels\ControlSelectInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetWindowBoundsMessage.cs" />
     <Compile Include="Views\Behaviors\CallMethodWithArgumentAction.cs" />
@@ -144,6 +147,9 @@
     <Compile Include="Win32\NativeMethods.cs" />
     <Compile Include="Win32\WM.cs" />
     <DesignData Include="SampleData\ControlSelectWindowViewModelSampleData.xaml">
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\ControlSelectInfoViewModelSampleData.xaml">
       <SubType>Designer</SubType>
     </DesignData>
     <Page Include="Views\ControlSelectInfo.xaml">
