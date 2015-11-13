@@ -30,6 +30,6 @@
 * **ライセンス :** The MIT License (MIT)
 * **ライセンス全文 :** [licenses/StatefulModel.txt](licenses/StatefulModel.txt)
 
-#### Livet
+#### [Livet](https://github.com/ugaya40/Livet)
 
 * **ライセンス :** zlib/libpng
