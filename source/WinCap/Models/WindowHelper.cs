@@ -20,9 +20,13 @@ namespace WinCap.Models
         {
             List<ControlInfo> list = new List<ControlInfo>();
 
-            // フォアグラウンドウィンドウの取得
-            IntPtr handle = NativeMethods.GetForegroundWindow();
+            //
+            // TODO:汎用化の課題
+            // 取得時の親子関係はどのように処理する？
+            //
 
+            // アクティブウィンドウの取得
+            IntPtr handle = NativeMethods.GetForegroundWindow();
             // 一番手前のウィンドウを取得する
             IntPtr hWndPrev;
             while ((hWndPrev = NativeMethods.GetWindow(handle, GW.HWNDPREV)) != IntPtr.Zero)

@@ -2,7 +2,6 @@
 using Livet.Messaging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WinCap.Models;
@@ -42,7 +41,16 @@ namespace WinCap.ViewModels
                 if (_SelectControlInfo != value)
                 {
                     _SelectControlInfo = value;
-                    ControlSelectInfo.ControlInfo = value;
+                    if (value != null)
+                    {
+                        ControlSelectInfo.ClassName = value.ClassName;
+                        ControlSelectInfo.Bounds = value.Bounds;
+                    }
+                    else
+                    {
+                        ControlSelectInfo.ClassName = null;
+                        ControlSelectInfo.Bounds = System.Drawing.Rectangle.Empty;
+                    }
                     RaisePropertyChanged();
                 }
             }
@@ -65,10 +73,7 @@ namespace WinCap.ViewModels
         {
             // 表示中のウィンドウ情報リストを取得する
             controlList = WindowHelper.GetWindowList();
-            foreach (ControlInfo ci in controlList)
-            {
-                Console.WriteLine($"[{ci.Handle}]{ci.ClassName}: ({ci.Bounds.X}x{ci.Bounds.Y}), {ci.Bounds.Width}x{ci.Bounds.Height}");
-            }
+            controlList.RemoveAt(0);
 
             // ウィンドウに画面全体の範囲を設定する
             System.Drawing.Rectangle rect = System.Windows.Forms.Screen.AllScreens.GetBounds();

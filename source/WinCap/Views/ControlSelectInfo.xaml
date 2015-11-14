@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
-             d:DesignWidth="230"
+             d:DataContext="{d:DesignData /SampleData/ControlSelectInfoViewModelSampleData.xaml}"
+             Width="230"
              Foreground="White"
 			 Background="#E5000000"
              FontFamily="Meiryo UI">
-    <!--d:DataContext="{d:DesignData /SampleData/ControlSelectInfoViewModelSampleData.xaml}"-->
     <Grid Margin="8,8,8,8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,7 +29,7 @@
             <Run Text=": "/>
         </TextBlock>
         <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,1">
-            <Run Text="{Binding ControlInfo.ClassName}"/>
+            <Run Text="{Binding ClassName}"/>
         </TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,1">
             <Run Text="{x:Static prop:Resources.SelectInfo_Position}"/>
@@ -38,8 +38,8 @@
         <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,1">
             <TextBlock.Text>
                 <MultiBinding StringFormat="({0},{1})">
-                    <Binding Path="ControlInfo.Bounds.X"/>
-                    <Binding Path="ControlInfo.Bounds.Y"/>
+                    <Binding Path="Bounds.X"/>
+                    <Binding Path="Bounds.Y"/>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
@@ -50,8 +50,8 @@
         <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,1">
             <TextBlock.Text>
                 <MultiBinding StringFormat="({0} x {1})">
-                    <Binding Path="ControlInfo.Bounds.Width"/>
-                    <Binding Path="ControlInfo.Bounds.Height"/>
+                    <Binding Path="Bounds.Width"/>
+                    <Binding Path="Bounds.Height"/>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>

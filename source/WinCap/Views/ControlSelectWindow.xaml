@@ -15,7 +15,7 @@
         Title="SelectControlWindow"
         Background="#01000000"
         WindowStyle="None"
-        Topmost="False"
+        Topmost="True"
         AllowsTransparency="True"
         ShowInTaskbar="False">
     <i:Interaction.Triggers>
@@ -58,7 +58,6 @@
                 </livet:InteractionMessageTrigger>
             </i:Interaction.Triggers>
         </Rectangle>
-        <views:ControlSelectInfo Width="230"
-                                 DataContext="{Binding ControlSelectInfo}"/>
+        <views:ControlSelectInfo DataContext="{Binding ControlSelectInfo}"/>
     </Canvas>
 </Window>
