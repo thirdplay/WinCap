@@ -20,7 +20,7 @@ namespace WinCap.Win32
         public static extern bool DeleteObject(IntPtr hObject);
 
         /// <summary>
-        /// ウィンドウの属性情報を返す
+        /// ウィンドウの属性情報を返す。
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="dwAttribute">属性の識別子</param>
@@ -40,7 +40,7 @@ namespace WinCap.Win32
         public static extern IntPtr GetWindow(IntPtr hWnd, GW uCmd);
 
         /// <summary>
-        /// 指定ウィンドウの矩形情報を返す
+        /// 指定ウィンドウの矩形情報を返す。
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="lpRect">矩形情報の参照</param>
@@ -49,7 +49,7 @@ namespace WinCap.Win32
         public static extern int GetWindowRect(IntPtr hWnd, ref RECT lpRect);
 
         /// <summary>
-        /// フォアグラウンドウィンドウ（現在ユーザーが作業しているウィンドウ）のハンドルを返す
+        /// フォアグラウンドウィンドウ（現在ユーザーが作業しているウィンドウ）のハンドルを返す。
         /// </summary>
         /// <returns>ウィンドウハンドル</returns>
         [DllImport("user32.dll")]
@@ -64,7 +64,7 @@ namespace WinCap.Win32
         public static extern int IsWindowVisible(IntPtr hWnd);
 
         /// <summary>
-        /// ウィンドウクラス名の取得
+        /// ウィンドウクラス名の取得。
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="lpClassName">クラス名の格納先</param>
@@ -74,7 +74,7 @@ namespace WinCap.Win32
         public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
         /// <summary>
-        /// ホットキーを登録する
+        /// ホットキーを登録する。
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="ID">ホットキーID</param>
@@ -85,7 +85,7 @@ namespace WinCap.Win32
         public static extern int RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
 
         /// <summary>
-        /// ホットキーを登録解除する
+        /// ホットキーを登録解除する。
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="ID">ホットキーID</param>

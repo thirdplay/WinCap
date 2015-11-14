@@ -20,7 +20,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コントロール情報リスト
         /// </summary>
-        private List<ControlInfo> controlList = new List<ControlInfo>();
+        private List<WindowInfo> controlList = new List<WindowInfo>();
         #endregion
 
         /// <summary>
@@ -29,11 +29,11 @@ namespace WinCap.ViewModels
         public ControlSelectInfoViewModel ControlSelectInfo { get; set; }
 
         #region SelectControlInfo 変更通知プロパティ
-        private ControlInfo _SelectControlInfo;
+        private WindowInfo _SelectControlInfo;
         /// <summary>
         /// 選択コントロール情報
         /// </summary>
-        public ControlInfo SelectControlInfo
+        public WindowInfo SelectControlInfo
         {
             get { return _SelectControlInfo; }
             set
@@ -73,7 +73,6 @@ namespace WinCap.ViewModels
         {
             // 表示中のウィンドウ情報リストを取得する
             controlList = WindowHelper.GetWindowList();
-            controlList.RemoveAt(0);
 
             // ウィンドウに画面全体の範囲を設定する
             System.Drawing.Rectangle rect = System.Windows.Forms.Screen.AllScreens.GetBounds();
@@ -97,7 +96,7 @@ namespace WinCap.ViewModels
 
             // マウスカーソル上にあるウィンドウの情報を更新する
             this.SelectControlInfo = null;
-            foreach (ControlInfo controlInfo in controlList)
+            foreach (WindowInfo controlInfo in controlList)
             {
                 if (p.X >= controlInfo.Bounds.Left && p.X <= controlInfo.Bounds.Right
                 && p.Y >= controlInfo.Bounds.Top && p.Y <= controlInfo.Bounds.Bottom)

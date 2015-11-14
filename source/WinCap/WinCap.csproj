@@ -117,7 +117,7 @@
     <Compile Include="Components\ResidentIcon.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\WindowHelper.cs" />
-    <Compile Include="Models\ControlInfo.cs" />
+    <Compile Include="Models\WindowInfo.cs" />
     <Compile Include="Utilities\Drawing\ScreenExtensions.cs" />
     <Compile Include="ViewModels\ControlSelectInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />

@@ -16,14 +16,9 @@ namespace WinCap.Models
         /// ウィンドウ情報リストを表示順にソートして取得する
         /// </summary>
         /// <returns>ウィンドウ情報リスト</returns>
-        public static List<ControlInfo> GetWindowList()
+        public static List<WindowInfo> GetWindowList()
         {
-            List<ControlInfo> list = new List<ControlInfo>();
-
-            //
-            // TODO:汎用化の課題
-            // 取得時の親子関係はどのように処理する？
-            //
+            List<WindowInfo> list = new List<WindowInfo>();
 
             // アクティブウィンドウの取得
             IntPtr handle = NativeMethods.GetForegroundWindow();
@@ -45,10 +40,12 @@ namespace WinCap.Models
                     {
                         GetWindowList(hWndChild, ref list);
                     }
-                    list.Add(new ControlInfo(handle, GetClassName(handle), GetWindowBounds(handle)));
+                    list.Add(new WindowInfo(handle, GetClassName(handle), GetWindowBounds(handle)));
                 }
             } while ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
+            // 先頭の要素（HwndWrapper）は除外する
+            list.RemoveAt(0);
             return list;
         }
 
@@ -57,7 +54,7 @@ namespace WinCap.Models
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <param name="list">ウィンドウハンドルの格納先</param>
-        public static void GetWindowList(IntPtr handle, ref List<ControlInfo> list)
+        public static void GetWindowList(IntPtr handle, ref List<WindowInfo> list)
         {
             if (IsValidWindow(handle))
             {
@@ -66,7 +63,7 @@ namespace WinCap.Models
                 {
                     GetWindowList(hWndChild, ref list);
                 }
-                list.Add(new ControlInfo(handle, GetClassName(handle), GetWindowBounds(handle)));
+                list.Add(new WindowInfo(handle, GetClassName(handle), GetWindowBounds(handle)));
             }
 
             if ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero)
@@ -76,7 +73,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 指定ウィンドウをキャプチャ対象ウィンドウとするか返す
+        /// 指定ウィンドウをキャプチャ対象ウィンドウとするか返す。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <returns>対象ならtrue、それ以外はfalse</returns>
@@ -88,7 +85,7 @@ namespace WinCap.Models
             {
                 // 矩形情報を取得する
                 Rectangle rect = GetWindowBounds(handle);
-                if (rect.Width != 0 && rect.Height != 0)
+                if (rect.Width > 0 && rect.Height > 0)
                 {
                     return true;
                 }
@@ -110,7 +107,7 @@ namespace WinCap.Models
                 if (NativeMethods.DwmGetWindowAttribute(handle, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(RECT))) == 0)
                 {
                     Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-                    if (rectangle.Width != 0 && rectangle.Height != 0)
+                    if (rectangle.Width > 0 && rectangle.Height > 0)
                     {
                         return rectangle;
                     }
@@ -132,7 +129,7 @@ namespace WinCap.Models
         /// <returns>クラス名</returns>
         public static string GetClassName(IntPtr handle)
         {
-            StringBuilder builder = new StringBuilder(512);
+            StringBuilder builder = new StringBuilder(256);
             if (NativeMethods.GetClassName(handle, builder, builder.Capacity) != 0)
             {
                 return builder.ToString();
