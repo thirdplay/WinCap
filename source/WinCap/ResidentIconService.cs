@@ -51,7 +51,7 @@ namespace WinCap
             var contextMenu = this.notifyIcon.ContextMenuStrip;
             var contextMenuCapture = contextMenu.Items.Add(Resources.ContextMenu_Capture) as System.Windows.Forms.ToolStripMenuItem;
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ScreenCapture).Click += (sender, e) => CaptureService.Current.CaptureScreenWhole();
-            contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ControlCapture);
+            contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ControlCapture).Click += (sender, e) => CaptureService.Current.CaptureSelectControl();
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_PageCapture);
             contextMenu.Items.Add(Resources.ContextMenu_Option);
             contextMenu.Items.Add(Resources.ContextMenu_Help).Click += (sender, e) => CaptureService.Current.CaptureSelectControl();

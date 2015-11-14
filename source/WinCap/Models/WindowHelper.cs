@@ -13,16 +13,15 @@ namespace WinCap.Models
     internal static class WindowHelper
     {
         /// <summary>
-        /// ウィンドウ情報リストを表示順にソートして取得する
+        /// ウィンドウハンドルリストを表示順にソートして取得する
         /// </summary>
-        /// <returns>ウィンドウ情報リスト</returns>
-        public static List<WindowInfo> GetWindowList()
+        /// <returns>ウィンドウハンドルリスト</returns>
+        public static List<IntPtr> GetHandleList()
         {
-            List<WindowInfo> list = new List<WindowInfo>();
+            List<IntPtr> list = new List<IntPtr>();
 
-            // アクティブウィンドウの取得
-            IntPtr handle = NativeMethods.GetForegroundWindow();
             // 一番手前のウィンドウを取得する
+            IntPtr handle = NativeMethods.GetForegroundWindow();
             IntPtr hWndPrev;
             while ((hWndPrev = NativeMethods.GetWindow(handle, GW.HWNDPREV)) != IntPtr.Zero)
             {
@@ -32,15 +31,15 @@ namespace WinCap.Models
             do
             {
                 // 対象ウィンドウか判定する
-                if (IsValidWindow(handle))
+                if (isValidWindow(handle))
                 {
                     // 子ウィンドウ判定
                     IntPtr hWndChild = NativeMethods.GetWindow(handle, GW.CHILD);
                     if (hWndChild != IntPtr.Zero)
                     {
-                        GetWindowList(hWndChild, ref list);
+                        getWindowList(hWndChild, ref list);
                     }
-                    list.Add(new WindowInfo(handle, GetClassName(handle), GetWindowBounds(handle)));
+                    list.Add(handle);
                 }
             } while ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
@@ -54,21 +53,21 @@ namespace WinCap.Models
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <param name="list">ウィンドウハンドルの格納先</param>
-        public static void GetWindowList(IntPtr handle, ref List<WindowInfo> list)
+        private static void getWindowList(IntPtr handle, ref List<IntPtr> list)
         {
-            if (IsValidWindow(handle))
+            if (isValidWindow(handle))
             {
                 IntPtr hWndChild = NativeMethods.GetWindow(handle, GW.CHILD);
                 if (hWndChild != IntPtr.Zero)
                 {
-                    GetWindowList(hWndChild, ref list);
+                    getWindowList(hWndChild, ref list);
                 }
-                list.Add(new WindowInfo(handle, GetClassName(handle), GetWindowBounds(handle)));
+                list.Add(handle);
             }
 
             if ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero)
             {
-                GetWindowList(handle, ref list);
+                getWindowList(handle, ref list);
             }
         }
 
@@ -77,7 +76,7 @@ namespace WinCap.Models
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <returns>対象ならtrue、それ以外はfalse</returns>
-        public static bool IsValidWindow(IntPtr handle)
+        private static bool isValidWindow(IntPtr handle)
         {
             // ウィンドウの表示状態を取得する
             int visible = NativeMethods.IsWindowVisible(handle);

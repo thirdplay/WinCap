@@ -1,7 +1,6 @@
 ﻿using Livet.Behaviors.Messaging;
 using Livet.Messaging;
 using System.Windows;
-using WinCap.ViewModels.Messages;
 
 namespace WinCap.Views.Behaviors
 {

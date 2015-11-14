@@ -9,7 +9,7 @@
              Width="230"
              Foreground="White"
 			 Background="#E5000000"
-             FontFamily="Meiryo UI">
+             FontFamily="Segoe UI">
     <Grid Margin="8,8,8,8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

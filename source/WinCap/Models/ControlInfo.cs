@@ -4,10 +4,15 @@ using System.Drawing;
 namespace WinCap.Models
 {
     /// <summary>
-    /// ウィンドウ情報
+    /// コントロール情報
     /// </summary>
-    public class WindowInfo
+    public class ControlInfo
     {
+        /// <summary>
+        /// 空のコントロール情報
+        /// </summary>
+        public static readonly ControlInfo Empty = new ControlInfo();
+
         #region プロパティ
         /// <summary>
         /// ウィンドウハンドル
@@ -17,7 +22,7 @@ namespace WinCap.Models
         /// <summary>
         /// クラス名
         /// </summary>
-        public string ClassName { get; set; }
+        public string ClassName { get; set; } = string.Empty;
 
         /// <summary>
         /// 位置とサイズ
@@ -38,7 +43,7 @@ namespace WinCap.Models
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public WindowInfo()
+        public ControlInfo()
         {
         }
 
@@ -48,7 +53,7 @@ namespace WinCap.Models
         /// <param name="handle">ウィンドウハンドル</param>
         /// <param name="className">クラス名</param>
         /// <param name="bounds">位置とサイズ</param>
-        public WindowInfo(IntPtr handle, string className, Rectangle bounds)
+        public ControlInfo(IntPtr handle, string className, Rectangle bounds)
         {
             this.Handle = handle;
             this.ClassName = className;

@@ -115,27 +115,35 @@ namespace WinCap.Models
             this.Status = CaptureServiceStatus.Capture;
 
             // コントロール選択ウィンドウの取得
-            var selectWindow = WindowService.Current.GetControlSelectWindow();
-            Observable.FromEventPattern(
-                handler => selectWindow.Closed += handler,
-                handler => selectWindow.Closed -= handler
-            )
-            .Subscribe(x =>
-            {
-                // 選択コントロールをキャプチャする
-                //ScreenCapture capture = new ScreenCapture();
-                //using (Bitmap bitmap = capture.Capture())
-                //{
-                //    // キャプチャした画像をクリップボードに設定する
-                //    Clipboard.SetDataObject(bitmap, true);
-                //}
+            var controlSelectWindow = WindowService.Current.GetControlSelectWindow();
 
-                // 待機状態に戻す
-                this.Status = CaptureServiceStatus.Wait;
-            });
+            var selected = Observable.FromEventPattern<SelectedEventArgs>(controlSelectWindow, nameof(controlSelectWindow.Selected));
+            var closed = Observable.FromEventPattern<EventArgs>(controlSelectWindow, nameof(controlSelectWindow.Closed));
+            IntPtr handle = IntPtr.Zero;
+            selected
+                .Do(x => handle = x.EventArgs.Handle)
+                .TakeUntil(closed)
+                .LastAsync()
+                .Subscribe(_ =>
+                {
+                    if (handle != IntPtr.Zero)
+                    {
+                        // 選択コントロールをキャプチャする
+                        WindowCapture capture = new WindowCapture();
+                        using (Bitmap bitmap = capture.Capture(handle))
+                        {
+                            // キャプチャした画像をクリップボードに設定する
+                            Clipboard.SetDataObject(bitmap, true);
+                        }
+                    }
+
+                    // 待機状態に戻す
+                    this.Status = CaptureServiceStatus.Wait;
+                })
+                .AddTo(this);
 
             // 選択ウィンドウの表示
-            selectWindow.Show();
+            controlSelectWindow.Show();
         }
 
         //CaptureWholePage()

@@ -11,7 +11,6 @@
         xmlns:vm="clr-namespace:WinCap.ViewModels"
         x:Class="WinCap.Views.ControlSelectWindow"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignData /SampleData/ControlSelectWindowViewModelSampleData.xaml}"
         Title="SelectControlWindow"
         Background="#01000000"
         WindowStyle="None"
@@ -43,14 +42,22 @@
 										 MessageKey="Window.Bounds">
             <behaviors:SetWindowBoundsAction />
         </livet:InteractionMessageTrigger>
+
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										 MessageKey="Window.Close">
             <behaviors:CloseWindowAction />
         </livet:InteractionMessageTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+										 MessageKey="Window.SelectControl">
+            <behaviors:SelectControlAction />
+        </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
     <Canvas>
         <Rectangle Stroke="#CCFF0000"
-                   StrokeThickness="4">
+                   StrokeThickness="4"
+                   Width="0"
+                   Height="0">
             <i:Interaction.Triggers>
                 <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										         MessageKey="Rectangle.Bounds">
@@ -58,6 +65,17 @@
                 </livet:InteractionMessageTrigger>
             </i:Interaction.Triggers>
         </Rectangle>
-        <views:ControlSelectInfo DataContext="{Binding ControlSelectInfo}"/>
+        <views:ControlSelectInfo DataContext="{Binding ControlSelectInfo}">
+            <i:Interaction.Triggers>
+                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                                 MessageKey="ControlSelectInfo.Margin">
+                    <behaviors:SetMarginAction />
+                </livet:InteractionMessageTrigger>
+            </i:Interaction.Triggers>
+
+            <views:ControlSelectInfo.Margin>
+                <Thickness Left="-12000" Top="-12000" />
+            </views:ControlSelectInfo.Margin>
+        </views:ControlSelectInfo>
     </Canvas>
 </Window>

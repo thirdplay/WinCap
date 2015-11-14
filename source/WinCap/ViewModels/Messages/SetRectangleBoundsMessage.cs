@@ -9,14 +9,44 @@ namespace WinCap.ViewModels.Messages
     /// </summary>
     public class SetRectangleBoundsMessage : InteractionMessage
     {
-        #region Bounds 依存関係プロパティ
-        public Rectangle Bounds
+        #region Left 依存関係プロパティ
+        public double? Left
         {
-            get { return (Rectangle)this.GetValue(BoundsProperty); }
-            set { this.SetValue(BoundsProperty, value); }
+            get { return (double?)this.GetValue(LeftProperty); }
+            set { this.SetValue(LeftProperty, value); }
         }
-        public static readonly DependencyProperty BoundsProperty =
-            DependencyProperty.Register(nameof(Bounds), typeof(Rectangle), typeof(SetRectangleBoundsMessage), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty LeftProperty =
+            DependencyProperty.Register(nameof(Left), typeof(double?), typeof(SetRectangleBoundsMessage), new UIPropertyMetadata(null));
+        #endregion
+
+        #region Top 依存関係プロパティ
+        public double? Top
+        {
+            get { return (double?)this.GetValue(TopProperty); }
+            set { this.SetValue(TopProperty, value); }
+        }
+        public static readonly DependencyProperty TopProperty =
+            DependencyProperty.Register(nameof(Top), typeof(double?), typeof(SetRectangleBoundsMessage), new UIPropertyMetadata(null));
+        #endregion
+
+        #region Width 依存関係プロパティ
+        public double? Width
+        {
+            get { return (double?)this.GetValue(WidthProperty); }
+            set { this.SetValue(WidthProperty, value); }
+        }
+        public static readonly DependencyProperty WidthProperty =
+            DependencyProperty.Register(nameof(Width), typeof(double?), typeof(SetRectangleBoundsMessage), new UIPropertyMetadata(null));
+        #endregion
+
+        #region Height 依存関係プロパティ
+        public double? Height
+        {
+            get { return (double?)this.GetValue(HeightProperty); }
+            set { this.SetValue(HeightProperty, value); }
+        }
+        public static readonly DependencyProperty HeightProperty =
+            DependencyProperty.Register(nameof(Height), typeof(double?), typeof(SetRectangleBoundsMessage), new UIPropertyMetadata(null));
         #endregion
 
         protected override Freezable CreateInstanceCore()
@@ -24,7 +54,10 @@ namespace WinCap.ViewModels.Messages
             return new SetRectangleBoundsMessage
             {
                 MessageKey = this.MessageKey,
-                Bounds = this.Bounds
+                Left = this.Left,
+                Top = this.Top,
+                Width = this.Width,
+                Height = this.Height
             };
         }
     }
