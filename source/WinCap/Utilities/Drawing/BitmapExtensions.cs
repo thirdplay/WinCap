@@ -20,8 +20,15 @@ namespace WinCap.Utilities.Drawing
         public static BitmapSource ToBitmapSource(this Bitmap source)
         {
             IntPtr ptr = source.GetHbitmap();
-            BitmapSource bs = Imaging.CreateBitmapSourceFromHBitmap(ptr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            NativeMethods.DeleteObject(ptr);
+            BitmapSource bs;
+            try
+            {
+                bs = Imaging.CreateBitmapSourceFromHBitmap(ptr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            }
+            finally
+            {
+                NativeMethods.DeleteObject(ptr);
+            }
             return bs;
         }
     }
