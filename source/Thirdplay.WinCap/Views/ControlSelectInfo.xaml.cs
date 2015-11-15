@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Thirdplay.WinCap.Views
+namespace WinCap.Views
 {
     /// <summary>
     /// ControlSelectInfo.xaml の相互作用ロジック

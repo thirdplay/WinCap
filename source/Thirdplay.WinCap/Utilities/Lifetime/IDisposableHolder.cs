@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Thirdplay.WinCap.Utilities.Lifetime
+namespace WinCap.Utilities.Lifetime
 {
     /// <summary>
     /// IDisposableの持ち主

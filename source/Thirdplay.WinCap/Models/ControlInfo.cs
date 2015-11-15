@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Thirdplay.WinCap.Models
+namespace WinCap.Models
 {
     /// <summary>
     /// コントロール情報

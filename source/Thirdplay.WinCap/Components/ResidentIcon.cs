@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Thirdplay.WinCap.Components
+namespace WinCap.Components
 {
     /// <summary>
     /// 常駐アイコン

@@ -1,8 +1,8 @@
 ﻿using Livet.Behaviors.Messaging;
 using Livet.Messaging;
-using Thirdplay.WinCap.ViewModels.Messages;
+using WinCap.ViewModels.Messages;
 
-namespace Thirdplay.WinCap.Views.Behaviors
+namespace WinCap.Views.Behaviors
 {
     /// <summary>
     /// コントロール選択ウィンドウのメソッドを呼び出すアクション

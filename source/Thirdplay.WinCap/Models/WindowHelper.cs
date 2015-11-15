@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
-using Thirdplay.WinCap.Win32;
+using WinCap.Win32;
 
-namespace Thirdplay.WinCap.Models
+namespace WinCap.Models
 {
     /// <summary>
     /// ウィンドウヘルパー

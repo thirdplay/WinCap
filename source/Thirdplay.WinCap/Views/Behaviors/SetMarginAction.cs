@@ -1,9 +1,9 @@
 ﻿using Livet.Behaviors.Messaging;
 using Livet.Messaging;
 using System.Windows;
-using Thirdplay.WinCap.ViewModels.Messages;
+using WinCap.ViewModels.Messages;
 
-namespace Thirdplay.WinCap.Views.Behaviors
+namespace WinCap.Views.Behaviors
 {
     /// <summary>
     /// 余白を設定するアクション

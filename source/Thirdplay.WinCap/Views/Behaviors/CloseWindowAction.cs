@@ -2,7 +2,7 @@
 using Livet.Messaging;
 using System.Windows;
 
-namespace Thirdplay.WinCap.Views.Behaviors
+namespace WinCap.Views.Behaviors
 {
     /// <summary>
     /// ウィンドウを閉じるアクション

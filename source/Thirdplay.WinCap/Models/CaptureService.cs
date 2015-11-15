@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Reactive.Linq;
 using System.Windows;
-using Thirdplay.WinCap.Utilities.Lifetime;
+using WinCap.Utilities.Lifetime;
 
-namespace Thirdplay.WinCap.Models
+namespace WinCap.Models
 {
     /// <summary>
     /// キャプチャサービスの状態を示す識別子

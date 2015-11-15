@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using Thirdplay.WinCap.Win32;
+using WinCap.Win32;
 
-namespace Thirdplay.WinCap.Models
+namespace WinCap.Models
 {
     /// <summary>
     /// ウィンドウをキャプチャーするクラス。

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thirdplay.WinCap.Win32
+namespace WinCap.Win32
 {
     /// <summary>
     /// Windows Messages

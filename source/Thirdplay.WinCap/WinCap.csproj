@@ -7,7 +7,7 @@
     <ProjectGuid>{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Thirdplay.WinCap</RootNamespace>
+    <RootNamespace>WinCap</RootNamespace>
     <AssemblyName>WinCap</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

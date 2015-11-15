@@ -1,7 +1,7 @@
 ﻿using Livet;
 using System;
 
-namespace Thirdplay.WinCap.Utilities.Mvvm
+namespace WinCap.Utilities.Mvvm
 {
     /// <summary>
     /// ViewModelの拡張

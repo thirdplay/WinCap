@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using Thirdplay.WinCap.Win32;
+using WinCap.Win32;
 
-namespace Thirdplay.WinCap.Utilities.Drawing
+namespace WinCap.Utilities.Drawing
 {
     /// <summary>
     /// Bitmap拡張

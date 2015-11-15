@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Thirdplay.WinCap.Win32
+namespace WinCap.Win32
 {
     /// <summary>
     /// ネイティブメソッド

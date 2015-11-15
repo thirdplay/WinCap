@@ -1,4 +1,4 @@
-﻿namespace Thirdplay.WinCap.Win32
+﻿namespace WinCap.Win32
 {
     public enum DWMWA : uint
     {

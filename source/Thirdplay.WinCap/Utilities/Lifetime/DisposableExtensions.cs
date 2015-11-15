@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thirdplay.WinCap.Utilities.Lifetime
+namespace WinCap.Utilities.Lifetime
 {
     /// <summary>
     /// Disposableの拡張

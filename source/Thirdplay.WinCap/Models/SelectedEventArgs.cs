@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thirdplay.WinCap.Models
+namespace WinCap.Models
 {
     /// <summary>
     /// 選択イベント引数

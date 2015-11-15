@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows;
 
-namespace Thirdplay.WinCap.ViewModels.Messages
+namespace WinCap.ViewModels.Messages
 {
     /// <summary>
     /// 余白を設定するメッセージ

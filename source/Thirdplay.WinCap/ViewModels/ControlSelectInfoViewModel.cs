@@ -1,7 +1,7 @@
 ﻿using Livet;
 using System.Drawing;
 
-namespace Thirdplay.WinCap.ViewModels
+namespace WinCap.ViewModels
 {
     /// <summary>
     /// コントロール選択情報ViewModel

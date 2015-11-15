@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Interactivity;
 
-namespace Thirdplay.WinCap.Views.Behaviors
+namespace WinCap.Views.Behaviors
 {
     /// <summary>
     /// 指定した引数が1つだけ存在するメソッドを呼び出すアクション

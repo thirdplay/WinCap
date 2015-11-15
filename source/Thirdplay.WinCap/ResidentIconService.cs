@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
-using Thirdplay.WinCap.Components;
-using Thirdplay.WinCap.Utilities.Lifetime;
-using Thirdplay.WinCap.Properties;
-using Thirdplay.WinCap.Models;
+using WinCap.Components;
+using WinCap.Utilities.Lifetime;
+using WinCap.Properties;
+using WinCap.Models;
 
-namespace Thirdplay.WinCap
+namespace WinCap
 {
     /// <summary>
     /// 常駐アイコンサービス

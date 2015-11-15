@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using Thirdplay.WinCap.Utilities.Lifetime;
-using Thirdplay.WinCap.Models;
+using WinCap.Utilities.Lifetime;
+using WinCap.Models;
 
-namespace Thirdplay.WinCap
+namespace WinCap
 {
     /// <summary>
     /// App.xaml の相互作用ロジック

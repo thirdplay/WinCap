@@ -1,6 +1,6 @@
 ﻿using MetroRadiance.Controls;
 
-namespace Thirdplay.WinCap.Views
+namespace WinCap.Views
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック

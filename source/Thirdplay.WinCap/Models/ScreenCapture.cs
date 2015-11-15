@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using Thirdplay.WinCap.Utilities.Drawing;
+using WinCap.Utilities.Drawing;
 
-namespace Thirdplay.WinCap.Models
+namespace WinCap.Models
 {
     /// <summary>
     /// 画面全体をキャプチャするクラス。

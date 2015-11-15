@@ -1,7 +1,7 @@
 ﻿using System;
-using Thirdplay.WinCap.Models;
+using WinCap.Models;
 
-namespace Thirdplay.WinCap.Views
+namespace WinCap.Views
 {
     /// <summary>
     /// ControlSelectWindow.xaml の相互作用ロジック

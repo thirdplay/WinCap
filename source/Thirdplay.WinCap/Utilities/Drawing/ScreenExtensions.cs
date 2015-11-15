@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Thirdplay.WinCap.Utilities.Drawing
+namespace WinCap.Utilities.Drawing
 {
     /// <summary>
     /// スクリーンの拡張

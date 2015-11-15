@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Reactive.Linq;
-using Thirdplay.WinCap.Views;
-using Thirdplay.WinCap.ViewModels;
-using Thirdplay.WinCap.Utilities.Lifetime;
+using WinCap.Views;
+using WinCap.ViewModels;
+using WinCap.Utilities.Lifetime;
 using Livet;
 
-namespace Thirdplay.WinCap
+namespace WinCap
 {
     /// <summary>
     /// ウィンドウサービス
@@ -26,9 +26,9 @@ namespace Thirdplay.WinCap
         private Dictionary<string, Window> container = new Dictionary<string, Window>();
 
         /// <summary>
-        /// コントロール選択ウィンドウVM
+        /// コントロール選択ウィンドウViewModel
         /// </summary>
-        private ControlSelectWindowViewModel controlSelectWindowVm;
+        private ControlSelectWindowViewModel controlSelectWindow;
         #endregion
 
         #region プロパティ
@@ -48,11 +48,11 @@ namespace Thirdplay.WinCap
         /// </summary>
         public void Initialize()
         {
-            controlSelectWindowVm = new ControlSelectWindowViewModel().AddTo(this);
+            controlSelectWindow = new ControlSelectWindowViewModel().AddTo(this);
         }
 
         /// <summary>
-        /// メインウィンドウ取得
+        /// メインウィンドウを取得します。
         /// </summary>
         /// <returns>メインウィンドウ</returns>
         public MainWindow GetMainWindow()
@@ -71,7 +71,7 @@ namespace Thirdplay.WinCap
         }
 
         /// <summary>
-        /// コントロール選択ウィンドウ取得
+        /// コントロール選択ウィンドウを取得します。
         /// </summary>
         /// <returns>選択ウィンドウ</returns>
         public ControlSelectWindow GetControlSelectWindow()
@@ -79,7 +79,7 @@ namespace Thirdplay.WinCap
             string key = nameof(ControlSelectWindow);
             if (!container.ContainsKey(key))
             {
-                this.container.Add(key, new ControlSelectWindow() { DataContext = this.controlSelectWindowVm });
+                this.container.Add(key, new ControlSelectWindow() { DataContext = this.controlSelectWindow });
                 Observable.FromEventPattern(
                     handler => this.container[key].Closed += handler,
                     handler => this.container[key].Closed -= handler

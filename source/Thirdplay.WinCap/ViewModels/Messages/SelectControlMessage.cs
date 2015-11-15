@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace Thirdplay.WinCap.ViewModels.Messages
+namespace WinCap.ViewModels.Messages
 {
     /// <summary>
     /// 選択メッセージ

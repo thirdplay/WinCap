@@ -3,9 +3,9 @@ using Livet.Messaging;
 using System;
 using System.Windows;
 using System.Windows.Shapes;
-using Thirdplay.WinCap.ViewModels.Messages;
+using WinCap.ViewModels.Messages;
 
-namespace Thirdplay.WinCap.Views.Behaviors
+namespace WinCap.Views.Behaviors
 {
     /// <summary>
     /// 四角形の位置、サイズを設定するアクション

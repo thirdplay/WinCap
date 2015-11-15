@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Thirdplay.WinCap.Win32
+namespace WinCap.Win32
 {
     /// <summary>
     /// 矩形構造体

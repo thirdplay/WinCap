@@ -1,9 +1,9 @@
 ﻿using Livet.Behaviors.Messaging;
 using Livet.Messaging;
 using System.Windows;
-using Thirdplay.WinCap.ViewModels.Messages;
+using WinCap.ViewModels.Messages;
 
-namespace Thirdplay.WinCap.Views.Behaviors
+namespace WinCap.Views.Behaviors
 {
     /// <summary>
     /// ウィンドウの位置、サイズを設定するアクション

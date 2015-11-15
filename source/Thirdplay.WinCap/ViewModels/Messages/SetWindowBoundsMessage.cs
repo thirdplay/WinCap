@@ -1,7 +1,7 @@
 ﻿using Livet.Messaging;
 using System.Windows;
 
-namespace Thirdplay.WinCap.ViewModels.Messages
+namespace WinCap.ViewModels.Messages
 {
     /// <summary>
     /// ウィンドウの位置とサイズを設定するメッセージ

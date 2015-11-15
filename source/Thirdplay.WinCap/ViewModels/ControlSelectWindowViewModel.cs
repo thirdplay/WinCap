@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-using Thirdplay.WinCap.Models;
-using Thirdplay.WinCap.Utilities.Drawing;
-using Thirdplay.WinCap.Utilities.Mvvm;
-using Thirdplay.WinCap.ViewModels.Messages;
+using WinCap.Models;
+using WinCap.Utilities.Drawing;
+using WinCap.Utilities.Mvvm;
+using WinCap.ViewModels.Messages;
 
-namespace Thirdplay.WinCap.ViewModels
+namespace WinCap.ViewModels
 {
     /// <summary>
     /// コントロール選択ウィンドウViewModel
