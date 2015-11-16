@@ -10,6 +10,11 @@ namespace WinCap.Models
     public class WindowCapture
     {
         /// <summary>
+        /// 画面キャプチャ
+        /// </summary>
+        private ScreenCapture screenCapture = new ScreenCapture();
+
+        /// <summary>
         /// アクティブなウィンドウの画像を取得する
         /// </summary>
         /// <returns>アクティブなウィンドウの画像</returns>
@@ -25,17 +30,8 @@ namespace WinCap.Models
         /// <returns>ウィンドウの画像</returns>
         public Bitmap Capture(IntPtr handle)
         {
-            // ウィンドウ領域のサイズを取得
             Rectangle rect = WindowHelper.GetWindowBounds(handle);
-
-            // Bitmapの作成
-            Bitmap bmp = new Bitmap(rect.Width, rect.Height);
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                // Bitmapにスクリーンをコピーする
-                g.CopyFromScreen(rect.X, rect.Y, 0, 0, rect.Size, CopyPixelOperation.SourceCopy);
-                return bmp;
-            }
+            return screenCapture.Capture(rect.X, rect.Y, rect.Width, rect.Height);
         }
     }
 }

@@ -120,20 +120,5 @@ namespace WinCap.Models
             }
             return Rectangle.Empty;
         }
-
-        /// <summary>
-        /// 指定ウィンドウハンドルのクラス名を取得する。
-        /// </summary>
-        /// <param name="handle">ウィンドウハンドル</param>
-        /// <returns>クラス名</returns>
-        public static string GetClassName(IntPtr handle)
-        {
-            StringBuilder builder = new StringBuilder(256);
-            if (NativeMethods.GetClassName(handle, builder, builder.Capacity) != 0)
-            {
-                return builder.ToString();
-            }
-            return "";
-        }
     }
 }

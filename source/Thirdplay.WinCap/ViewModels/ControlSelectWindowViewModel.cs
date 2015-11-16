@@ -8,6 +8,7 @@ using WinCap.Models;
 using WinCap.Utilities.Drawing;
 using WinCap.Utilities.Mvvm;
 using WinCap.ViewModels.Messages;
+using WinCap.Win32;
 
 namespace WinCap.ViewModels
 {
@@ -21,6 +22,11 @@ namespace WinCap.ViewModels
         /// ウィンドウハンドルリスト
         /// </summary>
         private List<IntPtr> handleList = new List<IntPtr>();
+
+        /// <summary>
+        /// スクリーンの座標
+        /// </summary>
+        private System.Drawing.Point screenLocation;
 
         /// <summary>
         /// 選択中のコントロール情報
@@ -53,15 +59,16 @@ namespace WinCap.ViewModels
             handleList = WindowHelper.GetHandleList();
 
             // ウィンドウに画面全体の範囲を設定する
-            System.Drawing.Rectangle rect = System.Windows.Forms.Screen.AllScreens.GetBounds();
+            System.Drawing.Rectangle screenRect = System.Windows.Forms.Screen.AllScreens.GetBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
-                Left = rect.Left,
-                Top = rect.Top,
-                Width = rect.Width,
-                Height = rect.Height
+                Left = screenRect.Left,
+                Top = screenRect.Top,
+                Width = screenRect.Width,
+                Height = screenRect.Height
             });
+            screenLocation = screenRect.Location;
 
             this.ControlSelectInfo.Messenger.Raise(new SetMarginMessage
             {
@@ -77,7 +84,10 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void MouseMove(MouseEventArgs e)
         {
+            // スクリーン座標の取得
             Point p = e.GetPosition(null);
+            p.X = p.X + screenLocation.X;
+            p.Y = p.Y + screenLocation.Y;
 
             // マウスカーソル上にあるウィンドウの情報を更新する
             ControlInfo selectControlInfo = ControlInfo.Empty;
@@ -89,7 +99,7 @@ namespace WinCap.ViewModels
                     if (p.X >= bounds.Left && p.X <= bounds.Right
                     && p.Y >= bounds.Top && p.Y <= bounds.Bottom)
                     {
-                        selectControlInfo = new ControlInfo(handle, WindowHelper.GetClassName(handle), bounds);
+                        selectControlInfo = new ControlInfo(handle, NativeMethods.GetClassName(handle), bounds);
                         break;
                     }
                 }
@@ -140,8 +150,8 @@ namespace WinCap.ViewModels
                 this.Messenger.Raise(new SetRectangleBoundsMessage
                 {
                     MessageKey = "Rectangle.Bounds",
-                    Left = selectControlInfo.Bounds.Left,
-                    Top = selectControlInfo.Bounds.Top,
+                    Left = selectControlInfo.Bounds.Left - screenLocation.X,
+                    Top = selectControlInfo.Bounds.Top - screenLocation.Y,
                     Width = selectControlInfo.Bounds.Width,
                     Height = selectControlInfo.Bounds.Height
                 });

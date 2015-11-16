@@ -1,6 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using WinCap.Utilities.Drawing;
+using WinCap.Win32;
 
 namespace WinCap.Models
 {
@@ -13,7 +15,7 @@ namespace WinCap.Models
         /// 画面全体をキャプチャする。
         /// </summary>
         /// <returns>ビットマップ</returns>
-        public Bitmap Capture()
+        public virtual Bitmap Capture()
         {
             Rectangle scrRect = Screen.AllScreens.GetBounds();
             return Capture(scrRect.X, scrRect.Y, scrRect.Width, scrRect.Height);
@@ -23,26 +25,22 @@ namespace WinCap.Models
         /// 指定範囲の画面をキャプチャする。
         /// </summary>
         /// <param name="x">左上のX座標</param>
-        /// <param name="y">左上のY座標</param>
+        /// <param name="y">左上のY座標</param>S
         /// <param name="width">横幅</param>
         /// <param name="height">高さ</param>
         /// <returns>ビットマップ</returns>
         public Bitmap Capture(int x, int y, int width, int height)
         {
-            // 返却用のビットマップ生成
             Bitmap bmp = new Bitmap(width, height);
+            IntPtr screenDC = NativeMethods.GetDC(IntPtr.Zero);
             using (Graphics g = Graphics.FromImage(bmp))
             {
-                // 黒でクリアする
-                g.Clear(Color.Black);
-
-                // 全てのスクリーンをコピーする
-                foreach (Screen screen in Screen.AllScreens)
-                {
-                    Rectangle rect = screen.Bounds;
-                    g.CopyFromScreen(rect.X, rect.Y, rect.X - x, rect.Y - y, rect.Size);
-                }
+                IntPtr hDC = g.GetHdc();
+                NativeMethods.BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
+                    screenDC, x, y, TernaryRasterOperations.SRCCOPY);
+                g.ReleaseHdc(hDC);
             }
+            NativeMethods.ReleaseDC(IntPtr.Zero, screenDC);
 
             return bmp;
         }

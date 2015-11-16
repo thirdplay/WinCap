@@ -138,6 +138,7 @@
     <Compile Include="Win32\DWMWA.cs" />
     <Compile Include="Win32\GW.cs" />
     <Compile Include="Win32\RECT.cs" />
+    <Compile Include="Win32\TernaryRasterOperations.cs" />
     <Compile Include="WindowService.cs" />
     <Compile Include="Utilities\Drawing\BitmapExtensions.cs" />
     <Compile Include="Utilities\Lifetime\DisposableExtensions.cs" />
