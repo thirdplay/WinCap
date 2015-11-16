@@ -1,10 +1,10 @@
 ﻿using Livet;
+using MetroTrilithon.Lifetime;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reactive.Linq;
 using System.Windows;
-using WinCap.Utilities.Lifetime;
 
 namespace WinCap.Models
 {
@@ -146,7 +146,7 @@ namespace WinCap.Models
             controlSelectWindow.Show();
         }
 
-        //CaptureWholePage()
+        //CapturePageWhole()
 
         #region IDisposableHoloder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;

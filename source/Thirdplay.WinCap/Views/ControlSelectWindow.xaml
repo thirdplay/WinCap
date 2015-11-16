@@ -74,7 +74,7 @@
             </i:Interaction.Triggers>
 
             <views:ControlSelectInfo.Margin>
-                <Thickness Left="-250" Top="-110" />
+                <Thickness Left="-2500" Top="-1100" />
             </views:ControlSelectInfo.Margin>
         </views:ControlSelectInfo>
     </Canvas>

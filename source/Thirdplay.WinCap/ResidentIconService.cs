@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 using WinCap.Components;
-using WinCap.Utilities.Lifetime;
 using WinCap.Properties;
 using WinCap.Models;
+using MetroTrilithon.Lifetime;
 
 namespace WinCap
 {

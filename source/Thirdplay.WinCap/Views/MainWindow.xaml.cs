@@ -10,6 +10,7 @@ namespace WinCap.Views
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += (sender, e) => this.Hide();
         }
     }
 }

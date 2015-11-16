@@ -1,11 +1,12 @@
 ﻿using Livet;
+using MetroTrilithon.Lifetime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using WinCap.Utilities.Lifetime;
 using WinCap.Models;
+using WinCap.Models.Settings;
 
 namespace WinCap
 {
@@ -33,27 +34,41 @@ namespace WinCap
         /// <param name="e">イベント引数</param>
         protected override void OnStartup(StartupEventArgs e)
         {
-            //Console.WriteLine("Total Memory = {0} KB", GC.GetTotalMemory(true) / 1024);
-
-            // TODO:多重起動防止チェック
-
-            // 各サービスの初期化
-            CaptureService.Current.AddTo(this).Initialize();
-            ResidentIconService.Current.AddTo(this).Initialize();
-            WindowService.Current.AddTo(this).Initialize();
-
-            // メインウィンドウ生成
-            this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            this.MainWindow = WindowService.Current.GetMainWindow();
-
-            // UnhandledExceptionイベント登録
-            this.DispatcherUnhandledException += (sender, args) =>
+            // 多重起動防止チェック
+            var appInstance = new MetroTrilithon.Desktop.ApplicationInstance().AddTo(this);
+            if (appInstance.IsFirst)
             {
-                ReportException(sender, args.Exception);
-                args.Handled = true;
-            };
+                //Console.WriteLine("Total Memory = {0} KB", GC.GetTotalMemory(true) / 1024);
+                // UnhandledExceptionイベント登録
+                this.DispatcherUnhandledException += (sender, args) =>
+                {
+                    ReportException(sender, args.Exception);
+                    args.Handled = true;
+                };
 
-            base.OnStartup(e);
+                // 設定のロード
+                Providers.Local.Load();
+                compositeDisposable.Add(Providers.Local.Save);
+
+                // 各サービスの初期化
+                CaptureService.Current.AddTo(this).Initialize();
+                ResidentIconService.Current.AddTo(this).Initialize();
+                WindowService.Current.AddTo(this).Initialize();
+
+                // メインウィンドウ表示
+                this.MainWindow = WindowService.Current.GetMainWindow();
+                this.MainWindow.Show();
+
+                // ホットキーの初期化
+                HotkeyService.Current.AddTo(this).Initialize(this.MainWindow);
+
+                // メインウィンドウ表示
+                base.OnStartup(e);
+            }
+            else
+            {
+                this.Shutdown();
+            }
         }
 
         /// <summary>

@@ -4,8 +4,8 @@ using System.Windows;
 using System.Reactive.Linq;
 using WinCap.Views;
 using WinCap.ViewModels;
-using WinCap.Utilities.Lifetime;
 using Livet;
+using MetroTrilithon.Lifetime;
 
 namespace WinCap
 {
