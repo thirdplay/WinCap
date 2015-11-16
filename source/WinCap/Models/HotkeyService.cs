@@ -23,11 +23,6 @@ namespace WinCap.Models
         private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
-        /// ウィンドウのハンドル
-        /// </summary>
-        private IntPtr handle = IntPtr.Zero;
-
-        /// <summary>
         /// ホットキーリスト
         /// </summary>
         private static Dictionary<HotkeyId, Hotkey> hotkeies = new Dictionary<HotkeyId, Hotkey>();
@@ -97,15 +92,15 @@ namespace WinCap.Models
         private void hookWndProc(Window window)
         {
             // ウィンドプロシージャのフック
-            this.handle = new WindowInteropHelper(window).Handle;
-            HwndSource source = HwndSource.FromHwnd(this.handle);
+            IntPtr handle = new WindowInteropHelper(window).Handle;
+            HwndSource source = HwndSource.FromHwnd(handle);
             source.AddHook(new HwndSourceHook(WndProc));
 
             // ホットキーの生成
-            hotkeies.Add(HotkeyId.ScreenWhole, new Hotkey(this.handle, HotkeyId.ScreenWhole, CaptureService.Current.CaptureScreenWhole).AddTo(this));
-            hotkeies.Add(HotkeyId.ActiveWindow, new Hotkey(this.handle, HotkeyId.ActiveWindow, CaptureService.Current.CaptureActiveWindow).AddTo(this));
-            hotkeies.Add(HotkeyId.SelectControl, new Hotkey(this.handle, HotkeyId.SelectControl, CaptureService.Current.CaptureSelectControl).AddTo(this));
-            hotkeies.Add(HotkeyId.PageWhole, new Hotkey(this.handle, HotkeyId.PageWhole, CaptureService.Current.CapturePageWhole).AddTo(this));
+            hotkeies.Add(HotkeyId.ScreenWhole, new Hotkey(handle, HotkeyId.ScreenWhole, CaptureService.Current.CaptureScreenWhole).AddTo(this));
+            hotkeies.Add(HotkeyId.ActiveWindow, new Hotkey(handle, HotkeyId.ActiveWindow, CaptureService.Current.CaptureActiveWindow).AddTo(this));
+            hotkeies.Add(HotkeyId.SelectControl, new Hotkey(handle, HotkeyId.SelectControl, CaptureService.Current.CaptureSelectControl).AddTo(this));
+            hotkeies.Add(HotkeyId.PageWhole, new Hotkey(handle, HotkeyId.PageWhole, CaptureService.Current.CapturePageWhole).AddTo(this));
         }
 
         /// <summary>
@@ -121,10 +116,9 @@ namespace WinCap.Models
         {
             if (msg == (int)WM.HOTKEY)
             {
-                int hotkeyId = (int)wParam;
                 foreach (Hotkey hotkey in hotkeies.Values)
                 {
-                    if ((int)hotkey.Id == hotkeyId)
+                    if ((int)hotkey.Id == (int)wParam)
                     {
                         hotkey.Action();
                         handled = true;
