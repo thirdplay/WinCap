@@ -36,14 +36,14 @@ namespace WinCap.Models
         private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
-        /// 現在のキャプチャサービスの状態
+        /// 現在の状態
         /// </summary>
         private CaptureServiceStatus currentStatus = CaptureServiceStatus.Wait;
         #endregion
 
         #region プロパティ
         /// <summary>
-        /// 現在のサービスを取得する。
+        /// 現在のサービスを取得します。
         /// </summary>
         public static CaptureService Current { get; } = new CaptureService();
 
@@ -57,6 +57,7 @@ namespace WinCap.Models
             {
                 if (this.currentStatus != value)
                 {
+                    System.Diagnostics.Debug.WriteLine($"{this.currentStatus} -> {value}");
                     this.currentStatus = value;
                     if (this.currentStatus == CaptureServiceStatus.Wait)
                     {
@@ -81,7 +82,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 画面全体をキャプチャする。
+        /// 画面全体をキャプチャします。
         /// </summary>
         public void CaptureScreenWhole()
         {
@@ -89,12 +90,12 @@ namespace WinCap.Models
             if (this.Status != CaptureServiceStatus.Wait) return;
             this.Status = CaptureServiceStatus.Capture;
 
-            // 画面全体をキャプチャする
+            // 画面全体をキャプチャ
             ScreenCapture capture = new ScreenCapture();
             using (Bitmap bitmap = capture.Capture())
             {
-                // TODO:ImageService.Current.Save(bitmap);
-                // キャプチャした画像をクリップボードに設定する
+                // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
+                // キャプチャした画像をクリップボードに設定
                 Clipboard.SetDataObject(bitmap, true);
             }
 
@@ -102,11 +103,30 @@ namespace WinCap.Models
             this.Status = CaptureServiceStatus.Wait;
         }
 
-        //CaptureActiveWindow()
-        //CaptureSelectControl()
+        /// <summary>
+        /// アクティブウィンドウをキャプチャします。
+        /// </summary>
+        public void CaptureActiveWindow()
+        {
+            // 待機状態以外は処理しない
+            if (this.Status != CaptureServiceStatus.Wait) return;
+            this.Status = CaptureServiceStatus.Capture;
+
+            // アクティブウィンドウをキャプチャ
+            WindowCapture capture = new WindowCapture();
+            using (Bitmap bitmap = capture.Capture())
+            {
+                // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
+                // キャプチャした画像をクリップボードに設定
+                Clipboard.SetDataObject(bitmap, true);
+            }
+
+            // 待機状態に戻す
+            this.Status = CaptureServiceStatus.Wait;
+        }
 
         /// <summary>
-        /// 選択コントロールをキャプチャする。
+        /// 選択コントロールをキャプチャします。
         /// </summary>
         public void CaptureSelectControl()
         {
@@ -128,11 +148,11 @@ namespace WinCap.Models
                 {
                     if (handle != IntPtr.Zero)
                     {
-                        // 選択コントロールをキャプチャする
+                        // 選択コントロールをキャプチャ
                         WindowCapture capture = new WindowCapture();
                         using (Bitmap bitmap = capture.Capture(handle))
                         {
-                            // キャプチャした画像をクリップボードに設定する
+                            // キャプチャした画像をクリップボードに設定
                             Clipboard.SetDataObject(bitmap, true);
                         }
                     }
@@ -146,13 +166,46 @@ namespace WinCap.Models
             controlSelectWindow.Show();
         }
 
-        //CapturePageWhole()
+        /// <summary>
+        /// ページ全体をキャプチャします。
+        /// </summary>
+        public void CapturePageWhole()
+        {
+            // 待機状態以外は処理しない
+            if (this.Status != CaptureServiceStatus.Wait) return;
+            this.Status = CaptureServiceStatus.Capture;
+
+            // コントロール選択ウィンドウの取得
+            var controlSelectWindow = WindowService.Current.GetControlSelectWindow();
+
+            var selected = Observable.FromEventPattern<SelectedEventArgs>(controlSelectWindow, nameof(controlSelectWindow.Selected));
+            var closed = Observable.FromEventPattern<EventArgs>(controlSelectWindow, nameof(controlSelectWindow.Closed));
+            IntPtr handle = IntPtr.Zero;
+            selected
+                .Do(x => handle = x.EventArgs.Handle)
+                .TakeUntil(closed)
+                .LastAsync()
+                .Subscribe(_ =>
+                {
+                    if (handle != IntPtr.Zero)
+                    {
+                        // ブラウザのページ全体をキャプチャ
+                    }
+
+                    // 待機状態に戻す
+                    this.Status = CaptureServiceStatus.Wait;
+                })
+                .AddTo(this);
+
+            // 選択ウィンドウの表示
+            controlSelectWindow.Show();
+        }
 
         #region IDisposableHoloder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄する。
+        /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {

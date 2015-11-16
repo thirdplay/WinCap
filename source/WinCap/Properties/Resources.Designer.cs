@@ -124,6 +124,26 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   エラー に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Error_ErrorCaption {
+            get {
+                return ResourceManager.GetString("Error_ErrorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   設定ファイル ({0}) の保存に失敗しました。
+        ///
+        ///エラーの詳細: {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Error_SaveSettingFile {
+            get {
+                return ResourceManager.GetString("Error_SaveSettingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   左クリックで領域を選択してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SelectInfo_Description {

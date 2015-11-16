@@ -39,7 +39,6 @@ namespace WinCap
             if (appInstance.IsFirst)
             {
                 //Console.WriteLine("Total Memory = {0} KB", GC.GetTotalMemory(true) / 1024);
-                // UnhandledExceptionイベント登録
                 this.DispatcherUnhandledException += (sender, args) =>
                 {
                     ReportException(sender, args.Exception);
@@ -47,8 +46,8 @@ namespace WinCap
                 };
 
                 // 設定のロード
-                Providers.Local.Load();
-                compositeDisposable.Add(Providers.Local.Save);
+                SettingsHost.Load();
+                compositeDisposable.Add(SettingsHost.Save);
 
                 // 各サービスの初期化
                 CaptureService.Current.AddTo(this).Initialize();
@@ -121,7 +120,7 @@ ERROR, date = {0}, sender = {1},
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄する。
+        /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {

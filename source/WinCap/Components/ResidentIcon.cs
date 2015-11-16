@@ -39,7 +39,7 @@ namespace WinCap.Components
         }
 
         /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄する。
+        /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {

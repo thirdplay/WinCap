@@ -62,7 +62,7 @@ namespace WinCap
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄する。
+        /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {

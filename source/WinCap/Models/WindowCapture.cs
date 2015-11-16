@@ -5,7 +5,7 @@ using WinCap.Win32;
 namespace WinCap.Models
 {
     /// <summary>
-    /// ウィンドウをキャプチャーするクラス。
+    /// ウィンドウをキャプチャーする機能を提供します。
     /// </summary>
     public class WindowCapture
     {
@@ -15,7 +15,7 @@ namespace WinCap.Models
         private ScreenCapture screenCapture = new ScreenCapture();
 
         /// <summary>
-        /// アクティブなウィンドウの画像を取得する
+        /// アクティブなウィンドウの画像を取得します。
         /// </summary>
         /// <returns>アクティブなウィンドウの画像</returns>
         public Bitmap Capture()
@@ -24,7 +24,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 指定ウィンドウの画像を取得する
+        /// 指定ウィンドウの画像を取得します。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <returns>ウィンドウの画像</returns>

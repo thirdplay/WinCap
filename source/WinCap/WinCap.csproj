@@ -134,11 +134,14 @@
     <Compile Include="Models\HotkeyService.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
+    <Compile Include="Models\Settings\HotkeySettings.cs" />
     <Compile Include="Models\Settings\Providers.cs" />
+    <Compile Include="Models\Settings\SettingsHost.cs" />
     <Compile Include="Models\WindowCapture.cs" />
     <Compile Include="Models\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="Utilities\Drawing\ScreenExtensions.cs" />
+    <Compile Include="Models\Hotkey.cs" />
     <Compile Include="ViewModels\ControlSelectInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
@@ -155,7 +158,6 @@
     <Compile Include="Win32\MOD.cs" />
     <Compile Include="Win32\RECT.cs" />
     <Compile Include="Win32\TernaryRasterOperations.cs" />
-    <Compile Include="Win32\VK.cs" />
     <Compile Include="WindowService.cs" />
     <Compile Include="Utilities\Drawing\BitmapExtensions.cs" />
     <Compile Include="Models\CaptureService.cs" />
