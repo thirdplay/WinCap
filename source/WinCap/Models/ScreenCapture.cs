@@ -7,7 +7,7 @@ using WinCap.Win32;
 namespace WinCap.Models
 {
     /// <summary>
-    /// 画面全体をキャプチャする機能を提供します。
+    /// 画面をキャプチャする機能を提供します。
     /// </summary>
     public class ScreenCapture
     {

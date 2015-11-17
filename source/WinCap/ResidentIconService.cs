@@ -11,7 +11,7 @@ using MetroTrilithon.Lifetime;
 namespace WinCap
 {
     /// <summary>
-    /// 常駐アイコンサービス
+    /// 常駐アイコンの表示する機能を提供します。
     /// </summary>
     public sealed class ResidentIconService : IDisposableHolder
     {

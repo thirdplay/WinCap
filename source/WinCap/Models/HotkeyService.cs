@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using WinCap.Models.Settings;
 using WinCap.Win32;
@@ -12,7 +11,7 @@ using WinCap.Win32;
 namespace WinCap.Models
 {
     /// <summary>
-    /// ホットキーサービス
+    /// ホットキーを取り付け、分離する機能を提供します。
     /// </summary>
     public sealed class HotkeyService : NotificationObject, IDisposableHolder
     {

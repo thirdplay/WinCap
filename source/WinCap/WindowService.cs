@@ -10,7 +10,7 @@ using MetroTrilithon.Lifetime;
 namespace WinCap
 {
     /// <summary>
-    /// ウィンドウサービス
+    /// 各ウィンドウを取得する機能を提供します。
     /// </summary>
     public sealed class WindowService : IDisposableHolder
     {

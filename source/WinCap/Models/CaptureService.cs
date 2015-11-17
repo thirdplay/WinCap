@@ -9,7 +9,7 @@ using System.Windows;
 namespace WinCap.Models
 {
     /// <summary>
-    /// キャプチャサービスの状態を示す識別子
+    /// キャプチャ機能の状態を示す識別子。
     /// </summary>
     public enum CaptureServiceStatus
     {
@@ -25,7 +25,7 @@ namespace WinCap.Models
     }
 
     /// <summary>
-    /// キャプチャサービス
+    /// 画面やウィンドウをキャプチャし、クリップボードやファイルに出力する機能を提供します。
     /// </summary>
     public sealed class CaptureService : NotificationObject, IDisposableHolder
     {
@@ -48,12 +48,12 @@ namespace WinCap.Models
         public static CaptureService Current { get; } = new CaptureService();
 
         /// <summary>
-        /// キャプチャサービスの状態
+        /// 現在の状態を取得します。
         /// </summary>
         public CaptureServiceStatus Status
         {
             get { return this.currentStatus; }
-            set
+            private set
             {
                 if (this.currentStatus != value)
                 {
@@ -75,7 +75,7 @@ namespace WinCap.Models
         private CaptureService() { }
 
         /// <summary>
-        /// 初期化
+        /// キャプチャ機能を使用できる状態にします。
         /// </summary>
         public void Initialize()
         {
