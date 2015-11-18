@@ -47,17 +47,12 @@ namespace WinCap.Models
             if (!window.IsLoaded)
             {
                 Observable.FromEventPattern(window, nameof(window.Loaded))
-                    .Subscribe(_ =>
-                    {
-                        createHotkey(window);
-                        Attach();
-                    })
+                    .Subscribe(_ => createHotkey(window))
                     .AddTo(this);
             }
             else
             {
                 createHotkey(window);
-                Attach();
             }
         }
 
@@ -66,10 +61,10 @@ namespace WinCap.Models
         /// </summary>
         public void Attach()
         {
-            hotkeies[HotkeyId.ScreenWhole].Attach(HotkeySettings.ScreenWholeKey);
-            hotkeies[HotkeyId.ActiveWindow].Attach(HotkeySettings.ActiveWindowKey);
-            hotkeies[HotkeyId.SelectControl].Attach(HotkeySettings.SelectControlKey);
-            hotkeies[HotkeyId.PageWhole].Attach(HotkeySettings.PageWholeKey);
+            hotkeies[HotkeyId.ScreenWhole].Attach(HotkeySetting.ScreenWholeKey);
+            hotkeies[HotkeyId.ActiveWindow].Attach(HotkeySetting.ActiveWindowKey);
+            hotkeies[HotkeyId.SelectControl].Attach(HotkeySetting.SelectControlKey);
+            hotkeies[HotkeyId.PageWhole].Attach(HotkeySetting.PageWholeKey);
         }
 
         /// <summary>
@@ -77,7 +72,7 @@ namespace WinCap.Models
         /// </summary>
         public void Detach()
         {
-            foreach(Hotkey hotkey in hotkeies.Values)
+            foreach (Hotkey hotkey in hotkeies.Values)
             {
                 hotkey.Detach();
             }
@@ -86,7 +81,7 @@ namespace WinCap.Models
         /// <summary>
         /// ホットキーを生成します。
         /// </summary>
-        /// <param name="window">フックするウィンドウ</param>
+        /// <param name="window">ウィンドウ</param>
         private void createHotkey(Window window)
         {
             IntPtr handle = new WindowInteropHelper(window).Handle;
@@ -94,6 +89,7 @@ namespace WinCap.Models
             hotkeies.Add(HotkeyId.ActiveWindow, new Hotkey(handle, (int)HotkeyId.ActiveWindow, CaptureService.Current.CaptureActiveWindow).AddTo(this));
             hotkeies.Add(HotkeyId.SelectControl, new Hotkey(handle, (int)HotkeyId.SelectControl, CaptureService.Current.CaptureSelectControl).AddTo(this));
             hotkeies.Add(HotkeyId.PageWhole, new Hotkey(handle, (int)HotkeyId.PageWhole, CaptureService.Current.CapturePageWhole).AddTo(this));
+            Attach();
         }
 
         #region IDisposableHoloder members

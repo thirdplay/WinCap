@@ -134,7 +134,7 @@
     <Compile Include="Models\HotkeyService.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
-    <Compile Include="Models\Settings\HotkeySettings.cs" />
+    <Compile Include="Models\Settings\HotkeySetting.cs" />
     <Compile Include="Models\Settings\Providers.cs" />
     <Compile Include="Models\Settings\SettingsHost.cs" />
     <Compile Include="Models\WindowCapture.cs" />

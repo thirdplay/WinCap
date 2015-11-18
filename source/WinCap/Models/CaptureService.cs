@@ -1,8 +1,10 @@
 ﻿using Livet;
 using MetroTrilithon.Lifetime;
+using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
 using System.Reactive.Linq;
 using System.Windows;
 
@@ -25,7 +27,7 @@ namespace WinCap.Models
     }
 
     /// <summary>
-    /// 画面やウィンドウをキャプチャし、クリップボードやファイルに出力する機能を提供します。
+    /// 画面やウィンドウをキャプチャし、クリップボードや画像ファイルに出力する機能を提供します。
     /// </summary>
     public sealed class CaptureService : NotificationObject, IDisposableHolder
     {
@@ -57,12 +59,7 @@ namespace WinCap.Models
             {
                 if (this.currentStatus != value)
                 {
-                    System.Diagnostics.Debug.WriteLine($"{this.currentStatus} -> {value}");
                     this.currentStatus = value;
-                    if (this.currentStatus == CaptureServiceStatus.Wait)
-                    {
-                        // TODO:SE再生
-                    }
                     RaisePropertyChanged();
                 }
             }
@@ -79,6 +76,13 @@ namespace WinCap.Models
         /// </summary>
         public void Initialize()
         {
+            //this.Subscribe(nameof(Status), () => {
+            //    if (this.currentStatus == CaptureServiceStatus.Wait)
+            //    {
+            //        SystemSounds.Asterisk.Play();
+            //    }
+            //}, false)
+            //.AddTo(this);
         }
 
         /// <summary>

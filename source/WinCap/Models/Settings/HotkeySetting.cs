@@ -7,7 +7,7 @@ namespace WinCap.Models.Settings
     /// <summary>
     /// ホットキーに関連する設定を表す静的プロパティを公開します。
     /// </summary>
-    public class HotkeySettings
+    public class HotkeySetting
     {
         /// <summary>
         /// 画面全体キャプチャ時のホットキー
@@ -35,7 +35,7 @@ namespace WinCap.Models.Settings
 
         private static string GetKey([CallerMemberName] string propertyName = "")
         {
-            return nameof(HotkeySettings) + "." + propertyName;
+            return nameof(HotkeySetting) + "." + propertyName;
         }
     }
 }

@@ -15,7 +15,6 @@ namespace WinCap.Views.Behaviors
             var setMessage = message as SetMarginMessage;
             if (setMessage == null) return;
 
-            System.Console.WriteLine("SetMarginAction");
             var left = setMessage.Left ?? this.AssociatedObject.Margin.Left;
             var top = setMessage.Top ?? this.AssociatedObject.Margin.Top;
             var right = setMessage.Left ?? this.AssociatedObject.Margin.Right;

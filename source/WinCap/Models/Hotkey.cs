@@ -89,12 +89,12 @@ namespace WinCap.Models
         /// <summary>
         /// 指定された<see cref="key"/>のホットキーを取り付けます。
         /// </summary>
-        /// <param name="key">キーコードと修飾子</param>
+        /// <param name="keys">キーコードと修飾子</param>
         /// <returns>成功ならtrue、それ以外はfalseを返却します。</returns>
-        public bool Attach(Keys key)
+        public bool Attach(Keys keys)
         {
             if (this.IsAttached) return false;
-            if (RegisterHotKey(handle, this.Id, toModCode(key), (uint)(key & Keys.KeyCode)) != 0)
+            if (RegisterHotKey(handle, this.Id, toModCode(keys), (uint)(keys & Keys.KeyCode)) != 0)
             {
                 HwndSource source = HwndSource.FromHwnd(this.handle);
                 source.AddHook(WndProc);
