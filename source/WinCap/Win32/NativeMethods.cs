@@ -114,25 +114,5 @@ namespace WinCap.Win32
         /// <returns>成功すると1、失敗すると0が返ります。</returns>
         [DllImport("user32.dll")]
         public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
-
-        /// <summary>
-        /// ホットキーを登録する。
-        /// </summary>
-        /// <param name="hWnd">ウィンドウハンドル</param>
-        /// <param name="id">ホットキーID</param>
-        /// <param name="modKey">装飾キー</param>
-        /// <param name="key">仮想キー</param>
-        /// <returns>成功なら0以外、失敗なら0</returns>
-        [DllImport("user32.dll")]
-        public static extern int RegisterHotKey(IntPtr hWnd, int id, uint modKey, uint key);
-
-        /// <summary>
-        /// ホットキーを登録解除する。
-        /// </summary>
-        /// <param name="hWnd">ウィンドウハンドル</param>
-        /// <param name="id">ホットキーID</param>
-        /// <returns>成功なら0以外、失敗なら0</returns>
-        [DllImport("user32.dll")]
-        public static extern int UnregisterHotKey(IntPtr hWnd, int id);
     }
 }

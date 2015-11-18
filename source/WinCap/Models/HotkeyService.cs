@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using WinCap.Models.Settings;
-using WinCap.Win32;
 
 namespace WinCap.Models
 {
@@ -50,14 +49,14 @@ namespace WinCap.Models
                 Observable.FromEventPattern(window, nameof(window.Loaded))
                     .Subscribe(_ =>
                     {
-                        hookWndProc(window);
+                        createHotkey(window);
                         Attach();
                     })
                     .AddTo(this);
             }
             else
             {
-                hookWndProc(window);
+                createHotkey(window);
                 Attach();
             }
         }
@@ -85,47 +84,16 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// ウィンドウプロシージャをフックします。
+        /// ホットキーを生成します。
         /// </summary>
         /// <param name="window">フックするウィンドウ</param>
-        private void hookWndProc(Window window)
+        private void createHotkey(Window window)
         {
-            // ウィンドプロシージャのフック
             IntPtr handle = new WindowInteropHelper(window).Handle;
-            HwndSource source = HwndSource.FromHwnd(handle);
-            source.AddHook(new HwndSourceHook(WndProc));
-
-            // ホットキーの生成
-            hotkeies.Add(HotkeyId.ScreenWhole, new Hotkey(handle, HotkeyId.ScreenWhole, CaptureService.Current.CaptureScreenWhole).AddTo(this));
-            hotkeies.Add(HotkeyId.ActiveWindow, new Hotkey(handle, HotkeyId.ActiveWindow, CaptureService.Current.CaptureActiveWindow).AddTo(this));
-            hotkeies.Add(HotkeyId.SelectControl, new Hotkey(handle, HotkeyId.SelectControl, CaptureService.Current.CaptureSelectControl).AddTo(this));
-            hotkeies.Add(HotkeyId.PageWhole, new Hotkey(handle, HotkeyId.PageWhole, CaptureService.Current.CapturePageWhole).AddTo(this));
-        }
-
-        /// <summary>
-        /// ウィンドウプロシージャ
-        /// </summary>
-        /// <param name="hWnd">ウィンドウのハンドル</param>
-        /// <param name="msg">メッセージ</param>
-        /// <param name="wParam">メッセージに関する追加情報</param>
-        /// <param name="lParam">メッセージに関する追加情報</param>
-        /// <param name="handled">ハンドルフラグ</param>
-        /// <returns></returns>
-        private static IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (msg == (int)WM.HOTKEY)
-            {
-                foreach (Hotkey hotkey in hotkeies.Values)
-                {
-                    if ((int)hotkey.Id == (int)wParam)
-                    {
-                        hotkey.Action();
-                        handled = true;
-                    }
-                }
-
-            }
-            return IntPtr.Zero;
+            hotkeies.Add(HotkeyId.ScreenWhole, new Hotkey(handle, (int)HotkeyId.ScreenWhole, CaptureService.Current.CaptureScreenWhole).AddTo(this));
+            hotkeies.Add(HotkeyId.ActiveWindow, new Hotkey(handle, (int)HotkeyId.ActiveWindow, CaptureService.Current.CaptureActiveWindow).AddTo(this));
+            hotkeies.Add(HotkeyId.SelectControl, new Hotkey(handle, (int)HotkeyId.SelectControl, CaptureService.Current.CaptureSelectControl).AddTo(this));
+            hotkeies.Add(HotkeyId.PageWhole, new Hotkey(handle, (int)HotkeyId.PageWhole, CaptureService.Current.CapturePageWhole).AddTo(this));
         }
 
         #region IDisposableHoloder members
