@@ -56,7 +56,7 @@ namespace WinCap.ViewModels
         public void Initialize()
         {
             // 表示中のウィンドウハンドルリストを取得する
-            handleList = WindowHelper.GetHandleList();
+            handleList = WindowHelper.GetHandles();
 
             // ウィンドウに画面全体の範囲を設定する
             System.Drawing.Rectangle screenRect = System.Windows.Forms.Screen.AllScreens.GetBounds();

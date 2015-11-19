@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Text;
 using WinCap.Win32;
 
 namespace WinCap.Models
@@ -13,10 +12,10 @@ namespace WinCap.Models
     internal static class WindowHelper
     {
         /// <summary>
-        /// ウィンドウハンドルリストを表示順にソートして取得します。
+        /// 表示順にソートしたウィンドウハンドルを取得します。
         /// </summary>
         /// <returns>ウィンドウハンドルリスト</returns>
-        public static List<IntPtr> GetHandleList()
+        public static List<IntPtr> GetHandles()
         {
             List<IntPtr> list = new List<IntPtr>();
 
@@ -37,7 +36,7 @@ namespace WinCap.Models
                     IntPtr hWndChild = NativeMethods.GetWindow(handle, GW.CHILD);
                     if (hWndChild != IntPtr.Zero)
                     {
-                        getWindowList(hWndChild, ref list);
+                        getHandles(hWndChild, ref list);
                     }
                     list.Add(handle);
                 }
@@ -53,21 +52,21 @@ namespace WinCap.Models
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <param name="list">ウィンドウハンドルの格納先</param>
-        private static void getWindowList(IntPtr handle, ref List<IntPtr> list)
+        private static void getHandles(IntPtr handle, ref List<IntPtr> list)
         {
             if (isValidWindow(handle))
             {
                 IntPtr hWndChild = NativeMethods.GetWindow(handle, GW.CHILD);
                 if (hWndChild != IntPtr.Zero)
                 {
-                    getWindowList(hWndChild, ref list);
+                    getHandles(hWndChild, ref list);
                 }
                 list.Add(handle);
             }
 
             if ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero)
             {
-                getWindowList(handle, ref list);
+                getHandles(handle, ref list);
             }
         }
 

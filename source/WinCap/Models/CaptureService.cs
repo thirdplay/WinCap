@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Media;
 using System.Reactive.Linq;
 using System.Windows;
+using WinCap.Utilities.Mvvm;
 
 namespace WinCap.Models
 {
@@ -21,9 +22,14 @@ namespace WinCap.Models
         Wait,
 
         /// <summary>
-        /// キャプチャ
+        /// キャプチャ中
         /// </summary>
-        Capture,
+        DuringCapture,
+
+        /// <summary>
+        /// キャプチャ完了
+        /// </summary>
+        CaptureCompletion,
     }
 
     /// <summary>
@@ -76,13 +82,10 @@ namespace WinCap.Models
         /// </summary>
         public void Initialize()
         {
-            //this.Subscribe(nameof(Status), () => {
-            //    if (this.currentStatus == CaptureServiceStatus.Wait)
-            //    {
-            //        SystemSounds.Asterisk.Play();
-            //    }
-            //}, false)
-            //.AddTo(this);
+            this.ObserveProperty(nameof(this.Status))
+                .Where(_ => this.currentStatus == CaptureServiceStatus.CaptureCompletion)
+                .Subscribe(_ => SystemSounds.Asterisk.Play())
+                .AddTo(this);
         }
 
         /// <summary>
@@ -92,7 +95,7 @@ namespace WinCap.Models
         {
             // 待機状態以外は処理しない
             if (this.Status != CaptureServiceStatus.Wait) return;
-            this.Status = CaptureServiceStatus.Capture;
+            this.Status = CaptureServiceStatus.DuringCapture;
 
             // 画面全体をキャプチャ
             ScreenCapture capture = new ScreenCapture();
@@ -101,6 +104,7 @@ namespace WinCap.Models
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
                 Clipboard.SetDataObject(bitmap, true);
+                this.Status = CaptureServiceStatus.CaptureCompletion;
             }
 
             // 待機状態に戻す
@@ -114,7 +118,7 @@ namespace WinCap.Models
         {
             // 待機状態以外は処理しない
             if (this.Status != CaptureServiceStatus.Wait) return;
-            this.Status = CaptureServiceStatus.Capture;
+            this.Status = CaptureServiceStatus.DuringCapture;
 
             // アクティブウィンドウをキャプチャ
             WindowCapture capture = new WindowCapture();
@@ -123,6 +127,7 @@ namespace WinCap.Models
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
                 Clipboard.SetDataObject(bitmap, true);
+                this.Status = CaptureServiceStatus.CaptureCompletion;
             }
 
             // 待機状態に戻す
@@ -136,7 +141,7 @@ namespace WinCap.Models
         {
             // 待機状態以外は処理しない
             if (this.Status != CaptureServiceStatus.Wait) return;
-            this.Status = CaptureServiceStatus.Capture;
+            this.Status = CaptureServiceStatus.DuringCapture;
 
             // コントロール選択ウィンドウの取得
             var controlSelectWindow = WindowService.Current.GetControlSelectWindow();
@@ -158,6 +163,7 @@ namespace WinCap.Models
                         {
                             // キャプチャした画像をクリップボードに設定
                             Clipboard.SetDataObject(bitmap, true);
+                            this.Status = CaptureServiceStatus.CaptureCompletion;
                         }
                     }
 
@@ -177,7 +183,7 @@ namespace WinCap.Models
         {
             // 待機状態以外は処理しない
             if (this.Status != CaptureServiceStatus.Wait) return;
-            this.Status = CaptureServiceStatus.Capture;
+            this.Status = CaptureServiceStatus.DuringCapture;
 
             // コントロール選択ウィンドウの取得
             var controlSelectWindow = WindowService.Current.GetControlSelectWindow();

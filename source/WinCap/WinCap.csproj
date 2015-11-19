@@ -142,6 +142,7 @@
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="Utilities\Drawing\ScreenExtensions.cs" />
     <Compile Include="Models\Hotkey.cs" />
+    <Compile Include="Utilities\Mvvm\PropertyChangedExtensions.cs" />
     <Compile Include="ViewModels\ControlSelectInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
