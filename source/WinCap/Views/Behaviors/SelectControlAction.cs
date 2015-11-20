@@ -7,7 +7,7 @@ namespace WinCap.Views.Behaviors
     /// <summary>
     /// コントロール選択ウィンドウのメソッドを呼び出すアクション
     /// </summary>
-    public class SelectControlAction : InteractionMessageAction<ControlSelectWindow>
+    public class SelectControlAction : InteractionMessageAction<ControlSelectionWindow>
     {
         /// <summary>
         /// アクション実行

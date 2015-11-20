@@ -4,14 +4,14 @@ using WinCap.Models;
 namespace WinCap.Views
 {
     /// <summary>
-    /// ControlSelectWindow.xaml の相互作用ロジック
+    /// ControlSelectionWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ControlSelectWindow
+    public partial class ControlSelectionWindow
     {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ControlSelectWindow()
+        public ControlSelectionWindow()
         {
             InitializeComponent();
         }

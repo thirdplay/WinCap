@@ -143,7 +143,7 @@
     <Compile Include="Utilities\Drawing\ScreenExtensions.cs" />
     <Compile Include="Models\Hotkey.cs" />
     <Compile Include="Utilities\Mvvm\PropertyChangedExtensions.cs" />
-    <Compile Include="ViewModels\ControlSelectInfoViewModel.cs" />
+    <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SelectControlMessage.cs" />
@@ -163,12 +163,12 @@
     <Compile Include="Utilities\Drawing\BitmapExtensions.cs" />
     <Compile Include="Models\CaptureService.cs" />
     <Compile Include="ResidentIconService.cs" />
-    <Compile Include="ViewModels\ControlSelectWindowViewModel.cs" />
-    <Compile Include="Views\ControlSelectInfo.xaml.cs">
-      <DependentUpon>ControlSelectInfo.xaml</DependentUpon>
+    <Compile Include="ViewModels\ControlSelectionWindowViewModel.cs" />
+    <Compile Include="Views\ControlSelectionInfo.xaml.cs">
+      <DependentUpon>ControlSelectionInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ControlSelectWindow.xaml.cs">
-      <DependentUpon>ControlSelectWindow.xaml</DependentUpon>
+    <Compile Include="Views\ControlSelectionWindow.xaml.cs">
+      <DependentUpon>ControlSelectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Win32\NativeMethods.cs" />
     <Compile Include="Win32\WM.cs" />
@@ -179,11 +179,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ControlSelectInfo.xaml">
+    <Page Include="Views\ControlSelectionInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ControlSelectWindow.xaml">
+    <Page Include="Views\ControlSelectionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

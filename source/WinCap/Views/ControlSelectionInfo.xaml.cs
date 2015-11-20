@@ -3,11 +3,11 @@
 namespace WinCap.Views
 {
     /// <summary>
-    /// ControlSelectInfo.xaml の相互作用ロジック
+    /// ControlSelectionInfo.xaml の相互作用ロジック
     /// </summary>
-    public partial class ControlSelectInfo : UserControl
+    public partial class ControlSelectionInfo : UserControl
     {
-        public ControlSelectInfo()
+        public ControlSelectionInfo()
         {
             InitializeComponent();
         }

@@ -6,7 +6,7 @@ namespace WinCap.ViewModels
     /// <summary>
     /// コントロール選択情報ViewModel
     /// </summary>
-    public class ControlSelectInfoViewModel : ViewModel
+    public class ControlSelectionInfoViewModel : ViewModel
     {
         #region ClassName 変更通知プロパティ
         private string _ClassName;
@@ -49,7 +49,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ControlSelectInfoViewModel()
+        public ControlSelectionInfoViewModel()
         {
         }
     }

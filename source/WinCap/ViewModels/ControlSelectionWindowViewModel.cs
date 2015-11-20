@@ -15,7 +15,7 @@ namespace WinCap.ViewModels
     /// <summary>
     /// コントロール選択ウィンドウViewModel
     /// </summary>
-    public class ControlSelectWindowViewModel : ViewModel
+    public class ControlSelectionWindowViewModel : ViewModel
     {
         #region フィールド
         /// <summary>
@@ -38,15 +38,15 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コントロール選択情報ViewModel
         /// </summary>
-        public ControlSelectInfoViewModel ControlSelectInfo { get; set; }
+        public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
         #endregion
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ControlSelectWindowViewModel()
+        public ControlSelectionWindowViewModel()
         {
-            ControlSelectInfo = new ControlSelectInfoViewModel().AddTo(this);
+            ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
         }
 
         /// <summary>

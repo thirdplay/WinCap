@@ -1,4 +1,4 @@
-﻿<Window x:Class="WinCap.Views.ControlSelectWindow"
+﻿<Window x:Class="WinCap.Views.ControlSelectionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -65,7 +65,7 @@
                 </livet:InteractionMessageTrigger>
             </i:Interaction.Triggers>
         </Rectangle>
-        <views:ControlSelectInfo DataContext="{Binding ControlSelectInfo}">
+        <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}">
             <i:Interaction.Triggers>
                 <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
                                                  MessageKey="ControlSelectInfo.Margin">
@@ -73,9 +73,9 @@
                 </livet:InteractionMessageTrigger>
             </i:Interaction.Triggers>
 
-            <views:ControlSelectInfo.Margin>
+            <views:ControlSelectionInfo.Margin>
                 <Thickness Left="-2500" Top="-1100" />
-            </views:ControlSelectInfo.Margin>
-        </views:ControlSelectInfo>
+            </views:ControlSelectionInfo.Margin>
+        </views:ControlSelectionInfo>
     </Canvas>
 </Window>
