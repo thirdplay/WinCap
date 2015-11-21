@@ -53,7 +53,7 @@ namespace WinCap
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ScreenCapture).Click += (sender, e) => CaptureService.Current.CaptureScreenWhole();
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_ControlCapture).Click += (sender, e) => CaptureService.Current.CaptureSelectControl();
             contextMenuCapture.DropDownItems.Add(Resources.ContextMenu_PageCapture);
-            contextMenu.Items.Add(Resources.ContextMenu_Option);
+            contextMenu.Items.Add(Resources.ContextMenu_Setting).Click += (sender, e) => WindowService.Current.GetSettingWindow().Show();
             contextMenu.Items.Add(Resources.ContextMenu_Help).Click += (sender, e) => CaptureService.Current.CaptureSelectControl();
             contextMenu.Items.Add(Resources.ContextMenu_Exit).Click += (sender, e) => Application.Current.Shutdown();
         }

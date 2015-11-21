@@ -129,14 +129,14 @@
   <data name="ContextMenu_Help" xml:space="preserve">
     <value>ヘルプ(&amp;H)</value>
   </data>
-  <data name="ContextMenu_Option" xml:space="preserve">
-    <value>オプション(&amp;O)</value>
-  </data>
   <data name="ContextMenu_PageCapture" xml:space="preserve">
     <value>ページ全体をキャプチャ(&amp;P)</value>
   </data>
   <data name="ContextMenu_ScreenCapture" xml:space="preserve">
     <value>画面全体をキャプチャ(&amp;S)</value>
+  </data>
+  <data name="ContextMenu_Setting" xml:space="preserve">
+    <value>設定(&amp;S)</value>
   </data>
   <data name="Error_ErrorCaption" xml:space="preserve">
     <value>エラー</value>

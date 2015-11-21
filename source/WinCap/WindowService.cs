@@ -90,23 +90,34 @@ namespace WinCap
         }
 
         /// <summary>
-        /// ウィンドウ生成
+        /// コントロール選択ウィンドウを取得します。
         /// </summary>
-        /// <remarks>
+        /// <returns>選択ウィンドウ</returns>
+        public SettingWindow GetSettingWindow()
+        {
+            string key = nameof(SettingWindow);
+            if (!container.ContainsKey(key))
+            {
+                createWindow<SettingWindow>(key);
+            }
+            return container[key] as SettingWindow;
+        }
+
+        /// <summary>
         /// ウィンドウを生成し、クローズイベントを監視して後片付けをする。
-        /// </remarks>
+        /// </summary>
         /// <param name="key">ウィンドウキー</param>
         /// <param name="dataContext">データコンテキスト</param>
         /// <typeparam name="T">ウィンドウを継承したクラス</typeparam>
-        //private void createWindow<T>(string key, object dataContext = null) where T : Window, new()
-        //{
-        //    container.Add(key, new T() { DataContext = dataContext });
-        //    Observable.FromEventPattern(
-        //        handler => this.container[key].Closed += handler,
-        //        handler => this.container[key].Closed -= handler
-        //    )
-        //    .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
-        //}
+        private void createWindow<T>(string key, object dataContext = null) where T : Window, new()
+        {
+            container.Add(key, new T() { DataContext = dataContext });
+            Observable.FromEventPattern(
+                handler => this.container[key].Closed += handler,
+                handler => this.container[key].Closed -= handler
+            )
+            .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
+        }
 
         #region IDisposableHoloder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;

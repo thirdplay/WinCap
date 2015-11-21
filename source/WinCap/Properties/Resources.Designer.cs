@@ -97,15 +97,6 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   オプション(&amp;O) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ContextMenu_Option {
-            get {
-                return ResourceManager.GetString("ContextMenu_Option", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   ページ全体をキャプチャ(&amp;P) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_PageCapture {
@@ -120,6 +111,15 @@ namespace WinCap.Properties {
         public static string ContextMenu_ScreenCapture {
             get {
                 return ResourceManager.GetString("ContextMenu_ScreenCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   設定(&amp;S) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ContextMenu_Setting {
+            get {
+                return ResourceManager.GetString("ContextMenu_Setting", resourceCulture);
             }
         }
         
