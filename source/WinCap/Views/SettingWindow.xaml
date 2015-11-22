@@ -6,12 +6,11 @@
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
                    xmlns:custom="http://schemes.grabacr.net/winfx/2014/chrome"
                    mc:Ignorable="d"
-                   FontFamily="Segoe UI"
 	               Background="{DynamicResource ThemeBrushKey}"
 	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
                    Title="SettingWindow"
-                   Height="300"
-                   Width="300">
+                   Height="400"
+                   Width="400">
     <metro:MetroWindow.MetroChromeBehavior>
         <custom:MetroChromeBehavior/>
     </metro:MetroWindow.MetroChromeBehavior>
@@ -46,15 +45,10 @@
 					VerticalAlignment="Top" />
             </Grid>
         </Border>
+        <metro:TabView Grid.Row="1" />
         <!--
-        <TabControl Grid.Row="1" Style="{DynamicResource VerticalTabControlStyleKey}" TabStripPlacement="Left">
-            <TabItem Header="TabItem">
-                <Grid />
-            </TabItem>
-            <TabItem Header="TabItem">
-                <Grid />
-            </TabItem>
-        </TabControl>
+        ItemsSource="{Binding TabItems}"
+		SelectedValue="{Binding SelectedItem}"
         -->
     </Grid>
 </metro:MetroWindow>
