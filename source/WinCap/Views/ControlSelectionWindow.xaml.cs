@@ -22,10 +22,10 @@ namespace WinCap.Views
         public event EventHandler<SelectedEventArgs> Selected;
 
         /// <summary>
-        /// コントロールを選択する。
+        /// コントロール選択イベントを呼び出します。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
-        public void Select(IntPtr handle)
+        public void OnSelected(IntPtr handle)
         {
             this.Selected?.Invoke(this, new SelectedEventArgs(handle));
         }

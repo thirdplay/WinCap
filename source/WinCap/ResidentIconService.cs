@@ -45,7 +45,7 @@ namespace WinCap
         public void Initialize()
         {
             // 常駐アイコンの生成
-            this.notifyIcon = new ResidentIcon(Settings.Default.IconUri, Assembly.GetExecutingAssembly().GetName().Name).AddTo(this);
+            this.notifyIcon = new ResidentIcon(Settings.Default.IconUri, ProductInfo.Title).AddTo(this);
 
             // コンテキストメニューの設定
             var contextMenu = this.notifyIcon.ContextMenuStrip;

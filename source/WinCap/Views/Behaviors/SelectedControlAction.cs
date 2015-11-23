@@ -7,7 +7,7 @@ namespace WinCap.Views.Behaviors
     /// <summary>
     /// コントロール選択ウィンドウのメソッドを呼び出すアクション
     /// </summary>
-    public class SelectControlAction : InteractionMessageAction<ControlSelectionWindow>
+    public class SelectedControlAction : InteractionMessageAction<ControlSelectionWindow>
     {
         /// <summary>
         /// アクション実行
@@ -15,10 +15,10 @@ namespace WinCap.Views.Behaviors
         /// <param name="message">メッセージ</param>
         protected override void InvokeAction(InteractionMessage message)
         {
-            var controlSelectMessage = message as SelectControlMessage;
+            var controlSelectMessage = message as SelectedControlMessage;
             if (controlSelectMessage == null) return;
 
-            this.AssociatedObject.Select(controlSelectMessage.Handle);
+            this.AssociatedObject.OnSelected(controlSelectMessage.Handle);
         }
     }
 }

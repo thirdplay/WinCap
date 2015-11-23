@@ -132,6 +132,7 @@
     <Compile Include="Components\ResidentIcon.cs" />
     <Compile Include="Models\HotkeyId.cs" />
     <Compile Include="Models\HotkeyService.cs" />
+    <Compile Include="Models\ProductInfo.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
     <Compile Include="Models\Settings\HotkeySetting.cs" />
@@ -144,14 +145,17 @@
     <Compile Include="Models\Hotkey.cs" />
     <Compile Include="Utilities\Mvvm\PropertyChangedExtensions.cs" />
     <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
+    <Compile Include="ViewModels\Messages\SetVisibilityMessage.cs" />
+    <Compile Include="ViewModels\SettingWindowViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SelectControlMessage.cs" />
     <Compile Include="ViewModels\Messages\SetWindowBoundsMessage.cs" />
     <Compile Include="Views\Behaviors\CallMethodWithArgumentAction.cs" />
-    <Compile Include="Views\Behaviors\SelectControlAction.cs" />
+    <Compile Include="Views\Behaviors\SelectedControlAction.cs" />
     <Compile Include="Views\Behaviors\CloseWindowAction.cs" />
     <Compile Include="Views\Behaviors\SetMarginAction.cs" />
+    <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
     <Compile Include="Views\SettingWindow.xaml.cs">

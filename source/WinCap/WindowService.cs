@@ -29,6 +29,11 @@ namespace WinCap
         /// コントロール選択ウィンドウViewModel
         /// </summary>
         private ControlSelectionWindowViewModel controlSelectWindow;
+
+        /// <summary>
+        /// 設定ウィンドウViewModel
+        /// </summary>
+        private SettingWindowViewModel settingWindow;
         #endregion
 
         #region プロパティ
@@ -49,6 +54,7 @@ namespace WinCap
         public void Initialize()
         {
             controlSelectWindow = new ControlSelectionWindowViewModel().AddTo(this);
+            settingWindow = new SettingWindowViewModel().AddTo(this);
         }
 
         /// <summary>
@@ -79,12 +85,7 @@ namespace WinCap
             string key = nameof(ControlSelectionWindow);
             if (!container.ContainsKey(key))
             {
-                this.container.Add(key, new ControlSelectionWindow() { DataContext = this.controlSelectWindow });
-                Observable.FromEventPattern(
-                    handler => this.container[key].Closed += handler,
-                    handler => this.container[key].Closed -= handler
-                )
-                .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
+                createWindow<ControlSelectionWindow>(key, this.controlSelectWindow);
             }
             return container[key] as ControlSelectionWindow;
         }
@@ -98,7 +99,7 @@ namespace WinCap
             string key = nameof(SettingWindow);
             if (!container.ContainsKey(key))
             {
-                createWindow<SettingWindow>(key);
+                createWindow<SettingWindow>(key, this.settingWindow);
             }
             return container[key] as SettingWindow;
         }

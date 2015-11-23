@@ -25,11 +25,6 @@ namespace WinCap.Models
         /// キャプチャ中
         /// </summary>
         DuringCapture,
-
-        /// <summary>
-        /// キャプチャ完了
-        /// </summary>
-        CaptureCompletion,
     }
 
     /// <summary>
@@ -82,10 +77,10 @@ namespace WinCap.Models
         /// </summary>
         public void Initialize()
         {
-            this.ObserveProperty(nameof(this.Status))
-                .Where(_ => this.currentStatus == CaptureServiceStatus.CaptureCompletion)
-                .Subscribe(_ => SystemSounds.Asterisk.Play())
-                .AddTo(this);
+            //this.ObserveProperty(nameof(this.Status))
+            //    .Where(_ => this.currentStatus == CaptureServiceStatus.CaptureCompletion)
+            //    .Subscribe(_ => SystemSounds.Asterisk.Play())
+            //    .AddTo(this);
         }
 
         /// <summary>
@@ -104,7 +99,6 @@ namespace WinCap.Models
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
                 Clipboard.SetDataObject(bitmap, true);
-                this.Status = CaptureServiceStatus.CaptureCompletion;
             }
 
             // 待機状態に戻す
@@ -127,7 +121,6 @@ namespace WinCap.Models
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
                 Clipboard.SetDataObject(bitmap, true);
-                this.Status = CaptureServiceStatus.CaptureCompletion;
             }
 
             // 待機状態に戻す
@@ -144,10 +137,10 @@ namespace WinCap.Models
             this.Status = CaptureServiceStatus.DuringCapture;
 
             // コントロール選択ウィンドウの取得
-            var controlSelectWindow = WindowService.Current.GetControlSelectWindow();
+            var controlSelectionWindow = WindowService.Current.GetControlSelectWindow();
 
-            var selected = Observable.FromEventPattern<SelectedEventArgs>(controlSelectWindow, nameof(controlSelectWindow.Selected));
-            var closed = Observable.FromEventPattern<EventArgs>(controlSelectWindow, nameof(controlSelectWindow.Closed));
+            var selected = Observable.FromEventPattern<SelectedEventArgs>(controlSelectionWindow, nameof(controlSelectionWindow.Selected));
+            var closed = Observable.FromEventPattern<EventArgs>(controlSelectionWindow, nameof(controlSelectionWindow.Closed));
             IntPtr handle = IntPtr.Zero;
             selected
                 .Do(x => handle = x.EventArgs.Handle)
@@ -163,7 +156,6 @@ namespace WinCap.Models
                         {
                             // キャプチャした画像をクリップボードに設定
                             Clipboard.SetDataObject(bitmap, true);
-                            this.Status = CaptureServiceStatus.CaptureCompletion;
                         }
                     }
 
@@ -173,7 +165,7 @@ namespace WinCap.Models
                 .AddTo(this);
 
             // 選択ウィンドウの表示
-            controlSelectWindow.Show();
+            controlSelectionWindow.Show();
         }
 
         /// <summary>

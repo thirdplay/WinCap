@@ -25,17 +25,17 @@
 
         <i:EventTrigger EventName="MouseMove">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                        MethodName="MouseMove" />
+                                                    MethodName="MouseMove" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseDown">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                        MethodName="MouseDown" />
+                                                    MethodName="MouseDown" />
         </i:EventTrigger>
         
         <i:EventTrigger EventName="KeyDown">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                        MethodName="KeyDown" />
+                                                    MethodName="KeyDown" />
         </i:EventTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
@@ -49,8 +49,8 @@
         </livet:InteractionMessageTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.SelectControl">
-            <behaviors:SelectControlAction />
+										 MessageKey="Window.SelectedControl">
+            <behaviors:SelectedControlAction />
         </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
     <Canvas>
@@ -65,17 +65,19 @@
                 </livet:InteractionMessageTrigger>
             </i:Interaction.Triggers>
         </Rectangle>
-        <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}">
+        <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}"
+                                    Visibility="Hidden">
             <i:Interaction.Triggers>
                 <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-                                                 MessageKey="ControlSelectInfo.Margin">
+                                                 MessageKey="ControlSelectionInfo.Margin">
                     <behaviors:SetMarginAction />
                 </livet:InteractionMessageTrigger>
-            </i:Interaction.Triggers>
 
-            <views:ControlSelectionInfo.Margin>
-                <Thickness Left="-2500" Top="-1100" />
-            </views:ControlSelectionInfo.Margin>
+                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+										         MessageKey="ControlSelectionInfo.Visibility">
+                    <behaviors:SetVisibilityAction />
+                </livet:InteractionMessageTrigger>
+            </i:Interaction.Triggers>
         </views:ControlSelectionInfo>
     </Canvas>
 </Window>

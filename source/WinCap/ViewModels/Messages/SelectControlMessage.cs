@@ -7,7 +7,7 @@ namespace WinCap.ViewModels.Messages
     /// <summary>
     /// 選択メッセージ
     /// </summary>
-    public class SelectControlMessage : InteractionMessage
+    public class SelectedControlMessage : InteractionMessage
     {
         #region Handle 依存関係プロパティ
         /// <summary>
@@ -19,12 +19,12 @@ namespace WinCap.ViewModels.Messages
             set { this.SetValue(HandleProperty, value); }
         }
         public static readonly DependencyProperty HandleProperty =
-            DependencyProperty.Register(nameof(Handle), typeof(IntPtr), typeof(SelectControlMessage), new UIPropertyMetadata(null));
+            DependencyProperty.Register(nameof(Handle), typeof(IntPtr), typeof(SelectedControlMessage), new UIPropertyMetadata(null));
         #endregion
 
         protected override Freezable CreateInstanceCore()
         {
-            return new SelectControlMessage
+            return new SelectedControlMessage
             {
                 MessageKey = this.MessageKey,
                 Handle = this.Handle

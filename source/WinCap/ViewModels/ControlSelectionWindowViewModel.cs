@@ -72,9 +72,15 @@ namespace WinCap.ViewModels
 
             this.ControlSelectInfo.Messenger.Raise(new SetMarginMessage
             {
-                MessageKey = "ControlSelectInfo.Margin",
+                MessageKey = "ControlSelectionInfo.Margin",
                 Left = 12.0,
                 Top = 12.0
+            });
+
+            this.ControlSelectInfo.Messenger.Raise(new SetVisibilityMessage
+            {
+                MessageKey = "ControlSelectionInfo.Visibility",
+                Visibility = Visibility.Visible
             });
         }
 
@@ -114,6 +120,7 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void MouseDown(MouseEventArgs e)
         {
+            e.Handled = true;
             IntPtr handle = IntPtr.Zero;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
@@ -128,6 +135,7 @@ namespace WinCap.ViewModels
         /// <param name="e"></param>
         public void KeyDown(KeyEventArgs e)
         {
+            e.Handled = true;
             executeSelect(IntPtr.Zero);
         }
 
@@ -164,9 +172,9 @@ namespace WinCap.ViewModels
         /// <param name="handle">ハンドル</param>
         private void executeSelect(IntPtr handle)
         {
-            this.Messenger.Raise(new SelectControlMessage
+            this.Messenger.Raise(new SelectedControlMessage
             {
-                MessageKey = "Window.SelectControl",
+                MessageKey = "Window.SelectedControl",
                 Handle = handle
             });
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
