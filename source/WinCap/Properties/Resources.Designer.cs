@@ -61,6 +61,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   基本 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Basic {
+            get {
+                return ResourceManager.GetString("Basic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   キャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_Capture {

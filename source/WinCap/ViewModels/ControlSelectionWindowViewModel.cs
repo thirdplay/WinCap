@@ -1,5 +1,4 @@
 ﻿using Livet;
-using Livet.Messaging;
 using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -177,7 +176,7 @@ namespace WinCap.ViewModels
                 MessageKey = "Window.SelectedControl",
                 Handle = handle
             });
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+            //this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
     }
 }

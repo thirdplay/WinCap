@@ -137,22 +137,16 @@ namespace WinCap.Models
             this.Status = CaptureServiceStatus.DuringCapture;
 
             // コントロール選択ウィンドウの取得
-            var controlSelectionWindow = WindowService.Current.GetControlSelectWindow();
-
-            var selected = Observable.FromEventPattern<SelectedEventArgs>(controlSelectionWindow, nameof(controlSelectionWindow.Selected));
-            var closed = Observable.FromEventPattern<EventArgs>(controlSelectionWindow, nameof(controlSelectionWindow.Closed));
-            IntPtr handle = IntPtr.Zero;
-            selected
-                .Do(x => handle = x.EventArgs.Handle)
-                .TakeUntil(closed)
-                .LastAsync()
-                .Subscribe(_ =>
+            var window = WindowService.Current.GetControlSelectWindow();
+            Observable.FromEventPattern<SelectedEventArgs>(window, nameof(window.Selected))
+                .Subscribe(x =>
                 {
-                    if (handle != IntPtr.Zero)
+                    window.Close();
+                    if (x.EventArgs.Handle != IntPtr.Zero)
                     {
                         // 選択コントロールをキャプチャ
                         WindowCapture capture = new WindowCapture();
-                        using (Bitmap bitmap = capture.Capture(handle))
+                        using (Bitmap bitmap = capture.Capture(x.EventArgs.Handle))
                         {
                             // キャプチャした画像をクリップボードに設定
                             Clipboard.SetDataObject(bitmap, true);
@@ -161,11 +155,10 @@ namespace WinCap.Models
 
                     // 待機状態に戻す
                     this.Status = CaptureServiceStatus.Wait;
-                })
-                .AddTo(this);
+                });
 
             // 選択ウィンドウの表示
-            controlSelectionWindow.Show();
+            window.Show();
         }
 
         /// <summary>
@@ -178,29 +171,22 @@ namespace WinCap.Models
             this.Status = CaptureServiceStatus.DuringCapture;
 
             // コントロール選択ウィンドウの取得
-            var controlSelectWindow = WindowService.Current.GetControlSelectWindow();
-
-            var selected = Observable.FromEventPattern<SelectedEventArgs>(controlSelectWindow, nameof(controlSelectWindow.Selected));
-            var closed = Observable.FromEventPattern<EventArgs>(controlSelectWindow, nameof(controlSelectWindow.Closed));
-            IntPtr handle = IntPtr.Zero;
-            selected
-                .Do(x => handle = x.EventArgs.Handle)
-                .TakeUntil(closed)
-                .LastAsync()
-                .Subscribe(_ =>
+            var window = WindowService.Current.GetControlSelectWindow();
+            Observable.FromEventPattern<SelectedEventArgs>(window, nameof(window.Selected))
+                .Subscribe(x =>
                 {
-                    if (handle != IntPtr.Zero)
+                    window.Close();
+                    if (x.EventArgs.Handle != IntPtr.Zero)
                     {
                         // ブラウザのページ全体をキャプチャ
                     }
 
                     // 待機状態に戻す
                     this.Status = CaptureServiceStatus.Wait;
-                })
-                .AddTo(this);
+                });
 
             // 選択ウィンドウの表示
-            controlSelectWindow.Show();
+            window.Show();
         }
 
         #region IDisposableHoloder members

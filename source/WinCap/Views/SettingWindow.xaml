@@ -53,10 +53,24 @@
 					VerticalAlignment="Top" />
             </Grid>
         </Border>
-        <metro:TabView Grid.Row="1" />
-        <!--
-        ItemsSource="{Binding TabItems}"
-		SelectedValue="{Binding SelectedItem}"
-        -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          PanningMode="Both">
+                <Grid MinWidth="90"
+                      Background="{DynamicResource ActiveBackgroundBrushKey}">
+                    <metro:TabView Grid.Row="1"
+                                   ItemsSource="{Binding TabItems}"
+                                   SelectedValue="{Binding SelectedItem}" />
+
+                </Grid>
+            </ScrollViewer>
+            <Grid Grid.Column="1">
+            </Grid>
+        </Grid>
     </Grid>
 </metro:MetroWindow>

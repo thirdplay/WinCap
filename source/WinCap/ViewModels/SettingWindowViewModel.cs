@@ -1,14 +1,10 @@
 ﻿using Livet;
-using Livet.Messaging;
 using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Input;
+using System.Linq;
 using WinCap.Models;
-using WinCap.Utilities.Drawing;
-using WinCap.ViewModels.Messages;
-using WinCap.Win32;
+using WinCap.ViewModels.Contents;
 
 namespace WinCap.ViewModels
 {
@@ -22,11 +18,48 @@ namespace WinCap.ViewModels
         /// </summary>
         public string Title => ProductInfo.Title;
 
+        #region TanItems ViewModel
+        /// <summary>
+        /// 
+        /// </summary>
+        public BasicViewModel Basic { get; }
+        #endregion
+
+        /// <summary>
+        /// タブ項目
+        /// </summary>
+        public IList<TabItemViewModel> TabItems { get; set; }
+
+        #region SelectedItem 変更通知プロパティ
+        private TabItemViewModel _SelectedItem;
+        /// <summary>
+        /// 選択項目を取得、設定します。
+        /// </summary>
+        public TabItemViewModel SelectedItem
+        {
+            get { return this._SelectedItem; }
+            set
+            {
+                if (this._SelectedItem != value)
+                {
+                    this._SelectedItem = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public SettingWindowViewModel()
         {
+            this.TabItems = new List<TabItemViewModel>
+            {
+                (this.Basic = new BasicViewModel().AddTo(this))
+            };
+            this.SelectedItem = this.TabItems.FirstOrDefault();
         }
 
         /// <summary>
@@ -35,7 +68,6 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
-            Console.WriteLine("SettingWindowViewModel.InitializeSettingWindowViewModel");
         }
     }
 }
