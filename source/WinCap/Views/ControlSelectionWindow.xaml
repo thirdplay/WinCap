@@ -28,9 +28,9 @@
                                                     MethodName="MouseMove" />
         </i:EventTrigger>
 
-        <i:EventTrigger EventName="MouseDown">
+        <i:EventTrigger EventName="MouseUp">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="MouseDown" />
+                                                    MethodName="MouseUp" />
         </i:EventTrigger>
         
         <i:EventTrigger EventName="KeyDown">

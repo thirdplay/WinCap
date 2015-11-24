@@ -113,11 +113,11 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// マウスダウンイベント
+        /// マウスアップイベント
         /// </summary>
         /// <remarks>左クリック押下時のみ選択ウィンドウハンドルを設定する。</remarks>
         /// <param name="e">イベント引数</param>
-        public void MouseDown(MouseEventArgs e)
+        public void MouseUp(MouseEventArgs e)
         {
             e.Handled = true;
             IntPtr handle = IntPtr.Zero;
