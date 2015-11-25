@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WinCap.Properties;
 
 namespace WinCap.ViewModels.Contents
@@ -17,7 +13,7 @@ namespace WinCap.ViewModels.Contents
         /// </summary>
         public override string Name
         {
-            get { return Resources.Basic; }
+            get { return Resources.BasicSetting; }
             protected set{throw new NotImplementedException();}
         }
     }

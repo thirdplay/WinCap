@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Basic" xml:space="preserve">
-    <value>基本</value>
+  <data name="BasicSetting" xml:space="preserve">
+    <value>基本設定</value>
   </data>
   <data name="ContextMenu_Capture" xml:space="preserve">
     <value>キャプチャ(&amp;C)</value>

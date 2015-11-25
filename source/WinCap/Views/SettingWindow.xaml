@@ -8,14 +8,15 @@
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
                    xmlns:custom="http://schemes.grabacr.net/winfx/2014/chrome"
                    mc:Ignorable="d"
+                   d:DataContext="{d:DesignData /SampleData/SettingWindowViewModelSampleData.xaml}"
 	               Background="{DynamicResource ThemeBrushKey}"
 	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
                    Title="{Binding Title}"
                    Height="400"
-                   Width="400">
-    <metro:MetroWindow.MetroChromeBehavior>
-        <custom:MetroChromeBehavior/>
-    </metro:MetroWindow.MetroChromeBehavior>
+                   Width="600">
+    <!--<metro:MetroWindow.MetroChromeBehavior>
+        <custom:MetroChromeBehavior />
+    </metro:MetroWindow.MetroChromeBehavior>-->
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"

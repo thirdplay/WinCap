@@ -61,11 +61,11 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   基本 に類似しているローカライズされた文字列を検索します。
+        ///   基本設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string Basic {
+        public static string BasicSetting {
             get {
-                return ResourceManager.GetString("Basic", resourceCulture);
+                return ResourceManager.GetString("BasicSetting", resourceCulture);
             }
         }
         

@@ -185,10 +185,14 @@
     <DesignData Include="SampleData\ControlSelectInfoViewModelSampleData.xaml">
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="SampleData\ControlSelectWindowViewModelSampleData.xaml">
+    <DesignData Include="SampleData\SettingWindowViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </DesignData>
+    <DesignData Include="SampleData\ControlSelectWindowViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
     <Page Include="Views\ControlSelectionInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
