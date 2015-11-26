@@ -176,6 +176,8 @@ namespace WinCap.ViewModels
                 MessageKey = "Window.SelectedControl",
                 Handle = handle
             });
+            //Application.Current.Dispatcher.Invoke(
+            //    new Action(() => { }), System.Windows.Threading.DispatcherPriority.Background, new object[] { });
             //this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
     }
