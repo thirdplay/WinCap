@@ -29,12 +29,10 @@ namespace WinCap.Components
         /// </summary>
         /// <param name="iconUri">アイコンURI</param>
         /// <param name="text">常駐アイコンのテキスト</param>
-        /// <param name="visible">初期表示状態</param>
-        public ResidentIcon(string iconUri, string text, bool visible = true)
+        public ResidentIcon(string iconUri, string text)
         {
             this.notifyIcon = new System.Windows.Forms.NotifyIcon();
             this.notifyIcon.Icon = new Icon(System.Windows.Application.GetResourceStream(new Uri(iconUri)).Stream);
-            this.notifyIcon.Visible = visible;
             this.notifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
         }
 
