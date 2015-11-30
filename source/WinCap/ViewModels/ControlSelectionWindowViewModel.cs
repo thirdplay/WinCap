@@ -171,14 +171,17 @@ namespace WinCap.ViewModels
         /// <param name="handle">ハンドル</param>
         private void executeSelect(IntPtr handle)
         {
+            // TODO:選択情報、選択範囲の非表示
+            // TODO:UI更新
+            //Application.Current.Dispatcher.Invoke(
+            //    new Action(() => { }), System.Windows.Threading.DispatcherPriority.Background, new object[] { });
+            //this.Messenger.Raise(new InteractionMessage("Window.Close"));
+
             this.Messenger.Raise(new SelectedControlMessage
             {
                 MessageKey = "Window.SelectedControl",
                 Handle = handle
             });
-            //Application.Current.Dispatcher.Invoke(
-            //    new Action(() => { }), System.Windows.Threading.DispatcherPriority.Background, new object[] { });
-            //this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
     }
 }
