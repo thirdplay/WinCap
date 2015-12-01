@@ -1,7 +1,7 @@
 ﻿using System;
 using WinCap.Properties;
 
-namespace WinCap.ViewModels.Contents
+namespace WinCap.ViewModels.Settings
 {
     /// <summary>
     /// 基本項目のためのデータを提供します。

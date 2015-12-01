@@ -1,10 +1,9 @@
 ﻿using Livet;
 using MetroTrilithon.Mvvm;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Models;
-using WinCap.ViewModels.Contents;
+using WinCap.ViewModels.Settings;
 
 namespace WinCap.ViewModels
 {
@@ -20,7 +19,7 @@ namespace WinCap.ViewModels
 
         #region TanItems ViewModel
         /// <summary>
-        /// 
+        /// 基本設定ViewModel
         /// </summary>
         public BasicViewModel Basic { get; }
         #endregion
