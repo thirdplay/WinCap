@@ -161,6 +161,9 @@
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
+    <Compile Include="Views\Settings\Basic.xaml.cs">
+      <DependentUpon>Basic.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
@@ -213,6 +216,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Settings\Basic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
