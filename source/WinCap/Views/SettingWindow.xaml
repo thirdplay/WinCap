@@ -7,6 +7,9 @@
                    xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
                    xmlns:custom="http://schemes.grabacr.net/winfx/2014/chrome"
+                   xmlns:vm="clr-namespace:WinCap.ViewModels"
+                   xmlns:vmSettings="clr-namespace:WinCap.ViewModels.Settings"
+                   xmlns:settings="clr-namespace:WinCap.Views.Settings"
                    mc:Ignorable="d"
                    d:DataContext="{d:DesignData /SampleData/SettingWindowViewModelSampleData.xaml}"
 	               Background="{DynamicResource ThemeBrushKey}"
@@ -71,6 +74,24 @@
                 </Grid>
             </ScrollViewer>
             <Grid Grid.Column="1">
+                <!--<ItemsControl ItemsSource="{Binding TabItems}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:TabItemViewModel}">
+                            <ContentControl Content="{Binding}"
+                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid.Resources>
+                    <DataTemplate DataType="{x:Type vmSettings:BasicViewModel}">
+                        <settings:Basic />
+                    </DataTemplate>
+                </Grid.Resources>-->
             </Grid>
         </Grid>
     </Grid>
