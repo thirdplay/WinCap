@@ -1,13 +1,12 @@
 ﻿using Livet;
-using MetroTrilithon.Lifetime;
-using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
 using System.Reactive.Linq;
 using System.Windows;
-using WinCap.Utilities.Mvvm;
+using WinCap.Utility.Mvvm;
+using WinCap.Utility.Lifetime;
 
 namespace WinCap.Models
 {

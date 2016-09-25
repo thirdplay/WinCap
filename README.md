@@ -12,15 +12,6 @@
 
 以下のライブラリを使用して開発を行っています。
 
-#### [MetroTrilithon](https://github.com/Grabacr07/MetroTrilithon)
-
-> The MIT License (MIT)
-> 
-> Copyright (c) 2015 Manato KAMEYA
-
-* **ライセンス :** The MIT License (MIT)
-* **ライセンス全文 :** [licenses/MetroTrilithon.txt](licenses/MetroTrilithon.txt)
-
 #### [MetroRadiance](https://github.com/Grabacr07/MetroRadiance)
 
 > The MIT License (MIT)

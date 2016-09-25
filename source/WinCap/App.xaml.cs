@@ -1,5 +1,4 @@
 ﻿using Livet;
-using MetroTrilithon.Lifetime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,6 +6,7 @@ using System.IO;
 using System.Windows;
 using WinCap.Models;
 using WinCap.Models.Settings;
+using WinCap.Utility.Lifetime;
 
 namespace WinCap
 {
@@ -35,7 +35,7 @@ namespace WinCap
         protected override void OnStartup(StartupEventArgs e)
         {
             // 多重起動防止チェック
-            var appInstance = new MetroTrilithon.Desktop.ApplicationInstance().AddTo(this);
+            var appInstance = new Utility.Desktop.ApplicationInstance().AddTo(this);
             if (appInstance.IsFirst)
             {
                 //Console.WriteLine("Total Memory = {0} KB", GC.GetTotalMemory(true) / 1024);

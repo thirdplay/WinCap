@@ -1,11 +1,11 @@
 ﻿using Livet;
-using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using WinCap.Models;
-using WinCap.Utilities.Drawing;
+using WinCap.Utility.Drawing;
+using WinCap.Utility.Mvvm;
 using WinCap.ViewModels.Messages;
 using WinCap.Win32;
 

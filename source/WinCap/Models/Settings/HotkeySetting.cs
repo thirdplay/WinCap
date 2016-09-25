@@ -1,6 +1,6 @@
-﻿using MetroTrilithon.Serialization;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using WinCap.Utility.Serialization;
 
 namespace WinCap.Models.Settings
 {

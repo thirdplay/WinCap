@@ -1,12 +1,11 @@
 ﻿using Livet;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Windows;
 using WinCap.Components;
 using WinCap.Properties;
 using WinCap.Models;
-using MetroTrilithon.Lifetime;
+using WinCap.Utility.Lifetime;
 
 namespace WinCap
 {

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace WinCap.Utilities.Mvvm
+namespace WinCap.Utility.Mvvm
 {
     public static class PropertyChangedExtensions
     {

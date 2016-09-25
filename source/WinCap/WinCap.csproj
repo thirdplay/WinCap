@@ -59,14 +59,6 @@
       <HintPath>..\packages\MetroRadiance.Core.2.2.1\lib\net46\MetroRadiance.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MetroTrilithon, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MetroTrilithon.0.2.0\lib\portable-net45+win+wp80+MonoAndroid10+xamarinios10+MonoTouch10\MetroTrilithon.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MetroTrilithon.Desktop, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MetroTrilithon.Desktop.0.2.3\lib\net46\MetroTrilithon.Desktop.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\LivetExtensions.1.1.0.0\lib\net45\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -137,9 +129,7 @@
     <Compile Include="Models\WindowCapture.cs" />
     <Compile Include="Models\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
-    <Compile Include="Utilities\Drawing\ScreenExtensions.cs" />
     <Compile Include="Models\Hotkey.cs" />
-    <Compile Include="Utilities\Mvvm\PropertyChangedExtensions.cs" />
     <Compile Include="ViewModels\Settings\BasicViewModel.cs" />
     <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetVisibilityMessage.cs" />
@@ -167,7 +157,6 @@
     <Compile Include="Win32\RECT.cs" />
     <Compile Include="Win32\TernaryRasterOperations.cs" />
     <Compile Include="WindowService.cs" />
-    <Compile Include="Utilities\Drawing\BitmapExtensions.cs" />
     <Compile Include="Models\CaptureService.cs" />
     <Compile Include="ResidentIconService.cs" />
     <Compile Include="ViewModels\ControlSelectionWindowViewModel.cs" />
@@ -250,7 +239,12 @@
   <ItemGroup>
     <Resource Include="Assets\app.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WinCap.Utility\WinCap.Utility.csproj">
+      <Project>{FD13DB8A-404B-4BD3-9A6C-D6EDF6932555}</Project>
+      <Name>WinCap.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

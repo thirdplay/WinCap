@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WinCap.Utilities.Drawing
+namespace WinCap.Utility.Drawing
 {
     /// <summary>
     /// スクリーンの拡張

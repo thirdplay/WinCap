@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using WinCap.Utilities.Drawing;
+using WinCap.Utility.Drawing;
 using WinCap.Win32;
 
 namespace WinCap.Models

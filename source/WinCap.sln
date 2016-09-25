@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCap", "WinCap\WinCap.csproj", "{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FD13DB8A-404B-4BD3-9A6C-D6EDF6932555} = {FD13DB8A-404B-4BD3-9A6C-D6EDF6932555}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCap.Utility", "WinCap.Utility\WinCap.Utility.csproj", "{FD13DB8A-404B-4BD3-9A6C-D6EDF6932555}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD13DB8A-404B-4BD3-9A6C-D6EDF6932555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD13DB8A-404B-4BD3-9A6C-D6EDF6932555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD13DB8A-404B-4BD3-9A6C-D6EDF6932555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD13DB8A-404B-4BD3-9A6C-D6EDF6932555}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
