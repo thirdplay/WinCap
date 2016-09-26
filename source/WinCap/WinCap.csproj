@@ -115,9 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Components\ResidentIcon.cs" />
+    <Compile Include="Controls\ResidentIcon.cs" />
     <Compile Include="Models\HotkeyId.cs" />
     <Compile Include="Models\HotkeyService.cs" />
+    <Compile Include="Models\ScreenHelper.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="Models\ProductInfo.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
@@ -225,6 +226,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

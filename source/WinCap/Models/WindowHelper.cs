@@ -42,8 +42,8 @@ namespace WinCap.Models
                 }
             } while ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
-            // 先頭の要素（HwndWrapper）は除外
-            list.RemoveAt(0);
+            // クラス名にWinCapを含むウィンドウは除外する
+            list.RemoveAll(x => NativeMethods.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
             return list;
         }
 

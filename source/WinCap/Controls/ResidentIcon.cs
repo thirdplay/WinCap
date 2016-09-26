@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace WinCap.Components
+namespace WinCap.Controls
 {
     /// <summary>
     /// 常駐アイコン

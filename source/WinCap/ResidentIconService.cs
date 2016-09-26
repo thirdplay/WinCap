@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using WinCap.Components;
 using WinCap.Properties;
 using WinCap.Models;
 using WinCap.Utility.Lifetime;
+using WinCap.Controls;
 
 namespace WinCap
 {

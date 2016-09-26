@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using WinCap.Models;
-using WinCap.Utility.Drawing;
 using WinCap.Utility.Mvvm;
 using WinCap.ViewModels.Messages;
 using WinCap.Win32;
@@ -58,7 +57,7 @@ namespace WinCap.ViewModels
             handleList = WindowHelper.GetHandles();
 
             // ウィンドウに画面全体の範囲を設定する
-            System.Drawing.Rectangle screenRect = System.Windows.Forms.Screen.AllScreens.GetBounds();
+            System.Drawing.Rectangle screenRect = ScreenHelper.GetBoundsAll();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
@@ -121,7 +120,7 @@ namespace WinCap.ViewModels
         {
             e.Handled = true;
             IntPtr handle = IntPtr.Zero;
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Released)
             {
                 handle = this.selectControlInfo.Handle;
             }

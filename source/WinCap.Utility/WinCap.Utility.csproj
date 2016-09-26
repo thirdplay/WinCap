@@ -78,7 +78,6 @@
   <ItemGroup>
     <Compile Include="Desktop\ApplicationInstance.cs" />
     <Compile Include="Drawing\BitmapExtensions.cs" />
-    <Compile Include="Drawing\ScreenExtensions.cs" />
     <Compile Include="Lifetime\DisposableExtensions.cs" />
     <Compile Include="Lifetime\IDisposableHolder.cs" />
     <Compile Include="Mvvm\PropertyChangedExtensions.cs" />

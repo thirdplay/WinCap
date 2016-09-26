@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
-using WinCap.Utility.Drawing;
 using WinCap.Win32;
 
 namespace WinCap.Models
@@ -17,7 +15,7 @@ namespace WinCap.Models
         /// <returns>ビットマップ</returns>
         public virtual Bitmap Capture()
         {
-            Rectangle scrRect = Screen.AllScreens.GetBounds();
+            Rectangle scrRect = ScreenHelper.GetBoundsAll();
             return Capture(scrRect.X, scrRect.Y, scrRect.Width, scrRect.Height);
         }
 

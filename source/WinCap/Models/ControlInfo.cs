@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace WinCap.Models
@@ -6,6 +7,7 @@ namespace WinCap.Models
     /// <summary>
     /// コントロール情報
     /// </summary>
+    [DebuggerDisplay("Handle={Handle}, ClassName={ClassName}, Bounds={Bounds}")]
     public class ControlInfo
     {
         /// <summary>

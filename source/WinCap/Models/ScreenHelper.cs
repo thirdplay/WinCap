@@ -2,21 +2,21 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WinCap.Utility.Drawing
+namespace WinCap.Models
 {
     /// <summary>
-    /// スクリーンの拡張
+    /// スクリーンヘルパー
     /// </summary>
-    public static class ScreenExtensions
+    internal static class ScreenHelper
     {
         /// <summary>
-        /// <see cref="screens"/>オブジェクトの範囲を返却する。
+        /// 全てのスクリーンの範囲を返却する。
         /// </summary>
         /// <returns>範囲</returns>
-        public static Rectangle GetBounds(this Screen[] screens)
+        public static Rectangle GetBoundsAll()
         {
             Rectangle bounds = new Rectangle();
-            foreach (Screen screen in screens)
+            foreach (Screen screen in Screen.AllScreens)
             {
                 bounds.X = Math.Min(bounds.X, screen.Bounds.Left);
                 bounds.Y = Math.Min(bounds.Y, screen.Bounds.Top);
