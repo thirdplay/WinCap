@@ -149,6 +149,12 @@
 
 エラーの詳細: {1}</value>
   </data>
+  <data name="HotkeySetting" xml:space="preserve">
+    <value>ホットキー設定</value>
+  </data>
+  <data name="OutputSetting" xml:space="preserve">
+    <value>出力設定</value>
+  </data>
   <data name="SelectInfo_Description" xml:space="preserve">
     <value>左クリックで領域を選択してください。</value>
   </data>

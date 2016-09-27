@@ -158,6 +158,7 @@ namespace WinCap.Models
 
             // 選択ウィンドウの表示
             window.Show();
+            window.Activate();
         }
 
         /// <summary>
@@ -186,6 +187,7 @@ namespace WinCap.Models
 
             // 選択ウィンドウの表示
             window.Show();
+            window.Activate();
         }
 
         #region IDisposableHoloder members

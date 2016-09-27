@@ -1,12 +1,15 @@
 ﻿<viewModels:SettingWindowViewModel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                    xmlns:viewModels="clr-namespace:WinCap.ViewModels"
-                                   xmlns:vmContents="clr-namespace:WinCap.ViewModels.Contents"
+                                   xmlns:settingsVm="clr-namespace:WinCap.ViewModels.Settings"
                                    Title="DesignTitle">
     <viewModels:SettingWindowViewModel.TabItems>
+        <settingsVm:BasicViewModel Name="基本設定" />
+        <!--
         <viewModels:TabItemViewModel Name="基本設定" />
         <viewModels:TabItemViewModel Name="出力設定" />
         <viewModels:TabItemViewModel Name="ホットキー設定" />
         <viewModels:TabItemViewModel Name="バージョン情報" />
+        -->
     </viewModels:SettingWindowViewModel.TabItems>
 </viewModels:SettingWindowViewModel>

@@ -17,9 +17,6 @@
                    Title="{Binding Title}"
                    Height="400"
                    Width="600">
-    <!--<metro:MetroWindow.MetroChromeBehavior>
-        <custom:MetroChromeBehavior />
-    </metro:MetroWindow.MetroChromeBehavior>-->
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
@@ -90,6 +87,12 @@
                 <Grid.Resources>
                     <DataTemplate DataType="{x:Type vmSettings:BasicViewModel}">
                         <settings:Basic />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vmSettings:OutputViewModel}">
+                        <settings:Output />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vmSettings:HotkeyViewModel}">
+                        <settings:Hotkey />
                     </DataTemplate>
                 </Grid.Resources>
             </Grid>

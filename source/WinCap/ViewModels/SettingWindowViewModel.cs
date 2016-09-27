@@ -22,6 +22,16 @@ namespace WinCap.ViewModels
         /// 基本設定ViewModel
         /// </summary>
         public BasicViewModel Basic { get; }
+
+        /// <summary>
+        /// 出力設定ViewModel
+        /// </summary>
+        public OutputViewModel Output { get; }
+
+        /// <summary>
+        /// ホットキー設定ViewModel
+        /// </summary>
+        public HotkeyViewModel Hotkey { get; }
         #endregion
 
         /// <summary>
@@ -56,7 +66,9 @@ namespace WinCap.ViewModels
         {
             this.TabItems = new List<TabItemViewModel>
             {
-                (this.Basic = new BasicViewModel().AddTo(this))
+                (this.Basic = new BasicViewModel().AddTo(this)),
+                (this.Output = new OutputViewModel().AddTo(this)),
+                (this.Hotkey = new HotkeyViewModel().AddTo(this))
             };
             this.SelectedItem = this.TabItems.FirstOrDefault();
         }

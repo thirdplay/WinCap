@@ -153,6 +153,24 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   ホットキー設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HotkeySetting {
+            get {
+                return ResourceManager.GetString("HotkeySetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   出力設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OutputSetting {
+            get {
+                return ResourceManager.GetString("OutputSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   左クリックで領域を選択してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SelectInfo_Description {
