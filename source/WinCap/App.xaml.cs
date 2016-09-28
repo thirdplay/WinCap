@@ -38,6 +38,7 @@ namespace WinCap
             var appInstance = new Utility.Desktop.ApplicationInstance().AddTo(this);
             if (appInstance.IsFirst)
             {
+                //A
                 //Console.WriteLine("Total Memory = {0} KB", GC.GetTotalMemory(true) / 1024);
                 this.DispatcherUnhandledException += (sender, args) =>
                 {
