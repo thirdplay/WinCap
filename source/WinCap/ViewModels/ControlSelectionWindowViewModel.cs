@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using WinCap.Models;
-using WinCap.Utility.Mvvm;
+using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
 using WinCap.Win32;
 

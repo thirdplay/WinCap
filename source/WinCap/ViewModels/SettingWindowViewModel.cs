@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Models;
-using WinCap.Utility.Mvvm;
+using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
 
 namespace WinCap.ViewModels

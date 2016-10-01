@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WinCap.Utility.Lifetime
+namespace WinCap.Util.Lifetime
 {
     public interface IDisposableHolder : IDisposable
     {

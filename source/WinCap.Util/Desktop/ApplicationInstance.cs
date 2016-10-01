@@ -10,7 +10,7 @@ using System.Runtime.Remoting.Lifetime;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
 
-namespace WinCap.Utility.Desktop
+namespace WinCap.Util.Desktop
 {
     /// <summary>
     /// アプリケーションの多重起動の検知と、起動しているインスタンス間でのメッセージの送受信をサポートします。

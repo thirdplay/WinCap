@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Media;
 using System.Reactive.Linq;
 using System.Windows;
-using WinCap.Utility.Mvvm;
-using WinCap.Utility.Lifetime;
+using WinCap.Models;
+using WinCap.Util.Lifetime;
 
-namespace WinCap.Models
+namespace WinCap.Services
 {
     /// <summary>
     /// キャプチャ機能の状態を示す識別子。
@@ -45,11 +44,6 @@ namespace WinCap.Models
 
         #region プロパティ
         /// <summary>
-        /// 現在のサービスを取得します。
-        /// </summary>
-        public static CaptureService Current { get; } = new CaptureService();
-
-        /// <summary>
         /// 現在の状態を取得します。
         /// </summary>
         public CaptureServiceStatus Status
@@ -69,12 +63,7 @@ namespace WinCap.Models
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        private CaptureService() { }
-
-        /// <summary>
-        /// キャプチャ機能を使用できる状態にします。
-        /// </summary>
-        public void Initialize()
+        public CaptureService()
         {
             //this.ObserveProperty(nameof(this.Status))
             //    .Where(_ => this.currentStatus == CaptureServiceStatus.CaptureCompletion)
@@ -85,7 +74,7 @@ namespace WinCap.Models
         /// <summary>
         /// 画面全体をキャプチャします。
         /// </summary>
-        public void CaptureScreenWhole()
+        public void CaptureFullScreen()
         {
             // 待機状態以外は処理しない
             if (this.Status != CaptureServiceStatus.Wait) return;
@@ -105,9 +94,9 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// アクティブウィンドウをキャプチャします。
+        /// アクティブコントロールをキャプチャします。
         /// </summary>
-        public void CaptureActiveWindow()
+        public void CaptureActiveControl()
         {
             // 待機状態以外は処理しない
             if (this.Status != CaptureServiceStatus.Wait) return;
@@ -127,7 +116,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 選択コントロールをキャプチャします。
+        /// 選択したコントロールをキャプチャします。
         /// </summary>
         public void CaptureSelectControl()
         {
@@ -162,7 +151,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// ページ全体をキャプチャします。
+        /// ブラウザのページ全体をキャプチャします。
         /// </summary>
         public void CapturePageWhole()
         {

@@ -1,7 +1,7 @@
 ﻿using Livet;
 using System;
 
-namespace WinCap.Utility.Mvvm
+namespace WinCap.Util.Mvvm
 {
     public static class ViewModelExtensions
     {

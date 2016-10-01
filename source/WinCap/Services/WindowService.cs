@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Livet;
+using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Reactive.Linq;
-using WinCap.Views;
+using System.Windows;
+using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
-using Livet;
-using WinCap.Utility.Lifetime;
+using WinCap.Views;
 
-namespace WinCap
+namespace WinCap.Services
 {
     /// <summary>
     /// 各ウィンドウを取得する機能を提供します。
@@ -46,12 +46,7 @@ namespace WinCap
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        private WindowService() { }
-
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        public void Initialize()
+        private WindowService()
         {
             controlSelectWindow = new ControlSelectionWindowViewModel().AddTo(this);
             settingWindow = new SettingWindowViewModel().AddTo(this);
