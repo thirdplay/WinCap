@@ -10,22 +10,6 @@ using WinCap.Util.Lifetime;
 namespace WinCap.Services
 {
     /// <summary>
-    /// キャプチャ機能の状態を示す識別子。
-    /// </summary>
-    public enum CaptureServiceStatus
-    {
-        /// <summary>
-        /// 待機
-        /// </summary>
-        Wait,
-
-        /// <summary>
-        /// キャプチャ中
-        /// </summary>
-        DuringCapture,
-    }
-
-    /// <summary>
     /// 画面やウィンドウをキャプチャし、クリップボードや画像ファイルに出力する機能を提供します。
     /// </summary>
     public sealed class CaptureService : NotificationObject, IDisposableHolder
@@ -43,6 +27,11 @@ namespace WinCap.Services
         #endregion
 
         #region プロパティ
+        /// <summary>
+        /// 現在のウィンドウサービス
+        /// </summary>
+        public static CaptureService Current { get; } = new CaptureService();
+
         /// <summary>
         /// 現在の状態を取得します。
         /// </summary>
@@ -63,7 +52,7 @@ namespace WinCap.Services
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CaptureService()
+        private CaptureService()
         {
             //this.ObserveProperty(nameof(this.Status))
             //    .Where(_ => this.currentStatus == CaptureServiceStatus.CaptureCompletion)
@@ -190,5 +179,21 @@ namespace WinCap.Services
             this.compositeDisposable.Dispose();
         }
         #endregion
+    }
+
+    /// <summary>
+    /// キャプチャ機能の状態を示す識別子。
+    /// </summary>
+    public enum CaptureServiceStatus
+    {
+        /// <summary>
+        /// 待機
+        /// </summary>
+        Wait,
+
+        /// <summary>
+        /// キャプチャ中
+        /// </summary>
+        DuringCapture,
     }
 }

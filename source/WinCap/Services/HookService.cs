@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Livet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
@@ -10,8 +11,19 @@ namespace WinCap.Services
     /// </summary>
     public class HookService : IDisposable
     {
+        /// <summary>
+        /// ショートカットキー検出器
+        /// </summary>
         private readonly ShortcutKeyDetector _detector = new ShortcutKeyDetector();
+
+        /// <summary>
+        /// フックアクションリスト
+        /// </summary>
         private readonly List<HookAction> _hookActions = new List<HookAction>();
+
+        /// <summary>
+        /// 停止リクエストカウンタ
+        /// </summary>
         private int _suspendRequestCount;
 
         /// <summary>
@@ -24,7 +36,7 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// 
+        /// ショートカットの監視を停止します。
         /// </summary>
         /// <returns></returns>
         public IDisposable Suspend()
@@ -43,10 +55,10 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// 
+        /// ショートカットキーを登録します。
         /// </summary>
-        /// <param name="shortcutKey"></param>
-        /// <param name="action"></param>
+        /// <param name="shortcutKey">ショートカットキー</param>
+        /// <param name="action">実行用メソッド</param>
         /// <returns></returns>
         public IDisposable Register(ShortcutKey shortcutKey, Action action)
         {
@@ -54,11 +66,11 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// 
+        /// ショートカットキーを登録します。
         /// </summary>
-        /// <param name="shortcutKey"></param>
-        /// <param name="action"></param>
-        /// <param name="canExecute"></param>
+        /// <param name="shortcutKey">ショートカットキー</param>
+        /// <param name="action">実行用メソッド</param>
+        /// <param name="canExecute">実行可否判定用メソッド</param>
         /// <returns></returns>
         public IDisposable Register(ShortcutKey shortcutKey, Action action, Func<bool> canExecute)
         {
@@ -69,10 +81,10 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// 
+        /// ショートカットキー検出イベント
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="sender">イベント発生元オブジェクト</param>
+        /// <param name="args">イベント引数</param>
         private void KeyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
         {
             if (args.ShortcutKey == ShortcutKey.None) { return; }
@@ -80,7 +92,7 @@ namespace WinCap.Services
             var target = this._hookActions.FirstOrDefault(x => x.ShortcutKey == args.ShortcutKey);
             if (target != null && target.CanExecute())
             {
-                Application.Current.Dispatcher.Invoke(() => target.Action());
+                DispatcherHelper.UIDispatcher.Invoke(() => target.Action());
                 args.Handled = true;
             }
         }
@@ -104,15 +116,21 @@ namespace WinCap.Services
             public ShortcutKey ShortcutKey { get; }
 
             /// <summary>
-            /// アクション
+            /// 実行用メソッド
             /// </summary>
             public Action Action { get; }
 
             /// <summary>
-            /// 実行可否判定関数
+            /// 実行可否判定用メソッド
             /// </summary>
             public Func<bool> CanExecute { get; }
 
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
+            /// <param name="shortcutKey">ショートカットキー</param>
+            /// <param name="action">実行用メソッド</param>
+            /// <param name="canExecute">実行可否判定用メソッド</param>
             public HookAction(ShortcutKey shortcutKey, Action action, Func<bool> canExecute)
             {
                 this.ShortcutKey = shortcutKey;

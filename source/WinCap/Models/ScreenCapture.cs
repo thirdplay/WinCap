@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using WinCap.Win32;
+using WinCap.Interop;
 
 namespace WinCap.Models
 {

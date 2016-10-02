@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace WinCap.Win32
+namespace WinCap.Interop
 {
     /// <summary>
     /// 矩形構造体

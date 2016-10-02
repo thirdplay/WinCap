@@ -53,25 +53,6 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// メインウィンドウを取得します。
-        /// </summary>
-        /// <returns>メインウィンドウ</returns>
-        public MainWindow GetMainWindow()
-        {
-            string key = nameof(MainWindow);
-            if (!container.ContainsKey(key))
-            {
-                this.container.Add(key, new MainWindow());
-                Observable.FromEventPattern(
-                    handler => this.container[key].Closed += handler,
-                    handler => this.container[key].Closed -= handler
-                )
-                .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
-            }
-            return container[key] as MainWindow;
-        }
-
-        /// <summary>
         /// コントロール選択ウィンドウを取得します。
         /// </summary>
         /// <returns>選択ウィンドウ</returns>

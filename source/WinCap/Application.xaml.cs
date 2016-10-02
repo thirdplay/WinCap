@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using WinCap.Models;
+using WinCap.Serialization;
 using WinCap.Services;
 using WinCap.Util.Lifetime;
 using MenuItem = System.Windows.Forms.MenuItem;
@@ -33,11 +34,6 @@ namespace WinCap
         internal HookService HookService { get; private set; }
 
         /// <summary>
-        /// キャプチャサービス
-        /// </summary>
-        internal CaptureService CaptureService { get; private set; }
-
-        /// <summary>
         /// 静的コンストラクタ
         /// </summary>
         static Application()
@@ -62,15 +58,18 @@ namespace WinCap
                     args.Handled = true;
                 };
 
-                // 設定のロード
-                //SettingsHost.Load();
-                //compositeDisposable.Add(SettingsHost.Save);
+                // UIDispatcherの設定
+                DispatcherHelper.UIDispatcher = this.Dispatcher;
+
+                // ローカル設定の読み込み
+                LocalSettingsProvider.Instance.LoadAsync().Wait();
+                LocalSettingsProvider.Instance.AddTo(this);
 
                 // 各サービスの初期化
                 this.ShowNotifyIcon();
                 this.HookService = new HookService().AddTo(this);
                 WindowService.Current.AddTo(this);
-                this.CaptureService = new CaptureService().AddTo(this);
+                CaptureService.Current.AddTo(this);
                 this.RegisterActions();
 
                 // 親メソッド呼び出し
@@ -117,7 +116,7 @@ namespace WinCap
                     new MenuItem(PropResources.ContextMenu_PageCapture, (sender, args) => MessageBox.Show("PageCaoture"))
                 };
                 menus.Add(new MenuItem(PropResources.ContextMenu_Capture, captureMenus.ToArray()));
-                menus.Add(new MenuItem(PropResources.ContextMenu_Setting, (sender, args) => MessageBox.Show("Setting")));
+                menus.Add(new MenuItem(PropResources.ContextMenu_Setting, (sender, args) => LocalSettingsProvider.Instance.SaveAsync().Wait()).AddTo(this));
                 menus.Add(new MenuItem(PropResources.ContextMenu_Exit, (sender, args) => this.Shutdown()));
                  this._notifyIcon = new System.Windows.Forms.NotifyIcon
                 {
@@ -135,9 +134,18 @@ namespace WinCap
         /// </summary>
         private void RegisterActions()
         {
-            ShortcutKey scKey = new ShortcutKey(System.Windows.Forms.Keys.PrintScreen, System.Windows.Forms.Keys.LControlKey);
+            var settings = Settings.ShortcutKey;
+
             this.HookService
-                .Register(scKey, () => this.CaptureService.CaptureSelectControl())
+                .Register(settings.FullScreen.ToShortcutKey(), () => CaptureService.Current.CaptureFullScreen())
+                .AddTo(this);
+
+            this.HookService
+                .Register(settings.ActiveControl.ToShortcutKey(), () => CaptureService.Current.CaptureActiveControl())
+                .AddTo(this);
+
+            this.HookService
+                .Register(settings.SelectControl.ToShortcutKey(), () => CaptureService.Current.CaptureSelectControl())
                 .AddTo(this);
         }
 

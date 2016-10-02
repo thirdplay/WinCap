@@ -1,4 +1,4 @@
-﻿namespace WinCap.Win32
+﻿namespace WinCap.Interop
 {
     public enum DWMWA : uint
     {

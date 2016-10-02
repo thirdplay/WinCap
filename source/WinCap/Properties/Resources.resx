@@ -129,9 +129,6 @@
   <data name="ContextMenu_Exit" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
-  <data name="ContextMenu_Help" xml:space="preserve">
-    <value>ヘルプ(&amp;H)</value>
-  </data>
   <data name="ContextMenu_PageCapture" xml:space="preserve">
     <value>ページ全体をキャプチャ(&amp;P)</value>
   </data>

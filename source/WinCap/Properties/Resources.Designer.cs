@@ -97,15 +97,6 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   ヘルプ(&amp;H) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ContextMenu_Help {
-            get {
-                return ResourceManager.GetString("ContextMenu_Help", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   ページ全体をキャプチャ(&amp;P) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_PageCapture {

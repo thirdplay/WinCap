@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace WinCap.Win32
+namespace WinCap.Interop
 {
     /// <summary>
     /// ネイティブメソッド

@@ -11,14 +11,28 @@ namespace WinCap.Services
     /// </summary>
     public class ShortcutKeyDetector
     {
+        /// <summary>
+        /// 装飾キーリスト
+        /// </summary>
         private readonly HashSet<Keys> _pressedModifiers = new HashSet<Keys>();
+
+        /// <summary>
+        /// キーボード監視
+        /// </summary>
         private readonly IKeyboardInterceptor _interceptor = new KeyboardInterceptor();
 
+        /// <summary>
+        /// 開始状態
+        /// </summary>
         private bool _started;
+
+        /// <summary>
+        /// 停止状態
+        /// </summary>
         private bool _suspended;
 
         /// <summary>
-        /// Occurs when detects a shortcut key.
+        /// ショートカットキー検出イベント
         /// </summary>
         public event EventHandler<ShortcutKeyPressedEventArgs> Pressed;
 

@@ -40,7 +40,7 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// ショートカットキーの比較
+        /// ショートカットキーの比較。
         /// </summary>
         /// <param name="other">別のショートカットキー</param>
         /// <returns></returns>
@@ -49,9 +49,14 @@ namespace WinCap.Services
             return this == other;
         }
 
+        /// <summary>
+        /// Equalsのオーバーライド。
+        /// </summary>
+        /// <param name="obj">比較対象</param>
+        /// <returns>等価の場合はtrue、それ以外はfalse</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(null, obj)) { return false; }
             return obj is ShortcutKey && this.Equals((ShortcutKey)obj);
         }
 
@@ -69,6 +74,10 @@ namespace WinCap.Services
             }
         }
 
+        /// <summary>
+        /// 文字列に変換します。
+        /// </summary>
+        /// <returns>文字列</returns>
         public override string ToString()
         {
             return (this.ModifiersInternal ?? this.Modifiers ?? Enumerable.Empty<Keys>())
@@ -78,6 +87,12 @@ namespace WinCap.Services
                 .JoinString("");
         }
 
+        /// <summary>
+        /// 等価演算子のオーバーライド。
+        /// </summary>
+        /// <param name="key1">比較対象1</param>
+        /// <param name="key2">比較対象2</param>
+        /// <returns>等価ならtrue、それ以外はfalse</returns>
         public static bool operator ==(ShortcutKey key1, ShortcutKey key2)
         {
             return key1.Key == key2.Key
@@ -86,17 +101,31 @@ namespace WinCap.Services
                        key2.ModifiersInternal ?? key2.Modifiers ?? Array.Empty<Keys>());
         }
 
+        /// <summary>
+        /// 非等価演算子のオーバーライド。
+        /// </summary>
+        /// <param name="key1">比較対象1</param>
+        /// <param name="key2">比較対象2</param>
+        /// <returns>非等価ならtrue、それ以外はfalse</returns>
         public static bool operator !=(ShortcutKey key1, ShortcutKey key2)
         {
             return !(key1 == key2);
         }
 
+        /// <summary>
+        /// ショートカットキーの比較。
+        /// </summary>
+        /// <param name="key1">比較対象1</param>
+        /// <param name="key2">比較対象2</param>
+        /// <returns>等価ならtrue、それ以外はfalse</returns>
         private static bool Equals(ICollection<Keys> key1, ICollection<Keys> key2)
         {
             return key1.Count == key2.Count && !key1.Except(key2).Any();
         }
 
-
+        /// <summary>
+        /// ショートカットキーなしを表す
+        /// </summary>
         public static readonly ShortcutKey None = new ShortcutKey(Keys.None);
     }
 }

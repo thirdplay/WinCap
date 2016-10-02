@@ -1,13 +1,12 @@
 ﻿using Livet;
-using Livet.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
-using WinCap.Win32;
 
 namespace WinCap.ViewModels
 {

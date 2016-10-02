@@ -109,6 +109,13 @@
     </ApplicationDefinition>
     <Compile Include="Controls\ResidentIcon.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
+    <Compile Include="Serialization\SerializationExtensions.cs" />
+    <Compile Include="Serialization\ShortcutkeyProperty.cs" />
+    <Compile Include="Serialization\ShortcutKeySettings.cs" />
+    <Compile Include="Serialization\GeneralSettings.cs" />
+    <Compile Include="Serialization\LocalSettingsProvider.cs" />
+    <Compile Include="Serialization\Settings.cs" />
+    <Compile Include="Serialization\SettingsHost.cs" />
     <Compile Include="Services\HookService.cs" />
     <Compile Include="Services\KeyHelper.cs" />
     <Compile Include="Services\ShortcutKey.cs" />
@@ -154,14 +161,13 @@
     <Compile Include="Views\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Win32\DWMWA.cs" />
-    <Compile Include="Win32\GW.cs" />
-    <Compile Include="Win32\MOD.cs" />
-    <Compile Include="Win32\RECT.cs" />
-    <Compile Include="Win32\TernaryRasterOperations.cs" />
+    <Compile Include="Interop\DWMWA.cs" />
+    <Compile Include="Interop\GW.cs" />
+    <Compile Include="Interop\MOD.cs" />
+    <Compile Include="Interop\RECT.cs" />
+    <Compile Include="Interop\TernaryRasterOperations.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="Services\CaptureService.cs" />
-    <Compile Include="ResidentIconService.cs" />
     <Compile Include="ViewModels\ControlSelectionWindowViewModel.cs" />
     <Compile Include="Views\ControlSelectionInfo.xaml.cs">
       <DependentUpon>ControlSelectionInfo.xaml</DependentUpon>
@@ -169,8 +175,8 @@
     <Compile Include="Views\ControlSelectionWindow.xaml.cs">
       <DependentUpon>ControlSelectionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Win32\NativeMethods.cs" />
-    <Compile Include="Win32\WM.cs" />
+    <Compile Include="Interop\NativeMethods.cs" />
+    <Compile Include="Interop\WM.cs" />
     <DesignData Include="SampleData\ControlSelectInfoViewModelSampleData.xaml">
       <SubType>Designer</SubType>
     </DesignData>
@@ -249,9 +255,7 @@
       <Name>WinCap.Util</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Serialization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
