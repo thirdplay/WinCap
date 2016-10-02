@@ -21,8 +21,8 @@ namespace WinCap.Serialization
             this._provider = provider;
         }
 
-        public SerializablePropertyBase<bool> TestProp1 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
-        public SerializablePropertyBase<bool> TestProp2 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
-        public SerializablePropertyBase<bool> TestProp3 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
+        public SerializableProperty<bool> TestProp1 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
+        public SerializableProperty<bool> TestProp2 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
+        public SerializableProperty<bool> TestProp3 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
     }
 }

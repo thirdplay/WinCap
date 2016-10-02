@@ -25,17 +25,17 @@ namespace WinCap.Serialization
         /// <summary>
         /// 画面全体をキャプチャ
         /// </summary>
-        public ShortcutkeyProperty FullScreen => (ShortcutkeyProperty)this.Cache(key => new ShortcutkeyProperty(key, this._provider, FullScreenDefaultValue));
+        public ShortcutkeyProperty FullScreen => this.Cache(key => new ShortcutkeyProperty(key, this._provider, FullScreenDefaultValue));
 
         /// <summary>
         /// アクティブコントロールをキャプチャ
         /// </summary>
-        public ShortcutkeyProperty ActiveControl => (ShortcutkeyProperty)this.Cache(key => new ShortcutkeyProperty(key, this._provider, ActiveControlDefaultValue));
+        public ShortcutkeyProperty ActiveControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, ActiveControlDefaultValue));
 
         /// <summary>
         /// 選択コントロールをキャプチャ
         /// </summary>
-        public ShortcutkeyProperty SelectControl => (ShortcutkeyProperty)this.Cache(key => new ShortcutkeyProperty(key, this._provider, SelectControlDefaultValue));
+        public ShortcutkeyProperty SelectControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, SelectControlDefaultValue));
 
         #region default values
         private static int[] FullScreenDefaultValue { get; } = {

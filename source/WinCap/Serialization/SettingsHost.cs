@@ -36,18 +36,18 @@ namespace WinCap.Serialization
         /// <summary>
         /// シリアル化プロパティを取得します。
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="create"></param>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
-        protected SerializablePropertyBase<T> Cache<T>(Func<string, SerializablePropertyBase<T>> create, [CallerMemberName] string propertyName = "")
+        /// <typeparam name="T">SerializablePropertyBaseを継承したクラス</typeparam>
+        /// <param name="create">シリアル化プロパティの生成メソッド</param>
+        /// <param name="propertyName">プロパティ名</param>
+        /// <returns>シリアル化プロパティ</returns>
+        protected T Cache<T>(Func<string, T> create, [CallerMemberName] string propertyName = "")
         {
             var key = this.CategoryName + "." + propertyName;
 
             object obj;
-            if (this._cachedProperties.TryGetValue(key, out obj) && obj is SerializablePropertyBase<T>)
+            if (this._cachedProperties.TryGetValue(key, out obj) && obj is T)
             {
-                return (SerializablePropertyBase<T>)obj;
+                return (T)obj;
             }
 
             var property = create(key);

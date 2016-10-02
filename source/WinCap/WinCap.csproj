@@ -125,9 +125,6 @@
     <Compile Include="Models\ProductInfo.cs" />
     <Compile Include="Models\ScreenCapture.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
-    <Compile Include="Models\Settings\HotkeySetting.cs" />
-    <Compile Include="Models\Settings\Providers.cs" />
-    <Compile Include="Models\Settings\SettingsHost.cs" />
     <Compile Include="ViewModels\Settings\HotkeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
