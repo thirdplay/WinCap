@@ -123,12 +123,12 @@
     <Compile Include="Services\ShortcutKeyPressedEventArgs.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="Models\ProductInfo.cs" />
-    <Compile Include="Models\ScreenCapture.cs" />
+    <Compile Include="Capturable\CapturableScreen.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
     <Compile Include="ViewModels\Settings\HotkeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
-    <Compile Include="Models\WindowCapture.cs" />
+    <Compile Include="Capturable\CapturableControl.cs" />
     <Compile Include="Models\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="ViewModels\Settings\BasicViewModel.cs" />

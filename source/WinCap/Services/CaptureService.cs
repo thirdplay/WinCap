@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Reactive.Linq;
 using System.Windows;
+using WinCap.Capturable;
 using WinCap.Models;
 using WinCap.Util.Lifetime;
 
@@ -12,13 +13,23 @@ namespace WinCap.Services
     /// <summary>
     /// 画面やウィンドウをキャプチャし、クリップボードや画像ファイルに出力する機能を提供します。
     /// </summary>
-    public sealed class CaptureService : NotificationObject, IDisposableHolder
+    public sealed class CapturableService : NotificationObject, IDisposableHolder
     {
         #region フィールド
         /// <summary>
         /// 基本CompositeDisposable
         /// </summary>
         private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+
+        /// <summary>
+        /// 画面のキャプチャ機能を提供する
+        /// </summary>
+        private readonly CapturableScreen capturableScreen;
+
+        /// <summary>
+        /// コントロールのキャプチャ機能を提供する
+        /// </summary>
+        private readonly CapturableControl capturableControl;
 
         /// <summary>
         /// 現在の状態
@@ -30,7 +41,7 @@ namespace WinCap.Services
         /// <summary>
         /// 現在のウィンドウサービス
         /// </summary>
-        public static CaptureService Current { get; } = new CaptureService();
+        public static CapturableService Current { get; } = new CapturableService();
 
         /// <summary>
         /// 現在の状態を取得します。
@@ -52,8 +63,10 @@ namespace WinCap.Services
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        private CaptureService()
+        private CapturableService()
         {
+            capturableScreen = new CapturableScreen();
+            capturableControl = new CapturableControl(capturableScreen);
             //this.ObserveProperty(nameof(this.Status))
             //    .Where(_ => this.currentStatus == CaptureServiceStatus.CaptureCompletion)
             //    .Subscribe(_ => SystemSounds.Asterisk.Play())
@@ -70,8 +83,7 @@ namespace WinCap.Services
             this.Status = CaptureServiceStatus.DuringCapture;
 
             // 画面全体をキャプチャ
-            ScreenCapture capture = new ScreenCapture();
-            using (Bitmap bitmap = capture.Capture())
+            using (Bitmap bitmap = capturableScreen.CaptureFullScreen())
             {
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
@@ -92,8 +104,7 @@ namespace WinCap.Services
             this.Status = CaptureServiceStatus.DuringCapture;
 
             // アクティブウィンドウをキャプチャ
-            WindowCapture capture = new WindowCapture();
-            using (Bitmap bitmap = capture.Capture())
+            using (Bitmap bitmap = capturableControl.CaptureActiveControl())
             {
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
@@ -122,8 +133,7 @@ namespace WinCap.Services
                     if (x.EventArgs.Handle != IntPtr.Zero)
                     {
                         // 選択コントロールをキャプチャ
-                        WindowCapture capture = new WindowCapture();
-                        using (Bitmap bitmap = capture.Capture(x.EventArgs.Handle))
+                        using (Bitmap bitmap = capturableControl.CaptureControl(x.EventArgs.Handle))
                         {
                             // キャプチャした画像をクリップボードに設定
                             Clipboard.SetDataObject(bitmap, true);

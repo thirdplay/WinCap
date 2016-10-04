@@ -69,7 +69,7 @@ namespace WinCap
                 this.ShowNotifyIcon();
                 this.HookService = new HookService().AddTo(this);
                 WindowService.Current.AddTo(this);
-                CaptureService.Current.AddTo(this);
+                CapturableService.Current.AddTo(this);
                 this.RegisterActions();
 
                 // 親メソッド呼び出し
@@ -137,15 +137,15 @@ namespace WinCap
             var settings = Settings.ShortcutKey;
 
             this.HookService
-                .Register(settings.FullScreen.ToShortcutKey(), () => CaptureService.Current.CaptureFullScreen())
+                .Register(settings.FullScreen.ToShortcutKey(), () => CapturableService.Current.CaptureFullScreen())
                 .AddTo(this);
 
             this.HookService
-                .Register(settings.ActiveControl.ToShortcutKey(), () => CaptureService.Current.CaptureActiveControl())
+                .Register(settings.ActiveControl.ToShortcutKey(), () => CapturableService.Current.CaptureActiveControl())
                 .AddTo(this);
 
             this.HookService
-                .Register(settings.SelectControl.ToShortcutKey(), () => CaptureService.Current.CaptureSelectControl())
+                .Register(settings.SelectControl.ToShortcutKey(), () => CapturableService.Current.CaptureSelectControl())
                 .AddTo(this);
         }
 

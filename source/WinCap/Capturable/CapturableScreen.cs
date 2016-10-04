@@ -1,41 +1,38 @@
 ﻿using System;
 using System.Drawing;
 using WinCap.Interop;
+using WinCap.Models;
 
-namespace WinCap.Models
+namespace WinCap.Capturable
 {
     /// <summary>
     /// 画面をキャプチャする機能を提供します。
     /// </summary>
-    public class ScreenCapture
+    public class CapturableScreen
     {
         /// <summary>
         /// 画面全体をキャプチャする。
         /// </summary>
         /// <returns>ビットマップ</returns>
-        public virtual Bitmap Capture()
+        public Bitmap CaptureFullScreen()
         {
-            Rectangle scrRect = ScreenHelper.GetBoundsAll();
-            return Capture(scrRect.X, scrRect.Y, scrRect.Width, scrRect.Height);
+            return CaptureBounds(ScreenHelper.GetBoundsAll());
         }
 
         /// <summary>
         /// 指定範囲の画面をキャプチャする。
         /// </summary>
-        /// <param name="x">左上のX座標</param>
-        /// <param name="y">左上のY座標</param>S
-        /// <param name="width">横幅</param>
-        /// <param name="height">高さ</param>
+        /// <param name="bounds">範囲</param>
         /// <returns>ビットマップ</returns>
-        public Bitmap Capture(int x, int y, int width, int height)
+        public Bitmap CaptureBounds(Rectangle bounds)
         {
-            Bitmap bmp = new Bitmap(width, height);
+            Bitmap bmp = new Bitmap(bounds.Width, bounds.Height);
             IntPtr screenDC = NativeMethods.GetDC(IntPtr.Zero);
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 IntPtr hDC = g.GetHdc();
                 NativeMethods.BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
-                    screenDC, x, y, TernaryRasterOperations.SRCCOPY);
+                    screenDC, bounds.X, bounds.Y, TernaryRasterOperations.SRCCOPY);
                 g.ReleaseHdc(hDC);
             }
             NativeMethods.ReleaseDC(IntPtr.Zero, screenDC);
