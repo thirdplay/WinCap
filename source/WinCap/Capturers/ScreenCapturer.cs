@@ -3,12 +3,12 @@ using System.Drawing;
 using WinCap.Interop;
 using WinCap.Models;
 
-namespace WinCap.Capturable
+namespace WinCap.Capturers
 {
     /// <summary>
     /// 画面をキャプチャする機能を提供します。
     /// </summary>
-    public class CapturableScreen
+    public class ScreenCapturer
     {
         /// <summary>
         /// 画面全体をキャプチャする。

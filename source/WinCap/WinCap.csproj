@@ -107,7 +107,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\ResidentIcon.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
     <Compile Include="Serialization\SerializationExtensions.cs" />
     <Compile Include="Serialization\ShortcutkeyProperty.cs" />
@@ -123,12 +122,12 @@
     <Compile Include="Services\ShortcutKeyPressedEventArgs.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="Models\ProductInfo.cs" />
-    <Compile Include="Capturable\CapturableScreen.cs" />
+    <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
     <Compile Include="ViewModels\Settings\HotkeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
-    <Compile Include="Capturable\CapturableControl.cs" />
+    <Compile Include="Capturers\ControlCapturer.cs" />
     <Compile Include="Models\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="ViewModels\Settings\BasicViewModel.cs" />
@@ -164,7 +163,7 @@
     <Compile Include="Interop\RECT.cs" />
     <Compile Include="Interop\TernaryRasterOperations.cs" />
     <Compile Include="Services\WindowService.cs" />
-    <Compile Include="Services\CaptureService.cs" />
+    <Compile Include="Services\CapturableService.cs" />
     <Compile Include="ViewModels\ControlSelectionWindowViewModel.cs" />
     <Compile Include="Views\ControlSelectionInfo.xaml.cs">
       <DependentUpon>ControlSelectionInfo.xaml</DependentUpon>

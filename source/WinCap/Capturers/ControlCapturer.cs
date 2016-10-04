@@ -3,26 +3,17 @@ using System.Drawing;
 using WinCap.Interop;
 using WinCap.Models;
 
-namespace WinCap.Capturable
+namespace WinCap.Capturers
 {
     /// <summary>
     /// コントロールをキャプチャーする機能を提供します。
     /// </summary>
-    public class CapturableControl
+    public class ControlCapturer
     {
         /// <summary>
-        /// 画面をキャプチャする機能
+        /// 画面キャプチャ
         /// </summary>
-        private CapturableScreen _screen;
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="screen">画面キャプチャ</param>
-        public CapturableControl(CapturableScreen screen)
-        {
-            _screen = screen;
-        }
+        private readonly ScreenCapturer _capturer = new ScreenCapturer();
 
         /// <summary>
         /// アクティブなコントロールをキャプチャします。
@@ -40,7 +31,7 @@ namespace WinCap.Capturable
         /// <returns>ビットマップ</returns>
         public Bitmap CaptureControl(IntPtr handle)
         {
-            return _screen.CaptureBounds(WindowHelper.GetWindowBounds(handle));
+            return _capturer.CaptureBounds(WindowHelper.GetWindowBounds(handle));
         }
     }
 }
