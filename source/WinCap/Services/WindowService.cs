@@ -67,9 +67,9 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// コントロール選択ウィンドウを取得します。
+        /// 設定ウィンドウを取得します。
         /// </summary>
-        /// <returns>選択ウィンドウ</returns>
+        /// <returns>設定ウィンドウ</returns>
         public SettingWindow GetSettingWindow()
         {
             string key = nameof(SettingWindow);

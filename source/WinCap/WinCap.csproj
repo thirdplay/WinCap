@@ -107,7 +107,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\ScreenHelper.cs" />
+    <Compile Include="Services\ScreenHelper.cs" />
     <Compile Include="Serialization\SerializationExtensions.cs" />
     <Compile Include="Serialization\ShortcutkeyProperty.cs" />
     <Compile Include="Serialization\ShortcutKeySettings.cs" />
@@ -128,7 +128,7 @@
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
     <Compile Include="Capturers\ControlCapturer.cs" />
-    <Compile Include="Models\WindowHelper.cs" />
+    <Compile Include="Services\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="ViewModels\Settings\BasicViewModel.cs" />
     <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
@@ -184,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Styles\Controls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ControlSelectionInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -8,9 +8,16 @@
              Background="{DynamicResource ThemeBrushKey}"
              Foreground="{DynamicResource ActiveForegroundBrushKey}"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock>
-            <Run Text="Basic"/>
-        </TextBlock>
-    </Grid>
+    <StackPanel>
+        <StackPanel Height="250">
+            <TextBlock>
+                <Run Text="Basic"/>
+            </TextBlock>
+        </StackPanel>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,4">
+            <Button Content="OK" Command="{Binding OkCommand}" MinWidth="90" Margin="4,2" />
+            <Button Content="キャンセル" Command="{Binding CancelCommand}" MinWidth="90" Margin="4,2" />
+        </StackPanel>
+    </StackPanel>
 </UserControl>

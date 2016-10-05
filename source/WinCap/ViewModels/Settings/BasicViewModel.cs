@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Livet.Commands;
+using System;
+using System.Windows.Input;
 using WinCap.Properties;
 
 namespace WinCap.ViewModels.Settings
@@ -16,5 +18,14 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.BasicSetting; }
             protected set{throw new NotImplementedException();}
         }
+
+        public ICommand OkCommand { get; } = new ViewModelCommand(() =>
+        {
+            Console.WriteLine("Ok");
+        });
+        public ICommand CancelCommand { get; } = new ViewModelCommand(() =>
+        {
+            Console.WriteLine("Cancel");
+        });
     }
 }

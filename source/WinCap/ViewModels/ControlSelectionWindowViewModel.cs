@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using WinCap.Interop;
 using WinCap.Models;
+using WinCap.Services;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
 

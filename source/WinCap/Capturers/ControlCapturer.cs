@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using WinCap.Interop;
-using WinCap.Models;
+using WinCap.Services;
 
 namespace WinCap.Capturers
 {

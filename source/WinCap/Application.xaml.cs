@@ -116,9 +116,9 @@ namespace WinCap
                     new MenuItem(PropResources.ContextMenu_PageCapture, (sender, args) => MessageBox.Show("PageCaoture"))
                 };
                 menus.Add(new MenuItem(PropResources.ContextMenu_Capture, captureMenus.ToArray()));
-                menus.Add(new MenuItem(PropResources.ContextMenu_Setting, (sender, args) => LocalSettingsProvider.Instance.SaveAsync().Wait()).AddTo(this));
+                menus.Add(new MenuItem(PropResources.ContextMenu_Setting, (sender, args) => WindowService.Current.GetSettingWindow().Show()));
                 menus.Add(new MenuItem(PropResources.ContextMenu_Exit, (sender, args) => this.Shutdown()));
-                 this._notifyIcon = new System.Windows.Forms.NotifyIcon
+                this._notifyIcon = new System.Windows.Forms.NotifyIcon
                 {
                     Text = ProductInfo.Title,
                     Icon = new System.Drawing.Icon(stream),
