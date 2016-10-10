@@ -4,12 +4,6 @@
     <ResourceDictionary.MergedDictionaries>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type TextBlock}"
-           BasedOn="{StaticResource DefaultTextStyleKey}">
-        <Setter Property="Margin"
-                Value="0,2" />
-    </Style>
-
     <Style x:Key="SettingsHeaderTextStyleKey"
            TargetType="{x:Type TextBlock}"
            BasedOn="{StaticResource HeaderTextStyleKey}">

@@ -27,7 +27,7 @@
         <Setter Property="FontSize"
 				Value="{DynamicResource DefaultFontSizeKey}" />
         <Setter Property="Foreground"
-                Value="{StaticResource ActiveForegroundBrushKey}" />
+                Value="{DynamicResource ActiveForegroundBrushKey}" />
         <Setter Property="TextTrimming"
 				Value="WordEllipsis" />
         <Setter Property="TextWrapping"
@@ -64,24 +64,6 @@
 				Value="{DynamicResource ForegroundBrushKey}" />
         <Setter Property="TextTrimming"
 				Value="WordEllipsis" />
-    </Style>
-
-    <!-- CheckBox -->
-    <Style TargetType="{x:Type CheckBox}"
-           BasedOn="{StaticResource {x:Type CheckBox}}">
-        <Setter Property="FontFamily"
-                Value="{DynamicResource DefaultFontFamilyKey}" />
-        <Setter Property="Foreground"
-				Value="{StaticResource ActiveForegroundBrushKey}" />
-    </Style>
-
-    <!-- RadioButton -->
-    <Style TargetType="{x:Type RadioButton}"
-           BasedOn="{StaticResource {x:Type RadioButton}}">
-        <Setter Property="FontFamily"
-                Value="{DynamicResource DefaultFontFamilyKey}" />
-        <Setter Property="Foreground"
-				Value="{StaticResource ActiveForegroundBrushKey}" />
     </Style>
 
 </ResourceDictionary>

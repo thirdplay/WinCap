@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WinCap.Views.Settings"
+             xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+			 xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
              d:DesignWidth="500" d:DesignHeight="400">
     <UserControl.Resources>
@@ -11,11 +12,71 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Common.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!--<Style TargetType="{x:Type RadioButton}"
+                   BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="Margin"
+                        Value="0,2" />
+            </Style>-->
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock>
-            <Run Text="Output"/>
-        </TextBlock>
+        <TextBlock Text="{x:Static prop:Resources.OurputMethod}"
+                   Style="{DynamicResource SettingsHeaderTextStyleKey}" />
+        <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
+            <RadioButton Content="クリップボード" />
+            <RadioButton Content="画像ファイル" />
+        </StackPanel>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+        <TextBlock Text="出力フォルダ"
+                   Style="{DynamicResource SettingsHeaderTextStyleKey}" />
+        <Grid Style="{DynamicResource SettingsContentPanelStyleKey}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="45" />
+            </Grid.ColumnDefinitions>
+
+            <metro:PromptTextBox Grid.Column="0"
+                                 Prompt="出力フォルダ"
+                                 Text=""
+                                 Margin="2,2" />
+            <Button Grid.Column="1"
+                    Content="選択"
+                    Width="45"
+                    Height="22"
+                    Margin="2,0"/>
+        </Grid>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+        <TextBlock Text="出力ファイル名パターン"
+                   Style="{DynamicResource SettingsHeaderTextStyleKey}" />
+        <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
+            <metro:PromptTextBox Prompt="出力ファイル名パターン"
+                                 Text=""
+                                 Margin="2,2" />
+            <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                <Run Text="凡例:)" />
+            </TextBlock>
+            <StackPanel Margin="20,0,0,0">
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="%y: 年, %m: 月, %d: 日" />
+                </TextBlock>
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="%h: 時, %n: 分, %s: 秒" />
+                </TextBlock>
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="%c: 連番" />
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+        <TextBlock Text="出力形式"
+                   Style="{DynamicResource SettingsHeaderTextStyleKey}" />
+        <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
+            <RadioButton Content="BMP画像ファイル (*.bmp)" />
+            <RadioButton Content="JPEG画像ファイル (*.jpg)" />
+            <RadioButton Content="PNG画像ファイル (*.png)" />
+            <RadioButton Content="GIF画像ファイル (*.gif)" />
+        </StackPanel>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
     </StackPanel>
 </UserControl>

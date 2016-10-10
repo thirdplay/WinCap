@@ -16,8 +16,8 @@
                    Background="{DynamicResource ThemeBrushKey}"
 	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
                    FontFamily="Segoe UI Light, Meiryo UI"
-                   Height="500"
-                   Width="700">
+                   Width="800"
+                   Height="500">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
@@ -57,17 +57,6 @@
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Auto">
                     <settings:General DataContext="{Binding General}" Margin="10,0" />
-                </ScrollViewer>
-            </TabItem>
-
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="{x:Static prop:Resources.CaptureSetting}"
-							   Style="{DynamicResource VerticalTabHeaderTextStyleKey}" />
-                </TabItem.Header>
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                              VerticalScrollBarVisibility="Auto">
-                    <settings:Capture DataContext="{Binding Capture}" Margin="10,0" />
                 </ScrollViewer>
             </TabItem>
 
