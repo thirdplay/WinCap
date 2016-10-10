@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WinCap.Views.Settings
 {
     /// <summary>
-    /// Basic.xaml の相互作用ロジック
+    /// ShortcutKey.xaml の相互作用ロジック
     /// </summary>
-    public partial class Basic : UserControl
+    public partial class ShortcutKey : UserControl
     {
-        public Basic()
+        public ShortcutKey()
         {
             InitializeComponent();
         }

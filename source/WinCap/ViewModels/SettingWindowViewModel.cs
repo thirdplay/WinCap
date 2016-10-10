@@ -1,7 +1,11 @@
 ﻿using Livet;
+using Livet.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using WinCap.Models;
+using WinCap.Properties;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
 
@@ -12,65 +16,53 @@ namespace WinCap.ViewModels
     /// </summary>
     public class SettingWindowViewModel : ViewModel
     {
-        /// <summary>
-        /// タイトル
-        /// </summary>
-        public string Title => ProductInfo.Title;
-
         #region TanItems ViewModel
         /// <summary>
-        /// 基本設定ViewModel
+        /// 一般設定ViewModel
         /// </summary>
-        public BasicViewModel Basic { get; }
+        public GeneralViewModel General { get; } = new GeneralViewModel();
+
+        /// <summary>
+        /// キャプチャー設定ViewModel
+        /// </summary>
+        public CaptureViewModel Capture { get; } = new CaptureViewModel();
 
         /// <summary>
         /// 出力設定ViewModel
         /// </summary>
-        public OutputViewModel Output { get; }
+        public OutputViewModel Output { get; } = new OutputViewModel();
 
         /// <summary>
-        /// ホットキー設定ViewModel
+        /// ショートカットキー設定ViewModel
         /// </summary>
-        public HotkeyViewModel Hotkey { get; }
+        public ShortcutKeyViewModel ShortcutKey { get; } = new ShortcutKeyViewModel();
         #endregion
 
-        /// <summary>
-        /// タブ項目
-        /// </summary>
-        public IList<TabItemViewModel> TabItems { get; set; }
+        //#region SelectedItem 変更通知プロパティ
+        //private TabItemViewModel _SelectedItem;
+        ///// <summary>
+        ///// 選択項目を取得、設定します。
+        ///// </summary>
+        //public TabItemViewModel SelectedItem
+        //{
+        //    get { return this._SelectedItem; }
+        //    set
+        //    {
+        //        if (this._SelectedItem != value)
+        //        {
+        //            this._SelectedItem = value;
+        //            this.RaisePropertyChanged();
+        //        }
+        //    }
+        //}
 
-        #region SelectedItem 変更通知プロパティ
-        private TabItemViewModel _SelectedItem;
-        /// <summary>
-        /// 選択項目を取得、設定します。
-        /// </summary>
-        public TabItemViewModel SelectedItem
-        {
-            get { return this._SelectedItem; }
-            set
-            {
-                if (this._SelectedItem != value)
-                {
-                    this._SelectedItem = value;
-                    this.RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
+        //#endregion
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public SettingWindowViewModel()
         {
-            this.TabItems = new List<TabItemViewModel>
-            {
-                (this.Basic = new BasicViewModel().AddTo(this)),
-                (this.Output = new OutputViewModel().AddTo(this)),
-                (this.Hotkey = new HotkeyViewModel().AddTo(this))
-            };
-            this.SelectedItem = this.TabItems.FirstOrDefault();
         }
 
         /// <summary>
@@ -80,5 +72,14 @@ namespace WinCap.ViewModels
         public void Initialize()
         {
         }
+
+        public ICommand OkCommand { get; } = new ViewModelCommand(() =>
+        {
+            Console.WriteLine("Ok");
+        });
+        public ICommand CancelCommand { get; } = new ViewModelCommand(() =>
+        {
+            Console.WriteLine("Cancel");
+        });
     }
 }

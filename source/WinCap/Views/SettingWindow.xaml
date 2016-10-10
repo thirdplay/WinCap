@@ -6,96 +6,99 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                    xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
-                   xmlns:custom="http://schemes.grabacr.net/winfx/2014/chrome"
+                   xmlns:chrome="http://schemes.grabacr.net/winfx/2014/chrome"
                    xmlns:vm="clr-namespace:WinCap.ViewModels"
                    xmlns:vmSettings="clr-namespace:WinCap.ViewModels.Settings"
                    xmlns:settings="clr-namespace:WinCap.Views.Settings"
+                   xmlns:prop="clr-namespace:WinCap.Properties"
                    mc:Ignorable="d"
-                   d:DataContext="{d:DesignData /SampleData/SettingWindowViewModelSampleData.xaml}"
-	               Background="{DynamicResource ThemeBrushKey}"
+                   Icon="/WinCap;component/assets/app.ico"
+                   Background="{DynamicResource ThemeBrushKey}"
 	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
-                   Title="{Binding Title}"
-                   Height="400"
-                   Width="600">
+                   FontFamily="Segoe UI Light, Meiryo UI"
+                   Height="500"
+                   Width="700">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
 										 MethodName="Initialize" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0"
-                metro:MetroWindow.IsCaptionBar="True">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <metro:CaptionIcon Grid.Column="0">
-                    <Ellipse Width="18"
-                             Height="18"
-                             Fill="{DynamicResource ActiveForegroundBrushKey}" />
-                </metro:CaptionIcon>
-                <TextBlock Grid.Column="1"
-                           Text="{Binding Title}"
-                           TextTrimming="CharacterEllipsis"
-                           Foreground="{DynamicResource ForegroundBrushKey}"
-                           FontFamily="Segoe UI Light"
-                           FontSize="18"
-                           Margin="3,0,0,0"
-                           VerticalAlignment="Center" />
-                <metro:SystemButtons Grid.Column="2"
-					VerticalAlignment="Top" />
-            </Grid>
-        </Border>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <!-- #region Caption area -->
+        <DockPanel Grid.Row="0" metro:MetroWindow.IsCaptionBar="True">
+            <Border DockPanel.Dock="Bottom" Height="8" />
+            <StackPanel DockPanel.Dock="Right"
+						Orientation="Horizontal"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Top"
+						WindowChrome.IsHitTestVisibleInChrome="True">
+                <metro:SystemButtons />
+            </StackPanel>
+            <TextBlock Text="{x:Static prop:Resources.Setting}"
+					   FontSize="18"
+					   Margin="12,8" />
+        </DockPanel>
+        <!-- #endregion  -->
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          PanningMode="Both">
-                <Grid MinWidth="90"
-                      Background="{DynamicResource ActiveBackgroundBrushKey}">
-                    <metro:TabView Grid.Row="1"
-                                   ItemsSource="{Binding TabItems}"
-                                   SelectedValue="{Binding SelectedItem}" />
+        <TabControl Grid.Row="1" DockPanel.Dock="Top" Style="{DynamicResource VerticalTabControlStyleKey}">
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{x:Static prop:Resources.GeneralSetting}"
+							   Style="{DynamicResource VerticalTabHeaderTextStyleKey}" />
+                </TabItem.Header>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto">
+                    <settings:General DataContext="{Binding General}" Margin="10,0" />
+                </ScrollViewer>
+            </TabItem>
 
-                </Grid>
-            </ScrollViewer>
-            <Grid Grid.Column="1">
-                <ItemsControl ItemsSource="{Binding TabItems}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Grid />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:TabItemViewModel}">
-                            <ContentControl Content="{Binding}"
-                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <Grid.Resources>
-                    <DataTemplate DataType="{x:Type vmSettings:BasicViewModel}">
-                        <settings:Basic />
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type vmSettings:OutputViewModel}">
-                        <settings:Output />
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type vmSettings:HotkeyViewModel}">
-                        <settings:Hotkey />
-                    </DataTemplate>
-                </Grid.Resources>
-            </Grid>
-        </Grid>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{x:Static prop:Resources.CaptureSetting}"
+							   Style="{DynamicResource VerticalTabHeaderTextStyleKey}" />
+                </TabItem.Header>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto">
+                    <settings:Capture DataContext="{Binding Capture}" Margin="10,0" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="{x:Static prop:Resources.OutputSetting}"
+                               Style="{DynamicResource VerticalTabHeaderTextStyleKey}"/>
+                </TabItem.Header>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto">
+                    <settings:Output DataContext="{Binding Output}" Margin="10,0" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="ショートカットキー設定"
+                               Style="{DynamicResource VerticalTabHeaderTextStyleKey}"/>
+                </TabItem.Header>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto">
+                    <settings:ShortcutKey DataContext="{Binding ShortcutKey}" Margin="10,0" />
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="2">
+            <!--<Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" VerticalAlignment="Top" />-->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,8,8">
+                <Button Content="OK" Command="{Binding OkCommand}" MinWidth="90" Margin="4,2" />
+                <Button Content="キャンセル" Command="{Binding CancelCommand}" MinWidth="90" Margin="4,2" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </metro:MetroWindow>

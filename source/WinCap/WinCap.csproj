@@ -124,13 +124,14 @@
     <Compile Include="Models\ProductInfo.cs" />
     <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
-    <Compile Include="ViewModels\Settings\HotkeyViewModel.cs" />
+    <Compile Include="ViewModels\Settings\GeneralViewModel.cs" />
+    <Compile Include="ViewModels\Settings\CaptureViewModel.cs" />
+    <Compile Include="ViewModels\Settings\ShortcutKeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
     <Compile Include="Capturers\ControlCapturer.cs" />
     <Compile Include="Services\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
-    <Compile Include="ViewModels\Settings\BasicViewModel.cs" />
     <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetVisibilityMessage.cs" />
     <Compile Include="ViewModels\SettingWindowViewModel.cs" />
@@ -145,14 +146,17 @@
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
-    <Compile Include="Views\Settings\Hotkey.xaml.cs">
-      <DependentUpon>Hotkey.xaml</DependentUpon>
+    <Compile Include="Views\Settings\General.xaml.cs">
+      <DependentUpon>General.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\ShortcutKey.xaml.cs">
+      <DependentUpon>ShortcutKey.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\Output.xaml.cs">
       <DependentUpon>Output.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Settings\Basic.xaml.cs">
-      <DependentUpon>Basic.xaml</DependentUpon>
+    <Compile Include="Views\Settings\Capture.xaml.cs">
+      <DependentUpon>Capture.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
@@ -184,6 +188,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Styles\Controls.TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls.Text.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Controls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -200,7 +212,15 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Settings\Hotkey.xaml">
+    <Page Include="Views\Settings\Common.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\General.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\ShortcutKey.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -208,7 +228,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Settings\Basic.xaml">
+    <Page Include="Views\Settings\Capture.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

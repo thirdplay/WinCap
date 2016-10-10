@@ -70,6 +70,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   キャプチャー設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CaptureSetting {
+            get {
+                return ResourceManager.GetString("CaptureSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   キャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_Capture {
@@ -144,11 +153,29 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   一般設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string GeneralSetting {
+            get {
+                return ResourceManager.GetString("GeneralSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ホットキー設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HotkeySetting {
             get {
                 return ResourceManager.GetString("HotkeySetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   出力方法 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OurputMethod {
+            get {
+                return ResourceManager.GetString("OurputMethod", resourceCulture);
             }
         }
         
@@ -194,6 +221,24 @@ namespace WinCap.Properties {
         public static string SelectInfo_Size {
             get {
                 return ResourceManager.GetString("SelectInfo_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting {
+            get {
+                return ResourceManager.GetString("Setting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   スタートプログラム設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string StartProgramSetting {
+            get {
+                return ResourceManager.GetString("StartProgramSetting", resourceCulture);
             }
         }
     }

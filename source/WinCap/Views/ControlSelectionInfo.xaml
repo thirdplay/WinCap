@@ -8,10 +8,16 @@
              d:DataContext="{d:DesignData /SampleData/ControlSelectInfoViewModelSampleData.xaml}"
              Width="230"
              Height="97"
-             Foreground="White"
-			 Background="#E5000000"
-             FontFamily="Segoe UI">
-    <Grid Margin="8,8,8,8">
+             Foreground="#FFFFFFFF"
+			 Background="#E5000000">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}"
+                   BasedOn="{StaticResource DefaultTextStyleKey}">
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />

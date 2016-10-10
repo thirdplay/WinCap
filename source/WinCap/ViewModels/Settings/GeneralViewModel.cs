@@ -3,9 +3,9 @@
 namespace WinCap.ViewModels.Settings
 {
     /// <summary>
-    /// 出力設定のためのデータを提供します。
+    /// 一般設定のためのデータを提供します。
     /// </summary>
-    public class OutputViewModel : ViewModel
+    public class GeneralViewModel : ViewModel
     {
     }
 }

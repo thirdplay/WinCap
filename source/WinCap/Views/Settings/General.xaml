@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="WinCap.Views.Settings.Output"
+﻿<UserControl x:Class="WinCap.Views.Settings.General"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WinCap.Views.Settings"
+             xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+			 xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
              d:DesignWidth="500" d:DesignHeight="400">
     <UserControl.Resources>
@@ -14,8 +15,11 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock>
-            <Run Text="Output"/>
-        </TextBlock>
+        <TextBlock Text="{x:Static prop:Resources.StartProgramSetting}"
+                   Style="{DynamicResource SettingsHeaderTextStyleKey}"
+                   Margin="0,0,0,8" />
+        <StackPanel Margin="20,-5,0,10" Orientation="Horizontal">
+            <CheckBox Content="スタートアップに登録する" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

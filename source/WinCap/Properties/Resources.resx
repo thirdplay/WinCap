@@ -120,6 +120,9 @@
   <data name="BasicSetting" xml:space="preserve">
     <value>基本設定</value>
   </data>
+  <data name="CaptureSetting" xml:space="preserve">
+    <value>キャプチャー設定</value>
+  </data>
   <data name="ContextMenu_Capture" xml:space="preserve">
     <value>キャプチャ(&amp;C)</value>
   </data>
@@ -146,8 +149,14 @@
 
 エラーの詳細: {1}</value>
   </data>
+  <data name="GeneralSetting" xml:space="preserve">
+    <value>一般設定</value>
+  </data>
   <data name="HotkeySetting" xml:space="preserve">
     <value>ホットキー設定</value>
+  </data>
+  <data name="OurputMethod" xml:space="preserve">
+    <value>出力方法</value>
   </data>
   <data name="OutputSetting" xml:space="preserve">
     <value>出力設定</value>
@@ -163,5 +172,11 @@
   </data>
   <data name="SelectInfo_Size" xml:space="preserve">
     <value>サイズ</value>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="StartProgramSetting" xml:space="preserve">
+    <value>スタートプログラム設定</value>
   </data>
 </root>

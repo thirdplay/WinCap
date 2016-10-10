@@ -4,9 +4,9 @@ using WinCap.Properties;
 namespace WinCap.ViewModels.Settings
 {
     /// <summary>
-    /// ホットキー項目のためのデータを提供します。
+    /// ショートカットキー設定のためのデータを提供します。
     /// </summary>
-    public class HotkeyViewModel : TabItemViewModel
+    public class ShortcutKeyViewModel : TabItemViewModel
     {
         /// <summary>
         /// タブ名称を取得します。

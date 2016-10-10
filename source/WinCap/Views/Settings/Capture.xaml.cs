@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WinCap.Views.Settings
 {
     /// <summary>
-    /// Hotkey.xaml の相互作用ロジック
+    /// Capture.xaml の相互作用ロジック
     /// </summary>
-    public partial class Hotkey : UserControl
+    public partial class Capture : UserControl
     {
-        public Hotkey()
+        public Capture()
         {
             InitializeComponent();
         }
