@@ -34,7 +34,6 @@
         <Grid Style="{DynamicResource SettingsContentPanelStyleKey}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="48" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
@@ -43,48 +42,37 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0"
-                       Grid.Column="0"
-                       Style="{DynamicResource DefaultTextStyleKey}">
-                <Run Text="スクロールの遅延時間" />
-            </TextBlock>
-            <TextBlock Grid.Row="0"
-                       Grid.Column="1"
-                       Style="{DynamicResource DefaultTextStyleKey}">
-                <Run Text=": " />
-            </TextBlock>
-            <metro:PromptTextBox Grid.Row="0"
-                                 Grid.Column="2"
-                                 Prompt=""
-                                 Text="1000"
-                                 Margin="0,2" />
-            <TextBlock Grid.Row="0"
-                       Grid.Column="3"
-                       Text="ms"
-                       Margin="4,0"
-                       Style="{DynamicResource DefaultTextStyleKey}" />
-
-            <TextBlock Grid.Row="1"
-                       Grid.Column="0"
-                       Style="{DynamicResource DefaultTextStyleKey}">
-                <Run Text="キャプチャーの遅延時間" />
-            </TextBlock>
-            <TextBlock Grid.Row="1"
-                       Grid.Column="1"
-                       Style="{DynamicResource DefaultTextStyleKey}">
-                <Run Text=": " />
-            </TextBlock>
-            <metro:PromptTextBox Grid.Row="1"
-                                 Grid.Column="2"
-                                 Prompt=""
-                                 Text="10000"
-                                 Margin="0,2" />
-            <TextBlock Grid.Row="1"
-                       Grid.Column="3"
-                       Style="{DynamicResource DefaultTextStyleKey}"
-                       Margin="4,0">
-                <Run Text="ms" />
-            </TextBlock>
+            <UniformGrid Grid.Column="0"
+                         Columns="1">
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="スクロールの遅延時間" />
+                    <Run Text=": " />
+                </TextBlock>
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="キャプチャーの遅延時間" />
+                    <Run Text=": " />
+                </TextBlock>
+            </UniformGrid>
+            <UniformGrid Grid.Column="1"
+                         Columns="1">
+                <metro:PromptTextBox Prompt=""
+                                     Text="1000"
+                                     Margin="0,2" />
+                <metro:PromptTextBox Prompt=""
+                                     Text="10000"
+                                     Margin="0,2" />
+            </UniformGrid>
+            <UniformGrid Grid.Column="2"
+                         Columns="1">
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
+                           Margin="4,0">
+                    <Run Text="ms" />
+                </TextBlock>
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
+                           Margin="4,0">
+                    <Run Text="ms" />
+                </TextBlock>
+            </UniformGrid>
         </Grid>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
     </StackPanel>

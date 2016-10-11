@@ -14,59 +14,66 @@
         <ResourceDictionary>
             <Style TargetType="{x:Type TextBlock}"
                    BasedOn="{StaticResource DefaultTextStyleKey}">
+                <Setter Property="Margin"
+                        Value="0,1" />
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <StackPanel Margin="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,1">
-            <Run Text="{x:Static prop:Resources.SelectInfo_Name}"/>
-            <Run Text=": "/>
-        </TextBlock>
-        <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,1">
-            <Run Text="{Binding ClassName}"/>
-        </TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,1">
-            <Run Text="{x:Static prop:Resources.SelectInfo_Position}"/>
-            <Run Text=": "/>
-        </TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,1">
-            <TextBlock.Text>
-                <MultiBinding StringFormat="({0},{1})">
-                    <Binding Path="Bounds.X"/>
-                    <Binding Path="Bounds.Y"/>
-                </MultiBinding>
-            </TextBlock.Text>
-        </TextBlock>
-        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,1">
-            <Run Text="{x:Static prop:Resources.SelectInfo_Size}"/>
-            <Run Text=": "/>
-        </TextBlock>
-        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,1">
-            <TextBlock.Text>
-                <MultiBinding StringFormat="({0} x {1})">
-                    <Binding Path="Bounds.Width"/>
-                    <Binding Path="Bounds.Height"/>
-                </MultiBinding>
-            </TextBlock.Text>
-        </TextBlock>
-        <Rectangle Grid.Row="3" Grid.ColumnSpan="2"
-                   Height="1"
-				   Fill="#FFBBBBBB" Margin="0,4" />
-        <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,1">
+            <UniformGrid Grid.Column="0"
+                         Columns="1">
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.SelectInfo_Name}"/>
+                    <Run Text=":"/>
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.SelectInfo_Position}"/>
+                    <Run Text=":"/>
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.SelectInfo_Size}"/>
+                    <Run Text=":"/>
+                </TextBlock>
+            </UniformGrid>
+            <UniformGrid Grid.Column="1"
+                         Columns="1">
+                <TextBlock TextWrapping="NoWrap">
+                    <Run Text="{Binding ClassName}"/>
+                </TextBlock>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="({0},{1})">
+                            <Binding Path="Bounds.X"/>
+                            <Binding Path="Bounds.Y"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="({0} x {1})">
+                            <Binding Path="Bounds.Width"/>
+                            <Binding Path="Bounds.Height"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </UniformGrid>
+        </Grid>
+        <Rectangle Height="1"
+				   Fill="#FFBBBBBB"
+                   Margin="0,4" />
+        <TextBlock>
             <Run Text="{x:Static prop:Resources.SelectInfo_Description}"/>
         </TextBlock>
-    </Grid>
+    </StackPanel>
 </UserControl>

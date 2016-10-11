@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock>
+        <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
             <Run Text="ShortcutKey"/>
         </TextBlock>
     </StackPanel>
