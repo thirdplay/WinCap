@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 			 xmlns:prop="clr-namespace:WinCap.Properties"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignWidth="500"
              d:DesignHeight="400">
     <UserControl.Resources>
@@ -13,16 +13,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Common.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <!--<Style TargetType="{x:Type RadioButton}"
-                   BasedOn="{StaticResource {x:Type RadioButton}}">
-                <Setter Property="Margin"
-                        Value="0,2" />
-            </Style>-->
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock Text="{x:Static prop:Resources.OurputMethod}"
+        <TextBlock Text="{x:Static prop:Resources.Settings_OutputMethod}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
             <RadioButton Content="クリップボード" />

@@ -11,12 +11,12 @@ namespace WinCap.Capturers
     public class ScreenCapturer
     {
         /// <summary>
-        /// 画面全体をキャプチャする。
+        /// デスクトップ全体をキャプチャする。
         /// </summary>
         /// <returns>ビットマップ</returns>
-        public Bitmap CaptureFullScreen()
+        public Bitmap CaptureDesktop()
         {
-            return CaptureBounds(ScreenHelper.GetBoundsAll());
+            return CaptureBounds(ScreenHelper.GetDesktopBounds());
         }
 
         /// <summary>

@@ -117,66 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BasicSetting" xml:space="preserve">
-    <value>基本設定</value>
-  </data>
-  <data name="CaptureSetting" xml:space="preserve">
-    <value>キャプチャー設定</value>
-  </data>
   <data name="ContextMenu_Capture" xml:space="preserve">
     <value>キャプチャ(&amp;C)</value>
   </data>
   <data name="ContextMenu_ControlCapture" xml:space="preserve">
     <value>選択コントロールをキャプチャ(&amp;C)</value>
   </data>
+  <data name="ContextMenu_DesktopCapture" xml:space="preserve">
+    <value>デスクトップ全体をキャプチャ(&amp;D)</value>
+  </data>
   <data name="ContextMenu_Exit" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
-  <data name="ContextMenu_PageCapture" xml:space="preserve">
-    <value>ページ全体をキャプチャ(&amp;P)</value>
-  </data>
-  <data name="ContextMenu_ScreenCapture" xml:space="preserve">
-    <value>画面全体をキャプチャ(&amp;S)</value>
-  </data>
-  <data name="ContextMenu_Setting" xml:space="preserve">
+  <data name="ContextMenu_Settings" xml:space="preserve">
     <value>設定(&amp;S)</value>
   </data>
-  <data name="Error_ErrorCaption" xml:space="preserve">
-    <value>エラー</value>
+  <data name="ContextMenu_WebPageCapture" xml:space="preserve">
+    <value>ウェブページ全体をキャプチャ(&amp;P)</value>
   </data>
-  <data name="Error_SaveSettingFile" xml:space="preserve">
-    <value>設定ファイル ({0}) の保存に失敗しました。
-
-エラーの詳細: {1}</value>
-  </data>
-  <data name="GeneralSetting" xml:space="preserve">
-    <value>一般設定</value>
-  </data>
-  <data name="HotkeySetting" xml:space="preserve">
-    <value>ホットキー設定</value>
-  </data>
-  <data name="OurputMethod" xml:space="preserve">
-    <value>出力方法</value>
-  </data>
-  <data name="OutputSetting" xml:space="preserve">
-    <value>出力設定</value>
-  </data>
-  <data name="SelectInfo_Description" xml:space="preserve">
+  <data name="ControlSelectionInfo_Description" xml:space="preserve">
     <value>左クリックで領域を選択してください。</value>
   </data>
-  <data name="SelectInfo_Name" xml:space="preserve">
+  <data name="ControlSelectionInfo_Name" xml:space="preserve">
     <value>名前</value>
   </data>
-  <data name="SelectInfo_Position" xml:space="preserve">
+  <data name="ControlSelectionInfo_Position" xml:space="preserve">
     <value>座標</value>
   </data>
-  <data name="SelectInfo_Size" xml:space="preserve">
+  <data name="ControlSelectionInfo_Size" xml:space="preserve">
     <value>サイズ</value>
   </data>
-  <data name="Setting" xml:space="preserve">
+  <data name="Settings" xml:space="preserve">
     <value>設定</value>
   </data>
-  <data name="StartProgramSetting" xml:space="preserve">
+  <data name="Settings_Capture" xml:space="preserve">
+    <value>キャプチャ設定</value>
+  </data>
+  <data name="Settings_General" xml:space="preserve">
+    <value>一般設定</value>
+  </data>
+  <data name="Settings_Output" xml:space="preserve">
+    <value>出力設定</value>
+  </data>
+  <data name="Settings_OutputMethod" xml:space="preserve">
+    <value>出力方法</value>
+  </data>
+  <data name="Settings_ShortcutKey" xml:space="preserve">
+    <value>ショートカットキー設定</value>
+  </data>
+  <data name="Settings_StartProgram" xml:space="preserve">
     <value>スタートプログラム設定</value>
   </data>
 </root>

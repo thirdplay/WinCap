@@ -100,8 +100,9 @@ namespace WinCap
         /// </summary>
         private void ShowNotifyIcon()
         {
+            const string iconUri = "pack://application:,,,/WinCap;component/Assets/app.ico";
             Uri uri;
-            if (!Uri.TryCreate(WinCap.Properties.Settings.Default.IconUri, UriKind.Absolute, out uri)) return;
+            if (!Uri.TryCreate(iconUri, UriKind.Absolute, out uri)) return;
 
             var streamResourceInfo = GetResourceStream(uri);
             if (streamResourceInfo == null) return;
@@ -111,12 +112,12 @@ namespace WinCap
                 var menus = new List<MenuItem>();
                 var captureMenus = new List<MenuItem>()
                 {
-                    new MenuItem(PropResources.ContextMenu_ScreenCapture, (sender, args) => MessageBox.Show("ScreenCapture")),
+                    new MenuItem(PropResources.ContextMenu_DesktopCapture, (sender, args) => MessageBox.Show("ScreenCapture")),
                     new MenuItem(PropResources.ContextMenu_ControlCapture, (sender, args) => MessageBox.Show("ControlCapture")),
-                    new MenuItem(PropResources.ContextMenu_PageCapture, (sender, args) => MessageBox.Show("PageCaoture"))
+                    new MenuItem(PropResources.ContextMenu_WebPageCapture, (sender, args) => MessageBox.Show("PageCaoture"))
                 };
                 menus.Add(new MenuItem(PropResources.ContextMenu_Capture, captureMenus.ToArray()));
-                menus.Add(new MenuItem(PropResources.ContextMenu_Setting, (sender, args) => WindowService.Current.GetSettingWindow().Show()));
+                menus.Add(new MenuItem(PropResources.ContextMenu_Settings, (sender, args) => WindowService.Current.GetSettingsWindow().Show()));
                 menus.Add(new MenuItem(PropResources.ContextMenu_Exit, (sender, args) => this.Shutdown()));
                 this._notifyIcon = new System.Windows.Forms.NotifyIcon
                 {
@@ -137,7 +138,7 @@ namespace WinCap
             var settings = Settings.ShortcutKey;
 
             this.HookService
-                .Register(settings.FullScreen.ToShortcutKey(), () => CapturableService.Current.CaptureFullScreen())
+                .Register(settings.FullScreen.ToShortcutKey(), () => CapturableService.Current.CaptureDesktop())
                 .AddTo(this);
 
             this.HookService

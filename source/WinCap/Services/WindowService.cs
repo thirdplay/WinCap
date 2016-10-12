@@ -70,14 +70,14 @@ namespace WinCap.Services
         /// 設定ウィンドウを取得します。
         /// </summary>
         /// <returns>設定ウィンドウ</returns>
-        public SettingWindow GetSettingWindow()
+        public SettingsWindow GetSettingsWindow()
         {
-            string key = nameof(SettingWindow);
+            string key = nameof(SettingsWindow);
             if (!container.ContainsKey(key))
             {
-                createWindow<SettingWindow>(key, this.settingWindow);
+                createWindow<SettingsWindow>(key, this.settingWindow);
             }
-            return container[key] as SettingWindow;
+            return container[key] as SettingsWindow;
         }
 
         /// <summary>

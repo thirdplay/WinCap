@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock Text="{x:Static prop:Resources.StartProgramSetting}"
+        <TextBlock Text="{x:Static prop:Resources.Settings_StartProgram}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}"
                    Margin="0,0,0,8" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -114,5 +115,68 @@ namespace WinCap.Interop
         /// <returns>成功すると1、失敗すると0が返ります。</returns>
         [DllImport("user32.dll")]
         public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        /// <summary>
+        /// システム全体で一意であることが保証される、1 つの新しいウィンドウメッセージを定義します。
+        /// </summary>
+        /// <param name="lpString">メッセージ文字列</param>
+        /// <returns>成功した場合、0xC000~0xFFFのメッセージ識別子</returns>
+        [DllImport("user32.dll")]
+        public static extern uint RegisterWindowMessage(string lpString);
+
+        /// <summary>
+        /// 指定されたメッセージを、1 つまたは複数のウィンドウへ送信します。
+        /// </summary>
+        /// <param name="hWnd">ウィンドウハンドル</param>
+        /// <param name="Msg">メッセージ</param>
+        /// <param name="wParam">メッセージ特有の追加情報</param>
+        /// <param name="lParam">メッセージ特有の追加情報</param>
+        /// <param name="fuFlags">メッセージ送信方法</param>
+        /// <param name="uTimeout">タイムアウト期間（ミリ秒）</param>
+        /// <param name="lpdwResult">メッセージ処理結果</param>
+        /// <returns>成功なら0以外</returns>
+        [DllImport("user32.dll")]
+        public static extern int SendMessageTimeout(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam, uint fuFlags, uint uTimeout, ref UIntPtr lpdwResult);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lResult"></param>
+        /// <param name="riid">GUID</param>
+        /// <param name="wParam">メッセージ特有の追加情報</param>
+        /// <param name="ppvObject"></param>
+        /// <returns></returns>
+        [DllImport("oleacc.dll")]
+        public static extern int ObjectFromLresult(UIntPtr lResult, ref Guid riid, Int32 wParam, ref MSHTML.IHTMLDocument2 ppvObject);
+
+        /// <summary>
+        /// 指定ウィンドウハンドルの範囲を取得します。
+        /// </summary>
+        /// <param name="handle">ウィンドウハンドル</param>
+        /// <returns>ウィンドウの範囲</returns>
+        public static Rectangle GetWindowBounds(IntPtr handle)
+        {
+            // Vista以降の場合、DWMでウィンドウサイズを取得
+            RECT rect = new RECT();
+            if (Environment.OSVersion.Version.Major >= 6)
+            {
+                if (NativeMethods.DwmGetWindowAttribute(handle, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(RECT))) == 0)
+                {
+                    Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+                    if (rectangle.Width > 0 && rectangle.Height > 0)
+                    {
+                        return rectangle;
+                    }
+                }
+            }
+
+            // ウィンドウサイズの取得
+            if (NativeMethods.GetWindowRect(handle, ref rect) != 0)
+            {
+                return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+            }
+            return Rectangle.Empty;
+        }
     }
 }

@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WinCap.Views.Settings"
-             mc:Ignorable="d" 
-             d:DesignWidth="500" d:DesignHeight="400">
+             xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+			 xmlns:prop="clr-namespace:WinCap.Properties"
+             mc:Ignorable="d"
+             d:DesignWidth="500"
+             d:DesignHeight="400">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,8 +16,49 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-            <Run Text="ShortcutKey"/>
-        </TextBlock>
+        <TextBlock Text="スクリーンキャプチャ"
+                   Style="{DynamicResource SettingsHeaderTextStyleKey}" />
+        <Grid Style="{DynamicResource SettingsContentPanelStyleKey}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <UniformGrid Grid.Column="0"
+                         Columns="1">
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="デスクトップ全体をキャプチャ" />
+                    <Run Text=": " />
+                </TextBlock>
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="アクティブコントロールをキャプチャ" />
+                    <Run Text=": " />
+                </TextBlock>
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="選択コントロールをキャプチャ" />
+                    <Run Text=": " />
+                </TextBlock>
+                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                    <Run Text="ウェブページ全体をキャプチャ" />
+                    <Run Text=": " />
+                </TextBlock>
+            </UniformGrid>
+
+            <UniformGrid Grid.Column="1"
+                         Columns="1">
+                <metro:PromptTextBox Prompt=""
+                                     Text=""
+                                     Margin="2,2" />
+                <metro:PromptTextBox Prompt=""
+                                     Text=""
+                                     Margin="2,2" />
+                <metro:PromptTextBox Prompt=""
+                                     Text=""
+                                     Margin="2,2" />
+                <metro:PromptTextBox Prompt=""
+                                     Text=""
+                                     Margin="2,2" />
+            </UniformGrid>
+        </Grid>
     </StackPanel>
 </UserControl>

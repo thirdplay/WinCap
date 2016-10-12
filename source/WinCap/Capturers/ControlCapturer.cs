@@ -31,7 +31,7 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public Bitmap CaptureControl(IntPtr handle)
         {
-            return _capturer.CaptureBounds(WindowHelper.GetWindowBounds(handle));
+            return _capturer.CaptureBounds(NativeMethods.GetWindowBounds(handle));
         }
     }
 }

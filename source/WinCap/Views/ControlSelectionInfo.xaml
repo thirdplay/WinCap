@@ -6,10 +6,10 @@
              xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignData /SampleData/ControlSelectInfoViewModelSampleData.xaml}"
-             Width="230"
-             Height="97"
+             Width="240"
+             Height="100"
              Foreground="#FFFFFFFF"
-			 Background="#E5000000">
+			 Background="{DynamicResource BackgroundBrushKey}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type TextBlock}"
@@ -19,61 +19,64 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel Margin="8">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="48" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <Border BorderThickness="1"
+            BorderBrush="{DynamicResource BorderBrushKey}">
+        <StackPanel Margin="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <UniformGrid Grid.Column="0"
-                         Columns="1">
-                <TextBlock>
-                    <Run Text="{x:Static prop:Resources.SelectInfo_Name}"/>
-                    <Run Text=":"/>
-                </TextBlock>
-                <TextBlock>
-                    <Run Text="{x:Static prop:Resources.SelectInfo_Position}"/>
-                    <Run Text=":"/>
-                </TextBlock>
-                <TextBlock>
-                    <Run Text="{x:Static prop:Resources.SelectInfo_Size}"/>
-                    <Run Text=":"/>
-                </TextBlock>
-            </UniformGrid>
-            <UniformGrid Grid.Column="1"
-                         Columns="1">
-                <TextBlock TextWrapping="NoWrap">
-                    <Run Text="{Binding ClassName}"/>
-                </TextBlock>
-                <TextBlock>
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="({0},{1})">
-                            <Binding Path="Bounds.X"/>
-                            <Binding Path="Bounds.Y"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <TextBlock>
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="({0} x {1})">
-                            <Binding Path="Bounds.Width"/>
-                            <Binding Path="Bounds.Height"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-            </UniformGrid>
-        </Grid>
-        <Rectangle Height="1"
-				   Fill="#FFBBBBBB"
-                   Margin="0,4" />
-        <TextBlock>
-            <Run Text="{x:Static prop:Resources.SelectInfo_Description}"/>
-        </TextBlock>
-    </StackPanel>
+                <UniformGrid Grid.Column="0"
+                             Columns="1">
+                    <TextBlock>
+                        <Run Text="{x:Static prop:Resources.ControlSelectionInfo_Name}"/>
+                        <Run Text=":"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="{x:Static prop:Resources.ControlSelectionInfo_Position}"/>
+                        <Run Text=":"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="{x:Static prop:Resources.ControlSelectionInfo_Size}"/>
+                        <Run Text=":"/>
+                    </TextBlock>
+                </UniformGrid>
+                <UniformGrid Grid.Column="1"
+                             Columns="1">
+                    <TextBlock TextWrapping="NoWrap">
+                        <Run Text="{Binding ClassName}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="({0},{1})">
+                                <Binding Path="Bounds.X"/>
+                                <Binding Path="Bounds.Y"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="({0} x {1})">
+                                <Binding Path="Bounds.Width"/>
+                                <Binding Path="Bounds.Height"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </UniformGrid>
+            </Grid>
+            <Rectangle Height="1"
+				       Style="{DynamicResource SeparatorRectangleStyleKey}"
+                       Margin="0,4" />
+            <TextBlock>
+                <Run Text="{x:Static prop:Resources.ControlSelectionInfo_Description}"/>
+            </TextBlock>
+        </StackPanel>
+    </Border>
 </UserControl>

@@ -61,24 +61,6 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   基本設定 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string BasicSetting {
-            get {
-                return ResourceManager.GetString("BasicSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   キャプチャー設定 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CaptureSetting {
-            get {
-                return ResourceManager.GetString("CaptureSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   キャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_Capture {
@@ -97,6 +79,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   デスクトップ全体をキャプチャ(&amp;D) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ContextMenu_DesktopCapture {
+            get {
+                return ResourceManager.GetString("ContextMenu_DesktopCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   終了(&amp;X) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_Exit {
@@ -106,139 +97,119 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   ページ全体をキャプチャ(&amp;P) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ContextMenu_PageCapture {
-            get {
-                return ResourceManager.GetString("ContextMenu_PageCapture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   画面全体をキャプチャ(&amp;S) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ContextMenu_ScreenCapture {
-            get {
-                return ResourceManager.GetString("ContextMenu_ScreenCapture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   設定(&amp;S) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ContextMenu_Setting {
+        public static string ContextMenu_Settings {
             get {
-                return ResourceManager.GetString("ContextMenu_Setting", resourceCulture);
+                return ResourceManager.GetString("ContextMenu_Settings", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   エラー に類似しているローカライズされた文字列を検索します。
+        ///   ウェブページ全体をキャプチャ(&amp;P) に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string Error_ErrorCaption {
+        public static string ContextMenu_WebPageCapture {
             get {
-                return ResourceManager.GetString("Error_ErrorCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   設定ファイル ({0}) の保存に失敗しました。
-        ///
-        ///エラーの詳細: {1} に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Error_SaveSettingFile {
-            get {
-                return ResourceManager.GetString("Error_SaveSettingFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   一般設定 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string GeneralSetting {
-            get {
-                return ResourceManager.GetString("GeneralSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   ホットキー設定 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string HotkeySetting {
-            get {
-                return ResourceManager.GetString("HotkeySetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   出力方法 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string OurputMethod {
-            get {
-                return ResourceManager.GetString("OurputMethod", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   出力設定 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string OutputSetting {
-            get {
-                return ResourceManager.GetString("OutputSetting", resourceCulture);
+                return ResourceManager.GetString("ContextMenu_WebPageCapture", resourceCulture);
             }
         }
         
         /// <summary>
         ///   左クリックで領域を選択してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SelectInfo_Description {
+        public static string ControlSelectionInfo_Description {
             get {
-                return ResourceManager.GetString("SelectInfo_Description", resourceCulture);
+                return ResourceManager.GetString("ControlSelectionInfo_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   名前 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SelectInfo_Name {
+        public static string ControlSelectionInfo_Name {
             get {
-                return ResourceManager.GetString("SelectInfo_Name", resourceCulture);
+                return ResourceManager.GetString("ControlSelectionInfo_Name", resourceCulture);
             }
         }
         
         /// <summary>
         ///   座標 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SelectInfo_Position {
+        public static string ControlSelectionInfo_Position {
             get {
-                return ResourceManager.GetString("SelectInfo_Position", resourceCulture);
+                return ResourceManager.GetString("ControlSelectionInfo_Position", resourceCulture);
             }
         }
         
         /// <summary>
         ///   サイズ に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SelectInfo_Size {
+        public static string ControlSelectionInfo_Size {
             get {
-                return ResourceManager.GetString("SelectInfo_Size", resourceCulture);
+                return ResourceManager.GetString("ControlSelectionInfo_Size", resourceCulture);
             }
         }
         
         /// <summary>
         ///   設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string Setting {
+        public static string Settings {
             get {
-                return ResourceManager.GetString("Setting", resourceCulture);
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   キャプチャ設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Capture {
+            get {
+                return ResourceManager.GetString("Settings_Capture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   一般設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_General {
+            get {
+                return ResourceManager.GetString("Settings_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   出力設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Output {
+            get {
+                return ResourceManager.GetString("Settings_Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   出力方法 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputMethod {
+            get {
+                return ResourceManager.GetString("Settings_OutputMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ショートカットキー設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ShortcutKey {
+            get {
+                return ResourceManager.GetString("Settings_ShortcutKey", resourceCulture);
             }
         }
         
         /// <summary>
         ///   スタートプログラム設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string StartProgramSetting {
+        public static string Settings_StartProgram {
             get {
-                return ResourceManager.GetString("StartProgramSetting", resourceCulture);
+                return ResourceManager.GetString("Settings_StartProgram", resourceCulture);
             }
         }
     }

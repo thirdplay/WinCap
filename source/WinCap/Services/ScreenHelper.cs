@@ -10,10 +10,10 @@ namespace WinCap.Services
     internal static class ScreenHelper
     {
         /// <summary>
-        /// 全てのスクリーンの範囲を返却する。
+        /// デスクトップ全体の範囲を返却します。
         /// </summary>
         /// <returns>範囲</returns>
-        public static Rectangle GetBoundsAll()
+        public static Rectangle GetDesktopBounds()
         {
             Rectangle bounds = new Rectangle();
             foreach (Screen screen in Screen.AllScreens)
