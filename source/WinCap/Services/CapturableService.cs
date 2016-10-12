@@ -87,7 +87,7 @@ namespace WinCap.Services
             this.Status = CapturableServiceStatus.Capturing;
 
             // デスクトップ全体をキャプチャ
-            using (Bitmap bitmap = _screenCapturer.CaptureDesktop())
+            using (Bitmap bitmap = _screenCapturer.CaptureFullScreen())
             {
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定

@@ -58,7 +58,7 @@ namespace WinCap.ViewModels
             handleList = WindowHelper.GetHandles();
 
             // ウィンドウに画面全体の範囲を設定する
-            System.Drawing.Rectangle screenRect = ScreenHelper.GetDesktopBounds();
+            System.Drawing.Rectangle screenRect = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",

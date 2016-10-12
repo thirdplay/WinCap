@@ -35,7 +35,12 @@ namespace WinCap.Serialization
         /// <summary>
         /// 選択コントロールをキャプチャ
         /// </summary>
-        public ShortcutkeyProperty SelectControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, SelectControlDefaultValue));
+        public ShortcutkeyProperty SelectionControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, SelectControlDefaultValue));
+
+        /// <summary>
+        /// ウェブページ全体をキャプチャ
+        /// </summary>
+        public ShortcutkeyProperty WebPage => this.Cache(key => new ShortcutkeyProperty(key, this._provider, WebPageDefaultValue));
 
         #region default values
         private static int[] FullScreenDefaultValue { get; } = {
@@ -44,12 +49,18 @@ namespace WinCap.Serialization
 
         private static int[] ActiveControlDefaultValue { get; } = {
             (int)Keys.PrintScreen,
-            (int)Keys.Alt
+            (int)Keys.LMenu
         };
 
         private static int[] SelectControlDefaultValue { get; } = {
             (int)Keys.PrintScreen,
             (int)Keys.LControlKey
+        };
+
+        private static int[] WebPageDefaultValue { get; } = {
+            (int)Keys.PrintScreen,
+            (int)Keys.LControlKey,
+            (int)Keys.LMenu
         };
         #endregion
     }

@@ -146,7 +146,11 @@ namespace WinCap
                 .AddTo(this);
 
             this.HookService
-                .Register(settings.SelectControl.ToShortcutKey(), () => CapturableService.Current.CaptureSelectionControl())
+                .Register(settings.SelectionControl.ToShortcutKey(), () => CapturableService.Current.CaptureSelectionControl())
+                .AddTo(this);
+
+            this.HookService
+                .Register(settings.WebPage.ToShortcutKey(), () => CapturableService.Current.CaptureWebPage())
                 .AddTo(this);
         }
 
