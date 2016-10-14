@@ -12,8 +12,6 @@
         $ignoreKeywords = '*.vshost.*','Microsoft.*.resources.dll'
  
         $exeSource  = 'WinCap.exe'
- 
-        Set-Location $MyInvocation.MyCommand.Path
 
         if (-not(Test-Path $bin))
         {
