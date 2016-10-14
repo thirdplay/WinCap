@@ -15,7 +15,7 @@
 
         if (-not(Test-Path $bin))
         {
-            throw 'Script detected as locate in invalid path exception!! Make sure exist in <WinCap repository root>\tools-release\'
+            throw 'スクリプトが無効なパスを検出しました。<repository root>\tools-release\が存在していることを確認してください。'
         }
     }
  
@@ -35,7 +35,7 @@
             if ((Test-Path $versionSource) -and (Test-Path $target))
             {
                 $version = (Get-ChildItem $versionSource).VersionInfo
-                $result  = $result + ' ver.{0}.{1}{2}' -f $version.ProductMajorPart, $version.ProductMinorPart, $version.ProductBuildPart
+                $result  = $result + '-ver.{0}.{1}{2}' -f $version.ProductMajorPart, $version.ProductMinorPart, $version.ProductBuildPart
 
                 Rename-Item -NewName $result -Path $target
                 New-ZipCompression -source $(Join-Path $(Get-Location) $result) -destination $(Join-Path $(Get-Location).Path ('./' + $result + '.zip'))
@@ -49,6 +49,7 @@
 }
  
  
+# 指定ファイルフィルタでフォルダ構成とともにファイルをコピーする
 # https://gist.github.com/guitarrapc/e78bbd4ddc07389e17d6
 function Copy-StrictedFilterFileWithDirectoryStructure
 {
@@ -127,7 +128,8 @@ function Copy-StrictedFilterFileWithDirectoryStructure
         Get-ChildItem -Path $Destination -Recurse -Directory | where fullName -notin $folderToKeep | Remove-Item -Recurse
     }
 }
- 
+
+# Zip圧縮処理
 # http://tech.guitarrapc.com/entry/2013/10/08/040325
 function New-ZipCompression
 { 
