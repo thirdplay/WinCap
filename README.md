@@ -20,7 +20,7 @@
 
 * **用途 :** キーボードフック
 * **ライセンス :** The MIT License (MIT)
-* **ライセンス全文 :** [licenses/OpenKeyboardHook.txt](licenses/OpenKeyboardHook.txt)
+* **ライセンス全文 :** [licenses/OpenWinKeyboardHook.txt](licenses/OpenWinKeyboardHook.txt)
 
 #### [MetroRadiance](https://github.com/Grabacr07/MetroRadiance)
 
