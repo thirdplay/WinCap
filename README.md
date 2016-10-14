@@ -28,6 +28,7 @@
 > 
 > Copyright (c) 2014 Manato KAMEYA
 
+* **用途 :** モダンUIスタイル
 * **ライセンス :** The MIT License (MIT)
 * **ライセンス全文 :** [licenses/MetroRadiance.txt](licenses/MetroRadiance.txt)
 
