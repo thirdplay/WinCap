@@ -6,16 +6,15 @@
  
         $target = 'Release'
         $result = 'WinCap'
-        #$bin = '..\source\WinCap\bin\x86\'
-        $scriptPath = $MyInvocation.MyCommand.Path
-        $projectPath = Split-Path -Parent $scriptPath
-        $bin = Join-Path $projectPath 'source\WinCap\bin\x86\'
+        $bin = '..\source\WinCap\bin\x86\'
  
         $targetKeywords = '*.exe','*.dll','*.exe.config','*.txt','*.VisualElementsManifest.xml'
         $ignoreKeywords = '*.vshost.*','Microsoft.*.resources.dll'
  
         $exeSource  = 'WinCap.exe'
  
+        Set-Location $MyInvocation.MyCommand.Path
+
         if (-not(Test-Path $bin))
         {
             throw 'Script detected as locate in invalid path exception!! Make sure exist in <WinCap repository root>\tools-release\'
