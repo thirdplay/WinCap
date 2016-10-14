@@ -7,7 +7,8 @@
         $target = 'Release'
         $result = 'WinCap'
         #$bin = '..\source\WinCap\bin\x86\'
-        $projectPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+        $scriptPath = $MyInvocation.MyCommand.Path
+        $projectPath = Split-Path -Parent $scriptPath
         $bin = Join-Path $projectPath 'source\WinCap\bin\x86\'
  
         $targetKeywords = '*.exe','*.dll','*.exe.config','*.txt','*.VisualElementsManifest.xml'
