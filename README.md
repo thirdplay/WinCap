@@ -1,5 +1,6 @@
 # WinCap
 [![Build status (develop)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/WinCap)
+[![Build status](https://ci.appveyor.com/api/projects/status/n1cycl1sbc0thhfm?svg=true)](https://ci.appveyor.com/project/thirdplay/wincap)
 
 画面をキャプチャするキャプチャーソフトです。
 
