@@ -169,6 +169,24 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   キャプチャオプション に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_CaptureOption {
+            get {
+                return ResourceManager.GetString("Settings_CaptureOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   遅延時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_DelayTime {
+            get {
+                return ResourceManager.GetString("Settings_DelayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   一般設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_General {
@@ -196,6 +214,24 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   キャプチャー時の効果音を再生する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_PlaySeWhenCapture {
+            get {
+                return ResourceManager.GetString("Settings_PlaySeWhenCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   スタートアップに登録する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_RegisterInStartup {
+            get {
+                return ResourceManager.GetString("Settings_RegisterInStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ショートカットキー設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_ShortcutKey {
@@ -210,6 +246,15 @@ namespace WinCap.Properties {
         public static string Settings_StartProgram {
             get {
                 return ResourceManager.GetString("Settings_StartProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ウェブページ全体キャプチャ開始時にページ先頭に移動する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_WebPageCaptureStartWhenPageFirstMove {
+            get {
+                return ResourceManager.GetString("Settings_WebPageCaptureStartWhenPageFirstMove", resourceCulture);
             }
         }
     }

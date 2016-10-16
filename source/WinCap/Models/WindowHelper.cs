@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using WinCap.Interop;
-using WinCap.Models;
 
-namespace WinCap.Services
+namespace WinCap.Models
 {
     /// <summary>
     /// ウィンドウヘルパー

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WinCap.Services
+namespace WinCap.Models
 {
     /// <summary>
     /// スクリーンヘルパー

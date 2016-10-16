@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
 using System.Reactive.Linq;
 using System.Windows;
 using WinCap.Capturers;
 using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Util.Lifetime;
+using WinCap.Views;
 
 namespace WinCap.Services
 {
@@ -92,6 +94,7 @@ namespace WinCap.Services
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
                 Clipboard.SetDataObject(bitmap, true);
+                SystemSounds.Asterisk.Play();
             }
 
             // 待機状態に戻す
@@ -113,6 +116,7 @@ namespace WinCap.Services
                 // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
                 // キャプチャした画像をクリップボードに設定
                 Clipboard.SetDataObject(bitmap, true);
+                SystemSounds.Asterisk.Play();
             }
 
             // 待機状態に戻す
@@ -129,7 +133,7 @@ namespace WinCap.Services
             this.Status = CapturableServiceStatus.Capturing;
 
             // コントロール選択ウィンドウの取得
-            var window = WindowService.Current.GetControlSelectWindow();
+            var window = WindowService.Current.GetControlSelectionWindow();
             Observable.FromEventPattern<SelectedEventArgs>(window, nameof(window.Selected))
                 .Subscribe(x =>
                 {
@@ -141,6 +145,7 @@ namespace WinCap.Services
                         {
                             // キャプチャした画像をクリップボードに設定
                             Clipboard.SetDataObject(bitmap, true);
+                            SystemSounds.Asterisk.Play();
                         }
                     }
 
@@ -163,7 +168,7 @@ namespace WinCap.Services
             this.Status = CapturableServiceStatus.Capturing;
 
             // コントロール選択ウィンドウの取得
-            var window = WindowService.Current.GetControlSelectWindow();
+            var window = WindowService.Current.GetControlSelectionWindow();
             Observable.FromEventPattern<SelectedEventArgs>(window, nameof(window.Selected))
                 .Subscribe(x =>
                 {
@@ -179,6 +184,7 @@ namespace WinCap.Services
                             {
                                 // キャプチャした画像をクリップボードに設定
                                 Clipboard.SetDataObject(bitmap, true);
+                                SystemSounds.Asterisk.Play();
                             }
                         }
                         else
@@ -188,6 +194,7 @@ namespace WinCap.Services
                             {
                                 // キャプチャした画像をクリップボードに設定
                                 Clipboard.SetDataObject(bitmap, true);
+                                SystemSounds.Asterisk.Play();
                             }
                         }
                     }

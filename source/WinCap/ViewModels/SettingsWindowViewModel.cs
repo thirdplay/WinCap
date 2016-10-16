@@ -1,11 +1,9 @@
 ﻿using Livet;
 using Livet.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Livet.Messaging;
+using MetroRadiance.Utilities;
 using System.Windows.Input;
-using WinCap.Models;
-using WinCap.Properties;
+using WinCap.Serialization;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
 
@@ -14,7 +12,7 @@ namespace WinCap.ViewModels
     /// <summary>
     /// 設定ウィンドウViewModel
     /// </summary>
-    public class SettingWindowViewModel : ViewModel
+    public class SettingsWindowViewModel : ViewModel
     {
         #region TanItems ViewModel
         /// <summary>
@@ -38,31 +36,12 @@ namespace WinCap.ViewModels
         public ShortcutKeyViewModel ShortcutKey { get; } = new ShortcutKeyViewModel();
         #endregion
 
-        //#region SelectedItem 変更通知プロパティ
-        //private TabItemViewModel _SelectedItem;
-        ///// <summary>
-        ///// 選択項目を取得、設定します。
-        ///// </summary>
-        //public TabItemViewModel SelectedItem
-        //{
-        //    get { return this._SelectedItem; }
-        //    set
-        //    {
-        //        if (this._SelectedItem != value)
-        //        {
-        //            this._SelectedItem = value;
-        //            this.RaisePropertyChanged();
-        //        }
-        //    }
-        //}
-
-        //#endregion
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public SettingWindowViewModel()
+        public SettingsWindowViewModel()
         {
+            Disposable.Create(() => LocalSettingsProvider.Instance.SaveAsync().Wait()).AddTo(this);
         }
 
         /// <summary>
@@ -71,15 +50,28 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
+            this.General.Initialize();
         }
 
-        public ICommand OkCommand { get; } = new ViewModelCommand(() =>
+        #region OK Command
+        private ICommand _OkCommand;
+        public ICommand OkCommand { get { return _OkCommand = _OkCommand ?? new ViewModelCommand(Ok); } }
+        private void Ok()
         {
-            Console.WriteLine("Ok");
-        });
-        public ICommand CancelCommand { get; } = new ViewModelCommand(() =>
+            this.General.Apply();
+
+            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+        }
+        #endregion
+
+        #region Cencel Command
+        private ICommand _CancelCommand;
+        public ICommand CancelCommand { get { return _CancelCommand = _CancelCommand ?? new ViewModelCommand(Cancel); } }
+        private void Cancel()
         {
-            Console.WriteLine("Cancel");
-        });
+            this.General.Cancel();
+            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+        }
+        #endregion
     }
 }

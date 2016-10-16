@@ -8,6 +8,7 @@ using WinCap.Models;
 using WinCap.Serialization;
 using WinCap.Services;
 using WinCap.Util.Lifetime;
+using WinCap.Views;
 using MenuItem = System.Windows.Forms.MenuItem;
 using PropResources = WinCap.Properties.Resources;
 
@@ -112,12 +113,12 @@ namespace WinCap
                 var menus = new List<MenuItem>();
                 var captureMenus = new List<MenuItem>()
                 {
-                    new MenuItem(PropResources.ContextMenu_DesktopCapture, (sender, args) => MessageBox.Show("ScreenCapture")),
-                    new MenuItem(PropResources.ContextMenu_ControlCapture, (sender, args) => MessageBox.Show("ControlCapture")),
-                    new MenuItem(PropResources.ContextMenu_WebPageCapture, (sender, args) => MessageBox.Show("PageCaoture"))
+                    new MenuItem(PropResources.ContextMenu_DesktopCapture, (sender, args) => CapturableService.Current.CaptureDesktop()),
+                    new MenuItem(PropResources.ContextMenu_ControlCapture, (sender, args) => CapturableService.Current.CaptureSelectionControl()),
+                    new MenuItem(PropResources.ContextMenu_WebPageCapture, (sender, args) => CapturableService.Current.CaptureWebPage())
                 };
                 menus.Add(new MenuItem(PropResources.ContextMenu_Capture, captureMenus.ToArray()));
-                menus.Add(new MenuItem(PropResources.ContextMenu_Settings, (sender, args) => WindowService.Current.GetSettingsWindow().Show()));
+                menus.Add(new MenuItem(PropResources.ContextMenu_Settings, (sender, args) => ShowSettings()));
                 menus.Add(new MenuItem(PropResources.ContextMenu_Exit, (sender, args) => this.Shutdown()));
                 this._notifyIcon = new System.Windows.Forms.NotifyIcon
                 {
@@ -152,6 +153,23 @@ namespace WinCap
             this.HookService
                 .Register(settings.WebPage.ToShortcutKey(), () => CapturableService.Current.CaptureWebPage())
                 .AddTo(this);
+        }
+
+        /// <summary>
+        /// 設定ウィンドウを表示します。
+        /// </summary>
+        private void ShowSettings()
+        {
+            var window = WindowService.Current.GetSettingsWindow();
+            if (window.IsLoaded)
+            {
+                window.Activate();
+                return;
+            }
+            using (this.HookService.Suspend())
+            {
+                window.ShowDialog();
+            }
         }
 
         /// <summary>

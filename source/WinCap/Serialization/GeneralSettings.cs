@@ -21,8 +21,19 @@ namespace WinCap.Serialization
             this._provider = provider;
         }
 
-        public SerializableProperty<bool> TestProp1 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
-        public SerializableProperty<bool> TestProp2 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
-        public SerializableProperty<bool> TestProp3 => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
+        /// <summary>
+        /// スタートアップに登録する
+        /// </summary>
+        public SerializableProperty<bool> IsRegisterInStartup => this.Cache(key => new SerializableProperty<bool>(key, this._provider, false));
+
+        /// <summary>
+        /// キャプチャー時に効果音を再生する
+        /// </summary>
+        public SerializableProperty<bool> IsPlaySeWhenCapture => this.Cache(key => new SerializableProperty<bool>(key, this._provider, true));
+
+        /// <summary>
+        /// ウェブページ全体キャプチャ開始時にページ先頭に移動する
+        /// </summary>
+        public SerializableProperty<bool> WebPageCaptureStartWhenPageFirstMove => this.Cache(key => new SerializableProperty<bool>(key, this._provider, true));
     }
 }

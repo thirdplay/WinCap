@@ -1,13 +1,13 @@
-﻿<viewModels:SettingWindowViewModel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<viewModels:SettingsWindowViewModel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                    xmlns:viewModels="clr-namespace:WinCap.ViewModels"
                                    xmlns:vmSettings="clr-namespace:WinCap.ViewModels.Settings"
                                    Title="設定">
 
-    <viewModels:SettingWindowViewModel.TabItems>
+    <viewModels:SettingsWindowViewModel.TabItems>
         <vmSettings:BasicViewModel Name="基本設定"  IsSelected="True" />
         <vmSettings:OutputViewModel Name="出力設定" />
         <vmSettings:ShortcutKeyViewModel Name="ホットキー設定" />
-    </viewModels:SettingWindowViewModel.TabItems>
+    </viewModels:SettingsWindowViewModel.TabItems>
 
-</viewModels:SettingWindowViewModel>
+</viewModels:SettingsWindowViewModel>

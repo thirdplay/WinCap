@@ -161,7 +161,7 @@ namespace WinCap.Interop
             RECT rect = new RECT();
             if (Environment.OSVersion.Version.Major >= 6)
             {
-                if (NativeMethods.DwmGetWindowAttribute(handle, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(RECT))) == 0)
+                if (DwmGetWindowAttribute(handle, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(RECT))) == 0)
                 {
                     Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                     if (rectangle.Width > 0 && rectangle.Height > 0)
@@ -172,7 +172,7 @@ namespace WinCap.Interop
             }
 
             // ウィンドウサイズの取得
-            if (NativeMethods.GetWindowRect(handle, ref rect) != 0)
+            if (GetWindowRect(handle, ref rect) != 0)
             {
                 return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
             }

@@ -26,14 +26,9 @@ namespace WinCap.Services
         private Dictionary<string, Window> container = new Dictionary<string, Window>();
 
         /// <summary>
-        /// コントロール選択ウィンドウViewModel
+        /// ViewModelコンテナ
         /// </summary>
-        private ControlSelectionWindowViewModel controlSelectWindow;
-
-        /// <summary>
-        /// 設定ウィンドウViewModel
-        /// </summary>
-        private SettingWindowViewModel settingWindow;
+        private Dictionary<string, ViewModel> viewModels = new Dictionary<string, ViewModel>();
         #endregion
 
         #region プロパティ
@@ -48,22 +43,17 @@ namespace WinCap.Services
         /// </summary>
         private WindowService()
         {
-            controlSelectWindow = new ControlSelectionWindowViewModel().AddTo(this);
-            settingWindow = new SettingWindowViewModel().AddTo(this);
+            viewModels.Add(nameof(ControlSelectionWindow), new ControlSelectionWindowViewModel().AddTo(this));
+            viewModels.Add(nameof(SettingsWindow), new SettingsWindowViewModel().AddTo(this));
         }
 
         /// <summary>
         /// コントロール選択ウィンドウを取得します。
         /// </summary>
         /// <returns>選択ウィンドウ</returns>
-        public ControlSelectionWindow GetControlSelectWindow()
+        public ControlSelectionWindow GetControlSelectionWindow()
         {
-            string key = nameof(ControlSelectionWindow);
-            if (!container.ContainsKey(key))
-            {
-                createWindow<ControlSelectionWindow>(key, this.controlSelectWindow);
-            }
-            return container[key] as ControlSelectionWindow;
+            return CreateWindow<ControlSelectionWindow>(nameof(ControlSelectionWindow));
         }
 
         /// <summary>
@@ -72,28 +62,26 @@ namespace WinCap.Services
         /// <returns>設定ウィンドウ</returns>
         public SettingsWindow GetSettingsWindow()
         {
-            string key = nameof(SettingsWindow);
-            if (!container.ContainsKey(key))
-            {
-                createWindow<SettingsWindow>(key, this.settingWindow);
-            }
-            return container[key] as SettingsWindow;
+            return CreateWindow<SettingsWindow>(nameof(SettingsWindow));
         }
 
         /// <summary>
         /// ウィンドウを生成し、クローズイベントを監視して後片付けをする。
         /// </summary>
         /// <param name="key">ウィンドウキー</param>
-        /// <param name="dataContext">データコンテキスト</param>
         /// <typeparam name="T">ウィンドウを継承したクラス</typeparam>
-        private void createWindow<T>(string key, object dataContext = null) where T : Window, new()
+        private T CreateWindow<T>(string key) where T : Window, new()
         {
-            container.Add(key, new T() { DataContext = dataContext });
-            Observable.FromEventPattern(
-                handler => this.container[key].Closed += handler,
-                handler => this.container[key].Closed -= handler
-            )
-            .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
+            if (!container.ContainsKey(key))
+            {
+                container.Add(key, new T() { DataContext = viewModels[key] });
+                Observable.FromEventPattern(
+                    handler => this.container[key].Closed += handler,
+                    handler => this.container[key].Closed -= handler
+                )
+                .Subscribe(x => this.container.Remove(x.Sender.GetType().Name));
+            }
+            return container[key] as T;
         }
 
         #region IDisposableHoloder members

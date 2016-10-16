@@ -153,6 +153,12 @@
   <data name="Settings_Capture" xml:space="preserve">
     <value>キャプチャ設定</value>
   </data>
+  <data name="Settings_CaptureOption" xml:space="preserve">
+    <value>キャプチャオプション</value>
+  </data>
+  <data name="Settings_DelayTime" xml:space="preserve">
+    <value>遅延時間</value>
+  </data>
   <data name="Settings_General" xml:space="preserve">
     <value>一般設定</value>
   </data>
@@ -162,10 +168,19 @@
   <data name="Settings_OutputMethod" xml:space="preserve">
     <value>出力方法</value>
   </data>
+  <data name="Settings_PlaySeWhenCapture" xml:space="preserve">
+    <value>キャプチャー時の効果音を再生する</value>
+  </data>
+  <data name="Settings_RegisterInStartup" xml:space="preserve">
+    <value>スタートアップに登録する</value>
+  </data>
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>
   </data>
   <data name="Settings_StartProgram" xml:space="preserve">
     <value>スタートプログラム設定</value>
+  </data>
+  <data name="Settings_WebPageCaptureStartWhenPageFirstMove" xml:space="preserve">
+    <value>ウェブページ全体キャプチャ開始時にページ先頭に移動する</value>
   </data>
 </root>

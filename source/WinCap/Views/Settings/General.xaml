@@ -19,17 +19,22 @@
                    Style="{DynamicResource SettingsHeaderTextStyleKey}"
                    Margin="0,0,0,8" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
-            <CheckBox Content="スタートアップに登録する" />
+            <CheckBox Content="{x:Static prop:Resources.Settings_RegisterInStartup}"
+                      IsChecked="{Binding IsRegisterInStartup, Mode=TwoWay}"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
-        <TextBlock Text="キャプチャーオプション"
+        <TextBlock Text="{x:Static prop:Resources.Settings_CaptureOption}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
-            <CheckBox Content="キャプチャー時の効果音を再生する" />
-            <CheckBox Content="ページ全体キャプチャ開始時にページ先頭に移動する" />
+            <CheckBox
+                Content="{x:Static prop:Resources.Settings_PlaySeWhenCapture}"
+                IsChecked="{Binding IsPlaySeWhenCapture, Mode=TwoWay}"
+            />
+            <CheckBox Content="{x:Static prop:Resources.Settings_WebPageCaptureStartWhenPageFirstMove}"
+                      IsChecked="{Binding WebPageCaptureStartWhenPageFirstMove, Mode=TwoWay}"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
-        <TextBlock Text="遅延時間"
+        <TextBlock Text="{x:Static prop:Resources.Settings_DelayTime}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <Grid Style="{DynamicResource SettingsContentPanelStyleKey}">
             <Grid.ColumnDefinitions>
@@ -56,11 +61,11 @@
             <UniformGrid Grid.Column="1"
                          Columns="1">
                 <metro:PromptTextBox Prompt=""
-                                     Text="1000"
-                                     Margin="0,2" />
+                                     Text="100"
+                                     Margin="0,2" /><!-- MAX:1000 -->
                 <metro:PromptTextBox Prompt=""
-                                     Text="10000"
-                                     Margin="0,2" />
+                                     Text="0"
+                                     Margin="0,2" /><!-- MAX:10000 -->
             </UniformGrid>
             <UniformGrid Grid.Column="2"
                          Columns="1">

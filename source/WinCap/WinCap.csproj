@@ -145,7 +145,7 @@
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />
-    <Compile Include="Services\ScreenHelper.cs" />
+    <Compile Include="Models\ScreenHelper.cs" />
     <Compile Include="Serialization\SerializationExtensions.cs" />
     <Compile Include="Serialization\ShortcutkeyProperty.cs" />
     <Compile Include="Serialization\ShortcutKeySettings.cs" />
@@ -166,11 +166,11 @@
     <Compile Include="ViewModels\Settings\ShortcutKeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="Capturers\ControlCapturer.cs" />
-    <Compile Include="Services\WindowHelper.cs" />
+    <Compile Include="Models\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetVisibilityMessage.cs" />
-    <Compile Include="ViewModels\SettingWindowViewModel.cs" />
+    <Compile Include="ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SelectControlMessage.cs" />

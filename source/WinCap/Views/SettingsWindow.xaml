@@ -7,12 +7,14 @@
                    xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
                    xmlns:chrome="http://schemes.grabacr.net/winfx/2014/chrome"
+                   xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
                    xmlns:vm="clr-namespace:WinCap.ViewModels"
                    xmlns:vmSettings="clr-namespace:WinCap.ViewModels.Settings"
                    xmlns:settings="clr-namespace:WinCap.Views.Settings"
                    xmlns:prop="clr-namespace:WinCap.Properties"
                    mc:Ignorable="d"
                    Icon="/WinCap;component/assets/app.ico"
+                   WindowStartupLocation="CenterScreen"
                    Background="{DynamicResource ThemeBrushKey}"
 	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
                    FontFamily="Segoe UI Light, Meiryo UI"
@@ -23,6 +25,10 @@
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
 										 MethodName="Initialize" />
         </i:EventTrigger>
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+										 MessageKey="Window.Close">
+            <behaviors:CloseWindowAction />
+        </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
 
     <Grid>
