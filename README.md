@@ -50,7 +50,7 @@
 
 #### [Rx(Reactive Extensions)](https://rx.codeplex.com/)
 
-* **用途 : 非同期処理
+* **用途 :** 非同期処理
 * **ライセンス :** Apache License Version 2.0
 * **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)
 
