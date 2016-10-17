@@ -47,11 +47,6 @@
 										 MessageKey="Window.Close">
             <behaviors:CloseWindowAction />
         </livet:InteractionMessageTrigger>
-
-        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.SelectedControl">
-            <behaviors:SelectedControlAction />
-        </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
     <Canvas>
         <Rectangle Stroke="#CCFF0000"

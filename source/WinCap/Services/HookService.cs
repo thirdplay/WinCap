@@ -27,6 +27,14 @@ namespace WinCap.Services
         private int _suspendRequestCount;
 
         /// <summary>
+        /// ショートカット監視の停止状態
+        /// </summary>
+        public bool IsSuspended
+        {
+            get { return this._detector.IsSuspended; }
+        }
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public HookService()
@@ -38,7 +46,7 @@ namespace WinCap.Services
         /// <summary>
         /// ショートカットの監視を停止します。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>停止リクエスト</returns>
         public IDisposable Suspend()
         {
             this._suspendRequestCount++;

@@ -32,6 +32,11 @@ namespace WinCap.Services
         private bool _suspended;
 
         /// <summary>
+        /// 停止状態
+        /// </summary>
+        public bool IsSuspended { get { return _suspended; } }
+
+        /// <summary>
         /// ショートカットキー検出イベント
         /// </summary>
         public event EventHandler<ShortcutKeyPressedEventArgs> Pressed;

@@ -1,7 +1,6 @@
 ﻿using System;
 using WinCap.Interop;
 using WinCap.Serialization;
-using WinCap.Services;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;
@@ -84,19 +83,15 @@ namespace WinCap
         /// </summary>
         private void ShowSettings()
         {
-            //if (this._application.SettingsWindow != null)
-            //{
-            //    this._application.SettingsWindow.Activate();
-            //    return;
-            //}
-            //using (this._application.HookService.Suspend())
-            //{
-            //    this._application.SettingsWindow = new SettingsWindow
-            //    {
-            //        DataContext = new SettingsWindowViewModel()
-            //    };
-            //    this._application.SettingsWindow.ShowDialog();
-            //}
+            if (this._application.HookService.IsSuspended) { return; }
+            using (this._application.HookService.Suspend())
+            {
+                var window = new SettingsWindow
+                {
+                    DataContext = new SettingsWindowViewModel()
+                };
+                window.ShowDialog();
+            }
         }
     }
 }

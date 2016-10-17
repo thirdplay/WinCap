@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Input;
 using WinCap.Interop;
 using WinCap.Models;
-using WinCap.Services;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
 
@@ -17,29 +16,30 @@ namespace WinCap.ViewModels
     /// </summary>
     public class ControlSelectionWindowViewModel : ViewModel
     {
-        #region フィールド
         /// <summary>
         /// ウィンドウハンドルリスト
         /// </summary>
-        private List<IntPtr> handleList = new List<IntPtr>();
+        private List<IntPtr> _handleList = new List<IntPtr>();
 
         /// <summary>
         /// スクリーンの座標
         /// </summary>
-        private System.Drawing.Point screenLocation;
+        private System.Drawing.Point _screenLocation;
 
         /// <summary>
         /// 選択中のコントロール情報
         /// </summary>
-        private ControlInfo selectControlInfo = ControlInfo.Empty;
-        #endregion
+        private ControlInfo _selectControlInfo = ControlInfo.Empty;
 
-        #region プロパティ
+        /// <summary>
+        /// 選択コントロールのハンドル
+        /// </summary>
+        public IntPtr SelectedHandle { get; set; } = IntPtr.Zero;
+
         /// <summary>
         /// コントロール選択情報ViewModel
         /// </summary>
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
-        #endregion
 
         /// <summary>
         /// コンストラクタ
@@ -56,7 +56,7 @@ namespace WinCap.ViewModels
         public void Initialize()
         {
             // 表示中のウィンドウハンドルリストを取得する
-            handleList = WindowHelper.GetHandles();
+            _handleList = WindowHelper.GetHandles();
 
             // ウィンドウに画面全体の範囲を設定する
             System.Drawing.Rectangle screenRect = ScreenHelper.GetFullScreenBounds();
@@ -68,7 +68,7 @@ namespace WinCap.ViewModels
                 Width = screenRect.Width,
                 Height = screenRect.Height
             });
-            screenLocation = screenRect.Location;
+            _screenLocation = screenRect.Location;
 
             this.ControlSelectInfo.Messenger.Raise(new SetMarginMessage
             {
@@ -92,12 +92,12 @@ namespace WinCap.ViewModels
         {
             // スクリーン座標の取得
             Point p = e.GetPosition(null);
-            p.X = p.X + screenLocation.X;
-            p.Y = p.Y + screenLocation.Y;
+            p.X = p.X + _screenLocation.X;
+            p.Y = p.Y + _screenLocation.Y;
 
             // マウスカーソル上にあるウィンドウの情報を更新する
             ControlInfo selectControlInfo = ControlInfo.Empty;
-            foreach (IntPtr handle in handleList)
+            foreach (IntPtr handle in _handleList)
             {
                 System.Drawing.Rectangle bounds = NativeMethods.GetWindowBounds(handle);
                 if (bounds != System.Drawing.Rectangle.Empty)
@@ -124,7 +124,7 @@ namespace WinCap.ViewModels
             IntPtr handle = IntPtr.Zero;
             if (e.LeftButton == MouseButtonState.Released)
             {
-                handle = this.selectControlInfo.Handle;
+                handle = this._selectControlInfo.Handle;
             }
             executeSelect(handle);
         }
@@ -145,23 +145,23 @@ namespace WinCap.ViewModels
         /// <param name="controlInfo">新しいコントロール情報</param>
         private void UpdateSelectControlInfo(ControlInfo controlInfo)
         {
-            if (this.selectControlInfo != controlInfo)
+            if (this._selectControlInfo != controlInfo)
             {
                 // 選択コントロール情報の更新
-                this.selectControlInfo = controlInfo;
+                this._selectControlInfo = controlInfo;
 
                 // コントロール選択情報ViewModelの更新
-                ControlSelectInfo.ClassName = selectControlInfo.ClassName;
-                ControlSelectInfo.Bounds = selectControlInfo.Bounds;
+                ControlSelectInfo.ClassName = _selectControlInfo.ClassName;
+                ControlSelectInfo.Bounds = _selectControlInfo.Bounds;
 
                 // 選択範囲の設定メッセージ送信
                 this.Messenger.Raise(new SetRectangleBoundsMessage
                 {
                     MessageKey = "Rectangle.Bounds",
-                    Left = selectControlInfo.Bounds.Left - screenLocation.X,
-                    Top = selectControlInfo.Bounds.Top - screenLocation.Y,
-                    Width = selectControlInfo.Bounds.Width,
-                    Height = selectControlInfo.Bounds.Height
+                    Left = _selectControlInfo.Bounds.Left - _screenLocation.X,
+                    Top = _selectControlInfo.Bounds.Top - _screenLocation.Y,
+                    Width = _selectControlInfo.Bounds.Width,
+                    Height = _selectControlInfo.Bounds.Height
                 });
             }
         }
@@ -172,11 +172,8 @@ namespace WinCap.ViewModels
         /// <param name="handle">ハンドル</param>
         private void executeSelect(IntPtr handle)
         {
-            this.Messenger.Raise(new SelectedControlMessage
-            {
-                MessageKey = "Window.SelectedControl",
-                Handle = handle
-            });
+            this.SelectedHandle = handle;
+            this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
     }
 }

@@ -7,7 +7,6 @@ using System.Windows;
 using WinCap.Serialization;
 using WinCap.Services;
 using WinCap.Util.Lifetime;
-using WinCap.Views;
 
 namespace WinCap
 {
@@ -32,11 +31,6 @@ namespace WinCap
         internal CapturerService CapturerService { get; private set; }
 
         /// <summary>
-        /// 設定ウィンドウ
-        /// </summary>
-        internal SettingsWindow SettingsWindow { get; private set; }
-
-        /// <summary>
         /// 静的コンストラクタ
         /// </summary>
         static Application()
@@ -54,7 +48,6 @@ namespace WinCap
             var appInstance = new Util.Desktop.ApplicationInstance().AddTo(this);
             if (appInstance.IsFirst)
             {
-                //Console.WriteLine("Total Memory = {0} KB", GC.GetTotalMemory(true) / 1024);
                 this.DispatcherUnhandledException += (sender, args) =>
                 {
                     ReportException(sender, args.Exception);
@@ -69,8 +62,7 @@ namespace WinCap
                 LocalSettingsProvider.Instance.AddTo(this);
 
                 this.HookService = new HookService().AddTo(this);
-                this.CapturerService = new CapturerService();
-                WindowService.Current.AddTo(this);
+                this.CapturerService = new CapturerService(this.HookService).AddTo(this);
 
                 // アプリケーション準備
                 var preparation = new ApplicationPreparation(this);
