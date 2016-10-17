@@ -14,9 +14,9 @@ using WinCap.Views;
 namespace WinCap.Services
 {
     /// <summary>
-    /// 画面やウィンドウをキャプチャし、クリップボードや画像ファイルに出力する機能を提供します。
+    /// 画面やコントロールをキャプチャする機能を提供します。
     /// </summary>
-    public sealed class CapturableService : NotificationObject, IDisposableHolder
+    public sealed class CapturerService : NotificationObject, IDisposableHolder
     {
         #region フィールド
         /// <summary>
@@ -47,11 +47,6 @@ namespace WinCap.Services
 
         #region プロパティ
         /// <summary>
-        /// 現在のウィンドウサービス
-        /// </summary>
-        public static CapturableService Current { get; } = new CapturableService();
-
-        /// <summary>
         /// 現在の状態を取得します。
         /// </summary>
         public CapturableServiceStatus Status
@@ -71,7 +66,7 @@ namespace WinCap.Services
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        private CapturableService()
+        public CapturerService()
         {
             //this.ObserveProperty(nameof(this.Status))
             //    .Where(_ => this.currentStatus == CaptureServiceStatus.CaptureCompletion)

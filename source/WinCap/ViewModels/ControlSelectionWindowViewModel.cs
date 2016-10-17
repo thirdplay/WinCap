@@ -1,4 +1,5 @@
 ﻿using Livet;
+using Livet.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Windows;

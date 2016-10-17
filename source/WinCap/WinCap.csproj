@@ -141,8 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationPreparation.cs" />
     <Compile Include="Capturers\IWebBrowserCapturer.cs" />
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
+    <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
@@ -161,6 +163,7 @@
     <Compile Include="Models\ProductInfo.cs" />
     <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="Models\SelectedEventArgs.cs" />
+    <Compile Include="TaskTrayIcon.cs" />
     <Compile Include="ViewModels\Settings\GeneralViewModel.cs" />
     <Compile Include="ViewModels\Settings\CaptureViewModel.cs" />
     <Compile Include="ViewModels\Settings\ShortcutKeyViewModel.cs" />
@@ -200,7 +203,7 @@
     <Compile Include="Interop\RECT.cs" />
     <Compile Include="Interop\TernaryRasterOperations.cs" />
     <Compile Include="Services\WindowService.cs" />
-    <Compile Include="Services\CapturableService.cs" />
+    <Compile Include="Services\CapturerService.cs" />
     <Compile Include="ViewModels\ControlSelectionWindowViewModel.cs" />
     <Compile Include="Views\ControlSelectionInfo.xaml.cs">
       <DependentUpon>ControlSelectionInfo.xaml</DependentUpon>
