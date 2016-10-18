@@ -169,6 +169,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   キャプチャの遅延時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_CaptureDelayTime {
+            get {
+                return ResourceManager.GetString("Settings_CaptureDelayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   キャプチャオプション に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_CaptureOption {
@@ -228,6 +237,15 @@ namespace WinCap.Properties {
         public static string Settings_RegisterInStartup {
             get {
                 return ResourceManager.GetString("Settings_RegisterInStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   スクロールの遅延時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ScrollDelayTime {
+            get {
+                return ResourceManager.GetString("Settings_ScrollDelayTime", resourceCulture);
             }
         }
         

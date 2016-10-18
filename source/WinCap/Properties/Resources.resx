@@ -153,6 +153,9 @@
   <data name="Settings_Capture" xml:space="preserve">
     <value>キャプチャ設定</value>
   </data>
+  <data name="Settings_CaptureDelayTime" xml:space="preserve">
+    <value>キャプチャの遅延時間</value>
+  </data>
   <data name="Settings_CaptureOption" xml:space="preserve">
     <value>キャプチャオプション</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="Settings_RegisterInStartup" xml:space="preserve">
     <value>スタートアップに登録する</value>
+  </data>
+  <data name="Settings_ScrollDelayTime" xml:space="preserve">
+    <value>スクロールの遅延時間</value>
   </data>
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>

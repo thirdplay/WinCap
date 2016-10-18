@@ -200,7 +200,6 @@
     <Compile Include="Interop\MOD.cs" />
     <Compile Include="Interop\RECT.cs" />
     <Compile Include="Interop\TernaryRasterOperations.cs" />
-    <Compile Include="Services\WindowService.cs" />
     <Compile Include="Services\CapturerService.cs" />
     <Compile Include="ViewModels\ControlSelectionWindowViewModel.cs" />
     <Compile Include="Views\ControlSelectionInfo.xaml.cs">

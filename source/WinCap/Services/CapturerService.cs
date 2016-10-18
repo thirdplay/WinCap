@@ -7,7 +7,6 @@ using System.Reactive.Linq;
 using System.Windows;
 using WinCap.Capturers;
 using WinCap.Interop;
-using WinCap.Models;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;
@@ -22,7 +21,7 @@ namespace WinCap.Services
         /// <summary>
         /// 基本CompositeDisposable
         /// </summary>
-        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+        private readonly LivetCompositeDisposable _compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
         /// フックサービス
@@ -173,14 +172,14 @@ namespace WinCap.Services
         }
 
         #region IDisposableHoloder members
-        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
+        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this._compositeDisposable;
 
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {
-            this.compositeDisposable.Dispose();
+            this._compositeDisposable.Dispose();
         }
         #endregion
     }

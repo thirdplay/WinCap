@@ -28,8 +28,7 @@
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
             <CheckBox
                 Content="{x:Static prop:Resources.Settings_PlaySeWhenCapture}"
-                IsChecked="{Binding IsPlaySeWhenCapture, Mode=TwoWay}"
-            />
+                IsChecked="{Binding IsPlaySeWhenCapture, Mode=TwoWay}" />
             <CheckBox Content="{x:Static prop:Resources.Settings_WebPageCaptureStartWhenPageFirstMove}"
                       IsChecked="{Binding WebPageCaptureStartWhenPageFirstMove, Mode=TwoWay}"/>
         </StackPanel>
@@ -50,11 +49,11 @@
             <UniformGrid Grid.Column="0"
                          Columns="1">
                 <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="スクロールの遅延時間" />
+                    <Run Text="{x:Static prop:Resources.Settings_ScrollDelayTime}" />
                     <Run Text=": " />
                 </TextBlock>
                 <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="キャプチャーの遅延時間" />
+                    <Run Text="{x:Static prop:Resources.Settings_CaptureDelayTime}" />
                     <Run Text=": " />
                 </TextBlock>
             </UniformGrid>

@@ -7,7 +7,7 @@ using WinCap.Models;
 namespace WinCap
 {
     /// <summary>
-    /// タスクトレイアイコンの表示する機能を提供します。
+    /// タスクトレイアイコンを表示する機能を提供します。
     /// </summary>
     public class TaskTrayIcon : IDisposable
     {

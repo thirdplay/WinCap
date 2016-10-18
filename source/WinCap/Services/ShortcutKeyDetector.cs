@@ -34,7 +34,7 @@ namespace WinCap.Services
         /// <summary>
         /// 停止状態
         /// </summary>
-        public bool IsSuspended { get { return _suspended; } }
+        public bool Suspended { get { return _suspended; } }
 
         /// <summary>
         /// ショートカットキー検出イベント
