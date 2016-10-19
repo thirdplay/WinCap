@@ -83,7 +83,7 @@ namespace WinCap
         /// </summary>
         private void ShowSettings()
         {
-            if (this._application.HookService.Suspended) { return; }
+            if (this._application.HookService.IsSuspended) { return; }
             using (this._application.HookService.Suspend())
             {
                 var window = new SettingsWindow

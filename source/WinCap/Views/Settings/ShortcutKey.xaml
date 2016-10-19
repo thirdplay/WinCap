@@ -7,7 +7,7 @@
 			 xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d"
              d:DesignWidth="500"
-             d:DesignHeight="400">
+             d:DesignHeight="450">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using WinCap.Interop;
+using WinCap.Services;
 
 namespace WinCap.Models
 {
@@ -42,7 +43,7 @@ namespace WinCap.Models
             } while ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
             // クラス名にWinCapを含むウィンドウは除外する
-            list.RemoveAll(x => NativeMethods.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
+            list.RemoveAll(x => InteropHelper.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
             return list;
         }
 
@@ -81,7 +82,7 @@ namespace WinCap.Models
             if (visible != 0)
             {
                 // 矩形情報を取得
-                Rectangle rect = NativeMethods.GetWindowBounds(handle);
+                Rectangle rect = InteropHelper.GetWindowBounds(handle);
                 if (rect.Width > 0 && rect.Height > 0)
                 {
                     return true;

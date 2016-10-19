@@ -10,23 +10,21 @@ namespace WinCap.Capturers
     public class InternetExplorerCapturer : IWebBrowserCapturer
     {
         /// <summary>
-        /// 画面キャプチャ
+        /// コントロールキャプチャ
         /// </summary>
         private readonly ControlCapturer _capturer = new ControlCapturer();
 
-        #region プロパティ
+        #region IWebBrowserCapturer members
         /// <summary>
         /// 自動スクロールの遅延時間
         /// </summary>
-        public int AutoScrollDelayTime { get; set; } = 100;
+        public int ScrollDelayTime { get; set; }
 
         /// <summary>
         /// スクロールウィンドウ開始時のページ先頭移動フラグ
         /// </summary>
-        public bool IsScrollWindowPageTop { get; set; } = true;
-        #endregion
+        public bool IsScrollWindowPageTop { get; set; }
 
-        #region IWebBrowserCapturer members
         /// <summary>
         /// キャプチャ可能かどうか判定します。
         /// </summary>
@@ -36,26 +34,25 @@ namespace WinCap.Capturers
         {
             return className == "Internet Explorer_Server";
         }
-                
+
         /// <summary>
         /// InternetExplorerのページ全体をキャプチャします。
         /// </summary>
-        /// <param name="hWnd">ウィンドウハンドル</param>
+        /// <param name="handle">ウィンドウハンドル</param>
         /// <returns>ビットマップ</returns>
-        public Bitmap Capture(IntPtr hWnd)
+        public Bitmap Capture(IntPtr handle)
         {
             // IE操作クラスを生成する
-            using (InternetExplorer ie = new InternetExplorer(hWnd))
+            using (InternetExplorer ie = new InternetExplorer(handle))
             {
                 // クライアント領域、スクロール位置、スクロールサイズの取得
                 Rectangle client = ie.Client;
                 Point scrollPoint = ie.ScrollPoint;
                 Size scrollSize = ie.ScrollSize;
 
-                // ページ先頭移動フラグが設定されている場合
-                if (IsScrollWindowPageTop)
+                // ページ先頭移動フラグが設定されている場合、スクロール位置をページ先頭に設定する
+                if (this.IsScrollWindowPageTop)
                 {
-                    // スクロール位置をページ先頭に設定する
                     scrollPoint = ie.ScrollTo(0, 0);
                 }
 
@@ -70,15 +67,13 @@ namespace WinCap.Capturers
                     Point scrollStart = new Point(scrollPoint.X, scrollPoint.Y);
                     Point scrollEnd = new Point(Math.Max(scrollSize.Width - client.Width, 0), Math.Max(scrollSize.Height - client.Height, 0));
 
-                    // ウィンドウキャプチャ
-                    captureControl(hWnd, g, ref client, ref scrollPoint, ref scrollStart);
                     // 右終端までスクロールしながらキャプチャする
+                    captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
                     while (scrollPoint.X < scrollEnd.X)
                     {
-                        // IEをスクロールする
-                        scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, AutoScrollDelayTime);
-                        // ウィンドウキャプチャ
-                        captureControl(hWnd, g, ref client, ref scrollPoint, ref scrollStart);
+                        // スクロールしてキャプチャする
+                        scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, this.ScrollDelayTime);
+                        captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
                     }
 
                     // 終端までスクロールしながらキャプチャする
@@ -87,19 +82,17 @@ namespace WinCap.Capturers
                     {
                         prevScrollY = scrollPoint.Y;
 
-                        // IEをスクロールする
+                        // スクロールしてキャプチャする
                         scrollPoint.X = scrollStart.X;
-                        scrollPoint = ie.ScrollTo(scrollPoint.X, scrollPoint.Y + client.Height, AutoScrollDelayTime);
-                        // ウィンドウキャプチャ
-                        captureControl(hWnd, g, ref client, ref scrollPoint, ref scrollStart);
+                        scrollPoint = ie.ScrollTo(scrollPoint.X, scrollPoint.Y + client.Height, this.ScrollDelayTime);
+                        captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
 
                         // 右端までスクロールしながらキャプチャする
                         while (scrollPoint.X < scrollEnd.X)
                         {
-                            // IEをスクロールする
-                            scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, AutoScrollDelayTime);
-                            // ウィンドウキャプチャ
-                            captureControl(hWnd, g, ref client, ref scrollPoint, ref scrollStart);
+                            // スクロールしてウィンドウキャプチャする
+                            scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, this.ScrollDelayTime);
+                            captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
                         }
                     }
                 }

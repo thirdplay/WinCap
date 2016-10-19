@@ -19,7 +19,7 @@
 	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
                    FontFamily="Segoe UI Light, Meiryo UI"
                    Width="800"
-                   Height="500">
+                   Height="550">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"

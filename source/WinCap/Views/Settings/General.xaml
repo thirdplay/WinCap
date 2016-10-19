@@ -6,7 +6,8 @@
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 			 xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
-             d:DesignWidth="500" d:DesignHeight="400">
+             d:DesignWidth="500"
+             d:DesignHeight="450">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -30,7 +31,7 @@
                 Content="{x:Static prop:Resources.Settings_PlaySeWhenCapture}"
                 IsChecked="{Binding IsPlaySeWhenCapture, Mode=TwoWay}" />
             <CheckBox Content="{x:Static prop:Resources.Settings_WebPageCaptureStartWhenPageFirstMove}"
-                      IsChecked="{Binding WebPageCaptureStartWhenPageFirstMove, Mode=TwoWay}"/>
+                      IsChecked="{Binding IsWebPageCaptureStartWhenPageFirstMove, Mode=TwoWay}"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
         <TextBlock Text="{x:Static prop:Resources.Settings_DelayTime}"
@@ -60,21 +61,21 @@
             <UniformGrid Grid.Column="1"
                          Columns="1">
                 <metro:PromptTextBox Prompt=""
-                                     Text="100"
+                                     Text="{Binding ScrollDelayTime, Mode=TwoWay}"
                                      Margin="0,2" /><!-- MAX:1000 -->
                 <metro:PromptTextBox Prompt=""
-                                     Text="0"
+                                     Text="{Binding CaptureDelayTime, Mode=TwoWay}"
                                      Margin="0,2" /><!-- MAX:10000 -->
             </UniformGrid>
             <UniformGrid Grid.Column="2"
                          Columns="1">
                 <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
                            Margin="4,0">
-                    <Run Text="ms" />
+                    <Run Text="{x:Static prop:Resources.Settings_Milliseconds}" />
                 </TextBlock>
                 <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
                            Margin="4,0">
-                    <Run Text="ms" />
+                    <Run Text="{x:Static prop:Resources.Settings_Milliseconds}" />
                 </TextBlock>
             </UniformGrid>
         </Grid>

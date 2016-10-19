@@ -1,5 +1,4 @@
 ﻿using Livet;
-using WinCap.Util.Mvvm;
 
 namespace WinCap.ViewModels.Settings
 {
@@ -46,19 +45,57 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
-        #region WebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
-        private bool _WebPageCaptureStartWhenPageFirstMove;
+        #region IsWebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
+        private bool _IsWebPageCaptureStartWhenPageFirstMove;
         /// <summary>
         /// ウェブページ全体キャプチャ開始時にページ先頭に移動する
         /// </summary>
-        public bool WebPageCaptureStartWhenPageFirstMove
+        public bool IsWebPageCaptureStartWhenPageFirstMove
         {
-            get { return _WebPageCaptureStartWhenPageFirstMove; }
+            get { return _IsWebPageCaptureStartWhenPageFirstMove; }
             set
             {
-                if (_WebPageCaptureStartWhenPageFirstMove != value)
+                if (_IsWebPageCaptureStartWhenPageFirstMove != value)
                 {
-                    this._WebPageCaptureStartWhenPageFirstMove = value;
+                    this._IsWebPageCaptureStartWhenPageFirstMove = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region ScrollDelayTime 変更通知プロパティ
+        private int _ScrollDelayTime;
+        /// <summary>
+        /// スクロール遅延時間
+        /// </summary>
+        public int ScrollDelayTime
+        {
+            get { return _ScrollDelayTime; }
+            set
+            {
+                if (_ScrollDelayTime != value)
+                {
+                    this._ScrollDelayTime = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region CaptureDelayTime 変更通知プロパティ
+        private int _CaptureDelayTime;
+        /// <summary>
+        /// キャプチャ遅延時間
+        /// </summary>
+        public int CaptureDelayTime
+        {
+            get { return _CaptureDelayTime; }
+            set
+            {
+                if (_CaptureDelayTime != value)
+                {
+                    this._CaptureDelayTime = value;
                     this.RaisePropertyChanged();
                 }
             }
@@ -81,7 +118,9 @@ namespace WinCap.ViewModels.Settings
             var settings = Serialization.Settings.General;
             settings.IsRegisterInStartup.Value = this.IsRegisterInStartup;
             settings.IsPlaySeWhenCapture.Value = this.IsPlaySeWhenCapture;
-            settings.WebPageCaptureStartWhenPageFirstMove.Value = this.WebPageCaptureStartWhenPageFirstMove;
+            settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
+            settings.ScrollDelayTime.Value = this.ScrollDelayTime;
+            settings.CaptureDelayTime.Value = this.CaptureDelayTime;
         }
 
         /// <summary>
@@ -100,7 +139,9 @@ namespace WinCap.ViewModels.Settings
             var settings = Serialization.Settings.General;
             this.IsRegisterInStartup = settings.IsRegisterInStartup;
             this.IsPlaySeWhenCapture = settings.IsPlaySeWhenCapture;
-            this.WebPageCaptureStartWhenPageFirstMove = settings.WebPageCaptureStartWhenPageFirstMove;
+            this.IsWebPageCaptureStartWhenPageFirstMove = settings.IsWebPageCaptureStartWhenPageFirstMove;
+            this.ScrollDelayTime = settings.ScrollDelayTime;
+            this.CaptureDelayTime = settings.CaptureDelayTime;
         }
     }
 }

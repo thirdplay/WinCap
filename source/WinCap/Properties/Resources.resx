@@ -165,6 +165,9 @@
   <data name="Settings_General" xml:space="preserve">
     <value>一般設定</value>
   </data>
+  <data name="Settings_Milliseconds" xml:space="preserve">
+    <value>ms</value>
+  </data>
   <data name="Settings_Output" xml:space="preserve">
     <value>出力設定</value>
   </data>

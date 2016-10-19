@@ -156,6 +156,7 @@
     <Compile Include="Serialization\Settings.cs" />
     <Compile Include="Serialization\SettingsHost.cs" />
     <Compile Include="Services\HookService.cs" />
+    <Compile Include="Models\InteropHelper.cs" />
     <Compile Include="Services\KeyHelper.cs" />
     <Compile Include="Services\ShortcutKey.cs" />
     <Compile Include="Services\ShortcutKeyDetector.cs" />

@@ -9,6 +9,16 @@ namespace WinCap.Capturers
     public interface IWebBrowserCapturer
     {
         /// <summary>
+        /// スクロールの遅延時間
+        /// </summary>
+        int ScrollDelayTime { get; set; }
+
+        /// <summary>
+        /// スクロールウィンドウ開始時のページ先頭移動フラグ
+        /// </summary>
+        bool IsScrollWindowPageTop { get; set; }
+
+        /// <summary>
         /// キャプチャ可能かどうか判定します。
         /// </summary>
         /// <param name="className">ウィンドウクラス名</param>

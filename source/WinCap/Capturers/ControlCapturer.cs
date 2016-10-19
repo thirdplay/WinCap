@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using WinCap.Interop;
-using WinCap.Services;
+using WinCap.Models;
 
 namespace WinCap.Capturers
 {
@@ -31,7 +31,7 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public Bitmap CaptureControl(IntPtr handle)
         {
-            return _capturer.CaptureBounds(NativeMethods.GetWindowBounds(handle));
+            return _capturer.CaptureBounds(InteropHelper.GetWindowBounds(handle));
         }
     }
 }

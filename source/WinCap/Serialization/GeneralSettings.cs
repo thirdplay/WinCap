@@ -34,6 +34,16 @@ namespace WinCap.Serialization
         /// <summary>
         /// ウェブページ全体キャプチャ開始時にページ先頭に移動する
         /// </summary>
-        public SerializableProperty<bool> WebPageCaptureStartWhenPageFirstMove => this.Cache(key => new SerializableProperty<bool>(key, this._provider, true));
+        public SerializableProperty<bool> IsWebPageCaptureStartWhenPageFirstMove => this.Cache(key => new SerializableProperty<bool>(key, this._provider, true));
+
+        /// <summary>
+        /// スクロール遅延時間
+        /// </summary>
+        public SerializableProperty<int> ScrollDelayTime => this.Cache(key => new SerializableProperty<int>(key, this._provider, 100));
+
+        /// <summary>
+        /// キャプチャ遅延時間
+        /// </summary>
+        public SerializableProperty<int> CaptureDelayTime => this.Cache(key => new SerializableProperty<int>(key, this._provider, 0));
     }
 }

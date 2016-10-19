@@ -6,7 +6,8 @@ using System.Media;
 using System.Reactive.Linq;
 using System.Windows;
 using WinCap.Capturers;
-using WinCap.Interop;
+using WinCap.Models;
+using WinCap.Serialization;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;
@@ -55,6 +56,9 @@ namespace WinCap.Services
         {
             _hookService = hookService;
             _controlSelectionWindowViewModel = new ControlSelectionWindowViewModel().AddTo(this);
+
+            Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Subscribe(x => this._ieCapturer.IsScrollWindowPageTop = x).AddTo(this);
+            Settings.General.ScrollDelayTime.Subscribe(x => this._ieCapturer.ScrollDelayTime = x).AddTo(this);
         }
 
         /// <summary>
@@ -67,10 +71,7 @@ namespace WinCap.Services
                 // デスクトップ全体をキャプチャ
                 using (Bitmap bitmap = _screenCapturer.CaptureFullScreen())
                 {
-                    // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
-                    // キャプチャした画像をクリップボードに設定
-                    Clipboard.SetDataObject(bitmap, true);
-                    SystemSounds.Asterisk.Play();
+                    saveImage(bitmap);
                 }
             }
         }
@@ -85,10 +86,7 @@ namespace WinCap.Services
                 // アクティブウィンドウをキャプチャ
                 using (Bitmap bitmap = _controlCapturer.CaptureActiveControl())
                 {
-                    // TODO:save(bitmap); => Clipboard or Bitmap(ファイル名選定込み）
-                    // キャプチャした画像をクリップボードに設定
-                    Clipboard.SetDataObject(bitmap, true);
-                    SystemSounds.Asterisk.Play();
+                    saveImage(bitmap);
                 }
             }
         }
@@ -111,9 +109,7 @@ namespace WinCap.Services
                         // 選択コントロールをキャプチャ
                         using (Bitmap bitmap = _controlCapturer.CaptureControl(viewModel.SelectedHandle))
                         {
-                            // キャプチャした画像をクリップボードに設定
-                            Clipboard.SetDataObject(bitmap, true);
-                            SystemSounds.Asterisk.Play();
+                            saveImage(bitmap);
                         }
                     }
                 }
@@ -140,15 +136,13 @@ namespace WinCap.Services
                     if (viewModel.SelectedHandle != IntPtr.Zero)
                     {
                         // キャプチャ可能か判定
-                        string className = NativeMethods.GetClassName(viewModel.SelectedHandle);
+                        string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
                         if (_ieCapturer.CanCapture(className))
                         {
                             // ウェブページ全体をキャプチャ
                             using (Bitmap bitmap = _ieCapturer.Capture(viewModel.SelectedHandle))
                             {
-                                // キャプチャした画像をクリップボードに設定
-                                Clipboard.SetDataObject(bitmap, true);
-                                SystemSounds.Asterisk.Play();
+                                saveImage(bitmap);
                             }
                         }
                         else
@@ -156,9 +150,7 @@ namespace WinCap.Services
                             // 選択コントロールをキャプチャ
                             using (Bitmap bitmap = _controlCapturer.CaptureControl(viewModel.SelectedHandle))
                             {
-                                // キャプチャした画像をクリップボードに設定
-                                Clipboard.SetDataObject(bitmap, true);
-                                SystemSounds.Asterisk.Play();
+                                saveImage(bitmap);
                             }
                         }
                     }
@@ -169,6 +161,19 @@ namespace WinCap.Services
             // 選択ウィンドウの表示
             window.Show();
             window.Activate();
+        }
+
+        /// <summary>
+        /// キャプチャ画像を保存します。
+        /// </summary>
+        /// <param name="image">画像</param>
+        private void saveImage(Bitmap image)
+        {
+            // 画像をクリップボードに設定する
+            Clipboard.SetDataObject(image, true);
+
+            // SE再生
+            SystemSounds.Asterisk.Play();
         }
 
         #region IDisposableHoloder members

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using WinCap.Interop;
 using WinCap.Models;
+using WinCap.Services;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
 
@@ -99,13 +100,13 @@ namespace WinCap.ViewModels
             ControlInfo selectControlInfo = ControlInfo.Empty;
             foreach (IntPtr handle in _handleList)
             {
-                System.Drawing.Rectangle bounds = NativeMethods.GetWindowBounds(handle);
+                System.Drawing.Rectangle bounds = InteropHelper.GetWindowBounds(handle);
                 if (bounds != System.Drawing.Rectangle.Empty)
                 {
                     if (p.X >= bounds.Left && p.X <= bounds.Right
                     && p.Y >= bounds.Top && p.Y <= bounds.Bottom)
                     {
-                        selectControlInfo = new ControlInfo(handle, NativeMethods.GetClassName(handle), bounds);
+                        selectControlInfo = new ControlInfo(handle, InteropHelper.GetClassName(handle), bounds);
                         break;
                     }
                 }

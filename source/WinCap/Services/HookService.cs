@@ -29,9 +29,9 @@ namespace WinCap.Services
         /// <summary>
         /// ショートカット監視の停止状態
         /// </summary>
-        public bool Suspended
+        public bool IsSuspended
         {
-            get { return this._detector.Suspended; }
+            get { return this._detector.IsSuspended; }
         }
 
         /// <summary>

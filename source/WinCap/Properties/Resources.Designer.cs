@@ -205,6 +205,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   ms に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Milliseconds {
+            get {
+                return ResourceManager.GetString("Settings_Milliseconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   出力設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Output {

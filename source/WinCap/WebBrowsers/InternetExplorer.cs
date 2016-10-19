@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using WinCap.Interop;
+using WinCap.Models;
 
 namespace WinCap.WebBrowsers
 {
@@ -186,7 +187,7 @@ namespace WinCap.WebBrowsers
 
             // 横スクロールバーが表示中かつ
             // 「ウィンドウ高さ」と「クライアント高さ」の差分が「水平スクロールバーの高さ」より小さい場合
-            Rectangle wndRect = NativeMethods.GetWindowBounds(handle);
+            Rectangle wndRect = InteropHelper.GetWindowBounds(handle);
             if (IsVisibleScrollbarH && (wndRect.Height - Client.Height) < SystemInformation.HorizontalScrollBarHeight)
             {
                 // ※暫定的にクライアント高さからスクロールバー分を引いて処理する
