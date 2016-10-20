@@ -14,24 +14,24 @@ namespace WinCap.Services
         /// <summary>
         /// ショートカットキー検出器
         /// </summary>
-        private readonly ShortcutKeyDetector _detector = new ShortcutKeyDetector();
+        private readonly ShortcutKeyDetector detector = new ShortcutKeyDetector();
 
         /// <summary>
         /// フックアクションリスト
         /// </summary>
-        private readonly List<HookAction> _hookActions = new List<HookAction>();
+        private readonly List<HookAction> hookActions = new List<HookAction>();
 
         /// <summary>
         /// 停止リクエストカウンタ
         /// </summary>
-        private int _suspendRequestCount;
+        private int suspendRequestCount;
 
         /// <summary>
         /// ショートカット監視の停止状態
         /// </summary>
         public bool IsSuspended
         {
-            get { return this._detector.IsSuspended; }
+            get { return this.detector.IsSuspended; }
         }
 
         /// <summary>
@@ -39,8 +39,8 @@ namespace WinCap.Services
         /// </summary>
         public HookService()
         {
-            this._detector.Pressed += this.KeyHookOnPressed;
-            this._detector.Start();
+            this.detector.Pressed += this.KeyHookOnPressed;
+            this.detector.Start();
         }
 
         /// <summary>
@@ -49,15 +49,15 @@ namespace WinCap.Services
         /// <returns>停止リクエスト</returns>
         public IDisposable Suspend()
         {
-            this._suspendRequestCount++;
-            this._detector.Stop();
+            this.suspendRequestCount++;
+            this.detector.Stop();
 
             return Disposable.Create(() =>
             {
-                this._suspendRequestCount--;
-                if (this._suspendRequestCount == 0)
+                this.suspendRequestCount--;
+                if (this.suspendRequestCount == 0)
                 {
-                    this._detector.Start();
+                    this.detector.Start();
                 }
             });
         }
@@ -83,9 +83,9 @@ namespace WinCap.Services
         public IDisposable Register(ShortcutKey shortcutKey, Action action, Func<bool> canExecute)
         {
             var hook = new HookAction(shortcutKey, action, canExecute);
-            this._hookActions.Add(hook);
+            this.hookActions.Add(hook);
 
-            return Disposable.Create(() => this._hookActions.Remove(hook));
+            return Disposable.Create(() => this.hookActions.Remove(hook));
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace WinCap.Services
         {
             if (args.ShortcutKey == ShortcutKey.None) { return; }
 
-            var target = this._hookActions.FirstOrDefault(x => x.ShortcutKey == args.ShortcutKey);
+            var target = this.hookActions.FirstOrDefault(x => x.ShortcutKey == args.ShortcutKey);
             if (target != null && target.CanExecute())
             {
                 DispatcherHelper.UIDispatcher.Invoke(() => target.Action());
@@ -110,7 +110,7 @@ namespace WinCap.Services
         /// </summary>
         public void Dispose()
         {
-            this._detector.Stop();
+            this.detector.Stop();
         }
 
         /// <summary>

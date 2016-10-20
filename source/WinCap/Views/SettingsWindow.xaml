@@ -91,8 +91,26 @@
         <StackPanel Grid.Row="2">
             <!--<Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" VerticalAlignment="Top" />-->
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,8,8">
-                <Button Content="OK" Command="{Binding OkCommand}" MinWidth="90" Margin="4,2" />
-                <Button Content="キャンセル" Command="{Binding CancelCommand}" MinWidth="90" Margin="4,2" />
+                <Button Content="OK"
+                        MinWidth="90"
+                        Margin="4,2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <livet:LivetCallMethodAction MethodTarget="{Binding}"
+                                                         MethodName="Ok" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="キャンセル"
+                        MinWidth="90"
+                        Margin="4,2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <livet:LivetCallMethodAction MethodTarget="{Binding}"
+                                                         MethodName="Cancel" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>

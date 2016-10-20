@@ -49,26 +49,25 @@ namespace WinCap.ViewModels
             this.Output.Initialize();
         }
 
-        #region OK Command
-        private ICommand _OkCommand;
-        public ICommand OkCommand { get { return _OkCommand = _OkCommand ?? new ViewModelCommand(Ok); } }
-        private void Ok()
+        /// <summary>
+        /// OK
+        /// </summary>
+        public void Ok()
         {
             this.General.Apply();
             this.Output.Apply();
 
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
-        #endregion
 
-        #region Cencel Command
-        private ICommand _CancelCommand;
-        public ICommand CancelCommand { get { return _CancelCommand = _CancelCommand ?? new ViewModelCommand(Cancel); } }
-        private void Cancel()
+        /// <summary>
+        /// キャンセル
+        /// </summary>
+        public void Cancel()
         {
             this.General.Cancel();
+            this.Output.Cancel();
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
-        #endregion
     }
 }

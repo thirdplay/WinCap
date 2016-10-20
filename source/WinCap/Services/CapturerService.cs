@@ -22,40 +22,40 @@ namespace WinCap.Services
         /// <summary>
         /// 基本CompositeDisposable
         /// </summary>
-        private readonly LivetCompositeDisposable _compositeDisposable = new LivetCompositeDisposable();
+        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
         /// フックサービス
         /// </summary>
-        private readonly HookService _hookService;
+        private readonly HookService hookService;
 
         /// <summary>
         /// 画面キャプチャ
         /// </summary>
-        private readonly ScreenCapturer _screenCapturer = new ScreenCapturer();
+        private readonly ScreenCapturer screenCapturer = new ScreenCapturer();
 
         /// <summary>
         /// コントロールキャプチャ
         /// </summary>
-        private readonly ControlCapturer _controlCapturer = new ControlCapturer();
+        private readonly ControlCapturer controlCapturer = new ControlCapturer();
 
         /// <summary>
         /// IEキャプチャ
         /// </summary>
-        private readonly IWebBrowserCapturer _ieCapturer = new InternetExplorerCapturer();
+        private readonly IWebBrowserCapturer ieCapturer = new InternetExplorerCapturer();
 
         /// <summary>
         /// コントロール選択ウィンドウのViewModel
         /// </summary>
-        private ControlSelectionWindowViewModel _controlSelectionWindowViewModel;
+        private ControlSelectionWindowViewModel controlSelectionWindowViewModel;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public CapturerService(HookService hookService)
         {
-            _hookService = hookService;
-            _controlSelectionWindowViewModel = new ControlSelectionWindowViewModel().AddTo(this);
+            this.hookService = hookService;
+            this.controlSelectionWindowViewModel = new ControlSelectionWindowViewModel().AddTo(this);
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureDesktop()
         {
-            using (_hookService.Suspend())
+            using (this.hookService.Suspend())
             {
                 // デスクトップ全体をキャプチャ
-                using (Bitmap bitmap = _screenCapturer.CaptureFullScreen())
+                using (Bitmap bitmap = this.screenCapturer.CaptureFullScreen())
                 {
                     saveImage(bitmap);
                 }
@@ -78,10 +78,10 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureActiveControl()
         {
-            using (_hookService.Suspend())
+            using (this.hookService.Suspend())
             {
                 // アクティブウィンドウをキャプチャ
-                using (Bitmap bitmap = _controlCapturer.CaptureActiveControl())
+                using (Bitmap bitmap = this.controlCapturer.CaptureActiveControl())
                 {
                     saveImage(bitmap);
                 }
@@ -93,8 +93,8 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureSelectionControl()
         {
-            var suspended = this._hookService.Suspend();
-            var viewModel = this._controlSelectionWindowViewModel;
+            var suspended = this.hookService.Suspend();
+            var viewModel = this.controlSelectionWindowViewModel;
             var window = new ControlSelectionWindow { DataContext = viewModel };
             Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
             .Subscribe(x =>
@@ -104,7 +104,7 @@ namespace WinCap.Services
                     if (viewModel.SelectedHandle != IntPtr.Zero)
                     {
                         // 選択コントロールをキャプチャ
-                        using (Bitmap bitmap = _controlCapturer.CaptureControl(viewModel.SelectedHandle))
+                        using (Bitmap bitmap = this.controlCapturer.CaptureControl(viewModel.SelectedHandle))
                         {
                             saveImage(bitmap);
                         }
@@ -122,8 +122,8 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureWebPage()
         {
-            var suspended = this._hookService.Suspend();
-            var viewModel = this._controlSelectionWindowViewModel;
+            var suspended = this.hookService.Suspend();
+            var viewModel = this.controlSelectionWindowViewModel;
             var window = new ControlSelectionWindow { DataContext = viewModel };
             Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
             .Subscribe(x =>
@@ -134,12 +134,12 @@ namespace WinCap.Services
                     {
                         // キャプチャ可能か判定
                         string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
-                        if (_ieCapturer.CanCapture(className))
+                        if (this.ieCapturer.CanCapture(className))
                         {
                             // ウェブページ全体をキャプチャ
-                            this._ieCapturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
-                            this._ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                            using (Bitmap bitmap = _ieCapturer.Capture(viewModel.SelectedHandle))
+                            this.ieCapturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
+                            this.ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
+                            using (Bitmap bitmap = this.ieCapturer.Capture(viewModel.SelectedHandle))
                             {
                                 saveImage(bitmap);
                             }
@@ -147,7 +147,7 @@ namespace WinCap.Services
                         else
                         {
                             // 選択コントロールをキャプチャ
-                            using (Bitmap bitmap = _controlCapturer.CaptureControl(viewModel.SelectedHandle))
+                            using (Bitmap bitmap = this.controlCapturer.CaptureControl(viewModel.SelectedHandle))
                             {
                                 saveImage(bitmap);
                             }
@@ -184,14 +184,14 @@ namespace WinCap.Services
         }
 
         #region IDisposableHoloder members
-        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this._compositeDisposable;
+        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {
-            this._compositeDisposable.Dispose();
+            this.compositeDisposable.Dispose();
         }
         #endregion
     }

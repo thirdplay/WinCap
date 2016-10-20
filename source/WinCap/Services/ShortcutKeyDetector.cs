@@ -14,27 +14,27 @@ namespace WinCap.Services
         /// <summary>
         /// 装飾キーリスト
         /// </summary>
-        private readonly HashSet<Keys> _pressedModifiers = new HashSet<Keys>();
+        private readonly HashSet<Keys> pressedModifiers = new HashSet<Keys>();
 
         /// <summary>
         /// キーボード監視
         /// </summary>
-        private readonly IKeyboardInterceptor _interceptor = new KeyboardInterceptor();
+        private readonly IKeyboardInterceptor interceptor = new KeyboardInterceptor();
 
         /// <summary>
         /// 開始状態
         /// </summary>
-        private bool _started;
+        private bool started;
 
         /// <summary>
         /// 停止状態
         /// </summary>
-        private bool _suspended;
+        private bool suspended;
 
         /// <summary>
         /// 停止状態
         /// </summary>
-        public bool IsSuspended { get { return _suspended; } }
+        public bool IsSuspended { get { return suspended; } }
 
         /// <summary>
         /// ショートカットキー検出イベント
@@ -46,8 +46,8 @@ namespace WinCap.Services
         /// </summary>
         public ShortcutKeyDetector()
         {
-            this._interceptor.KeyDown += this.InterceptorOnKeyDown;
-            this._interceptor.KeyUp += this.InterceptorOnKeyUp;
+            this.interceptor.KeyDown += this.InterceptorOnKeyDown;
+            this.interceptor.KeyUp += this.InterceptorOnKeyUp;
         }
 
         /// <summary>
@@ -55,13 +55,13 @@ namespace WinCap.Services
         /// </summary>
         public void Start()
         {
-            if (!this._started)
+            if (!this.started)
             {
-                this._interceptor.StartCapturing();
-                this._started = true;
+                this.interceptor.StartCapturing();
+                this.started = true;
             }
 
-            this._suspended = false;
+            this.suspended = false;
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace WinCap.Services
         /// </summary>
         public void Stop()
         {
-            this._suspended = true;
-            this._pressedModifiers.Clear();
+            this.suspended = true;
+            this.pressedModifiers.Clear();
         }
 
         /// <summary>
@@ -80,15 +80,15 @@ namespace WinCap.Services
         /// <param name="args">イベント引数</param>
         private void InterceptorOnKeyDown(object sender, KeyEventArgs args)
         {
-            if (this._suspended) { return; }
+            if (this.suspended) { return; }
 
             if (args.KeyCode.IsModifyKey())
             {
-                this._pressedModifiers.Add(args.KeyCode);
+                this.pressedModifiers.Add(args.KeyCode);
             }
             else
             {
-                var pressedEventArgs = new ShortcutKeyPressedEventArgs(args.KeyCode, this._pressedModifiers);
+                var pressedEventArgs = new ShortcutKeyPressedEventArgs(args.KeyCode, this.pressedModifiers);
                 this.Pressed?.Invoke(this, pressedEventArgs);
                 if (pressedEventArgs.Handled)
                 {
@@ -104,12 +104,12 @@ namespace WinCap.Services
         /// <param name="args">イベント引数</param>
         private void InterceptorOnKeyUp(object sender, KeyEventArgs args)
         {
-            if (this._suspended) { return; }
-            if (this._pressedModifiers.Count == 0) { return; }
+            if (this.suspended) { return; }
+            if (this.pressedModifiers.Count == 0) { return; }
 
             if (args.KeyCode.IsModifyKey())
             {
-                this._pressedModifiers.Remove(args.KeyCode);
+                this.pressedModifiers.Remove(args.KeyCode);
             }
         }
     }
