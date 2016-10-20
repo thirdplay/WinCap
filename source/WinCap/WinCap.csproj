@@ -147,7 +147,9 @@
     <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />
+    <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
+    <Compile Include="Serialization\OutputSettings.cs" />
     <Compile Include="Serialization\SerializationExtensions.cs" />
     <Compile Include="Serialization\ShortcutkeyProperty.cs" />
     <Compile Include="Serialization\ShortcutKeySettings.cs" />
@@ -165,7 +167,6 @@
     <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="TaskTrayIcon.cs" />
     <Compile Include="ViewModels\Settings\GeneralViewModel.cs" />
-    <Compile Include="ViewModels\Settings\CaptureViewModel.cs" />
     <Compile Include="ViewModels\Settings\ShortcutKeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="Capturers\ControlCapturer.cs" />

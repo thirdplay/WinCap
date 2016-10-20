@@ -19,8 +19,10 @@
         <TextBlock Text="{x:Static prop:Resources.Settings_OutputMethod}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
-            <RadioButton Content="クリップボード" />
-            <RadioButton Content="画像ファイル" />
+            <RadioButton Content="{x:Static prop:Resources.Settings_Clipboard}"
+                         IsChecked="{Binding OutputMethodType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Clipboard}"/>
+            <RadioButton Content="{x:Static prop:Resources.Settings_ImageFile}"
+                         IsChecked="{Binding OutputMethodType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=ImageFile}"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
         <TextBlock Text="出力フォルダ"

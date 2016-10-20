@@ -159,11 +159,17 @@
   <data name="Settings_CaptureOption" xml:space="preserve">
     <value>キャプチャオプション</value>
   </data>
+  <data name="Settings_Clipboard" xml:space="preserve">
+    <value>クリップボード</value>
+  </data>
   <data name="Settings_DelayTime" xml:space="preserve">
     <value>遅延時間</value>
   </data>
   <data name="Settings_General" xml:space="preserve">
     <value>一般設定</value>
+  </data>
+  <data name="Settings_ImageFile" xml:space="preserve">
+    <value>画像ファイル</value>
   </data>
   <data name="Settings_Milliseconds" xml:space="preserve">
     <value>ms</value>

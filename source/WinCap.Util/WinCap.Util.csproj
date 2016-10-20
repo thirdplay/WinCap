@@ -90,6 +90,7 @@
     <Compile Include="Serialization\SerializableProperty.cs" />
     <Compile Include="Serialization\SerializablePropertyBase.cs" />
     <Compile Include="Serialization\ValueChangedEventArgs.cs" />
+    <Compile Include="UI\Converters\EnumToBooleanConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

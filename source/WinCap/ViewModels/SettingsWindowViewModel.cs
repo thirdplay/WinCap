@@ -14,16 +14,11 @@ namespace WinCap.ViewModels
     /// </summary>
     public class SettingsWindowViewModel : ViewModel
     {
-        #region TanItems ViewModel
+        #region ViewModels
         /// <summary>
         /// 一般設定ViewModel
         /// </summary>
         public GeneralViewModel General { get; } = new GeneralViewModel();
-
-        /// <summary>
-        /// キャプチャー設定ViewModel
-        /// </summary>
-        public CaptureViewModel Capture { get; } = new CaptureViewModel();
 
         /// <summary>
         /// 出力設定ViewModel
@@ -51,6 +46,7 @@ namespace WinCap.ViewModels
         public void Initialize()
         {
             this.General.Initialize();
+            this.Output.Initialize();
         }
 
         #region OK Command
@@ -59,6 +55,7 @@ namespace WinCap.ViewModels
         private void Ok()
         {
             this.General.Apply();
+            this.Output.Apply();
 
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }

@@ -187,6 +187,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   クリップボード に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Clipboard {
+            get {
+                return ResourceManager.GetString("Settings_Clipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   遅延時間 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_DelayTime {
@@ -201,6 +210,15 @@ namespace WinCap.Properties {
         public static string Settings_General {
             get {
                 return ResourceManager.GetString("Settings_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   画像ファイル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ImageFile {
+            get {
+                return ResourceManager.GetString("Settings_ImageFile", resourceCulture);
             }
         }
         

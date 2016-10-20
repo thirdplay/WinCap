@@ -15,7 +15,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">シリアル化機能提供者</param>
         public GeneralSettings(ISerializationProvider provider)
         {
             this._provider = provider;

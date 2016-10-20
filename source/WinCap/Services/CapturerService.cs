@@ -56,9 +56,6 @@ namespace WinCap.Services
         {
             _hookService = hookService;
             _controlSelectionWindowViewModel = new ControlSelectionWindowViewModel().AddTo(this);
-
-            Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Subscribe(x => this._ieCapturer.IsScrollWindowPageTop = x).AddTo(this);
-            Settings.General.ScrollDelayTime.Subscribe(x => this._ieCapturer.ScrollDelayTime = x).AddTo(this);
         }
 
         /// <summary>
@@ -96,13 +93,13 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureSelectionControl()
         {
-            var susspendReq = this._hookService.Suspend();
+            var suspended = this._hookService.Suspend();
             var viewModel = this._controlSelectionWindowViewModel;
             var window = new ControlSelectionWindow { DataContext = viewModel };
             Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
             .Subscribe(x =>
             {
-                using (susspendReq)
+                using (suspended)
                 {
                     if (viewModel.SelectedHandle != IntPtr.Zero)
                     {
@@ -125,13 +122,13 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureWebPage()
         {
-            var susspendReq = this._hookService.Suspend();
+            var suspended = this._hookService.Suspend();
             var viewModel = this._controlSelectionWindowViewModel;
             var window = new ControlSelectionWindow { DataContext = viewModel };
             Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
             .Subscribe(x =>
             {
-                using (susspendReq)
+                using (suspended)
                 {
                     if (viewModel.SelectedHandle != IntPtr.Zero)
                     {
@@ -140,6 +137,8 @@ namespace WinCap.Services
                         if (_ieCapturer.CanCapture(className))
                         {
                             // ウェブページ全体をキャプチャ
+                            this._ieCapturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
+                            this._ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
                             using (Bitmap bitmap = _ieCapturer.Capture(viewModel.SelectedHandle))
                             {
                                 saveImage(bitmap);
@@ -169,9 +168,17 @@ namespace WinCap.Services
         /// <param name="image">画像</param>
         private void saveImage(Bitmap image)
         {
-            // 画像をクリップボードに設定する
-            Clipboard.SetDataObject(image, true);
-
+            if (Settings.Output.OutputMethodType == OutputMethodType.Clipboard)
+            {
+                // 画像をクリップボードに設定する
+                Clipboard.SetDataObject(image, true);
+            }
+            else if(Settings.Output.OutputMethodType == OutputMethodType.ImageFile)
+            {
+                // TODO:
+                // ファイルパス確定
+                // 画像ファイルに保存
+            }
             // SE再生
             SystemSounds.Asterisk.Play();
         }
