@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Windows;
 using WinCap.Capturers;
 using WinCap.Models;
@@ -66,7 +67,7 @@ namespace WinCap.Services
             using (this.hookService.Suspend())
             {
                 // デスクトップ全体をキャプチャ
-                using (Bitmap bitmap = this.screenCapturer.CaptureFullScreen())
+                using (Bitmap bitmap = executeCapture(() => this.screenCapturer.CaptureFullScreen()))
                 {
                     saveImage(bitmap);
                 }
@@ -81,7 +82,7 @@ namespace WinCap.Services
             using (this.hookService.Suspend())
             {
                 // アクティブウィンドウをキャプチャ
-                using (Bitmap bitmap = this.controlCapturer.CaptureActiveControl())
+                using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureActiveControl()))
                 {
                     saveImage(bitmap);
                 }
@@ -104,7 +105,7 @@ namespace WinCap.Services
                     if (viewModel.SelectedHandle != IntPtr.Zero)
                     {
                         // 選択コントロールをキャプチャ
-                        using (Bitmap bitmap = this.controlCapturer.CaptureControl(viewModel.SelectedHandle))
+                        using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
                         {
                             saveImage(bitmap);
                         }
@@ -139,7 +140,7 @@ namespace WinCap.Services
                             // ウェブページ全体をキャプチャ
                             this.ieCapturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
                             this.ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                            using (Bitmap bitmap = this.ieCapturer.Capture(viewModel.SelectedHandle))
+                            using (Bitmap bitmap = executeCapture(() => this.ieCapturer.Capture(viewModel.SelectedHandle)))
                             {
                                 saveImage(bitmap);
                             }
@@ -147,7 +148,7 @@ namespace WinCap.Services
                         else
                         {
                             // 選択コントロールをキャプチャ
-                            using (Bitmap bitmap = this.controlCapturer.CaptureControl(viewModel.SelectedHandle))
+                            using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
                             {
                                 saveImage(bitmap);
                             }
@@ -163,6 +164,20 @@ namespace WinCap.Services
         }
 
         /// <summary>
+        /// キャプチャを実行します。
+        /// </summary>
+        /// <param name="action">キャプチャ処理メソッド</param>
+        /// <returns>ビットマップ</returns>
+        private Bitmap executeCapture(Func<Bitmap> action)
+        {
+            if (Settings.General.CaptureDelayTime > 0)
+            {
+                Thread.Sleep(Settings.General.CaptureDelayTime);
+            }
+            return action();
+        }
+
+        /// <summary>
         /// キャプチャ画像を保存します。
         /// </summary>
         /// <param name="image">画像</param>
@@ -171,9 +186,9 @@ namespace WinCap.Services
             if (Settings.Output.OutputMethodType == OutputMethodType.Clipboard)
             {
                 // 画像をクリップボードに設定する
-                Clipboard.SetDataObject(image, true);
+                Clipboard.SetDataObject(image, false);
             }
-            else if(Settings.Output.OutputMethodType == OutputMethodType.ImageFile)
+            else if (Settings.Output.OutputMethodType == OutputMethodType.ImageFile)
             {
                 // TODO:
                 // ファイルパス確定

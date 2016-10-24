@@ -1,8 +1,6 @@
 ﻿using Livet;
-using Livet.Commands;
 using Livet.Messaging;
 using MetroRadiance.Utilities;
-using System.Windows.Input;
 using WinCap.Serialization;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
