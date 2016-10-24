@@ -39,7 +39,7 @@ namespace WinCap.Services
         /// </summary>
         public HookService()
         {
-            this.detector.Pressed += this.KeyHookOnPressed;
+            this.detector.Pressed += this.keyHookOnPressed;
             this.detector.Start();
         }
 
@@ -93,7 +93,7 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="sender">イベント発生元オブジェクト</param>
         /// <param name="args">イベント引数</param>
-        private void KeyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
+        private void keyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
         {
             if (args.ShortcutKey == ShortcutKey.None) { return; }
 
