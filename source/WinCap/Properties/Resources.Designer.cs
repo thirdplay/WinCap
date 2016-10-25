@@ -241,6 +241,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   出力フォルダ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFolder {
+            get {
+                return ResourceManager.GetString("Settings_OutputFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   出力方法 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_OutputMethod {

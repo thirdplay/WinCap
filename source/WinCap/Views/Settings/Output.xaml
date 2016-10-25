@@ -25,7 +25,7 @@
                          IsChecked="{Binding OutputMethodType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=ImageFile}"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
-        <TextBlock Text="出力フォルダ"
+        <TextBlock Text="{x:Static prop:Resources.Settings_OutputFolder}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <Grid Style="{DynamicResource SettingsContentPanelStyleKey}">
             <Grid.ColumnDefinitions>
@@ -39,8 +39,8 @@
 
             <metro:PromptTextBox Grid.Row="0"
                                  Grid.Column="0"
-                                 Prompt="出力フォルダ"
-                                 Text=""
+                                 Prompt="{x:Static prop:Resources.Settings_OutputFolder}"
+                                 Text="{Binding OutputFolder, Mode=TwoWay}"
                                  Margin="2,2" />
             <Button Grid.Row="0"
                     Grid.Column="1"

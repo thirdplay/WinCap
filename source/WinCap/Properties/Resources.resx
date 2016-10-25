@@ -177,6 +177,9 @@
   <data name="Settings_Output" xml:space="preserve">
     <value>出力設定</value>
   </data>
+  <data name="Settings_OutputFolder" xml:space="preserve">
+    <value>出力フォルダ</value>
+  </data>
   <data name="Settings_OutputMethod" xml:space="preserve">
     <value>出力方法</value>
   </data>

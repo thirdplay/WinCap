@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using WinCap.Util.Serialization;
 
 namespace WinCap.Serialization
 {
     /// <summary>
-    /// シリアル化プロパティを管理します。
+    /// プロパティのキャッシュ機能を提供します。
     /// </summary>
     public abstract class SettingsHost
     {
         /// <summary>
         /// 静的な設定管理マップ
         /// </summary>
-        private static readonly Dictionary<Type, SettingsHost> _instances = new Dictionary<Type, SettingsHost>();
+        private static readonly Dictionary<Type, SettingsHost> instances = new Dictionary<Type, SettingsHost>();
 
         /// <summary>
         /// プロパティのキャッシュ管理用マップ
         /// </summary>
-        private readonly Dictionary<string, object> _cachedProperties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> cachedProperties = new Dictionary<string, object>();
 
         /// <summary>
         /// カテゴリー名
@@ -30,28 +29,28 @@ namespace WinCap.Serialization
         /// </summary>
         protected SettingsHost()
         {
-            _instances[this.GetType()] = this;
+            instances[this.GetType()] = this;
         }
 
         /// <summary>
-        /// シリアル化プロパティを取得します。
+        /// プロパティを取得します。
         /// </summary>
         /// <typeparam name="T">SerializablePropertyBaseを継承したクラス</typeparam>
-        /// <param name="create">シリアル化プロパティの生成メソッド</param>
+        /// <param name="create">プロパティの生成メソッド</param>
         /// <param name="propertyName">プロパティ名</param>
-        /// <returns>シリアル化プロパティ</returns>
+        /// <returns>プロパティ</returns>
         protected T Cache<T>(Func<string, T> create, [CallerMemberName] string propertyName = "")
         {
             var key = this.CategoryName + "." + propertyName;
 
             object obj;
-            if (this._cachedProperties.TryGetValue(key, out obj) && obj is T)
+            if (this.cachedProperties.TryGetValue(key, out obj) && obj is T)
             {
                 return (T)obj;
             }
 
             var property = create(key);
-            this._cachedProperties[key] = property;
+            this.cachedProperties[key] = property;
 
             return property;
         }
@@ -64,7 +63,7 @@ namespace WinCap.Serialization
         public static T Instance<T>() where T : SettingsHost
         {
             SettingsHost host;
-            return _instances.TryGetValue(typeof(T), out host) ? (T)host : null;
+            return instances.TryGetValue(typeof(T), out host) ? (T)host : null;
         }
     }
 }

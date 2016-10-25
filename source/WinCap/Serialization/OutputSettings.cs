@@ -26,5 +26,10 @@ namespace WinCap.Serialization
         /// 出力方法
         /// </summary>
         public SerializableProperty<OutputMethodType> OutputMethodType => this.Cache(key => new SerializableProperty<OutputMethodType>(key, this._provider, Models.OutputMethodType.Clipboard));
+
+        /// <summary>
+        /// 出力フォルダ
+        /// </summary>
+        public SerializableProperty<string> OutputFolder => this.Cache(key => new SerializableProperty<string>(key, this._provider));
     }
 }

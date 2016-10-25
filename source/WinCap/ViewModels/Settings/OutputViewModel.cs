@@ -27,6 +27,25 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
+        #region OutputFolder 変更通知プロパティ
+        private string _OutputFolder;
+        /// <summary>
+        /// 出力方法
+        /// </summary>
+        public string OutputFolder
+        {
+            get { return _OutputFolder; }
+            set
+            {
+                if (_OutputFolder != value)
+                {
+                    this._OutputFolder = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
         /// <summary>
         /// 初期化
         /// </summary>
@@ -42,6 +61,7 @@ namespace WinCap.ViewModels.Settings
         {
             var settings = Serialization.Settings.Output;
             settings.OutputMethodType.Value = this.OutputMethodType;
+            settings.OutputFolder.Value = this.OutputFolder;
         }
 
         /// <summary>
@@ -59,6 +79,7 @@ namespace WinCap.ViewModels.Settings
         {
             var settings = Serialization.Settings.Output;
             this.OutputMethodType = settings.OutputMethodType;
+            this.OutputFolder = settings.OutputFolder;
         }
     }
 }
