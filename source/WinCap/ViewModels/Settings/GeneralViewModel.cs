@@ -9,9 +9,6 @@ namespace WinCap.ViewModels.Settings
     {
         #region IsRegisterInStartup 変更通知プロパティ
         private bool _IsRegisterInStartup;
-        /// <summary>
-        /// スタートアップに登録する
-        /// </summary>
         public bool IsRegisterInStartup
         {
             get { return _IsRegisterInStartup; }
@@ -19,8 +16,8 @@ namespace WinCap.ViewModels.Settings
             {
                 if (_IsRegisterInStartup != value)
                 {
-                    this._IsRegisterInStartup = value;
-                    this.RaisePropertyChanged();
+                    _IsRegisterInStartup = value;
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -28,9 +25,6 @@ namespace WinCap.ViewModels.Settings
 
         #region IsPlaySeWhenCapture 変更通知プロパティ
         private bool _IsPlaySeWhenCapture;
-        /// <summary>
-        /// キャプチャー時に効果音を再生する
-        /// </summary>
         public bool IsPlaySeWhenCapture
         {
             get { return _IsPlaySeWhenCapture; }
@@ -38,8 +32,8 @@ namespace WinCap.ViewModels.Settings
             {
                 if (_IsPlaySeWhenCapture != value)
                 {
-                    this._IsPlaySeWhenCapture = value;
-                    this.RaisePropertyChanged();
+                    _IsPlaySeWhenCapture = value;
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -47,9 +41,6 @@ namespace WinCap.ViewModels.Settings
 
         #region IsWebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
         private bool _IsWebPageCaptureStartWhenPageFirstMove;
-        /// <summary>
-        /// ウェブページ全体キャプチャ開始時にページ先頭に移動する
-        /// </summary>
         public bool IsWebPageCaptureStartWhenPageFirstMove
         {
             get { return _IsWebPageCaptureStartWhenPageFirstMove; }
@@ -57,8 +48,8 @@ namespace WinCap.ViewModels.Settings
             {
                 if (_IsWebPageCaptureStartWhenPageFirstMove != value)
                 {
-                    this._IsWebPageCaptureStartWhenPageFirstMove = value;
-                    this.RaisePropertyChanged();
+                    _IsWebPageCaptureStartWhenPageFirstMove = value;
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -66,9 +57,6 @@ namespace WinCap.ViewModels.Settings
 
         #region ScrollDelayTime 変更通知プロパティ
         private int _ScrollDelayTime;
-        /// <summary>
-        /// スクロール遅延時間
-        /// </summary>
         public int ScrollDelayTime
         {
             get { return _ScrollDelayTime; }
@@ -76,8 +64,8 @@ namespace WinCap.ViewModels.Settings
             {
                 if (_ScrollDelayTime != value)
                 {
-                    this._ScrollDelayTime = value;
-                    this.RaisePropertyChanged();
+                    _ScrollDelayTime = value;
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -85,9 +73,6 @@ namespace WinCap.ViewModels.Settings
 
         #region CaptureDelayTime 変更通知プロパティ
         private int _CaptureDelayTime;
-        /// <summary>
-        /// キャプチャ遅延時間
-        /// </summary>
         public int CaptureDelayTime
         {
             get { return _CaptureDelayTime; }
@@ -95,8 +80,8 @@ namespace WinCap.ViewModels.Settings
             {
                 if (_CaptureDelayTime != value)
                 {
-                    this._CaptureDelayTime = value;
-                    this.RaisePropertyChanged();
+                    _CaptureDelayTime = value;
+                    RaisePropertyChanged();
                 }
             }
         }

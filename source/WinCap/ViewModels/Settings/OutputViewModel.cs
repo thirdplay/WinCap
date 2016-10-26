@@ -10,9 +10,6 @@ namespace WinCap.ViewModels.Settings
     {
         #region OutputMethodType 変更通知プロパティ
         private OutputMethodType _OutputMethodType;
-        /// <summary>
-        /// 出力方法
-        /// </summary>
         public OutputMethodType OutputMethodType
         {
             get { return _OutputMethodType; }
@@ -20,8 +17,8 @@ namespace WinCap.ViewModels.Settings
             {
                 if (_OutputMethodType != value)
                 {
-                    this._OutputMethodType = value;
-                    this.RaisePropertyChanged();
+                    _OutputMethodType = value;
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -29,9 +26,6 @@ namespace WinCap.ViewModels.Settings
 
         #region OutputFolder 変更通知プロパティ
         private string _OutputFolder;
-        /// <summary>
-        /// 出力方法
-        /// </summary>
         public string OutputFolder
         {
             get { return _OutputFolder; }
@@ -39,8 +33,8 @@ namespace WinCap.ViewModels.Settings
             {
                 if (_OutputFolder != value)
                 {
-                    this._OutputFolder = value;
-                    this.RaisePropertyChanged();
+                    _OutputFolder = value;
+                    RaisePropertyChanged();
                 }
             }
         }
