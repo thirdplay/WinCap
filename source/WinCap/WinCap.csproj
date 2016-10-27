@@ -147,6 +147,7 @@
     <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />
+    <Compile Include="Models\OutputFormatType.cs" />
     <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
     <Compile Include="Serialization\OutputSettings.cs" />

@@ -17,7 +17,6 @@
                    WindowStartupLocation="CenterScreen"
                    Background="{DynamicResource ThemeBrushKey}"
 	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
-                   FontFamily="Segoe UI Light, Meiryo UI"
                    Width="800"
                    Height="550">
     <i:Interaction.Triggers>
@@ -79,7 +78,7 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <TextBlock Text="ショートカットキー設定"
+                    <TextBlock Text="{x:Static prop:Resources.Settings_ShortcutKey}"
                                Style="{DynamicResource VerticalTabHeaderTextStyleKey}"/>
                 </TabItem.Header>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
@@ -89,11 +88,12 @@
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="2">
-            <!--<Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" VerticalAlignment="Top" />-->
+            <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" VerticalAlignment="Top" />
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,8,8">
-                <Button Content="OK"
+                <Button Content="{x:Static prop:Resources.Settings_Ok}"
                         MinWidth="90"
-                        Margin="4,2">
+                        Margin="4,2"
+                        IsDefault="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <livet:LivetCallMethodAction MethodTarget="{Binding}"
@@ -101,9 +101,10 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="キャンセル"
+                <Button Content="{x:Static prop:Resources.Settings_Cancel}"
                         MinWidth="90"
-                        Margin="4,2">
+                        Margin="4,2"
+                        IsCancel="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <livet:LivetCallMethodAction MethodTarget="{Binding}"

@@ -31,5 +31,20 @@ namespace WinCap.Serialization
         /// 出力フォルダ
         /// </summary>
         public SerializableProperty<string> OutputFolder => this.Cache(key => new SerializableProperty<string>(key, this._provider));
+
+        /// <summary>
+        /// 画像を自動保存する
+        /// </summary>
+        public SerializableProperty<bool> IsAutoSaveImage => this.Cache(key => new SerializableProperty<bool>(key, this._provider));
+
+        /// <summary>
+        /// 出力ファイル名パターン
+        /// </summary>
+        public SerializableProperty<string> OutputFileNamePattern => this.Cache(key => new SerializableProperty<string>(key, this._provider, "Image %c"));
+
+        /// <summary>
+        /// 出力形式
+        /// </summary>
+        public SerializableProperty<OutputFormatType> OutputFormatType => this.Cache(key => new SerializableProperty<OutputFormatType>(key, this._provider, Models.OutputFormatType.Png));
     }
 }

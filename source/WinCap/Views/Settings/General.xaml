@@ -21,7 +21,8 @@
                    Margin="0,0,0,8" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
             <CheckBox Content="{x:Static prop:Resources.Settings_RegisterInStartup}"
-                      IsChecked="{Binding IsRegisterInStartup, Mode=TwoWay}"/>
+                      IsChecked="{Binding IsRegisterInStartup, Mode=TwoWay}"
+                      HorizontalAlignment="Left"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
         <TextBlock Text="{x:Static prop:Resources.Settings_CaptureOption}"
@@ -29,9 +30,11 @@
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
             <CheckBox
                 Content="{x:Static prop:Resources.Settings_PlaySeWhenCapture}"
-                IsChecked="{Binding IsPlaySeWhenCapture, Mode=TwoWay}" />
+                IsChecked="{Binding IsPlaySeWhenCapture, Mode=TwoWay}"
+                HorizontalAlignment="Left" />
             <CheckBox Content="{x:Static prop:Resources.Settings_WebPageCaptureStartWhenPageFirstMove}"
-                      IsChecked="{Binding IsWebPageCaptureStartWhenPageFirstMove, Mode=TwoWay}"/>
+                      IsChecked="{Binding IsWebPageCaptureStartWhenPageFirstMove, Mode=TwoWay}"
+                      HorizontalAlignment="Left"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
         <TextBlock Text="{x:Static prop:Resources.Settings_DelayTime}"
@@ -62,10 +65,12 @@
                          Columns="1">
                 <metro:PromptTextBox Prompt=""
                                      Text="{Binding ScrollDelayTime, Mode=TwoWay}"
-                                     Margin="0,2" /><!-- MAX:1000 -->
+                                     Margin="0,2" />
+                <!-- MAX:1000 -->
                 <metro:PromptTextBox Prompt=""
                                      Text="{Binding CaptureDelayTime, Mode=TwoWay}"
-                                     Margin="0,2" /><!-- MAX:10000 -->
+                                     Margin="0,2" />
+                <!-- MAX:10000 -->
             </UniformGrid>
             <UniformGrid Grid.Column="2"
                          Columns="1">

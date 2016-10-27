@@ -20,9 +20,11 @@
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
             <RadioButton Content="{x:Static prop:Resources.Settings_Clipboard}"
-                         IsChecked="{Binding OutputMethodType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Clipboard}"/>
+                         IsChecked="{Binding OutputMethodType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Clipboard}"
+                         HorizontalAlignment="Left"/>
             <RadioButton Content="{x:Static prop:Resources.Settings_ImageFile}"
-                         IsChecked="{Binding OutputMethodType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=ImageFile}"/>
+                         IsChecked="{Binding OutputMethodType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=ImageFile}"
+                         HorizontalAlignment="Left"/>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
         <TextBlock Text="{x:Static prop:Resources.Settings_OutputFolder}"
@@ -49,27 +51,30 @@
                     Height="22"
                     Margin="2,0"/>
             <CheckBox Grid.Row="1"
-                      Content="画像を自動保存する" />
+                      Content="{x:Static prop:Resources.Settings_AutoSaveImage}"
+                      IsChecked="{Binding IsAutoSaveImage, Mode=TwoWay}"
+                      HorizontalAlignment="Left" />
         </Grid>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
-        <TextBlock Text="出力ファイル名パターン"
+        <TextBlock Text="{x:Static prop:Resources.Settings_OutputFileNamePattern}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
-            <metro:PromptTextBox Prompt="出力ファイル名パターン"
-                                 Text=""
+            <metro:PromptTextBox Prompt="{x:Static prop:Resources.Settings_OutputFileNamePattern}"
+                                 Text="{Binding OutputFileNamePattern, Mode=TwoWay}"
                                  Margin="2,2" />
-            <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                <Run Text="凡例:)" />
+            <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
+                       Margin="0,4,0,0">
+                <Run Text="{x:Static prop:Resources.Settings_Legend}" />
             </TextBlock>
             <StackPanel Margin="20,0,0,0">
                 <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="%y: 年, %m: 月, %d: 日" />
+                    <Run Text="{x:Static prop:Resources.Settings_LegendDate}" />
                 </TextBlock>
                 <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="%h: 時, %n: 分, %s: 秒" />
+                    <Run Text="{x:Static prop:Resources.Settings_LegendTime}" />
                 </TextBlock>
                 <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="%c: 連番" />
+                    <Run Text="{x:Static prop:Resources.Settings_LegendSequence}" />
                 </TextBlock>
             </StackPanel>
         </StackPanel>
@@ -77,10 +82,18 @@
         <TextBlock Text="出力形式"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
-            <RadioButton Content="BMP画像ファイル (*.bmp)" />
-            <RadioButton Content="JPEG画像ファイル (*.jpg)" />
-            <RadioButton Content="PNG画像ファイル (*.png)" />
-            <RadioButton Content="GIF画像ファイル (*.gif)" />
+            <RadioButton Content="{x:Static prop:Resources.Settings_OutputFormatBmp}"
+                         IsChecked="{Binding OutputFormatType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Bmp}"
+                         HorizontalAlignment="Left" />
+            <RadioButton Content="{x:Static prop:Resources.Settings_OutputFormatJpg}"
+                         IsChecked="{Binding OutputFormatType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Jpg}"
+                         HorizontalAlignment="Left" />
+            <RadioButton Content="{x:Static prop:Resources.Settings_OutputFormatPng}"
+                         IsChecked="{Binding OutputFormatType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Png}"
+                         HorizontalAlignment="Left" />
+            <RadioButton Content="{x:Static prop:Resources.Settings_OutputFormatGif}"
+                         IsChecked="{Binding OutputFormatType, Mode=TwoWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Gif}"
+                         HorizontalAlignment="Left" />
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
     </StackPanel>

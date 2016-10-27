@@ -150,6 +150,12 @@
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
   </data>
+  <data name="Settings_AutoSaveImage" xml:space="preserve">
+    <value>画像を自動保存する</value>
+  </data>
+  <data name="Settings_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
   <data name="Settings_Capture" xml:space="preserve">
     <value>キャプチャ設定</value>
   </data>
@@ -171,14 +177,44 @@
   <data name="Settings_ImageFile" xml:space="preserve">
     <value>画像ファイル</value>
   </data>
+  <data name="Settings_Legend" xml:space="preserve">
+    <value>凡例:)</value>
+  </data>
+  <data name="Settings_LegendDate" xml:space="preserve">
+    <value>%y: 年, %m: 月, %d: 日</value>
+  </data>
+  <data name="Settings_LegendSequence" xml:space="preserve">
+    <value>%c: 連番</value>
+  </data>
+  <data name="Settings_LegendTime" xml:space="preserve">
+    <value>%h: 時, %n: 分, %s: 秒</value>
+  </data>
   <data name="Settings_Milliseconds" xml:space="preserve">
     <value>ms</value>
+  </data>
+  <data name="Settings_Ok" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="Settings_Output" xml:space="preserve">
     <value>出力設定</value>
   </data>
+  <data name="Settings_OutputFileNamePattern" xml:space="preserve">
+    <value>出力ファイル名パターン</value>
+  </data>
   <data name="Settings_OutputFolder" xml:space="preserve">
     <value>出力フォルダ</value>
+  </data>
+  <data name="Settings_OutputFormatBmp" xml:space="preserve">
+    <value>BMP 画像ファイル (*.bmp)</value>
+  </data>
+  <data name="Settings_OutputFormatGif" xml:space="preserve">
+    <value>GIF 画像ファイル (*.gif)</value>
+  </data>
+  <data name="Settings_OutputFormatJpg" xml:space="preserve">
+    <value>JPEG 画像ファイル (*.jpg)</value>
+  </data>
+  <data name="Settings_OutputFormatPng" xml:space="preserve">
+    <value>PNG 画像ファイル (*.png)</value>
   </data>
   <data name="Settings_OutputMethod" xml:space="preserve">
     <value>出力方法</value>

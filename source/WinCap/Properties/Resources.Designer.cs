@@ -160,6 +160,24 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   画像を自動保存する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_AutoSaveImage {
+            get {
+                return ResourceManager.GetString("Settings_AutoSaveImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   キャンセル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Cancel {
+            get {
+                return ResourceManager.GetString("Settings_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   キャプチャ設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Capture {
@@ -223,11 +241,56 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   凡例:) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Legend {
+            get {
+                return ResourceManager.GetString("Settings_Legend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   %y: 年, %m: 月, %d: 日 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_LegendDate {
+            get {
+                return ResourceManager.GetString("Settings_LegendDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   %c: 連番 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_LegendSequence {
+            get {
+                return ResourceManager.GetString("Settings_LegendSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   %h: 時, %n: 分, %s: 秒 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_LegendTime {
+            get {
+                return ResourceManager.GetString("Settings_LegendTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ms に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Milliseconds {
             get {
                 return ResourceManager.GetString("Settings_Milliseconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   OK に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Ok {
+            get {
+                return ResourceManager.GetString("Settings_Ok", resourceCulture);
             }
         }
         
@@ -241,11 +304,56 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   出力ファイル名パターン に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFileNamePattern {
+            get {
+                return ResourceManager.GetString("Settings_OutputFileNamePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   出力フォルダ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_OutputFolder {
             get {
                 return ResourceManager.GetString("Settings_OutputFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   BMP 画像ファイル (*.bmp) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFormatBmp {
+            get {
+                return ResourceManager.GetString("Settings_OutputFormatBmp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   GIF 画像ファイル (*.gif) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFormatGif {
+            get {
+                return ResourceManager.GetString("Settings_OutputFormatGif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   JPEG 画像ファイル (*.jpg) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFormatJpg {
+            get {
+                return ResourceManager.GetString("Settings_OutputFormatJpg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   PNG 画像ファイル (*.png) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFormatPng {
+            get {
+                return ResourceManager.GetString("Settings_OutputFormatPng", resourceCulture);
             }
         }
         
