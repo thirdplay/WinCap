@@ -58,6 +58,11 @@ namespace WinCap.Serialization
             return result;
         }
 
+        /// <summary>
+        /// ショートカットキーを仮想キー配列に変換します。
+        /// </summary>
+        /// <param name="shortcutKey">ショートカットキー</param>
+        /// <returns>仮想キー配列</returns>
         public static int[] ToSerializable(this ShortcutKey shortcutKey)
         {
             if (shortcutKey.Key == Keys.None) return Array.Empty<int>();

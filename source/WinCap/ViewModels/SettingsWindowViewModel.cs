@@ -45,6 +45,7 @@ namespace WinCap.ViewModels
         {
             this.General.Initialize();
             this.Output.Initialize();
+            this.ShortcutKey.Initialize();
         }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace WinCap.ViewModels
         {
             this.General.Apply();
             this.Output.Apply();
+            this.ShortcutKey.Apply();
 
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
@@ -65,6 +67,8 @@ namespace WinCap.ViewModels
         {
             this.General.Cancel();
             this.Output.Cancel();
+            this.ShortcutKey.Cancel();
+
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
     }

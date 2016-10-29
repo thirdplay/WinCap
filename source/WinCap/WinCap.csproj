@@ -186,6 +186,7 @@
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
+    <Compile Include="Views\Controls\ShortcutKeyBox.cs" />
     <Compile Include="Views\Settings\General.xaml.cs">
       <DependentUpon>General.xaml</DependentUpon>
     </Compile>
@@ -244,6 +245,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <DependentUpon>Controls.xaml</DependentUpon>
+    </Page>
+    <Page Include="Styles\Controls.ShortcutKeyBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Controls.TabControl.xaml">
       <SubType>Designer</SubType>
