@@ -127,6 +127,15 @@ namespace WinCap.ViewModels.Settings
         }
 
         /// <summary>
+        /// 入力値を検証する
+        /// </summary>
+        /// <returns>検証結果</returns>
+        public bool Validate()
+        {
+            return base.ValidateAll();
+        }
+
+        /// <summary>
         /// 適用
         /// </summary>
         public void Apply()

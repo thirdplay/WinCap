@@ -79,23 +79,23 @@ namespace WinCap.ViewModels
             if (!Validator.TryValidateProperty(value, context, validationErrors))
             {
                 var errors = validationErrors.Select(error => error.ErrorMessage);
-                setErrors(propertyName, errors);
+                this.SetErrors(propertyName, errors);
             }
             else
             {
-                clearErrors(propertyName);
+                this.ClearErrors(propertyName);
             }
 
-            return this.HasErrors;
+            return !this.HasErrors;
         }
 
         /// <summary>
         /// 全てのプロパティの入力値を検証する
         /// </summary>
-        /// <returns>検証エラーがある場合はtrue、それ以外はfalse</returns>
+        /// <returns>検証エラーがある場合はfalse、それ以外はtrue</returns>
         public bool ValidateAll()
         {
-            clearErrorsAll();
+            this.ClearErrorsAll();
             var context = new ValidationContext(this);
             var validationErrors = new List<ValidationResult>();
             if (!Validator.TryValidateObject(this, context, validationErrors, true))
@@ -103,11 +103,11 @@ namespace WinCap.ViewModels
                 var errors = validationErrors.Where(x => x.MemberNames.Any()).GroupBy(x => x.MemberNames.First());
                 foreach (var error in errors)
                 {
-                    setErrors(error.Key, error.Select(x => x.ErrorMessage));
+                    this.SetErrors(error.Key, error.Select(x => x.ErrorMessage));
                 }
             }
 
-            return this.HasErrors;
+            return !this.HasErrors;
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace WinCap.ViewModels
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
         /// <param name="errors">エラーリスト</param>
-        protected void setErrors(string propertyName, IEnumerable<string> errors)
+        public void SetErrors(string propertyName, IEnumerable<string> errors)
         {
             var hasCurrentError = this.currentErrors.ContainsKey(propertyName);
             var hasNewError = errors != null && errors.Count() > 0;
@@ -140,7 +140,7 @@ namespace WinCap.ViewModels
         /// 引数で指定されたプロパティのエラーをすべて解除します。
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
-        protected void clearErrors(string propertyName)
+        public void ClearErrors(string propertyName)
         {
             if (this.currentErrors.ContainsKey(propertyName))
             {
@@ -152,7 +152,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// エンティティ全体のエラーをすべて解除します。
         /// </summary>
-        protected void clearErrorsAll()
+        public void ClearErrorsAll()
         {
             while (currentErrors.Count > 0)
             {

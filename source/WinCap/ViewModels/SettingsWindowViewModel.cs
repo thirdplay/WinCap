@@ -86,13 +86,19 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Ok()
         {
-            this.General.Apply();
-            this.Output.Apply();
-            this.ShortcutKey.Apply();
+            foreach (ISettingsViewModel vm in TabItems)
+            {
+                if (!vm.Validate())
+                {
+                    this.SelectedItem = vm as TabItemViewModel;
+                    return;
+                }
+                vm.Apply();
+            }
 
-            //LocalSettingsProvider.Instance.SaveAsync().Wait();
+            LocalSettingsProvider.Instance.SaveAsync().Wait();
 
-            //this.Messenger.Raise(new InteractionMessage("Window.Close"));
+            this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 
         /// <summary>

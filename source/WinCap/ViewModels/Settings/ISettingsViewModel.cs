@@ -11,10 +11,10 @@
         void Initialize();
 
         /// <summary>
-        /// 全てのプロパティの入力値を検証する
+        /// 入力値を検証する
         /// </summary>
-        /// <returns>検証エラーがある場合はtrue、それ以外はfalse</returns>
-        bool ValidateAll();
+        /// <returns>検証結果</returns>
+        bool Validate();
 
         /// <summary>
         /// 適用
