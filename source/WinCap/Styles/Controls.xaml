@@ -7,7 +7,6 @@
         <ResourceDictionary Source="/WinCap;component/Styles/Controls.PromptTextBox.xaml"/>
         <ResourceDictionary Source="/WinCap;component/Styles/Controls.RadioButton.xaml"/>
         <ResourceDictionary Source="/WinCap;component/Styles/Controls.ShortcutKeyBox.xaml"/>
-        <ResourceDictionary Source="/WinCap;component/Styles/Controls.TabControl.xaml"/>
         <ResourceDictionary Source="/WinCap;component/Styles/Controls.Text.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

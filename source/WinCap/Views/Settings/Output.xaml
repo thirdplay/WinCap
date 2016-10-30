@@ -18,11 +18,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <!--<i:Interaction.Triggers>
-        <livet:InteractionMessageTrigger MessageKey="FolderDialog.Open">
+    <i:Interaction.Triggers>
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="FolderDialog.Open">
             <livet:FolderBrowserDialogInteractionMessageAction />
         </livet:InteractionMessageTrigger>
-    </i:Interaction.Triggers>-->
+    </i:Interaction.Triggers>
 
     <StackPanel>
         <TextBlock Text="{x:Static prop:Resources.Settings_OutputMethod}"

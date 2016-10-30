@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using WinCap.Properties;
 
 namespace WinCap.ViewModels.Settings
@@ -6,10 +7,24 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// 一般設定のためのデータを提供します。
     /// </summary>
-    public class GeneralViewModel : ValidationViewModel
+    public class GeneralViewModel : TabItemViewModel, ISettingsViewModel
     {
+        #region TabItemViewModel mebmers
+        /// <summary>
+        /// タブ名を取得します。
+        /// </summary>
+        public override string Name
+        {
+            get { return Resources.Settings_General; }
+            protected set { throw new NotImplementedException(); }
+        }
+        #endregion
+
         #region IsRegisterInStartup 変更通知プロパティ
         private bool _IsRegisterInStartup;
+        /// <summary>
+        /// スタートアップに登録するか取得します。
+        /// </summary>
         public bool IsRegisterInStartup
         {
             get { return _IsRegisterInStartup; }
@@ -26,6 +41,9 @@ namespace WinCap.ViewModels.Settings
 
         #region IsPlaySeWhenCapture 変更通知プロパティ
         private bool _IsPlaySeWhenCapture;
+        /// <summary>
+        /// キャプチャー時に効果音を再生するか取得します。
+        /// </summary>
         public bool IsPlaySeWhenCapture
         {
             get { return _IsPlaySeWhenCapture; }
@@ -42,6 +60,9 @@ namespace WinCap.ViewModels.Settings
 
         #region IsWebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
         private bool _IsWebPageCaptureStartWhenPageFirstMove;
+        /// <summary>
+        /// ウェブページ全体キャプチャ開始時にページ先頭に移動するか取得します。
+        /// </summary>
         public bool IsWebPageCaptureStartWhenPageFirstMove
         {
             get { return _IsWebPageCaptureStartWhenPageFirstMove; }
@@ -58,6 +79,9 @@ namespace WinCap.ViewModels.Settings
 
         #region ScrollDelayTime 変更通知プロパティ
         private int _ScrollDelayTime;
+        /// <summary>
+        /// スクロール時の遅延時間を取得します。
+        /// </summary>
         [Range(0, 1000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public int ScrollDelayTime
         {
@@ -75,6 +99,9 @@ namespace WinCap.ViewModels.Settings
 
         #region CaptureDelayTime 変更通知プロパティ
         private int _CaptureDelayTime;
+        /// <summary>
+        /// キャプチャ時の遅延時間を取得します。
+        /// </summary>
         [Range(0, 10000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public int CaptureDelayTime
         {
@@ -90,6 +117,7 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
+        #region ISettingsViewModel members
         /// <summary>
         /// 初期化
         /// </summary>
@@ -103,15 +131,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public void Apply()
         {
-            if (!base.validateAll())
-            {
-                var settings = Serialization.Settings.General;
-                settings.IsRegisterInStartup.Value = this.IsRegisterInStartup;
-                settings.IsPlaySeWhenCapture.Value = this.IsPlaySeWhenCapture;
-                settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
-                settings.ScrollDelayTime.Value = this.ScrollDelayTime;
-                settings.CaptureDelayTime.Value = this.CaptureDelayTime;
-            }
+            var settings = Serialization.Settings.General;
+            settings.IsRegisterInStartup.Value = this.IsRegisterInStartup;
+            settings.IsPlaySeWhenCapture.Value = this.IsPlaySeWhenCapture;
+            settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
+            settings.ScrollDelayTime.Value = this.ScrollDelayTime;
+            settings.CaptureDelayTime.Value = this.CaptureDelayTime;
         }
 
         /// <summary>
@@ -134,5 +159,6 @@ namespace WinCap.ViewModels.Settings
             this.ScrollDelayTime = settings.ScrollDelayTime;
             this.CaptureDelayTime = settings.CaptureDelayTime;
         }
+        #endregion
     }
 }

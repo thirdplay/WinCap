@@ -367,7 +367,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   キャプチャー時の効果音を再生する に類似しているローカライズされた文字列を検索します。
+        ///   キャプチャー時に効果音を再生する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_PlaySeWhenCapture {
             get {

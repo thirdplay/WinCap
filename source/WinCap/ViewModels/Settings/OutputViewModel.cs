@@ -1,4 +1,5 @@
-﻿using Livet;
+﻿using Livet.Messaging.IO;
+using System;
 using System.IO;
 using WinCap.Models;
 using WinCap.Properties;
@@ -8,8 +9,19 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// 出力設定のためのデータを提供します。
     /// </summary>
-    public class OutputViewModel : ViewModel
+    public class OutputViewModel : TabItemViewModel, ISettingsViewModel
     {
+        #region TabItemViewModel mebmers
+        /// <summary>
+        /// タブ名を取得します。
+        /// </summary>
+        public override string Name
+        {
+            get { return Resources.Settings_Output; }
+            protected set { throw new NotImplementedException(); }
+        }
+        #endregion
+
         #region OutputMethodType 変更通知プロパティ
         private OutputMethodType _OutputMethodType;
         public OutputMethodType OutputMethodType
@@ -90,6 +102,7 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
+        #region ISettingsViewModel members
         /// <summary>
         /// 初期化
         /// </summary>
@@ -124,20 +137,20 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public void OpenOutputFolderSelectionDialog()
         {
-            //var message = new Livet.Messaging.IO.FolderSelectionMessage("FolderDialog.Screenshot.Open")
-            //{
-            //    //Title = Resources.Settings_Screenshot_FolderSelectionDialog_Title,
-            //    //DialogPreference = Helper.IsWindows8OrGreater
-            //    //    ? FolderSelectionDialogPreference.CommonItemDialog
-            //    //    : FolderSelectionDialogPreference.FolderBrowser,
-            //    //SelectedPath = this.CanOpenDestination ? ScreenshotSettings.Destination : ""
-            //};
-            //this.Messenger.Raise(message);
+            var message = new FolderSelectionMessage("FolderDialog.Open")
+            {
+                Title = "test",//Resources.Settings_Screenshot_FolderSelectionDialog_Title,
+                DialogPreference = Helper.IsWindows8OrGreater
+                    ? FolderSelectionDialogPreference.CommonItemDialog
+                    : FolderSelectionDialogPreference.FolderBrowser,
+                //SelectedPath = this.CanOpenDestination ? ScreenshotSettings.Destination : ""
+            };
+            this.Messenger.Raise(message);
 
-            //if (Directory.Exists(message.Response))
-            //{
-            //    this.OutputFolder = message.Response;
-            //}
+            if (Directory.Exists(message.Response))
+            {
+                this.OutputFolder = message.Response;
+            }
         }
 
         /// <summary>
@@ -152,5 +165,6 @@ namespace WinCap.ViewModels.Settings
             this.OutputFileNamePattern = settings.OutputFileNamePattern;
             this.OutputFormatType = settings.OutputFormatType;
         }
+        #endregion
     }
 }

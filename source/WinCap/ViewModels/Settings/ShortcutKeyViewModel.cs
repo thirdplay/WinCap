@@ -1,14 +1,24 @@
-﻿using Livet;
-using WinCap.Serialization;
-using WinCap.Services;
+﻿using System;
+using WinCap.Properties;
 
 namespace WinCap.ViewModels.Settings
 {
     /// <summary>
     /// ショートカットキー設定のためのデータを提供します。
     /// </summary>
-    public class ShortcutKeyViewModel : ViewModel
+    public class ShortcutKeyViewModel : TabItemViewModel, ISettingsViewModel
     {
+        #region TabItemViewModel mebmers
+        /// <summary>
+        /// タブ名を取得します。
+        /// </summary>
+        public override string Name
+        {
+            get { return Resources.Settings_ShortcutKey; }
+            protected set { throw new NotImplementedException(); }
+        }
+        #endregion
+
         #region FullScreen 変更通知プロパティ
         private int[] _FullScreen;
         public int[] FullScreen
@@ -25,6 +35,7 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
+        #region ISettingsViewModel members
         /// <summary>
         /// 初期化
         /// </summary>
@@ -58,5 +69,6 @@ namespace WinCap.ViewModels.Settings
             var settings = Serialization.Settings.ShortcutKey;
             this.FullScreen = settings.FullScreen;
         }
+        #endregion
     }
 }

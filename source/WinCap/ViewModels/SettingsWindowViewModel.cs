@@ -1,6 +1,8 @@
 ﻿using Livet;
 using Livet.Messaging;
 using MetroRadiance.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using WinCap.Serialization;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
@@ -30,10 +32,41 @@ namespace WinCap.ViewModels
         #endregion
 
         /// <summary>
+        /// タブ項目リスト
+        /// </summary>
+        public List<TabItemViewModel> TabItems { get; set; }
+
+        #region SelectedItem 変更通知プロパティ
+        private TabItemViewModel _SelectedItem;
+        /// <summary>
+        /// 選択中のタブ項目を取得します。
+        /// </summary>
+        public TabItemViewModel SelectedItem
+        {
+            get { return _SelectedItem; }
+            set
+            {
+                if (_SelectedItem != value)
+                {
+                    _SelectedItem = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public SettingsWindowViewModel()
         {
+            this.TabItems = new List<TabItemViewModel>
+            {
+                (this.General = new GeneralViewModel().AddTo(this)),
+                (this.Output = new OutputViewModel().AddTo(this)),
+                (this.ShortcutKey = new ShortcutKeyViewModel().AddTo(this)),
+            };
+            this.SelectedItem = this.TabItems.FirstOrDefault();
         }
 
         /// <summary>
@@ -42,9 +75,10 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
-            this.General.Initialize();
-            this.Output.Initialize();
-            this.ShortcutKey.Initialize();
+            foreach (ISettingsViewModel vm in TabItems)
+            {
+                vm.Initialize();
+            }
         }
 
         /// <summary>
@@ -56,9 +90,9 @@ namespace WinCap.ViewModels
             this.Output.Apply();
             this.ShortcutKey.Apply();
 
-            LocalSettingsProvider.Instance.SaveAsync().Wait();
+            //LocalSettingsProvider.Instance.SaveAsync().Wait();
 
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+            //this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 
         /// <summary>

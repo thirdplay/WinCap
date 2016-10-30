@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 namespace WinCap.ViewModels
 {
     /// <summary>
-    /// バリデーション機能を提供するViewModelの基底クラスです。
+    /// 検証機能を提供するViewModelの基底クラスです。
     /// </summary>
     public abstract class ValidationViewModel : ViewModel, INotifyDataErrorInfo
     {
@@ -71,7 +71,7 @@ namespace WinCap.ViewModels
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
         /// <returns>検証エラーがある場合はtrue、それ以外はfalse</returns>
-        protected bool validate([CallerMemberName]string propertyName = null)
+        public bool Validate([CallerMemberName]string propertyName = null)
         {
             object value = this.GetType().GetProperty(propertyName).GetValue(this);
             var context = new ValidationContext(this) { MemberName = propertyName };
@@ -93,7 +93,7 @@ namespace WinCap.ViewModels
         /// 全てのプロパティの入力値を検証する
         /// </summary>
         /// <returns>検証エラーがある場合はtrue、それ以外はfalse</returns>
-        protected bool validateAll()
+        public bool ValidateAll()
         {
             clearErrorsAll();
             var context = new ValidationContext(this);

@@ -220,7 +220,7 @@
     <value>出力方法</value>
   </data>
   <data name="Settings_PlaySeWhenCapture" xml:space="preserve">
-    <value>キャプチャー時の効果音を再生する</value>
+    <value>キャプチャー時に効果音を再生する</value>
   </data>
   <data name="Settings_RegisterInStartup" xml:space="preserve">
     <value>スタートアップに登録する</value>
