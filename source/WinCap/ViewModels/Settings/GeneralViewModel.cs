@@ -1,11 +1,12 @@
-﻿using Livet;
+﻿using System.ComponentModel.DataAnnotations;
+using WinCap.Properties;
 
 namespace WinCap.ViewModels.Settings
 {
     /// <summary>
     /// 一般設定のためのデータを提供します。
     /// </summary>
-    public class GeneralViewModel : ViewModel
+    public class GeneralViewModel : ValidationViewModel
     {
         #region IsRegisterInStartup 変更通知プロパティ
         private bool _IsRegisterInStartup;
@@ -57,6 +58,7 @@ namespace WinCap.ViewModels.Settings
 
         #region ScrollDelayTime 変更通知プロパティ
         private int _ScrollDelayTime;
+        [Range(0, 1000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public int ScrollDelayTime
         {
             get { return _ScrollDelayTime; }
@@ -73,6 +75,7 @@ namespace WinCap.ViewModels.Settings
 
         #region CaptureDelayTime 変更通知プロパティ
         private int _CaptureDelayTime;
+        [Range(0, 10000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public int CaptureDelayTime
         {
             get { return _CaptureDelayTime; }
@@ -100,12 +103,15 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public void Apply()
         {
-            var settings = Serialization.Settings.General;
-            settings.IsRegisterInStartup.Value = this.IsRegisterInStartup;
-            settings.IsPlaySeWhenCapture.Value = this.IsPlaySeWhenCapture;
-            settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
-            settings.ScrollDelayTime.Value = this.ScrollDelayTime;
-            settings.CaptureDelayTime.Value = this.CaptureDelayTime;
+            if (!base.validateAll())
+            {
+                var settings = Serialization.Settings.General;
+                settings.IsRegisterInStartup.Value = this.IsRegisterInStartup;
+                settings.IsPlaySeWhenCapture.Value = this.IsPlaySeWhenCapture;
+                settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
+                settings.ScrollDelayTime.Value = this.ScrollDelayTime;
+                settings.CaptureDelayTime.Value = this.CaptureDelayTime;
+            }
         }
 
         /// <summary>

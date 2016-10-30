@@ -34,7 +34,6 @@ namespace WinCap.ViewModels
         /// </summary>
         public SettingsWindowViewModel()
         {
-            Disposable.Create(() => LocalSettingsProvider.Instance.SaveAsync().Wait()).AddTo(this);
         }
 
         /// <summary>
@@ -56,6 +55,8 @@ namespace WinCap.ViewModels
             this.General.Apply();
             this.Output.Apply();
             this.ShortcutKey.Apply();
+
+            LocalSettingsProvider.Instance.SaveAsync().Wait();
 
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }

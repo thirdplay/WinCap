@@ -1,5 +1,7 @@
 ﻿using Livet;
+using System.IO;
 using WinCap.Models;
+using WinCap.Properties;
 
 namespace WinCap.ViewModels.Settings
 {
@@ -115,6 +117,27 @@ namespace WinCap.ViewModels.Settings
         public void Cancel()
         {
             this.RevertToSavedSettings();
+        }
+
+        /// <summary>
+        /// 出力先選択ダイアログを開きます。
+        /// </summary>
+        public void OpenOutputFolderSelectionDialog()
+        {
+            //var message = new Livet.Messaging.IO.FolderSelectionMessage("FolderDialog.Screenshot.Open")
+            //{
+            //    //Title = Resources.Settings_Screenshot_FolderSelectionDialog_Title,
+            //    //DialogPreference = Helper.IsWindows8OrGreater
+            //    //    ? FolderSelectionDialogPreference.CommonItemDialog
+            //    //    : FolderSelectionDialogPreference.FolderBrowser,
+            //    //SelectedPath = this.CanOpenDestination ? ScreenshotSettings.Destination : ""
+            //};
+            //this.Messenger.Raise(message);
+
+            //if (Directory.Exists(message.Response))
+            //{
+            //    this.OutputFolder = message.Response;
+            //}
         }
 
         /// <summary>

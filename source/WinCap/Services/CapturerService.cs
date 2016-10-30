@@ -180,19 +180,31 @@ namespace WinCap.Services
         /// <summary>
         /// キャプチャ画像を保存します。
         /// </summary>
-        /// <param name="image">画像</param>
-        private void saveImage(Bitmap image)
+        /// <param name="bitmap">画像</param>
+        private void saveImage(Bitmap bitmap)
         {
-            if (Settings.Output.OutputMethodType == OutputMethodType.Clipboard)
+            var settings = Settings.Output;
+            if (settings.OutputMethodType == OutputMethodType.Clipboard)
             {
                 // 画像をクリップボードに設定する
-                Clipboard.SetDataObject(image, false);
+                Clipboard.SetDataObject(bitmap, false);
             }
-            else if (Settings.Output.OutputMethodType == OutputMethodType.ImageFile)
+            else if (settings.OutputMethodType == OutputMethodType.ImageFile)
             {
-                // TODO:
                 // ファイルパス確定
+                var dialog = new System.Windows.Forms.SaveFileDialog()
+                {
+                    FileName = "",
+                    Filter = "画像ファイル(*.png)|*.png"
+                };
+                if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    return;
+                }
+                string fileName = dialog.FileName;
+
                 // 画像ファイルに保存
+                bitmap.Save(fileName, settings.OutputFormatType.Value.ToImageFormat());
             }
             // SE再生
             SystemSounds.Asterisk.Play();

@@ -32,7 +32,7 @@ namespace WinCap.Util.Serialization
         public virtual string Filename { get; } = "Settings.xml";
 
         /// <summary>
-        /// 
+        /// シリアライズ化時に渡す既知の型
         /// </summary>
         public virtual Type[] KnownTypes { get; } = { typeof(bool), typeof(int[]), };
 

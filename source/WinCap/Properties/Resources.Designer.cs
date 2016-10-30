@@ -394,6 +394,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   選択 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Selection {
+            get {
+                return ResourceManager.GetString("Settings_Selection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ショートカットキー設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_ShortcutKey {
@@ -417,6 +426,15 @@ namespace WinCap.Properties {
         public static string Settings_WebPageCaptureStartWhenPageFirstMove {
             get {
                 return ResourceManager.GetString("Settings_WebPageCaptureStartWhenPageFirstMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {1}以上、{2}以下の数値を入力してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Validation_Range {
+            get {
+                return ResourceManager.GetString("Validation_Range", resourceCulture);
             }
         }
     }

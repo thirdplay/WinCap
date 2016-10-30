@@ -228,6 +228,9 @@
   <data name="Settings_ScrollDelayTime" xml:space="preserve">
     <value>スクロールの遅延時間</value>
   </data>
+  <data name="Settings_Selection" xml:space="preserve">
+    <value>選択</value>
+  </data>
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>
   </data>
@@ -236,5 +239,8 @@
   </data>
   <data name="Settings_WebPageCaptureStartWhenPageFirstMove" xml:space="preserve">
     <value>ウェブページ全体キャプチャ開始時にページ先頭に移動する</value>
+  </data>
+  <data name="Validation_Range" xml:space="preserve">
+    <value>{1}以上、{2}以下の数値を入力してください。</value>
   </data>
 </root>

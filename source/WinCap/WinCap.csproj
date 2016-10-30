@@ -148,6 +148,7 @@
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />
     <Compile Include="Models\OutputFormatType.cs" />
+    <Compile Include="Models\OutputFormatTypeExtensions.cs" />
     <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
     <Compile Include="Serialization\OutputSettings.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SelectControlMessage.cs" />
     <Compile Include="ViewModels\Messages\SetWindowBoundsMessage.cs" />
+    <Compile Include="ViewModels\ValidationViewModel.cs" />
     <Compile Include="Views\Behaviors\CallMethodWithArgumentAction.cs" />
     <Compile Include="Views\Behaviors\CloseWindowAction.cs" />
     <Compile Include="Views\Behaviors\SetMarginAction.cs" />
