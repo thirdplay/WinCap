@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 namespace WinCap.ViewModels
 {
     /// <summary>
-    /// 検証機能を提供するViewModelの基底クラスです。
+    /// 検証機能を提供する基底クラスです。
     /// </summary>
     public abstract class ValidationViewModel : ViewModel, INotifyDataErrorInfo
     {

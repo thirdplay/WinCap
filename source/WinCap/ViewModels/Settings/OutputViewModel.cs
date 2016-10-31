@@ -9,7 +9,7 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// 出力設定のためのデータを提供します。
     /// </summary>
-    public class OutputViewModel : TabItemViewModel, ISettingsViewModel
+    public class OutputViewModel : SettingsBaseViewModel
     {
         #region TabItemViewModel mebmers
         /// <summary>
@@ -102,11 +102,11 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
-        #region ISettingsViewModel members
+        #region SettingsBaseViewModel members
         /// <summary>
         /// 初期化
         /// </summary>
-        public void Initialize()
+        public override void Initialize()
         {
             this.RevertToSavedSettings();
         }
@@ -115,7 +115,7 @@ namespace WinCap.ViewModels.Settings
         /// 入力値を検証する
         /// </summary>
         /// <returns>検証結果</returns>
-        public bool Validate()
+        public override bool Validate()
         {
             return base.ValidateAll();
         }
@@ -123,7 +123,7 @@ namespace WinCap.ViewModels.Settings
         /// <summary>
         /// 適用
         /// </summary>
-        public void Apply()
+        public override void Apply()
         {
             var settings = Serialization.Settings.Output;
             settings.OutputMethodType.Value = this.OutputMethodType;
@@ -136,7 +136,7 @@ namespace WinCap.ViewModels.Settings
         /// <summary>
         /// キャンセル
         /// </summary>
-        public void Cancel()
+        public override void Cancel()
         {
             this.RevertToSavedSettings();
         }

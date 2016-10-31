@@ -3,7 +3,7 @@
 namespace WinCap.ViewModels
 {
     /// <summary>
-    /// タブ項目のViewModelの基底クラスです。
+    /// タブ項目のためのデータを提供する基底クラスです。
     /// </summary>
     public abstract class TabItemViewModel : ValidationViewModel, ITabItem
     {

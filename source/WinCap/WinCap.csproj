@@ -182,7 +182,7 @@
     <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="TaskTrayIcon.cs" />
     <Compile Include="ViewModels\Settings\GeneralViewModel.cs" />
-    <Compile Include="ViewModels\Settings\ISettingsViewModel.cs" />
+    <Compile Include="ViewModels\Settings\SettingsBaseViewModel.cs" />
     <Compile Include="ViewModels\Settings\ShortcutKeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="Capturers\ControlCapturer.cs" />

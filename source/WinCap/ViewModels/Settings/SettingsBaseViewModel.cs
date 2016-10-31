@@ -1,29 +1,29 @@
 ﻿namespace WinCap.ViewModels.Settings
 {
     /// <summary>
-    /// 設定の機能を提供します。
+    /// 設定ウィンドウのタブ項目ためのデータを提供します。このクラスは抽象クラスです。
     /// </summary>
-    public interface ISettingsViewModel
+    public abstract class SettingsBaseViewModel : TabItemViewModel
     {
         /// <summary>
         /// 初期化
         /// </summary>
-        void Initialize();
+        public abstract void Initialize();
 
         /// <summary>
         /// 入力値を検証する
         /// </summary>
         /// <returns>検証結果</returns>
-        bool Validate();
+        public abstract bool Validate();
 
         /// <summary>
         /// 適用
         /// </summary>
-        void Apply();
+        public abstract void Apply();
 
         /// <summary>
         /// キャンセル
         /// </summary>
-        void Cancel();
+        public abstract void Cancel();
     }
 }

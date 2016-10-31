@@ -60,7 +60,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
+            <ScrollViewer Grid.Column="0"
+                          VerticalScrollBarVisibility="Auto"
                           PanningMode="Both">
                 <metro:TabView ItemsSource="{Binding TabItems}"
                                SelectedValue="{Binding SelectedItem}">

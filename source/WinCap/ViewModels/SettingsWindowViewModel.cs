@@ -34,7 +34,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// タブ項目リスト
         /// </summary>
-        public List<TabItemViewModel> TabItems { get; set; }
+        public List<SettingsBaseViewModel> TabItems { get; set; }
 
         #region SelectedItem 変更通知プロパティ
         private TabItemViewModel _SelectedItem;
@@ -60,7 +60,7 @@ namespace WinCap.ViewModels
         /// </summary>
         public SettingsWindowViewModel()
         {
-            this.TabItems = new List<TabItemViewModel>
+            this.TabItems = new List<SettingsBaseViewModel>
             {
                 (this.General = new GeneralViewModel().AddTo(this)),
                 (this.Output = new OutputViewModel().AddTo(this)),
@@ -75,10 +75,7 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
-            foreach (ISettingsViewModel vm in TabItems)
-            {
-                vm.Initialize();
-            }
+            TabItems.ForEach(x => x.Initialize());
         }
 
         /// <summary>
@@ -86,11 +83,11 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Ok()
         {
-            foreach (ISettingsViewModel vm in TabItems)
+            foreach (var vm in TabItems)
             {
                 if (!vm.Validate())
                 {
-                    this.SelectedItem = vm as TabItemViewModel;
+                    this.SelectedItem = vm;
                     return;
                 }
                 vm.Apply();
@@ -106,9 +103,7 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Cancel()
         {
-            this.General.Cancel();
-            this.Output.Cancel();
-            this.ShortcutKey.Cancel();
+            TabItems.ForEach(x => x.Cancel());
 
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
