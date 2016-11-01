@@ -196,7 +196,7 @@
     <Compile Include="ViewModels\Messages\SelectControlMessage.cs" />
     <Compile Include="ViewModels\Messages\SetWindowBoundsMessage.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
-    <Compile Include="ViewModels\ValidationViewModel.cs" />
+    <Compile Include="ViewModels\ValidateableViewModel.cs" />
     <Compile Include="Views\Behaviors\CallMethodWithArgumentAction.cs" />
     <Compile Include="Views\Behaviors\CloseWindowAction.cs" />
     <Compile Include="Views\Behaviors\SetMarginAction.cs" />

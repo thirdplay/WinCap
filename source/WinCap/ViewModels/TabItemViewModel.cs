@@ -5,7 +5,7 @@ namespace WinCap.ViewModels
     /// <summary>
     /// タブ項目のためのデータを提供する基底クラスです。
     /// </summary>
-    public abstract class TabItemViewModel : ValidationViewModel, ITabItem
+    public abstract class TabItemViewModel : ValidateableViewModel, ITabItem
     {
         #region Badge 変更通知プロパティ
         private int? _Badge;

@@ -12,12 +12,12 @@ namespace WinCap.ViewModels
     /// <summary>
     /// 検証機能を提供する基底クラスです。
     /// </summary>
-    public abstract class ValidationViewModel : ViewModel, INotifyDataErrorInfo
+    public abstract class ValidateableViewModel : ViewModel, INotifyDataErrorInfo
     {
         /// <summary>
         /// 各プロパティのエラーコンテナ
         /// </summary>
-        private readonly Dictionary<string, List<string>> currentErrors = new Dictionary<string, List<string>>();
+        private readonly Dictionary<string, List<string>> errors = new Dictionary<string, List<string>>();
 
         #region INotifyDataErrorInfoの実装
         /// <summary>
@@ -46,15 +46,15 @@ namespace WinCap.ViewModels
                 if (string.IsNullOrEmpty(propertyName))
                 {
                     var allErrors = new List<string>();
-                    foreach (var errors in this.currentErrors.Values)
+                    foreach (var errors in this.errors.Values)
                     {
                         allErrors.AddRange(errors);
                     }
                     return allErrors;
                 }
-                if (this.currentErrors.ContainsKey(propertyName))
+                if (this.errors.ContainsKey(propertyName))
                 {
-                    return this.currentErrors[propertyName];
+                    return this.errors[propertyName];
                 }
             }
             return null;
@@ -63,7 +63,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 検証エラーがあるかどうか取得します。
         /// </summary>
-        public bool HasErrors => this.currentErrors.Count > 0;
+        public bool HasErrors => this.errors.Count > 0;
         #endregion
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace WinCap.ViewModels
         /// <param name="errors">エラーリスト</param>
         public void SetErrors(string propertyName, IEnumerable<string> errors)
         {
-            var hasCurrentError = this.currentErrors.ContainsKey(propertyName);
+            var hasCurrentError = this.errors.ContainsKey(propertyName);
             var hasNewError = errors != null && errors.Count() > 0;
 
             if (!hasCurrentError && !hasNewError)
@@ -127,11 +127,11 @@ namespace WinCap.ViewModels
 
             if (hasNewError)
             {
-                this.currentErrors[propertyName] = new List<string>(errors);
+                this.errors[propertyName] = new List<string>(errors);
             }
             else
             {
-                this.currentErrors.Remove(propertyName);
+                this.errors.Remove(propertyName);
             }
             OnErrorsChanged(propertyName);
         }
@@ -142,9 +142,9 @@ namespace WinCap.ViewModels
         /// <param name="propertyName">プロパティ名</param>
         public void ClearErrors(string propertyName)
         {
-            if (this.currentErrors.ContainsKey(propertyName))
+            if (this.errors.ContainsKey(propertyName))
             {
-                this.currentErrors.Remove(propertyName);
+                this.errors.Remove(propertyName);
                 OnErrorsChanged(propertyName);
             }
         }
@@ -154,10 +154,10 @@ namespace WinCap.ViewModels
         /// </summary>
         public void ClearErrorsAll()
         {
-            while (currentErrors.Count > 0)
+            while (errors.Count > 0)
             {
-                string key = currentErrors.First().Key;
-                this.currentErrors.Remove(key);
+                string key = errors.First().Key;
+                this.errors.Remove(key);
                 OnErrorsChanged(key);
             }
         }

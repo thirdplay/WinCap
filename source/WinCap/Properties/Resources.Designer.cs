@@ -430,11 +430,29 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   数値を入力してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Validation_Numeric {
+            get {
+                return ResourceManager.GetString("Validation_Numeric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {1}以上、{2}以下の数値を入力してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Validation_Range {
             get {
                 return ResourceManager.GetString("Validation_Range", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   必須項目です。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Validation_Required {
+            get {
+                return ResourceManager.GetString("Validation_Required", resourceCulture);
             }
         }
     }

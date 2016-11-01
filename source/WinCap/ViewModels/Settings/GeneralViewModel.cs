@@ -78,12 +78,13 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region ScrollDelayTime 変更通知プロパティ
-        private int _ScrollDelayTime;
+        private string _ScrollDelayTime;
         /// <summary>
         /// スクロール時の遅延時間を取得します。
         /// </summary>
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
         [Range(0, 1000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
-        public int ScrollDelayTime
+        public string ScrollDelayTime
         {
             get { return _ScrollDelayTime; }
             set
@@ -98,12 +99,13 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region CaptureDelayTime 変更通知プロパティ
-        private int _CaptureDelayTime;
+        private string _CaptureDelayTime;
         /// <summary>
         /// キャプチャ時の遅延時間を取得します。
         /// </summary>
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
         [Range(0, 10000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
-        public int CaptureDelayTime
+        public string CaptureDelayTime
         {
             get { return _CaptureDelayTime; }
             set
@@ -132,7 +134,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return base.ValidateAll();
+            return this.ValidateAll();
         }
 
         /// <summary>
@@ -144,8 +146,8 @@ namespace WinCap.ViewModels.Settings
             settings.IsRegisterInStartup.Value = this.IsRegisterInStartup;
             settings.IsPlaySeWhenCapture.Value = this.IsPlaySeWhenCapture;
             settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
-            settings.ScrollDelayTime.Value = this.ScrollDelayTime;
-            settings.CaptureDelayTime.Value = this.CaptureDelayTime;
+            settings.ScrollDelayTime.Value = int.Parse(this.ScrollDelayTime);
+            settings.CaptureDelayTime.Value = int.Parse(this.CaptureDelayTime);
         }
 
         /// <summary>
@@ -165,8 +167,8 @@ namespace WinCap.ViewModels.Settings
             this.IsRegisterInStartup = settings.IsRegisterInStartup;
             this.IsPlaySeWhenCapture = settings.IsPlaySeWhenCapture;
             this.IsWebPageCaptureStartWhenPageFirstMove = settings.IsWebPageCaptureStartWhenPageFirstMove;
-            this.ScrollDelayTime = settings.ScrollDelayTime;
-            this.CaptureDelayTime = settings.CaptureDelayTime;
+            this.ScrollDelayTime = settings.ScrollDelayTime.Value.ToString();
+            this.CaptureDelayTime = settings.CaptureDelayTime.Value.ToString();
         }
         #endregion
     }

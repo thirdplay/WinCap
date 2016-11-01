@@ -1,6 +1,5 @@
 ﻿using Livet;
 using Livet.Messaging;
-using MetroRadiance.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Serialization;
@@ -75,7 +74,7 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
-            TabItems.ForEach(x => x.Initialize());
+            this.TabItems.ForEach(x => x.Initialize());
         }
 
         /// <summary>
@@ -83,17 +82,15 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Ok()
         {
-            foreach (var vm in TabItems)
+            var tabItem = this.TabItems.Where(x => !x.Validate()).FirstOrDefault();
+            if (tabItem != null)
             {
-                if (!vm.Validate())
-                {
-                    this.SelectedItem = vm;
-                    return;
-                }
-                vm.Apply();
+                this.SelectedItem = tabItem;
+                return;
             }
+            TabItems.ForEach(x => x.Apply());
 
-            LocalSettingsProvider.Instance.SaveAsync().Wait();
+            LocalSettingsProvider.Instance.Save();
 
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }

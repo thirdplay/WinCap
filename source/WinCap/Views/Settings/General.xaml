@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 			 xmlns:prop="clr-namespace:WinCap.Properties"
+             xmlns:controls="clr-namespace:WinCap.Views.Controls"
              mc:Ignorable="d" 
              d:DesignWidth="500"
              d:DesignHeight="450">
@@ -64,12 +65,11 @@
             <UniformGrid Grid.Column="1"
                          Columns="1">
                 <metro:PromptTextBox Prompt=""
-                                     Text="{Binding ScrollDelayTime, Mode=TwoWay}"
-                                     Margin="0,2" />
+                                     Margin="0,2"
+                                     Text="{Binding ScrollDelayTime, Mode=TwoWay}" />
                 <metro:PromptTextBox Prompt=""
-                                     Text="{Binding CaptureDelayTime, Mode=TwoWay}"
-                                     Margin="0,2" />
-                <!-- MAX:10000 -->
+                                     Margin="0,2"
+                                     Text="{Binding CaptureDelayTime, Mode=TwoWay}" />
             </UniformGrid>
             <UniformGrid Grid.Column="2"
                          Columns="1">
