@@ -1,5 +1,6 @@
 ﻿using Livet.Messaging.IO;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using WinCap.Models;
 using WinCap.Properties;
@@ -24,6 +25,9 @@ namespace WinCap.ViewModels.Settings
 
         #region OutputMethodType 変更通知プロパティ
         private OutputMethodType _OutputMethodType;
+        /// <summary>
+        /// 出力方法を取得します。
+        /// </summary>
         public OutputMethodType OutputMethodType
         {
             get { return _OutputMethodType; }
@@ -40,6 +44,9 @@ namespace WinCap.ViewModels.Settings
 
         #region OutputFolder 変更通知プロパティ
         private string _OutputFolder;
+        /// <summary>
+        /// 出力フォルダを取得します。
+        /// </summary>
         public string OutputFolder
         {
             get { return _OutputFolder; }
@@ -56,11 +63,14 @@ namespace WinCap.ViewModels.Settings
 
         #region IsAutoSaveImage 変更通知プロパティ
         private bool _IsAutoSaveImage;
+        /// <summary>
+        /// 画像を自動保存するか取得します。
+        /// </summary>
         public bool IsAutoSaveImage
         {
             get { return _IsAutoSaveImage; }
             set
-            { 
+            {
                 if (_IsAutoSaveImage != value)
                 {
                     _IsAutoSaveImage = value;
@@ -72,11 +82,14 @@ namespace WinCap.ViewModels.Settings
 
         #region OutputFileNamePattern 変更通知プロパティ
         private string _OutputFileNamePattern;
+        /// <summary>
+        /// 出力ファイル名パターンを取得します。
+        /// </summary>
         public string OutputFileNamePattern
         {
             get { return _OutputFileNamePattern; }
             set
-            { 
+            {
                 if (_OutputFileNamePattern != value)
                 {
                     _OutputFileNamePattern = value;
@@ -88,11 +101,14 @@ namespace WinCap.ViewModels.Settings
 
         #region OutputFormatType 変更通知プロパティ
         private OutputFormatType _OutputFormatType;
+        /// <summary>
+        /// 出力形式を取得します。
+        /// </summary>
         public OutputFormatType OutputFormatType
         {
             get { return _OutputFormatType; }
             set
-            { 
+            {
                 if (_OutputFormatType != value)
                 {
                     _OutputFormatType = value;
@@ -117,7 +133,19 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return this.ValidateAll();
+            if (this.IsAutoSaveImage && string.IsNullOrEmpty(this.OutputFolder))
+            {
+                // 画像を自動保存する場合、出力フォルダは必須
+                this.SetErrors(nameof(this.OutputFolder), new string[] { Resources.Validation_Required });
+                return false;
+            }
+            if (!string.IsNullOrEmpty(this.OutputFolder) && !Directory.Exists(this.OutputFolder))
+            {
+                // 入力した出力フォルダが存在しない場合はNG
+                this.SetErrors(nameof(this.OutputFolder), new string[] { Resources.Settings_NotFoundOutputFolderMessage });
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -148,11 +176,11 @@ namespace WinCap.ViewModels.Settings
         {
             var message = new FolderSelectionMessage("FolderDialog.Open")
             {
-                Title = "test",//Resources.Settings_Screenshot_FolderSelectionDialog_Title,
+                Title = Resources.Settings_OutputFolderSelectionDialog_Title,
                 DialogPreference = Helper.IsWindows8OrGreater
                     ? FolderSelectionDialogPreference.CommonItemDialog
                     : FolderSelectionDialogPreference.FolderBrowser,
-                //SelectedPath = this.CanOpenDestination ? ScreenshotSettings.Destination : ""
+                SelectedPath = Directory.Exists(this.OutputFolder) ? this.OutputFolder : ""
             };
             this.Messenger.Raise(message);
 

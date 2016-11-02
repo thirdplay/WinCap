@@ -192,6 +192,9 @@
   <data name="Settings_Milliseconds" xml:space="preserve">
     <value>ms</value>
   </data>
+  <data name="Settings_NotFoundOutputFolderMessage" xml:space="preserve">
+    <value>出力フォルダが存在しません。</value>
+  </data>
   <data name="Settings_Ok" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -203,6 +206,9 @@
   </data>
   <data name="Settings_OutputFolder" xml:space="preserve">
     <value>出力フォルダ</value>
+  </data>
+  <data name="Settings_OutputFolderSelectionDialog_Title" xml:space="preserve">
+    <value>出力フォルダを指定</value>
   </data>
   <data name="Settings_OutputFormatBmp" xml:space="preserve">
     <value>BMP 画像ファイル (*.bmp)</value>

@@ -286,6 +286,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   出力フォルダが存在しません。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_NotFoundOutputFolderMessage {
+            get {
+                return ResourceManager.GetString("Settings_NotFoundOutputFolderMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   OK に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Ok {
@@ -318,6 +327,15 @@ namespace WinCap.Properties {
         public static string Settings_OutputFolder {
             get {
                 return ResourceManager.GetString("Settings_OutputFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   出力フォルダを指定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFolderSelectionDialog_Title {
+            get {
+                return ResourceManager.GetString("Settings_OutputFolderSelectionDialog_Title", resourceCulture);
             }
         }
         
