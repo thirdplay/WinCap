@@ -9,6 +9,16 @@ namespace WinCap.Models
     public static class OutputFormatTypeExtensions
     {
         /// <summary>
+        /// 出力形式の拡張子を取得します。
+        /// </summary>
+        /// <param name="type">出力形式</param>
+        /// <returns>拡張子</returns>
+        public static string GetExtension(this OutputFormatType type)
+        {
+            return "." + type.ToString().ToLower();
+        }
+
+        /// <summary>
         /// 出力形式をイメージファイルの形式ーに変換します。
         /// </summary>
         /// <param name="type">出力形式</param>

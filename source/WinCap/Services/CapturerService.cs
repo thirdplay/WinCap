@@ -2,16 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Media;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows;
 using WinCap.Capturers;
 using WinCap.Models;
-using WinCap.Serialization;
+using WinCap.Properties;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;
+using Settings = WinCap.Serialization.Settings;
 
 namespace WinCap.Services
 {
@@ -69,7 +71,7 @@ namespace WinCap.Services
                 // デスクトップ全体をキャプチャ
                 using (Bitmap bitmap = executeCapture(() => this.screenCapturer.CaptureFullScreen()))
                 {
-                    saveImage(bitmap);
+                    saveCaptureImage(bitmap);
                 }
             }
         }
@@ -84,7 +86,7 @@ namespace WinCap.Services
                 // アクティブウィンドウをキャプチャ
                 using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureActiveControl()))
                 {
-                    saveImage(bitmap);
+                    saveCaptureImage(bitmap);
                 }
             }
         }
@@ -107,7 +109,7 @@ namespace WinCap.Services
                         // 選択コントロールをキャプチャ
                         using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
                         {
-                            saveImage(bitmap);
+                            saveCaptureImage(bitmap);
                         }
                     }
                 }
@@ -142,7 +144,7 @@ namespace WinCap.Services
                             this.ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
                             using (Bitmap bitmap = executeCapture(() => this.ieCapturer.Capture(viewModel.SelectedHandle)))
                             {
-                                saveImage(bitmap);
+                                saveCaptureImage(bitmap);
                             }
                         }
                         else
@@ -150,7 +152,7 @@ namespace WinCap.Services
                             // 選択コントロールをキャプチャ
                             using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
                             {
-                                saveImage(bitmap);
+                                saveCaptureImage(bitmap);
                             }
                         }
                     }
@@ -181,7 +183,7 @@ namespace WinCap.Services
         /// キャプチャ画像を保存します。
         /// </summary>
         /// <param name="bitmap">画像</param>
-        private void saveImage(Bitmap bitmap)
+        private void saveCaptureImage(Bitmap bitmap)
         {
             var settings = Settings.Output;
             if (settings.OutputMethodType == OutputMethodType.Clipboard)
@@ -191,23 +193,51 @@ namespace WinCap.Services
             }
             else if (settings.OutputMethodType == OutputMethodType.ImageFile)
             {
-                // ファイルパス確定
-                var dialog = new System.Windows.Forms.SaveFileDialog()
+                // 出力形式とファイルパスの設定
+                OutputFormatType outputFormatType = settings.OutputFormatType;
+                string fileExtension = outputFormatType.GetExtension();
+                string fileName = FileHelper.CreateFileName(settings.OutputFolder, fileExtension, settings.OutputFileNamePattern);
+                string filePath = Path.Combine(settings.OutputFolder, fileName) + fileExtension;
+
+                // 自動保存の場合
+                if (settings.IsAutoSaveImage)
                 {
-                    FileName = "",
-                    Filter = "画像ファイル(*.png)|*.png"
-                };
-                if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-                {
-                    return;
+                    // 出力フォルダがない場合は作成する
+                    if (!Directory.Exists(settings.OutputFolder))
+                    {
+                        Directory.CreateDirectory(settings.OutputFolder);
+                    }
                 }
-                string fileName = dialog.FileName;
+                else
+                {
+                    // ファイルの保存場所を選択する
+                    using (var dialog = new System.Windows.Forms.SaveFileDialog()
+                    {
+                        Filter = Resources.Services_SaveImageFileDialog_Filter,
+                        InitialDirectory = settings.OutputFolder,
+                        FilterIndex = (int)outputFormatType + 1,
+                        Title = Resources.Services_SaveImageFileDialog_Title,
+                        FileName = Path.GetFileName(fileName)
+                    })
+                    {
+                        if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                        {
+                            return;
+                        }
+                        filePath = dialog.FileName;
+                        outputFormatType = (OutputFormatType)dialog.FilterIndex;
+                    }
+                }
 
                 // 画像ファイルに保存
-                bitmap.Save(fileName, settings.OutputFormatType.Value.ToImageFormat());
+                bitmap.Save(filePath, settings.OutputFormatType.Value.ToImageFormat());
             }
+
             // SE再生
-            SystemSounds.Asterisk.Play();
+            if (Settings.General.IsPlaySeWhenCapture)
+            {
+                SystemSounds.Asterisk.Play();
+            }
         }
 
         #region IDisposableHoloder members

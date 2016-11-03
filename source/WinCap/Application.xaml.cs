@@ -58,7 +58,7 @@ namespace WinCap
                 DispatcherHelper.UIDispatcher = this.Dispatcher;
 
                 // ローカル設定の読み込み
-                LocalSettingsProvider.Instance.LoadAsync().Wait();
+                LocalSettingsProvider.Instance.Load();
                 LocalSettingsProvider.Instance.AddTo(this);
 
                 this.HookService = new HookService().AddTo(this);

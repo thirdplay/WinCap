@@ -159,6 +159,8 @@
     <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />
+    <Compile Include="Models\FileHelper.cs" />
+    <Compile Include="Models\FileNamePattern.cs" />
     <Compile Include="Models\Helper.cs" />
     <Compile Include="Models\OutputFormatType.cs" />
     <Compile Include="Models\OutputFormatTypeExtensions.cs" />

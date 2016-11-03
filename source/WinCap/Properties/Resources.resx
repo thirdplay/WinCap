@@ -147,6 +147,12 @@
   <data name="ControlSelectionInfo_Size" xml:space="preserve">
     <value>サイズ</value>
   </data>
+  <data name="Services_SaveImageFileDialog_Filter" xml:space="preserve">
+    <value>Bitmaps(*.bmp)|*.bmp|JPEG Image File(*.jpg)|*.jpg|Portable Network Graphics(*.png)|*.png|CompuServe GIF Image(*.gif)|*.gif</value>
+  </data>
+  <data name="Services_SaveImageFileDialog_Title" xml:space="preserve">
+    <value>名前を付けて保存</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
   </data>

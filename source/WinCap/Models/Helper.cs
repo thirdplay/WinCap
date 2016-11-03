@@ -4,6 +4,9 @@ using System.Windows;
 
 namespace WinCap.Models
 {
+    /// <summary>
+    /// 汎用処理の補助機能を提供します。
+    /// </summary>
     internal static class Helper
     {
         /// <summary>

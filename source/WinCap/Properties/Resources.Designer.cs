@@ -151,6 +151,24 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   Bitmaps(*.bmp)|*.bmp|JPEG Image File(*.jpg)|*.jpg|Portable Network Graphics(*.png)|*.png|CompuServe GIF Image(*.gif)|*.gif に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Services_SaveImageFileDialog_Filter {
+            get {
+                return ResourceManager.GetString("Services_SaveImageFileDialog_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   名前を付けて保存 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Services_SaveImageFileDialog_Title {
+            get {
+                return ResourceManager.GetString("Services_SaveImageFileDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings {
