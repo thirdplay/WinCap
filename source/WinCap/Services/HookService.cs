@@ -67,7 +67,7 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="shortcutKey">ショートカットキー</param>
         /// <param name="action">実行用メソッド</param>
-        /// <returns></returns>
+        /// <returns>登録リクエスト</returns>
         public IDisposable Register(ShortcutKey shortcutKey, Action action)
         {
             return this.Register(shortcutKey, action, () => true);
@@ -79,7 +79,7 @@ namespace WinCap.Services
         /// <param name="shortcutKey">ショートカットキー</param>
         /// <param name="action">実行用メソッド</param>
         /// <param name="canExecute">実行可否判定用メソッド</param>
-        /// <returns></returns>
+        /// <returns>登録リクエスト</returns>
         public IDisposable Register(ShortcutKey shortcutKey, Action action, Func<bool> canExecute)
         {
             var hook = new HookAction(shortcutKey, action, canExecute);
