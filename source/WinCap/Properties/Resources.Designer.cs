@@ -457,6 +457,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   バージョン情報 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_VersionInfo {
+            get {
+                return ResourceManager.GetString("Settings_VersionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ウェブページ全体キャプチャ開始時にページ先頭に移動する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_WebPageCaptureStartWhenPageFirstMove {

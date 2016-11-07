@@ -183,6 +183,7 @@
     <Compile Include="Models\ProductInfo.cs" />
     <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="TaskTrayIcon.cs" />
+    <Compile Include="ViewModels\Settings\VersionInfoViewModel.cs" />
     <Compile Include="ViewModels\Settings\GeneralViewModel.cs" />
     <Compile Include="ViewModels\Settings\SettingsBaseViewModel.cs" />
     <Compile Include="ViewModels\Settings\ShortcutKeyViewModel.cs" />
@@ -206,6 +207,9 @@
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
     <Compile Include="Views\Controls\ShortcutKeyBox.cs" />
+    <Compile Include="Views\Settings\VersionInfo.xaml.cs">
+      <DependentUpon>VersionInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\General.xaml.cs">
       <DependentUpon>General.xaml</DependentUpon>
     </Compile>
@@ -293,6 +297,10 @@
     <Page Include="Views\Settings\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\VersionInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Settings\General.xaml">
       <Generator>MSBuild:Compile</Generator>

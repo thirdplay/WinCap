@@ -28,6 +28,11 @@ namespace WinCap.ViewModels
         /// ショートカットキー設定ViewModel
         /// </summary>
         public ShortcutKeyViewModel ShortcutKey { get; } = new ShortcutKeyViewModel();
+
+        /// <summary>
+        /// ショートカットキー設定ViewModel
+        /// </summary>
+        public VersionInfoViewModel VersionInfo { get; } = new VersionInfoViewModel();
         #endregion
 
         /// <summary>
@@ -64,6 +69,7 @@ namespace WinCap.ViewModels
                 (this.General = new GeneralViewModel().AddTo(this)),
                 (this.Output = new OutputViewModel().AddTo(this)),
                 (this.ShortcutKey = new ShortcutKeyViewModel().AddTo(this)),
+                (this.VersionInfo = new VersionInfoViewModel().AddTo(this)),
             };
             this.SelectedItem = this.TabItems.FirstOrDefault();
         }

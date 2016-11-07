@@ -249,6 +249,9 @@
   <data name="Settings_StartProgram" xml:space="preserve">
     <value>スタートプログラム設定</value>
   </data>
+  <data name="Settings_VersionInfo" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
   <data name="Settings_WebPageCaptureStartWhenPageFirstMove" xml:space="preserve">
     <value>ウェブページ全体キャプチャ開始時にページ先頭に移動する</value>
   </data>

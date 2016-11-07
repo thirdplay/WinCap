@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using WinCap.Util.Serialization;
 
 namespace WinCap.Util.Serialization
 {
