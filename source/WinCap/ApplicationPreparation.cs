@@ -16,7 +16,7 @@ namespace WinCap
         /// <summary>
         /// アプリケーションのインスタンス
         /// </summary>
-        private readonly Application _application;
+        private readonly Application application;
 
         /// <summary>
         /// コンストラクタ
@@ -24,7 +24,7 @@ namespace WinCap
         /// <param name="application"></param>
         public ApplicationPreparation(Application application)
         {
-            this._application = application;
+            this.application = application;
         }
 
         /// <summary>
@@ -34,21 +34,21 @@ namespace WinCap
         {
             var settings = Settings.ShortcutKey;
 
-            this._application.HookService
-                .Register(settings.FullScreen.ToShortcutKey(), () => _application.CapturerService.CaptureDesktop())
-                .AddTo(this._application);
+            this.application.HookService
+                .Register(settings.FullScreen.ToShortcutKey(), () => application.CapturerService.CaptureDesktop())
+                .AddTo(this.application);
 
-            this._application.HookService
-                .Register(settings.ActiveControl.ToShortcutKey(), () => _application.CapturerService.CaptureActiveControl())
-                .AddTo(this._application);
+            this.application.HookService
+                .Register(settings.ActiveControl.ToShortcutKey(), () => application.CapturerService.CaptureActiveControl())
+                .AddTo(this.application);
 
-            this._application.HookService
-                .Register(settings.SelectionControl.ToShortcutKey(), () => _application.CapturerService.CaptureSelectionControl())
-                .AddTo(this._application);
+            this.application.HookService
+                .Register(settings.SelectionControl.ToShortcutKey(), () => application.CapturerService.CaptureSelectionControl())
+                .AddTo(this.application);
 
-            this._application.HookService
-                .Register(settings.WebPage.ToShortcutKey(), () => _application.CapturerService.CaptureWebPage())
-                .AddTo(this._application);
+            this.application.HookService
+                .Register(settings.WebPage.ToShortcutKey(), () => application.CapturerService.CaptureWebPage())
+                .AddTo(this.application);
         }
 
         /// <summary>
@@ -58,24 +58,24 @@ namespace WinCap
         {
             const string iconUri = "pack://application:,,,/WinCap;component/Assets/app.ico";
             Uri uri;
-            if (!Uri.TryCreate(iconUri, UriKind.Absolute, out uri)) return;
+            if (!Uri.TryCreate(iconUri, UriKind.Absolute, out uri)) { return; }
 
             var icon = IconHelper.GetIconFromResource(uri);
             var menus = new[]
             {
                 new TaskTrayIconItem(PropResources.ContextMenu_Capture, new[]
                 {
-                    new TaskTrayIconItem(PropResources.ContextMenu_DesktopCapture, () => this._application.CapturerService.CaptureDesktop()),
-                    new TaskTrayIconItem(PropResources.ContextMenu_ControlCapture, () => this._application.CapturerService.CaptureSelectionControl()),
-                    new TaskTrayIconItem(PropResources.ContextMenu_WebPageCapture, () => this._application.CapturerService.CaptureWebPage()),
+                    new TaskTrayIconItem(PropResources.ContextMenu_DesktopCapture, () => this.application.CapturerService.CaptureDesktop()),
+                    new TaskTrayIconItem(PropResources.ContextMenu_ControlCapture, () => this.application.CapturerService.CaptureSelectionControl()),
+                    new TaskTrayIconItem(PropResources.ContextMenu_WebPageCapture, () => this.application.CapturerService.CaptureWebPage()),
                 }),
                 new TaskTrayIconItem(PropResources.ContextMenu_Settings, () => this.ShowSettings()),
-                new TaskTrayIconItem(PropResources.ContextMenu_Exit, () => this._application.Shutdown()),
+                new TaskTrayIconItem(PropResources.ContextMenu_Exit, () => this.application.Shutdown()),
             };
 
             var taskTrayIcon = new TaskTrayIcon(icon, menus);
             taskTrayIcon.Show();
-            taskTrayIcon.AddTo(this._application);
+            taskTrayIcon.AddTo(this.application);
         }
 
         /// <summary>
@@ -83,8 +83,8 @@ namespace WinCap
         /// </summary>
         private void ShowSettings()
         {
-            if (this._application.HookService.IsSuspended) { return; }
-            using (this._application.HookService.Suspend())
+            if (this.application.HookService.IsSuspended) { return; }
+            using (this.application.HookService.Suspend())
             {
                 var window = new SettingsWindow
                 {
