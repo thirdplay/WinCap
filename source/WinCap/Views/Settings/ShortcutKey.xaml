@@ -47,7 +47,7 @@
 
             <UniformGrid Grid.Column="1"
                          Columns="1">
-                <metro:PromptTextBox Prompt=""
+                <controls:ShortcutKeyBox 
                                      Margin="2,2" />
                 <metro:PromptTextBox Prompt=""
                                      Margin="2,2" />

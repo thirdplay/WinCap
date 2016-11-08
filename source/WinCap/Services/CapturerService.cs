@@ -104,13 +104,15 @@ namespace WinCap.Services
             {
                 using (suspended)
                 {
-                    if (viewModel.SelectedHandle != IntPtr.Zero)
+                    if (viewModel.SelectedHandle == IntPtr.Zero)
                     {
-                        // 選択コントロールをキャプチャ
-                        using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
-                        {
-                            saveCaptureImage(bitmap);
-                        }
+                        return;
+                    }
+
+                    // 選択コントロールをキャプチャ
+                    using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
+                    {
+                        saveCaptureImage(bitmap);
                     }
                 }
             });
@@ -133,27 +135,29 @@ namespace WinCap.Services
             {
                 using (suspended)
                 {
-                    if (viewModel.SelectedHandle != IntPtr.Zero)
+                    if (viewModel.SelectedHandle == IntPtr.Zero)
                     {
-                        // キャプチャ可能か判定
-                        string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
-                        if (this.ieCapturer.CanCapture(className))
+                        return;
+                    }
+
+                    // キャプチャ可能か判定
+                    string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
+                    if (this.ieCapturer.CanCapture(className))
+                    {
+                        // ウェブページ全体をキャプチャ
+                        this.ieCapturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
+                        this.ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
+                        using (Bitmap bitmap = executeCapture(() => this.ieCapturer.Capture(viewModel.SelectedHandle)))
                         {
-                            // ウェブページ全体をキャプチャ
-                            this.ieCapturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
-                            this.ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                            using (Bitmap bitmap = executeCapture(() => this.ieCapturer.Capture(viewModel.SelectedHandle)))
-                            {
-                                saveCaptureImage(bitmap);
-                            }
+                            saveCaptureImage(bitmap);
                         }
-                        else
+                    }
+                    else
+                    {
+                        // 選択コントロールをキャプチャ
+                        using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
                         {
-                            // 選択コントロールをキャプチャ
-                            using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
-                            {
-                                saveCaptureImage(bitmap);
-                            }
+                            saveCaptureImage(bitmap);
                         }
                     }
                 }

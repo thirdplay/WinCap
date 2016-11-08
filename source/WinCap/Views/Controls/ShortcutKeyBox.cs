@@ -13,6 +13,14 @@ namespace WinCap.Views.Controls
     /// </summary>
     public class ShortcutKeyBox : TextBox
     {
+        /// <summary>
+        /// ショートカットキー検出器
+        /// </summary>
+        private readonly ShortcutKeyDetector detector = new ShortcutKeyDetector();
+
+        /// <summary>
+        /// 静的なコンストラクタ。
+        /// </summary>
         static ShortcutKeyBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(
@@ -20,12 +28,22 @@ namespace WinCap.Views.Controls
                 new FrameworkPropertyMetadata(typeof(ShortcutKeyBox)));
         }
 
+        private readonly HashSet<Key> pressedModifiers = new HashSet<Key>();
+        private Key pressedKey = Key.None;
 
-        private readonly HashSet<Key> _pressedModifiers = new HashSet<Key>();
-        private Key _pressedKey = Key.None;
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        public ShortcutKeyBox()
+        {
+            this.detector.Pressed += this.keyHookOnPressed;
+        }
 
         #region Current 依存関係プロパティ
 
+        /// <summary>
+        /// 現在のショートカットキーのキーコード
+        /// </summary>
         public int[] Current
         {
             get { return (int[])this.GetValue(CurrentProperty); }
@@ -38,7 +56,7 @@ namespace WinCap.Views.Controls
         private static void CurrentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var instance = (ShortcutKeyBox)d;
-            instance.UpdateText();
+            instance.updateText();
         }
 
         private ShortcutKey? CurrentAsKeys
@@ -49,43 +67,49 @@ namespace WinCap.Views.Controls
 
         #endregion
 
+        /// <summary>
+        /// キーボードフォーカスを受け取ったときに発生するイベント。
+        /// </summary>
+        /// <param name="e">イベント引数</param>
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
 
-            this.UpdateText();
+            this.detector.Start();
+            this.updateText();
         }
 
+        /// <summary>
+        /// キーボードフォーカスを失ったときに発生するイベント。
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnLostKeyboardFocus(e);
+
+            this.detector.Stop();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             if (!e.IsRepeat)
             {
                 var key = e.Key == Key.System ? e.SystemKey : e.Key;
-                if (key == Key.Back)
-                {
-                    this._pressedModifiers.Clear();
-                    this._pressedKey = Key.None;
-                }
-                else if (key.IsModifyKey())
-                {
-                    this._pressedModifiers.Add(key);
-                }
-                else
-                {
-                    this._pressedKey = key;
-                }
-
-                this.CurrentAsKeys = this._pressedModifiers.Any() && this._pressedKey != Key.None
-                    ? this.GetShortcutKey()
-                    : (ShortcutKey?)null;
-
-                this.UpdateText();
+                executeKeyDown(key);
             }
 
             e.Handled = true;
             base.OnPreviewKeyDown(e);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
             if (!e.IsRepeat)
@@ -93,30 +117,80 @@ namespace WinCap.Views.Controls
                 var key = e.Key == Key.System ? e.SystemKey : e.Key;
                 if (key.IsModifyKey())
                 {
-                    this._pressedModifiers.Remove(key);
+                    this.pressedModifiers.Remove(key);
                 }
 
-                this._pressedKey = Key.None;
-                this.UpdateText();
+                this.pressedKey = Key.None;
+                this.updateText();
             }
 
             e.Handled = true;
             base.OnPreviewKeyUp(e);
         }
 
-        private void UpdateText()
+        /// <summary>
+        /// ショートカットキー検出時に発生するイベント。
+        /// </summary>
+        /// <param name="sender">イベント発生元オブジェクト</param>
+        /// <param name="args">イベント引数</param>
+        private void keyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
         {
-            var text = (this.CurrentAsKeys ?? this.GetShortcutKey()).ToString();
+            if (args.ShortcutKey == ShortcutKey.None) { return; }
+            if (args.IsRepeat) { return; }
+
+            if (args.ShortcutKey.Key == System.Windows.Forms.Keys.PrintScreen)
+            {
+                executeKeyDown(Key.PrintScreen);
+            }
+        }
+
+        /// <summary>
+        /// キー押下時の処理を実行します。
+        /// </summary>
+        /// <param name="key">キーコード</param>
+        private void executeKeyDown(Key key)
+        {
+            if (key == Key.Back)
+            {
+                this.pressedModifiers.Clear();
+                this.pressedKey = Key.None;
+            }
+            else if (key.IsModifyKey())
+            {
+                this.pressedModifiers.Add(key);
+            }
+            else
+            {
+                this.pressedKey = key;
+            }
+
+            this.CurrentAsKeys = this.pressedModifiers.Any() && this.pressedKey != Key.None
+                ? this.getShortcutKey()
+                : (ShortcutKey?)null;
+
+            this.updateText();
+        }
+
+        /// <summary>
+        /// テキストを更新します。
+        /// </summary>
+        private void updateText()
+        {
+            var text = (this.CurrentAsKeys ?? this.getShortcutKey()).ToString();
 
             this.Text = text;
             this.CaretIndex = text.Length;
         }
 
-        private ShortcutKey GetShortcutKey()
+        /// <summary>
+        /// ショートカットキーを取得します。
+        /// </summary>
+        /// <returns>ショートカットキー</returns>
+        private ShortcutKey getShortcutKey()
         {
             return new ShortcutKey(
-                this._pressedKey.ToVirtualKey(),
-                this._pressedModifiers.Select(x => x.ToVirtualKey()).ToArray());
+                this.pressedKey.ToVirtualKey(),
+                this.pressedModifiers.Select(x => x.ToVirtualKey()).ToArray());
         }
     }
 }

@@ -21,7 +21,7 @@ namespace WinCap
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="application"></param>
+        /// <param name="application">アプリケーションのインスタンス</param>
         public ApplicationPreparation(Application application)
         {
             this.application = application;
@@ -35,19 +35,19 @@ namespace WinCap
             var settings = Settings.ShortcutKey;
 
             this.application.HookService
-                .Register(settings.FullScreen.ToShortcutKey(), () => application.CapturerService.CaptureDesktop())
+                .Register(settings.FullScreen.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop())
                 .AddTo(this.application);
 
             this.application.HookService
-                .Register(settings.ActiveControl.ToShortcutKey(), () => application.CapturerService.CaptureActiveControl())
+                .Register(settings.ActiveControl.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl())
                 .AddTo(this.application);
 
             this.application.HookService
-                .Register(settings.SelectionControl.ToShortcutKey(), () => application.CapturerService.CaptureSelectionControl())
+                .Register(settings.SelectionControl.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl())
                 .AddTo(this.application);
 
             this.application.HookService
-                .Register(settings.WebPage.ToShortcutKey(), () => application.CapturerService.CaptureWebPage())
+                .Register(settings.WebPage.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage())
                 .AddTo(this.application);
         }
 

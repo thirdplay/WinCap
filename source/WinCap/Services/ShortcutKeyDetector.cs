@@ -12,7 +12,12 @@ namespace WinCap.Services
     public class ShortcutKeyDetector
     {
         /// <summary>
-        /// 装飾キーリスト
+        /// 押下したキーのセット
+        /// </summary>
+        private readonly HashSet<Keys> pressedKeys = new HashSet<Keys>();
+
+        /// <summary>
+        /// 押下した装飾キーのセット
         /// </summary>
         private readonly HashSet<Keys> pressedModifiers = new HashSet<Keys>();
 
@@ -70,6 +75,7 @@ namespace WinCap.Services
         public void Stop()
         {
             this.suspended = true;
+            this.pressedKeys.Clear();
             this.pressedModifiers.Clear();
         }
 
@@ -88,7 +94,8 @@ namespace WinCap.Services
             }
             else
             {
-                var pressedEventArgs = new ShortcutKeyPressedEventArgs(args.KeyCode, this.pressedModifiers);
+                var pressedEventArgs = new ShortcutKeyPressedEventArgs(args.KeyCode, this.pressedModifiers, this.pressedKeys.Contains(args.KeyCode));
+                this.pressedKeys.Add(args.KeyCode);
                 this.Pressed?.Invoke(this, pressedEventArgs);
                 if (pressedEventArgs.Handled)
                 {
@@ -105,11 +112,14 @@ namespace WinCap.Services
         private void interceptorOnKeyUp(object sender, KeyEventArgs args)
         {
             if (this.suspended) { return; }
-            if (this.pressedModifiers.Count == 0) { return; }
 
             if (args.KeyCode.IsModifyKey())
             {
                 this.pressedModifiers.Remove(args.KeyCode);
+            }
+            else
+            {
+                this.pressedKeys.Remove(args.KeyCode);
             }
         }
     }

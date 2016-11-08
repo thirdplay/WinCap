@@ -15,12 +15,12 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// プロパティ値
         /// </summary>
-        private T _value;
+        private T value;
 
         /// <summary>
         /// キャッシュ状態
         /// </summary>
-        private bool _cached;
+        private bool cached;
 
         /// <summary>
         /// キー
@@ -49,7 +49,7 @@ namespace WinCap.Util.Serialization
         {
             get
             {
-                if (this._cached) { return this._value; }
+                if (this.cached) { return this.value; }
 
                 if (!this.Provider.IsLoaded)
                 {
@@ -59,28 +59,28 @@ namespace WinCap.Util.Serialization
                 object obj;
                 if (this.Provider.TryGetValue(this.Key, out obj))
                 {
-                    this._value = this.DeserializeCore(obj);
-                    this._cached = true;
+                    this.value = this.DeserializeCore(obj);
+                    this.cached = true;
                 }
                 else
                 {
-                    this._value = this.Default;
+                    this.value = this.Default;
                 }
 
-                return this._cached ? this._value : this.Default;
+                return this.cached ? this.value : this.Default;
             }
             set
             {
-                if (this._cached && Equals(this._value, value)) { return; }
+                if (this.cached && Equals(this.value, value)) { return; }
 
                 if (!this.Provider.IsLoaded)
                 {
                     this.Provider.Load();
                 }
 
-                var old = this._value;
-                this._value = value;
-                this._cached = true;
+                var old = this.value;
+                this.value = value;
+                this.cached = true;
                 this.Provider.SetValue(this.Key, this.SerializeCore(value));
                 this.OnValueChanged(old, value);
 
@@ -112,11 +112,11 @@ namespace WinCap.Util.Serialization
 
             this.Provider.Reloaded += (sender, args) =>
             {
-                if (this._cached)
+                if (this.cached)
                 {
-                    this._cached = false;
+                    this.cached = false;
 
-                    var oldValue = this._value;
+                    var oldValue = this.value;
                     var newValue = this.Value;
                     if (!Equals(oldValue, newValue))
                     {
@@ -155,8 +155,8 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// プロパティ値の変更を購読します。
         /// </summary>
-        /// <param name="listener"></param>
-        /// <returns></returns>
+        /// <param name="listener">リスナーアクション</param>
+        /// <returns>購読リクエスト</returns>
         public virtual IDisposable Subscribe(Action<T> listener)
         {
             listener(this.Value);
@@ -178,8 +178,8 @@ namespace WinCap.Util.Serialization
             {
                 if (this.Provider.RemoveValue(this.Key))
                 {
-                    this._value = default(T);
-                    this._cached = false;
+                    this.value = default(T);
+                    this.cached = false;
                     this.OnValueChanged(this.DeserializeCore(old), this.Default);
 
                     if (this.AutoSave) this.Provider.Save();
@@ -192,24 +192,24 @@ namespace WinCap.Util.Serialization
         /// </summary>
         private class ValueChangedEventListener : IDisposable
         {
-            private readonly Action<T> _listener;
-            private readonly SerializablePropertyBase<T> _source;
+            private readonly Action<T> listener;
+            private readonly SerializablePropertyBase<T> source;
 
             public ValueChangedEventListener(SerializablePropertyBase<T> property, Action<T> listener)
             {
-                this._listener = listener;
-                this._source = property;
-                this._source.ValueChanged += this.HandleValueChanged;
+                this.listener = listener;
+                this.source = property;
+                this.source.ValueChanged += this.HandleValueChanged;
             }
 
             private void HandleValueChanged(object sender, ValueChangedEventArgs<T> args)
             {
-                this._listener(args.NewValue);
+                this.listener(args.NewValue);
             }
 
             public void Dispose()
             {
-                this._source.ValueChanged -= this.HandleValueChanged;
+                this.source.ValueChanged -= this.HandleValueChanged;
             }
         }
 
