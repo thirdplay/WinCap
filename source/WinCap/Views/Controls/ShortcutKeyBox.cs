@@ -29,7 +29,7 @@ namespace WinCap.Views.Controls
         }
 
         /// <summary>
-        /// 押下した装飾キーセット
+        /// 押下した修飾キーセット
         /// </summary>
         private readonly HashSet<Key> pressedModifiers = new HashSet<Key>();
 

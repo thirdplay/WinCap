@@ -19,7 +19,7 @@ namespace WinCap.Services
         public Key Key { get; }
 
         /// <summary>
-        /// 装飾キーセット
+        /// 修飾キーセット
         /// </summary>
         public ModifierKeys ModifierKeys { get; }
 
@@ -36,7 +36,7 @@ namespace WinCap.Services
         /// コンストラクタ
         /// </summary>
         /// <param name="key">キーコード</param>
-        /// <param name="modifiers">装飾キーセット</param>
+        /// <param name="modifiers">修飾キーセット</param>
         public ShortcutKey(Key key, ModifierKeys modifierKeys)
         {
             this.Key = key;

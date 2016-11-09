@@ -9,30 +9,30 @@ namespace WinCap.Services
     public static class KeyHelper
     {
         /// <summary>
-        /// 装飾キーかどうか判定します。
+        /// 修飾キーかどうか判定します。
         /// </summary>
         /// <param name="key">仮想キー</param>
-        /// <returns>装飾キーの場合はtrue、それ以外はfalse</returns>
+        /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
         public static bool IsModifyKey(this Keys key)
         {
             return IsModifyKey((uint)key);
         }
 
         /// <summary>
-        /// 装飾キーかどうか判定します。
+        /// 修飾キーかどうか判定します。
         /// </summary>
         /// <param name="key">キーコード</param>
-        /// <returns>装飾キーの場合はtrue、それ以外はfalse</returns>
+        /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
         public static bool IsModifyKey(this Key key)
         {
             return IsModifyKey((uint)key.ToVirtualKey());
         }
 
         /// <summary>
-        /// 装飾キーセットを取得します。
+        /// 修飾キーセットを取得します。
         /// </summary>
         /// <param name="keys">仮想キー</param>
-        /// <returns>装飾キーセット</returns>
+        /// <returns>修飾キーセット</returns>
         public static ModifierKeys GetModifierKeys(this Keys keys)
         {
             var result = ModifierKeys.None;
@@ -72,10 +72,10 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// 装飾キーかどうか判定します。
+        /// 修飾キーかどうか判定します。
         /// </summary>
         /// <param name="keyCode">キーコード</param>
-        /// <returns>装飾キーの場合はtrue、それ以外はfalse</returns>
+        /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
         private static bool IsModifyKey(uint keyCode)
         {
             unchecked

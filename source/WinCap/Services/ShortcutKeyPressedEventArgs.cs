@@ -32,7 +32,7 @@ namespace WinCap.Services
         /// コンストラクタ。
         /// </summary>
         /// <param name="key">キーコード</param>
-        /// <param name="modifierKeys">装飾キーセット</param>
+        /// <param name="modifierKeys">修飾キーセット</param>
         internal ShortcutKeyPressedEventArgs(Key key, ModifierKeys modifierKeys)
         {
             this.ShortcutKey = new ShortcutKey(key, modifierKeys);

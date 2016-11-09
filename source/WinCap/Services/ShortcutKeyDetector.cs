@@ -13,7 +13,7 @@ namespace WinCap.Services
     public class ShortcutKeyDetector
     {
         /// <summary>
-        /// 押下した装飾キー
+        /// 押下した修飾キー
         /// </summary>
         private ModifierKeys pressedModifierKeys = ModifierKeys.None;
 
