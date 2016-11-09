@@ -29,7 +29,40 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// キーコードを仮想キーに変換します。
+        /// 装飾キーセットを取得します。
+        /// </summary>
+        /// <param name="keys">仮想キー</param>
+        /// <returns>装飾キーセット</returns>
+        public static ModifierKeys GetModifierKeys(this Keys keys)
+        {
+            var result = ModifierKeys.None;
+            if ((keys & Keys.Alt) == Keys.Alt)
+            {
+                result |= ModifierKeys.Alt;
+            }
+            if ((keys & Keys.Control) == Keys.Control)
+            {
+                result |= ModifierKeys.Control;
+            }
+            if ((keys & Keys.Shift) == Keys.Shift)
+            {
+                result |= ModifierKeys.Shift;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 仮想キーをキーに変換します。
+        /// </summary>
+        /// <param name="keys">仮想キー</param>
+        /// <returns>キー</returns>
+        public static Key ToKey(this Keys keys)
+        {
+            return KeyInterop.KeyFromVirtualKey((int)keys);
+        }
+
+        /// <summary>
+        /// キーを仮想キーに変換します。
         /// </summary>
         /// <param name="key">キーコード</param>
         /// <returns>仮想キー</returns>
@@ -41,24 +74,13 @@ namespace WinCap.Services
         /// <summary>
         /// 装飾キーかどうか判定します。
         /// </summary>
-        /// <param name="keyCode">仮想キー</param>
+        /// <param name="keyCode">キーコード</param>
         /// <returns>装飾キーの場合はtrue、それ以外はfalse</returns>
         private static bool IsModifyKey(uint keyCode)
         {
-            switch (keyCode)
+            unchecked
             {
-                case 164: // LMenu
-                case 162: // LControlKey
-                case 160: // LShiftKey
-                case 091: // LWin
-                case 165: // RMenu
-                case 163: // RControlKey
-                case 161: // RShiftKey
-                case 092: // RWin
-                    return true;
-
-                default:
-                    return false;
+                return (keyCode & (uint)Keys.Modifiers) != 0;
             }
         }
     }

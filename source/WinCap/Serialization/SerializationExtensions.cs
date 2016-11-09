@@ -21,57 +21,57 @@ namespace WinCap.Serialization
         /// </summary>
         public static void ClearCache() => _keyCache.Clear();
 
-        /// <summary>
-        /// ショートカットキープロパティをショートカットキーに変換します。
-        /// </summary>
-        /// <param name="property">ショートカットキープロパティ</param>
-        /// <returns>ショートカットキー</returns>
-        public static ShortcutKey ToShortcutKey(this ShortcutkeyProperty property)
-        {
-            if (property?.Value == null) { return ShortcutKey.None; }
+        ///// <summary>
+        ///// ショートカットキープロパティをショートカットキーに変換します。
+        ///// </summary>
+        ///// <param name="property">ショートカットキープロパティ</param>
+        ///// <returns>ショートカットキー</returns>
+        //public static ShortcutKey ToShortcutKey(this ShortcutkeyProperty property)
+        //{
+        //    if (property?.Value == null) { return ShortcutKey.None; }
 
-            ShortcutKey cached;
-            if (_keyCache.TryGetValue(property.Key, out cached))
-            {
-                return cached;
-            }
+        //    ShortcutKey cached;
+        //    if (_keyCache.TryGetValue(property.Key, out cached))
+        //    {
+        //        return cached;
+        //    }
 
-            var result = ToShortcutKey(property.Value);
-            _keyCache[property.Key] = result;
+        //    var result = ToShortcutKey(property.Value);
+        //    _keyCache[property.Key] = result;
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        /// <summary>
-        /// 仮想キー配列をショートカットキーに変換します。
-        /// </summary>
-        /// <param name="keyCodes">仮想キー配列</param>
-        /// <returns>ショートカットキー</returns>
-        public static ShortcutKey ToShortcutKey(this int[] keyCodes)
-        {
-            if (keyCodes == null) { return ShortcutKey.None; }
+        ///// <summary>
+        ///// 仮想キー配列をショートカットキーに変換します。
+        ///// </summary>
+        ///// <param name="keyCodes">仮想キー配列</param>
+        ///// <returns>ショートカットキー</returns>
+        //public static ShortcutKey ToShortcutKey(this int[] keyCodes)
+        //{
+        //    if (keyCodes == null) { return ShortcutKey.None; }
 
-            var key = keyCodes.Length >= 1 ? (Keys)keyCodes[0] : Keys.None;
-            var modifiers = keyCodes.Length >= 2 ? keyCodes.Skip(1).Select(x => (Keys)x).ToArray() : Array.Empty<Keys>();
-            var result = new ShortcutKey(key, modifiers);
+        //    var key = keyCodes.Length >= 1 ? (Keys)keyCodes[0] : Keys.None;
+        //    var modifiers = keyCodes.Length >= 2 ? keyCodes.Skip(1).Select(x => (Keys)x).ToArray() : Array.Empty<Keys>();
+        //    var result = new ShortcutKey(key, modifiers);
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        /// <summary>
-        /// ショートカットキーを仮想キー配列に変換します。
-        /// </summary>
-        /// <param name="shortcutKey">ショートカットキー</param>
-        /// <returns>仮想キー配列</returns>
-        public static int[] ToSerializable(this ShortcutKey shortcutKey)
-        {
-            if (shortcutKey.Key == Keys.None) return Array.Empty<int>();
+        ///// <summary>
+        ///// ショートカットキーを仮想キー配列に変換します。
+        ///// </summary>
+        ///// <param name="shortcutKey">ショートカットキー</param>
+        ///// <returns>仮想キー配列</returns>
+        //public static int[] ToSerializable(this ShortcutKey shortcutKey)
+        //{
+        //    if (shortcutKey.Key == Keys.None) return Array.Empty<int>();
 
-            var key = new[] { (int)shortcutKey.Key, };
+        //    var key = new[] { (int)shortcutKey.Key, };
 
-            return shortcutKey.Modifiers.Length == 0
-                ? key
-                : key.Concat(shortcutKey.Modifiers.Select(x => (int)x)).ToArray();
-        }
+        //    return shortcutKey.Modifiers.Length == 0
+        //        ? key
+        //        : key.Concat(shortcutKey.Modifiers.Select(x => (int)x)).ToArray();
+        //}
     }
 }

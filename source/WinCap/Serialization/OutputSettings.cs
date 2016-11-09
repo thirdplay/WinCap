@@ -25,7 +25,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// 出力方法
         /// </summary>
-        public SerializableProperty<OutputMethodType> OutputMethodType => this.Cache(key => new SerializableProperty<OutputMethodType>(key, this._provider, Models.OutputMethodType.Clipboard));
+        public EnumProperty<OutputMethodType> OutputMethodType => this.Cache(key => new EnumProperty<OutputMethodType>(key, this._provider, Models.OutputMethodType.Clipboard));
 
         /// <summary>
         /// 出力フォルダ
@@ -45,6 +45,6 @@ namespace WinCap.Serialization
         /// <summary>
         /// 出力形式
         /// </summary>
-        public SerializableProperty<OutputFormatType> OutputFormatType => this.Cache(key => new SerializableProperty<OutputFormatType>(key, this._provider, Models.OutputFormatType.Png));
+        public EnumProperty<OutputFormatType> OutputFormatType => this.Cache(key => new EnumProperty<OutputFormatType>(key, this._provider, Models.OutputFormatType.Png));
     }
 }

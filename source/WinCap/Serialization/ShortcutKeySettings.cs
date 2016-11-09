@@ -1,4 +1,6 @@
-﻿using WinCap.Util.Serialization;
+﻿using System.Windows.Input;
+using WinCap.Services;
+using WinCap.Util.Serialization;
 using Keys = System.Windows.Forms.Keys;
 
 namespace WinCap.Serialization
@@ -11,41 +13,39 @@ namespace WinCap.Serialization
         /// <summary>
         /// シリアル化機能
         /// </summary>
-        private readonly ISerializationProvider _provider;
+        private readonly ISerializationProvider provider;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">シリアル化機能の提供者</param>
         public ShortcutKeySettings(ISerializationProvider provider)
         {
-            this._provider = provider;
+            this.provider = provider;
         }
 
         /// <summary>
         /// 画面全体をキャプチャ
         /// </summary>
-        public ShortcutkeyProperty FullScreen => this.Cache(key => new ShortcutkeyProperty(key, this._provider, FullScreenDefaultValue));
+        public ShortcutkeyProperty FullScreen => this.Cache(key => new ShortcutkeyProperty(key, this.provider, FullScreenDefaultValue));
 
         /// <summary>
         /// アクティブコントロールをキャプチャ
         /// </summary>
-        public ShortcutkeyProperty ActiveControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, ActiveControlDefaultValue));
+        //public ShortcutkeyProperty ActiveControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, ActiveControlDefaultValue));
 
         /// <summary>
         /// 選択コントロールをキャプチャ
         /// </summary>
-        public ShortcutkeyProperty SelectionControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, SelectControlDefaultValue));
+        //public ShortcutkeyProperty SelectionControl => this.Cache(key => new ShortcutkeyProperty(key, this._provider, SelectControlDefaultValue));
 
         /// <summary>
         /// ウェブページ全体をキャプチャ
         /// </summary>
-        public ShortcutkeyProperty WebPage => this.Cache(key => new ShortcutkeyProperty(key, this._provider, WebPageDefaultValue));
+        //public ShortcutkeyProperty WebPage => this.Cache(key => new ShortcutkeyProperty(key, this._provider, WebPageDefaultValue));
 
         #region default values
-        private static int[] FullScreenDefaultValue { get; } = {
-            (int)Keys.PrintScreen
-        };
+        private static ShortcutKey FullScreenDefaultValue { get; } = new ShortcutKey(Key.PrintScreen);
 
         private static int[] ActiveControlDefaultValue { get; } = {
             (int)Keys.PrintScreen,

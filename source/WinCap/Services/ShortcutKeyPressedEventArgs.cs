@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace WinCap.Services
 {
@@ -12,11 +13,6 @@ namespace WinCap.Services
         /// 押下したショートカットキー
         /// </summary>
         public ShortcutKey ShortcutKey { get; }
-
-        /// <summary>
-        /// 繰り返し押されたキーかどうか
-        /// </summary>
-        public bool IsRepeat { get; }
 
         /// <summary>
         /// イベントの処理状態
@@ -36,12 +32,10 @@ namespace WinCap.Services
         /// コンストラクタ。
         /// </summary>
         /// <param name="key">キーコード</param>
-        /// <param name="modifiers">装飾キーコード</param>
-        /// <param name="isRepeat">繰り返し押されたキーかどうか</param>
-        internal ShortcutKeyPressedEventArgs(Keys key, ICollection<Keys> modifiers, bool isRepeat)
+        /// <param name="modifierKeys">装飾キーセット</param>
+        internal ShortcutKeyPressedEventArgs(Key key, ModifierKeys modifierKeys)
         {
-            this.ShortcutKey = new ShortcutKey(key, modifiers);
-            this.IsRepeat = isRepeat;
+            this.ShortcutKey = new ShortcutKey(key, modifierKeys);
         }
     }
 }

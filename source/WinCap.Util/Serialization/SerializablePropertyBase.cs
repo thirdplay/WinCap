@@ -8,7 +8,7 @@ namespace WinCap.Util.Serialization
     /// <summary>
     /// プロパティのシリアル化機能を提供する基本クラス。
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">任意のクラス</typeparam>
     [DebuggerDisplay("Value={Value}, Key={Key}, Default={Default}")]
     public abstract class SerializablePropertyBase<T> : INotifyPropertyChanged
     {

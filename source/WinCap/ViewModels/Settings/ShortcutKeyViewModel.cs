@@ -59,7 +59,7 @@ namespace WinCap.ViewModels.Settings
         public override void Apply()
         {
             var settings = Serialization.Settings.ShortcutKey;
-            settings.FullScreen.Value = this.FullScreen;
+            //settings.FullScreen.Value = this.FullScreen;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace WinCap.ViewModels.Settings
         private void RevertToSavedSettings()
         {
             var settings = Serialization.Settings.ShortcutKey;
-            this.FullScreen = settings.FullScreen;
+            //this.FullScreen = settings.FullScreen;
         }
         #endregion
     }

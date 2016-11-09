@@ -1,4 +1,6 @@
-﻿namespace WinCap.Models
+﻿using System.Runtime.Serialization;
+
+namespace WinCap.Models
 {
     /// <summary>
     /// 出力形式の種類を表します。

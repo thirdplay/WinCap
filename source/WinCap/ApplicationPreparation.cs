@@ -35,20 +35,20 @@ namespace WinCap
             var settings = Settings.ShortcutKey;
 
             this.application.HookService
-                .Register(settings.FullScreen.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop())
+                .Register(settings.FullScreen, () => this.application.CapturerService.CaptureDesktop())
                 .AddTo(this.application);
 
-            this.application.HookService
-                .Register(settings.ActiveControl.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl())
-                .AddTo(this.application);
+            //this.application.HookService
+            //    .Register(settings.ActiveControl.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl())
+            //    .AddTo(this.application);
 
-            this.application.HookService
-                .Register(settings.SelectionControl.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl())
-                .AddTo(this.application);
+            //this.application.HookService
+            //    .Register(settings.SelectionControl.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl())
+            //    .AddTo(this.application);
 
-            this.application.HookService
-                .Register(settings.WebPage.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage())
-                .AddTo(this.application);
+            //this.application.HookService
+            //    .Register(settings.WebPage.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage())
+            //    .AddTo(this.application);
         }
 
         /// <summary>

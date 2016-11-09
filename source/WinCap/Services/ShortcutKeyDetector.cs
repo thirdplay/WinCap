@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Open.WinKeyboardHook;
+using ModifierKeys = System.Windows.Input.ModifierKeys;
 
 namespace WinCap.Services
 {
@@ -12,14 +13,9 @@ namespace WinCap.Services
     public class ShortcutKeyDetector
     {
         /// <summary>
-        /// 押下したキーのセット
+        /// 押下した装飾キー
         /// </summary>
-        private readonly HashSet<Keys> pressedKeys = new HashSet<Keys>();
-
-        /// <summary>
-        /// 押下した装飾キーのセット
-        /// </summary>
-        private readonly HashSet<Keys> pressedModifiers = new HashSet<Keys>();
+        private ModifierKeys pressedModifierKeys = ModifierKeys.None;
 
         /// <summary>
         /// キーボード監視
@@ -75,8 +71,7 @@ namespace WinCap.Services
         public void Stop()
         {
             this.suspended = true;
-            this.pressedKeys.Clear();
-            this.pressedModifiers.Clear();
+            this.pressedModifierKeys = ModifierKeys.None;
         }
 
         /// <summary>
@@ -88,14 +83,13 @@ namespace WinCap.Services
         {
             if (this.suspended) { return; }
 
-            if (args.KeyCode.IsModifyKey())
+            if (args.KeyData.IsModifyKey())
             {
-                this.pressedModifiers.Add(args.KeyCode);
+                this.pressedModifierKeys = args.KeyData.GetModifierKeys();
             }
             else
             {
-                var pressedEventArgs = new ShortcutKeyPressedEventArgs(args.KeyCode, this.pressedModifiers, this.pressedKeys.Contains(args.KeyCode));
-                this.pressedKeys.Add(args.KeyCode);
+                var pressedEventArgs = new ShortcutKeyPressedEventArgs(args.KeyCode.ToKey(), this.pressedModifierKeys);
                 this.Pressed?.Invoke(this, pressedEventArgs);
                 if (pressedEventArgs.Handled)
                 {
@@ -115,11 +109,7 @@ namespace WinCap.Services
 
             if (args.KeyCode.IsModifyKey())
             {
-                this.pressedModifiers.Remove(args.KeyCode);
-            }
-            else
-            {
-                this.pressedKeys.Remove(args.KeyCode);
+                this.pressedModifierKeys = args.KeyData.GetModifierKeys();
             }
         }
     }

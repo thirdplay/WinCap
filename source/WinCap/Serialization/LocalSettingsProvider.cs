@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Xml;
 using WinCap.Models;
+using WinCap.Services;
 using WinCap.Util.Serialization;
 
 namespace WinCap.Serialization
@@ -37,7 +39,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// シリアライズ化時に渡す既知の型
         /// </summary>
-        public override Type[] KnownTypes { get; } = { typeof(bool), typeof(int[]), typeof(OutputMethodType), typeof(OutputFormatType) };
+        public override Type[] KnownTypes { get; } = { typeof(bool) };
 
         /// <summary>
         /// コンストラクタ

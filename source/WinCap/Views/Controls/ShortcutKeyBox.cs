@@ -28,7 +28,14 @@ namespace WinCap.Views.Controls
                 new FrameworkPropertyMetadata(typeof(ShortcutKeyBox)));
         }
 
+        /// <summary>
+        /// 押下した装飾キーセット
+        /// </summary>
         private readonly HashSet<Key> pressedModifiers = new HashSet<Key>();
+
+        /// <summary>
+        /// 押下したキー
+        /// </summary>
         private Key pressedKey = Key.None;
 
         /// <summary>
@@ -44,14 +51,14 @@ namespace WinCap.Views.Controls
         /// <summary>
         /// 現在のショートカットキーのキーコード
         /// </summary>
-        public int[] Current
+        public ShortcutKey? Current
         {
-            get { return (int[])this.GetValue(CurrentProperty); }
+            get { return (ShortcutKey?)this.GetValue(CurrentProperty); }
             set { this.SetValue(CurrentProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentProperty =
-            DependencyProperty.Register(nameof(Current), typeof(int[]), typeof(ShortcutKeyBox), new UIPropertyMetadata(null, CurrentPropertyChangedCallback));
+            DependencyProperty.Register(nameof(Current), typeof(ShortcutKey?), typeof(ShortcutKeyBox), new UIPropertyMetadata(null, CurrentPropertyChangedCallback));
 
         private static void CurrentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
@@ -59,11 +66,11 @@ namespace WinCap.Views.Controls
             instance.updateText();
         }
 
-        private ShortcutKey? CurrentAsKeys
-        {
-            get { return this.Current?.ToShortcutKey(); }
-            set { this.Current = value?.ToSerializable(); }
-        }
+        //private ShortcutKey? CurrentAsKeys
+        //{
+        //    get { return this.Current?.ToShortcutKey(); }
+        //    set { this.Current = value?.ToSerializable(); }
+        //}
 
         #endregion
 
@@ -82,7 +89,7 @@ namespace WinCap.Views.Controls
         /// <summary>
         /// キーボードフォーカスを失ったときに発生するイベント。
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">イベント引数</param>
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             base.OnLostKeyboardFocus(e);
@@ -91,7 +98,7 @@ namespace WinCap.Views.Controls
         }
 
         /// <summary>
-        /// 
+        /// キーボードのキーを押下したときに発生するイベント。
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -107,9 +114,9 @@ namespace WinCap.Views.Controls
         }
 
         /// <summary>
-        /// 
+        /// キーボードのキーを離したときに発生するイベント。
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">イベント引数</param>
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
             if (!e.IsRepeat)
@@ -136,9 +143,8 @@ namespace WinCap.Views.Controls
         private void keyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
         {
             if (args.ShortcutKey == ShortcutKey.None) { return; }
-            if (args.IsRepeat) { return; }
 
-            if (args.ShortcutKey.Key == System.Windows.Forms.Keys.PrintScreen)
+            if (args.ShortcutKey.Key == Key.PrintScreen)
             {
                 executeKeyDown(Key.PrintScreen);
             }
@@ -157,6 +163,7 @@ namespace WinCap.Views.Controls
             }
             else if (key.IsModifyKey())
             {
+                System.Console.WriteLine("IsModifyKey:" + key);
                 this.pressedModifiers.Add(key);
             }
             else
@@ -164,7 +171,7 @@ namespace WinCap.Views.Controls
                 this.pressedKey = key;
             }
 
-            this.CurrentAsKeys = this.pressedModifiers.Any() && this.pressedKey != Key.None
+            this.Current = this.pressedModifiers.Any() && this.pressedKey != Key.None
                 ? this.getShortcutKey()
                 : (ShortcutKey?)null;
 
@@ -176,7 +183,7 @@ namespace WinCap.Views.Controls
         /// </summary>
         private void updateText()
         {
-            var text = (this.CurrentAsKeys ?? this.getShortcutKey()).ToString();
+            var text = "";//(this.CurrentAsKeys ?? this.getShortcutKey()).ToString();
 
             this.Text = text;
             this.CaretIndex = text.Length;
@@ -188,9 +195,10 @@ namespace WinCap.Views.Controls
         /// <returns>ショートカットキー</returns>
         private ShortcutKey getShortcutKey()
         {
-            return new ShortcutKey(
-                this.pressedKey.ToVirtualKey(),
-                this.pressedModifiers.Select(x => x.ToVirtualKey()).ToArray());
+            return ShortcutKey.None;
+            //return new ShortcutKey(
+            //    this.pressedKey.ToVirtualKey(),
+            //    this.pressedModifiers.Select(x => x.ToVirtualKey()).ToArray());
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
+using System.Windows.Input;
 using WinCap.Util.Linq;
 
 namespace WinCap.Services
@@ -11,32 +13,34 @@ namespace WinCap.Services
     /// </summary>
     public struct ShortcutKey
     {
-        public Keys Key { get; }
-        public Keys[] Modifiers { get; }
+        /// <summary>
+        /// キーコード
+        /// </summary>
+        public Key Key { get; }
 
-        internal ICollection<Keys> ModifiersInternal { get; }
+        /// <summary>
+        /// 装飾キーセット
+        /// </summary>
+        public ModifierKeys ModifierKeys { get; }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="key">仮想キー</param>
-        /// <param name="modifiers">装飾キー配列</param>
-        public ShortcutKey(Keys key, params Keys[] modifiers)
+        /// <param name="key">キーコード</param>
+        public ShortcutKey(Key key)
+            : this(key, ModifierKeys.None)
         {
-            this.Key = key;
-            this.Modifiers = modifiers;
-            this.ModifiersInternal = modifiers;
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="key">仮想キー</param>
-        /// <param name="modifiers">装飾キーリスト</param>
-        internal ShortcutKey(Keys key, ICollection<Keys> modifiers) : this()
+        /// <param name="key">キーコード</param>
+        /// <param name="modifiers">装飾キーセット</param>
+        public ShortcutKey(Key key, ModifierKeys modifierKeys)
         {
             this.Key = key;
-            this.ModifiersInternal = modifiers;
+            this.ModifierKeys = modifierKeys;
         }
 
         /// <summary>
@@ -68,7 +72,7 @@ namespace WinCap.Services
         {
             unchecked
             {
-                var hashCode = (this.ModifiersInternal ?? this.Modifiers)?.GetHashCode() ?? 0;
+                var hashCode = this.ModifierKeys.GetHashCode();
                 hashCode = (hashCode * 397) ^ (int)this.Key;
                 return hashCode;
             }
@@ -80,11 +84,12 @@ namespace WinCap.Services
         /// <returns>文字列</returns>
         public override string ToString()
         {
-            return (this.ModifiersInternal ?? this.Modifiers ?? Enumerable.Empty<Keys>())
-                .OrderBy(x => x)
-                .Select(x => x + " + ")
-                .Concat(EnumerableEx.Return(this.Key == Keys.None ? "" : this.Key.ToString()))
-                .JoinString("");
+            return base.ToString();
+            //return (this.ModifiersInternal ?? this.Modifiers ?? Enumerable.Empty<Keys>())
+            //    .OrderBy(x => x)
+            //    .Select(x => x + " + ")
+            //    .Concat(EnumerableEx.Return(this.Key == Keys.None ? "" : this.Key.ToString()))
+            //    .JoinString("");
         }
 
         /// <summary>
@@ -96,9 +101,7 @@ namespace WinCap.Services
         public static bool operator ==(ShortcutKey key1, ShortcutKey key2)
         {
             return key1.Key == key2.Key
-                   && Equals(
-                       key1.ModifiersInternal ?? key1.Modifiers ?? Array.Empty<Keys>(),
-                       key2.ModifiersInternal ?? key2.Modifiers ?? Array.Empty<Keys>());
+                   && Equals(key1.ModifierKeys, key2.ModifierKeys);
         }
 
         /// <summary>
@@ -126,6 +129,6 @@ namespace WinCap.Services
         /// <summary>
         /// ショートカットキーなしを表す
         /// </summary>
-        public static readonly ShortcutKey None = new ShortcutKey(Keys.None);
+        public static readonly ShortcutKey None = new ShortcutKey(Key.None);
     }
 }

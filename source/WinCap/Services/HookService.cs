@@ -96,7 +96,6 @@ namespace WinCap.Services
         private void keyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
         {
             if (args.ShortcutKey == ShortcutKey.None) { return; }
-            if (args.IsRepeat) { return; }
 
             var target = this.hookActions.FirstOrDefault(x => x.ShortcutKey == args.ShortcutKey);
             if (target != null && target.CanExecute())
