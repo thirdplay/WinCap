@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Xml;
-using WinCap.Models;
-using WinCap.Services;
 using WinCap.Util.Serialization;
 
 namespace WinCap.Serialization
@@ -50,7 +47,7 @@ namespace WinCap.Serialization
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "thirdplay",
                 "WinCap",
-                this.Filename);
+                this.FileName);
 
             var file = new FileInfo(path);
             if (file.Directory == null || file.DirectoryName == null)

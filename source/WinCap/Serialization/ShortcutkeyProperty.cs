@@ -50,9 +50,12 @@ namespace WinCap.Serialization
             if (string.IsNullOrEmpty(data)) { return ShortcutKey.None; }
             if (data.Split(',').Length < 2) { return ShortcutKey.None; }
 
-            return new ShortcutKey(
-                (Key)Enum.Parse(typeof(Key), data.Split(',')[0]),
-                (ModifierKeys)Enum.Parse(typeof(ModifierKeys), data.Split(',')[1]));
+            Key key;
+            if (!Enum.TryParse(data.Split(',')[0], out key)) { return ShortcutKey.None; }
+            ModifierKeys modifierKeys;
+            if (!Enum.TryParse(data.Split(',')[1], out modifierKeys)) { return ShortcutKey.None; }
+
+            return new ShortcutKey(key, modifierKeys);
         }
     }
 }

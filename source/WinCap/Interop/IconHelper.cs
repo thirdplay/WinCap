@@ -3,6 +3,9 @@ using System.Drawing;
 
 namespace WinCap.Interop
 {
+    /// <summary>
+    /// アイコンの補助機能を提供します。
+    /// </summary>
     public static class IconHelper
     {
         /// <summary>

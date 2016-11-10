@@ -125,7 +125,7 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public override void Initialize()
         {
-            this.RevertToSavedSettings();
+            this.revertToSavedSettings();
         }
 
         /// <summary>
@@ -155,13 +155,13 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public override void Cancel()
         {
-            this.RevertToSavedSettings();
+            this.revertToSavedSettings();
         }
 
         /// <summary>
         /// 保存時の設定に戻します。
         /// </summary>
-        private void RevertToSavedSettings()
+        private void revertToSavedSettings()
         {
             var settings = Serialization.Settings.General;
             this.IsRegisterInStartup = settings.IsRegisterInStartup;

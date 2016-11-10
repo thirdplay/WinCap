@@ -27,12 +27,12 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// ファイル名
         /// </summary>
-        public virtual string Filename { get; } = "Settings.xml";
+        public virtual string FileName { get; } = "Settings.xml";
 
         /// <summary>
         /// シリアライズ化時に渡す既知の型
         /// </summary>
-        public virtual Type[] KnownTypes { get; } = { typeof(bool), typeof(int[]), };
+        public virtual Type[] KnownTypes { get; } = { typeof(bool) };
 
         /// <summary>
         /// 設定のリロードが発生したときに発生します。

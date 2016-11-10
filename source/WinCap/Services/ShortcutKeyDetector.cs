@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using Open.WinKeyboardHook;
 using ModifierKeys = System.Windows.Input.ModifierKeys;
@@ -83,9 +82,9 @@ namespace WinCap.Services
         {
             if (this.suspended) { return; }
 
-            if (args.KeyData.IsModifyKey())
+            if (args.KeyCode.IsModifyKey())
             {
-                this.pressedModifierKeys = args.KeyData.GetModifierKeys();
+                this.pressedModifierKeys |= args.KeyCode.GetModifierKeys();
             }
             else
             {
@@ -109,7 +108,7 @@ namespace WinCap.Services
 
             if (args.KeyCode.IsModifyKey())
             {
-                this.pressedModifierKeys = args.KeyData.GetModifierKeys();
+                this.pressedModifierKeys ^= args.KeyCode.GetModifierKeys();
             }
         }
     }

@@ -156,6 +156,8 @@
     <Compile Include="ApplicationPreparation.cs" />
     <Compile Include="Capturers\IWebBrowserCapturer.cs" />
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
+    <Compile Include="Interop\MAPVK.cs" />
+    <Compile Include="Interop\VK.cs" />
     <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />

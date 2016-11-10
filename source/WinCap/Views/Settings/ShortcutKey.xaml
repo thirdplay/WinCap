@@ -47,16 +47,14 @@
 
             <UniformGrid Grid.Column="1"
                          Columns="1">
-                <controls:ShortcutKeyBox 
-                                     Margin="2,2" />
-                <metro:PromptTextBox Prompt=""
-                                     Margin="2,2" />
-                <metro:PromptTextBox Prompt=""
-                                     Text=""
-                                     Margin="2,2" />
-                <metro:PromptTextBox Prompt=""
-                                     Text=""
-                                     Margin="2,2" />
+                <controls:ShortcutKeyBox Current="{Binding FullScreen, Mode=TwoWay}"
+                                         Margin="2,2" />
+                <controls:ShortcutKeyBox Current="{Binding ActiveControl, Mode=TwoWay}"
+                                         Margin="2,2" />
+                <controls:ShortcutKeyBox Current="{Binding SelectionControl, Mode=TwoWay}"
+                                         Margin="2,2" />
+                <controls:ShortcutKeyBox Current="{Binding WebPage, Mode=TwoWay}"
+                                         Margin="2,2" />
             </UniformGrid>
         </Grid>
     </StackPanel>

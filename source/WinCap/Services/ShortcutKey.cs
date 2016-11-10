@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
-using WinCap.Util.Linq;
+using WinCap.Interop;
 
 namespace WinCap.Services
 {
@@ -84,12 +83,72 @@ namespace WinCap.Services
         /// <returns>文字列</returns>
         public override string ToString()
         {
-            return base.ToString();
-            //return (this.ModifiersInternal ?? this.Modifiers ?? Enumerable.Empty<Keys>())
-            //    .OrderBy(x => x)
-            //    .Select(x => x + " + ")
-            //    .Concat(EnumerableEx.Return(this.Key == Keys.None ? "" : this.Key.ToString()))
-            //    .JoinString("");
+            if (this == ShortcutKey.None) { return ""; }
+
+            var sb = new StringBuilder();
+            if ((this.ModifierKeys & ModifierKeys.Alt) == ModifierKeys.Alt)
+            {
+                sb.Append(getLocalizedKeyName((int)VK.MENU));
+                sb.Append(" + ");
+            }
+            if ((this.ModifierKeys & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                sb.Append(getLocalizedKeyName((int)VK.CONTROL));
+                sb.Append(" + ");
+            }
+            if ((this.ModifierKeys & ModifierKeys.Shift) == ModifierKeys.Shift)
+            {
+                sb.Append(getLocalizedKeyName((int)VK.SHIFT));
+                sb.Append(" + ");
+            }
+            if ((this.ModifierKeys & ModifierKeys.Windows) == ModifierKeys.Windows)
+            {
+                sb.Append("Windows + ");
+            }
+
+            if (this.Key == Key.PrintScreen)
+            {
+                // 識別しやすくするために、固有名称を設定する
+                sb.Append("Print Screen");
+            }
+            else
+            {
+                sb.Append(getLocalizedKeyName(KeyInterop.VirtualKeyFromKey(this.Key)));
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// キー名称を取得します。
+        /// </summary>
+        /// <param name="key">仮想キーコード</param>
+        /// <returns>キー名称</returns>
+        private static string getLocalizedKeyName(int key)
+        {
+            // 修飾キーを削除
+            long keyCode = key & 0xffff;
+
+            var sb = new StringBuilder(256);
+
+            long scanCode = NativeMethods.MapVirtualKey((uint)keyCode, (int)MAPVK.VK_TO_VSC);
+
+            // 上位ワードにスキャンコードをシフトする
+            scanCode = (scanCode << 16);
+            if (keyCode == 45 ||
+                keyCode == 46 ||
+                keyCode == 144 ||
+                (33 <= keyCode && keyCode <= 40))
+            {
+                // 拡張キーフラグ追加
+                scanCode |= 0x1000000;
+            }
+
+            if (NativeMethods.GetKeyNameText((int)scanCode, sb, 256) == 0)
+            {
+                return "";
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -100,8 +159,7 @@ namespace WinCap.Services
         /// <returns>等価ならtrue、それ以外はfalse</returns>
         public static bool operator ==(ShortcutKey key1, ShortcutKey key2)
         {
-            return key1.Key == key2.Key
-                   && Equals(key1.ModifierKeys, key2.ModifierKeys);
+            return key1.Key == key2.Key && key1.ModifierKeys == key2.ModifierKeys;
         }
 
         /// <summary>

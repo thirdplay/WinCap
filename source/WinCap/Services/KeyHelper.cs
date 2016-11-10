@@ -15,7 +15,7 @@ namespace WinCap.Services
         /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
         public static bool IsModifyKey(this Keys key)
         {
-            return IsModifyKey((uint)key);
+            return isModifyKey(key);
         }
 
         /// <summary>
@@ -25,30 +25,27 @@ namespace WinCap.Services
         /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
         public static bool IsModifyKey(this Key key)
         {
-            return IsModifyKey((uint)key.ToVirtualKey());
+            return isModifyKey(key.ToVirtualKey());
         }
 
         /// <summary>
         /// 修飾キーセットを取得します。
         /// </summary>
-        /// <param name="keys">仮想キー</param>
+        /// <param name="key">仮想キー</param>
         /// <returns>修飾キーセット</returns>
-        public static ModifierKeys GetModifierKeys(this Keys keys)
+        public static ModifierKeys GetModifierKeys(this Keys key)
         {
-            var result = ModifierKeys.None;
-            if ((keys & Keys.Alt) == Keys.Alt)
-            {
-                result |= ModifierKeys.Alt;
-            }
-            if ((keys & Keys.Control) == Keys.Control)
-            {
-                result |= ModifierKeys.Control;
-            }
-            if ((keys & Keys.Shift) == Keys.Shift)
-            {
-                result |= ModifierKeys.Shift;
-            }
-            return result;
+            return getModifierKeys(key);
+        }
+
+        /// <summary>
+        /// 修飾キーセットを取得します。
+        /// </summary>
+        /// <param name="key">キーコード</param>
+        /// <returns>修飾キーセット</returns>
+        public static ModifierKeys GetModifierKeys(this Key key)
+        {
+            return getModifierKeys(key.ToVirtualKey());
         }
 
         /// <summary>
@@ -72,16 +69,57 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// 修飾キーかどうか判定します。
+        /// 装飾キーかどうか判定します。
         /// </summary>
-        /// <param name="keyCode">キーコード</param>
-        /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
-        private static bool IsModifyKey(uint keyCode)
+        /// <param name="key">仮想キー</param>
+        /// <returns>装飾キーの場合はtrue、それ以外はfalse</returns>
+        private static bool isModifyKey(Keys key)
         {
-            unchecked
+            switch (key)
             {
-                return (keyCode & (uint)Keys.Modifiers) != 0;
+                case Keys.LMenu:
+                case Keys.LControlKey:
+                case Keys.LShiftKey:
+                case Keys.LWin:
+                case Keys.RMenu:
+                case Keys.RControlKey:
+                case Keys.RShiftKey:
+                case Keys.RWin:
+                    return true;
+
+                default:
+                    return false;
             }
+        }
+
+        /// <summary>
+        /// 修飾キーセットを取得します。
+        /// </summary>
+        /// <param name="key">仮想キー</param>
+        /// <returns>修飾キーセット</returns>
+        private static ModifierKeys getModifierKeys(this Keys key)
+        {
+            var result = ModifierKeys.None;
+            switch (key)
+            {
+                case Keys.LMenu:
+                case Keys.RMenu:
+                    result |= ModifierKeys.Alt;
+                    break;
+                case Keys.LControlKey:
+                case Keys.RControlKey:
+                    result |= ModifierKeys.Control;
+                    break;
+                case Keys.LShiftKey:
+                case Keys.RShiftKey:
+                    result |= ModifierKeys.Shift;
+                    break;
+                case Keys.LWin:
+                case Keys.RWin:
+                    result |= ModifierKeys.Windows;
+                    break;
+            }
+            return result;
         }
     }
 }

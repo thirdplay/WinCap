@@ -17,7 +17,7 @@ namespace WinCap.Interop
         /// <returns></returns>
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteObject(IntPtr hObject);
+        internal static extern bool DeleteObject(IntPtr hObject);
 
         /// <summary>
         /// ウィンドウの属性情報を返す。
@@ -28,7 +28,7 @@ namespace WinCap.Interop
         /// <param name="cbAttribute">属性情報のサイズ</param>
         /// <returns>成功なら0、失敗なら0以外を返す</returns>
         [DllImport("Dwmapi.dll")]
-        public static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, ref RECT pvAttribute, int cbAttribute);
+        internal static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, ref RECT pvAttribute, int cbAttribute);
 
         /// <summary>
         /// 指定ウィンドウと指定関係（またはオーナー）にあるウィンドウのハンドルを返します。
@@ -37,7 +37,7 @@ namespace WinCap.Interop
         /// <param name="uCmd">関係</param>
         /// <returns>ウィンドウハンドル</returns>
         [DllImport("user32.dll")]
-        public static extern IntPtr GetWindow(IntPtr hWnd, GW uCmd);
+        internal static extern IntPtr GetWindow(IntPtr hWnd, GW uCmd);
 
         /// <summary>
         /// 指定ウィンドウの矩形情報を返す。
@@ -46,14 +46,14 @@ namespace WinCap.Interop
         /// <param name="lpRect">矩形情報の参照</param>
         /// <returns>成功なら0以外、失敗なら0を返す</returns>
         [DllImport("user32.dll")]
-        public static extern int GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        internal static extern int GetWindowRect(IntPtr hWnd, ref RECT lpRect);
 
         /// <summary>
         /// フォアグラウンドウィンドウ（現在ユーザーが作業しているウィンドウ）のハンドルを返す。
         /// </summary>
         /// <returns>ウィンドウハンドル</returns>
         [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
+        internal static extern IntPtr GetForegroundWindow();
 
         /// <summary>
         /// 指定されたウィンドウの表示状態を調べます。
@@ -61,7 +61,7 @@ namespace WinCap.Interop
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <returns>表示状態</returns>
         [DllImport("user32.dll")]
-        public static extern int IsWindowVisible(IntPtr hWnd);
+        internal static extern int IsWindowVisible(IntPtr hWnd);
 
         /// <summary>
         /// ウィンドウクラス名の取得。
@@ -71,7 +71,7 @@ namespace WinCap.Interop
         /// <param name="nMaxCount">クラス名バッファのサイズ</param>
         /// <returns>成功すると0以外、失敗すると0</returns>
         [DllImport("user32.dll", CharSet=CharSet.Unicode)]
-        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
         /// <summary>
         /// ビットブロック転送を行います。
@@ -88,7 +88,7 @@ namespace WinCap.Interop
         /// <returns>成功すると0以外、失敗すると0が返ります。</returns>
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, TernaryRasterOperations dwRop);
+        internal static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, TernaryRasterOperations dwRop);
 
         /// <summary>
         /// 指定されたウィンドウのクライアント領域または画面全体を表すディスプレイデバイスコンテキストのハンドルを取得します。
@@ -96,7 +96,7 @@ namespace WinCap.Interop
         /// <param name="hWnd">ウィンドウのハンドル</param>
         /// <returns>デバイスコンテキスト</returns>
         [DllImport("user32.dll")]
-        public static extern IntPtr GetDC(IntPtr hWnd);
+        internal static extern IntPtr GetDC(IntPtr hWnd);
 
         /// <summary>
         /// デバイスコンテキストを解放し、他のアプリケーションからつかえるようにします。
@@ -105,7 +105,7 @@ namespace WinCap.Interop
         /// <param name="hDC">デバイスコンテキストのハンドル</param>
         /// <returns>成功すると1、失敗すると0が返ります。</returns>
         [DllImport("user32.dll")]
-        public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
+        internal static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
         /// <summary>
         /// システム全体で一意であることが保証される、1 つの新しいウィンドウメッセージを定義します。
@@ -113,7 +113,7 @@ namespace WinCap.Interop
         /// <param name="lpString">メッセージ文字列</param>
         /// <returns>成功した場合、0xC000~0xFFFのメッセージ識別子</returns>
         [DllImport("user32.dll")]
-        public static extern uint RegisterWindowMessage(string lpString);
+        internal static extern uint RegisterWindowMessage(string lpString);
 
         /// <summary>
         /// 指定されたメッセージを、1 つまたは複数のウィンドウへ送信します。
@@ -127,7 +127,7 @@ namespace WinCap.Interop
         /// <param name="lpdwResult">メッセージ処理結果</param>
         /// <returns>成功なら0以外</returns>
         [DllImport("user32.dll")]
-        public static extern int SendMessageTimeout(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam, uint fuFlags, uint uTimeout, ref UIntPtr lpdwResult);
+        internal static extern int SendMessageTimeout(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam, uint fuFlags, uint uTimeout, ref UIntPtr lpdwResult);
 
 
         /// <summary>
@@ -139,6 +139,25 @@ namespace WinCap.Interop
         /// <param name="ppvObject"></param>
         /// <returns></returns>
         [DllImport("oleacc.dll")]
-        public static extern int ObjectFromLresult(UIntPtr lResult, ref Guid riid, Int32 wParam, ref MSHTML.IHTMLDocument2 ppvObject);
+        internal static extern int ObjectFromLresult(UIntPtr lResult, ref Guid riid, Int32 wParam, ref MSHTML.IHTMLDocument2 ppvObject);
+
+        /// <summary>
+        /// 仮想キーコードをスキャンコード、または文字の値（ASCII 値）へ変換します。
+        /// </summary>
+        /// <param name="uCode">キーの仮想キーコード</param>
+        /// <param name="uMapType">実行したい変換の種類</param>
+        /// <returns>スキャンコード、仮想キーコード、ASCII 値のいずれかが返ります。変換されないときは、0 が返ります。</returns>
+        [DllImport("user32.dll")]
+        internal static extern int MapVirtualKey(uint uCode, uint uMapType);
+
+        /// <summary>
+        /// キーの名前を表す文字列を取得します。
+        /// </summary>
+        /// <param name="lParam">キーボードメッセージの第 2 パラメータ</param>
+        /// <param name="str">キー名を保持するバッファへのポインタ</param>
+        /// <param name="size">キー名を表す文字列の最大サイズ</param>
+        /// <returns>成功ならコピーした文字列の長さ、失敗なら0が返ります。</returns>
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        internal static extern int GetKeyNameText(int lParam, [MarshalAs(UnmanagedType.LPWStr), Out] StringBuilder str, int size);
     }
 }
