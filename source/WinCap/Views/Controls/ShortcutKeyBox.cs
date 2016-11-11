@@ -52,14 +52,14 @@ namespace WinCap.Views.Controls
         /// <summary>
         /// 現在のショートカットキーのキーコード
         /// </summary>
-        public ShortcutKey? Current
+        public ShortcutKey Current
         {
-            get { return (ShortcutKey?)this.GetValue(CurrentProperty); }
+            get { return (ShortcutKey)this.GetValue(CurrentProperty); }
             set { this.SetValue(CurrentProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentProperty =
-            DependencyProperty.Register(nameof(Current), typeof(ShortcutKey?), typeof(ShortcutKeyBox), new UIPropertyMetadata(null, CurrentPropertyChangedCallback));
+            DependencyProperty.Register(nameof(Current), typeof(ShortcutKey), typeof(ShortcutKeyBox), new UIPropertyMetadata(ShortcutKey.None, CurrentPropertyChangedCallback));
 
         private static void CurrentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
@@ -167,7 +167,7 @@ namespace WinCap.Views.Controls
 
             this.Current = this.pressedKey != Key.None
                 ? this.getShortcutKey()
-                : (ShortcutKey?)null;
+                : ShortcutKey.None;
 
             this.updateText();
         }
@@ -177,7 +177,9 @@ namespace WinCap.Views.Controls
         /// </summary>
         private void updateText()
         {
-            var text = (this.Current ?? this.getShortcutKey()).ToString();
+            var text = (this.Current != ShortcutKey.None
+                ? this.Current
+                : this.getShortcutKey()).ToString();
 
             this.Text = text;
             this.CaretIndex = text.Length;

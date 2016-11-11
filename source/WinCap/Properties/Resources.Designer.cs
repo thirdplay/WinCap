@@ -448,6 +448,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   ショートカットキーの組み合わせが重複しています。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ShortcutKeyDuplicationMessage {
+            get {
+                return ResourceManager.GetString("Settings_ShortcutKeyDuplicationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   スタートプログラム設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_StartProgram {

@@ -47,7 +47,7 @@
 
             <UniformGrid Grid.Column="1"
                          Columns="1">
-                <controls:ShortcutKeyBox Current="{Binding FullScreen, Mode=TwoWay}"
+                <controls:ShortcutKeyBox Current="{Binding FullScreen, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                                          Margin="2,2" />
                 <controls:ShortcutKeyBox Current="{Binding ActiveControl, Mode=TwoWay}"
                                          Margin="2,2" />

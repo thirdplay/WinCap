@@ -246,6 +246,9 @@
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>
   </data>
+  <data name="Settings_ShortcutKeyDuplicationMessage" xml:space="preserve">
+    <value>ショートカットキーの組み合わせが重複しています。</value>
+  </data>
   <data name="Settings_StartProgram" xml:space="preserve">
     <value>スタートプログラム設定</value>
   </data>

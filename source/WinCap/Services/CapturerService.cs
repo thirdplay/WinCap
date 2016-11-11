@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Reactive.Linq;
 using System.Threading;
@@ -43,9 +44,11 @@ namespace WinCap.Services
         private readonly ControlCapturer controlCapturer = new ControlCapturer();
 
         /// <summary>
-        /// IEキャプチャ
+        /// WebBrowserキャプチャ
         /// </summary>
-        private readonly IWebBrowserCapturer ieCapturer = new InternetExplorerCapturer();
+        private readonly IWebBrowserCapturer[] webBrowserCapturers = {
+            new InternetExplorerCapturer()
+        };
 
         /// <summary>
         /// コントロール選択ウィンドウのViewModel
@@ -142,12 +145,13 @@ namespace WinCap.Services
 
                     // キャプチャ可能か判定
                     string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
-                    if (this.ieCapturer.CanCapture(className))
+                    var capturer = this.webBrowserCapturers.Where(_ => _.CanCapture(className)).FirstOrDefault();
+                    if (capturer != null)
                     {
                         // ウェブページ全体をキャプチャ
-                        this.ieCapturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
-                        this.ieCapturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                        using (Bitmap bitmap = executeCapture(() => this.ieCapturer.Capture(viewModel.SelectedHandle)))
+                        capturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
+                        capturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
+                        using (Bitmap bitmap = executeCapture(() => capturer.Capture(viewModel.SelectedHandle)))
                         {
                             saveCaptureImage(bitmap);
                         }
@@ -193,7 +197,7 @@ namespace WinCap.Services
             if (settings.OutputMethodType == OutputMethodType.Clipboard)
             {
                 // 画像をクリップボードに設定する
-                Clipboard.SetDataObject(bitmap, false);
+                Clipboard.SetDataObject(bitmap, true);
             }
             else if (settings.OutputMethodType == OutputMethodType.ImageFile)
             {

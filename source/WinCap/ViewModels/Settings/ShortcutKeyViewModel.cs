@@ -1,5 +1,6 @@
-﻿using Livet;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using WinCap.Properties;
 using WinCap.Services;
 
@@ -22,11 +23,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region FullScreen 変更通知プロパティ
-        private ShortcutKey? _FullScreen;
+        private ShortcutKey _FullScreen;
         /// <summary>
         /// 画面全体をキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey? FullScreen
+        public ShortcutKey FullScreen
         {
             get { return _FullScreen; }
             set
@@ -41,11 +42,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region ActiveControl 変更通知プロパティ
-        private ShortcutKey? _ActiveControl;
+        private ShortcutKey _ActiveControl;
         /// <summary>
         /// アクティブコントロールをキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey? ActiveControl
+        public ShortcutKey ActiveControl
         {
             get { return _ActiveControl; }
             set
@@ -60,11 +61,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region SelectionControl 変更通知プロパティ
-        private ShortcutKey? _SelectionControl;
+        private ShortcutKey _SelectionControl;
         /// <summary>
         /// 選択コントロールをキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey? SelectionControl
+        public ShortcutKey SelectionControl
         {
             get { return _SelectionControl; }
             set
@@ -79,11 +80,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region WebPage 変更通知プロパティ
-        private ShortcutKey? _WebPage;
+        private ShortcutKey _WebPage;
         /// <summary>
         /// Webページ全体をキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey? WebPage
+        public ShortcutKey WebPage
         {
             get { return _WebPage; }
             set
@@ -112,8 +113,26 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            // TODO:重複するショートカットキーがあればエラー
-            return this.ValidateAll();
+            var shortcutKeys = new Dictionary<string, ShortcutKey>
+            {
+                {nameof(this.FullScreen), this.FullScreen},
+                {nameof(this.ActiveControl),  this.ActiveControl},
+                {nameof(this.SelectionControl), this.SelectionControl},
+                {nameof(this.WebPage), this.WebPage},
+            };
+
+            // 重複するショートカットキーがあればエラー
+            this.ClearErrorsAll();
+            foreach (var pair in shortcutKeys)
+            {
+                if (pair.Value == ShortcutKey.None) { continue; }
+                if (shortcutKeys.Values.Where(x => x != ShortcutKey.None && x == pair.Value).Count() > 1)
+                {
+                    this.SetErrors(pair.Key, new string[] { Resources.Settings_ShortcutKeyDuplicationMessage });
+                }
+            }
+
+            return !this.HasErrors;
         }
 
         /// <summary>
@@ -122,10 +141,10 @@ namespace WinCap.ViewModels.Settings
         public override void Apply()
         {
             var settings = Serialization.Settings.ShortcutKey;
-            settings.FullScreen.Value = this.FullScreen.GetValueOrDefault(ShortcutKey.None);
-            settings.ActiveControl.Value = this.ActiveControl.GetValueOrDefault(ShortcutKey.None);
-            settings.SelectionControl.Value = this.SelectionControl.GetValueOrDefault(ShortcutKey.None);
-            settings.WebPage.Value = this.WebPage.GetValueOrDefault(ShortcutKey.None);
+            settings.FullScreen.Value = this.FullScreen;
+            settings.ActiveControl.Value = this.ActiveControl;
+            settings.SelectionControl.Value = this.SelectionControl;
+            settings.WebPage.Value = this.WebPage;
         }
 
         /// <summary>

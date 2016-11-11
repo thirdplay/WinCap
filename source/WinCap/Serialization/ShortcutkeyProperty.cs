@@ -34,7 +34,7 @@ namespace WinCap.Serialization
         {
             if (value == ShortcutKey.None) { return string.Empty; }
 
-            return value.Key.ToString() + "," + value.ModifierKeys.ToString();
+            return (int)value.Key + "," + (int)value.ModifierKeys;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace WinCap.Serialization
 
             Key key;
             if (!Enum.TryParse(data.Split(',')[0], out key)) { return ShortcutKey.None; }
-            ModifierKeys modifierKeys;
+            ModifierKeys modifierKeys = ModifierKeys.None;
             if (!Enum.TryParse(data.Split(',')[1], out modifierKeys)) { return ShortcutKey.None; }
 
             return new ShortcutKey(key, modifierKeys);
