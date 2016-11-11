@@ -65,6 +65,7 @@ namespace WinCap
 
                 // アプリケーション準備
                 var preparation = new ApplicationPreparation(this);
+                preparation.CreateShortcut();
                 preparation.ShowTaskTrayIcon();
                 preparation.RegisterActions();
 

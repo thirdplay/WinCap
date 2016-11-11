@@ -26,8 +26,8 @@
 										 MethodName="Initialize" />
         </i:EventTrigger>
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.Close">
-            <behaviors:CloseWindowAction />
+										 MessageKey="Window.DialogResult">
+            <behaviors:SetDialogResultAction />
         </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
 

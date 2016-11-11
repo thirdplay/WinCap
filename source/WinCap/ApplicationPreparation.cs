@@ -3,6 +3,7 @@ using System;
 using System.Reactive.Disposables;
 using WinCap.Interop;
 using WinCap.Serialization;
+using WinCap.Util.Desktop;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;
@@ -85,7 +86,7 @@ namespace WinCap
                     new TaskTrayIconItem(PropResources.ContextMenu_ControlCapture, () => this.application.CapturerService.CaptureSelectionControl()),
                     new TaskTrayIconItem(PropResources.ContextMenu_WebPageCapture, () => this.application.CapturerService.CaptureWebPage()),
                 }),
-                new TaskTrayIconItem(PropResources.ContextMenu_Settings, () => this.ShowSettings()),
+                new TaskTrayIconItem(PropResources.ContextMenu_Settings, () => this.showSettings()),
                 new TaskTrayIconItem(PropResources.ContextMenu_Exit, () => this.application.Shutdown()),
             };
 
@@ -95,9 +96,25 @@ namespace WinCap
         }
 
         /// <summary>
+        /// ショートカットを作成します。
+        /// </summary>
+        public void CreateShortcut()
+        {
+            var shortcut = new StartupShortcut();
+            if (Settings.General.IsRegisterInStartup)
+            {
+                shortcut.Create();
+            }
+            else
+            {
+                shortcut.Remove();
+            }
+        }
+
+        /// <summary>
         /// 設定ウィンドウを表示します。
         /// </summary>
-        private void ShowSettings()
+        private void showSettings()
         {
             if (this.application.HookService.IsSuspended) { return; }
             using (this.application.HookService.Suspend())
@@ -108,7 +125,12 @@ namespace WinCap
                 {
                     DataContext = new SettingsWindowViewModel()
                 };
-                window.ShowDialog();
+                var result = window.ShowDialog();
+                if (result.HasValue && result.Value)
+                {
+                    LocalSettingsProvider.Instance.Save();
+                    this.CreateShortcut();
+                }
 
                 this.RegisterActions();
             }

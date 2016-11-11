@@ -5,7 +5,7 @@ using System.Drawing;
 namespace WinCap.Models
 {
     /// <summary>
-    /// コントロール情報
+    /// コントロールの情報を提供します。
     /// </summary>
     [DebuggerDisplay("Handle={Handle}, ClassName={ClassName}, Bounds={Bounds}")]
     public class ControlInfo
@@ -15,7 +15,6 @@ namespace WinCap.Models
         /// </summary>
         public static readonly ControlInfo Empty = new ControlInfo();
 
-        #region プロパティ
         /// <summary>
         /// ウィンドウハンドル
         /// </summary>
@@ -24,7 +23,7 @@ namespace WinCap.Models
         /// <summary>
         /// クラス名
         /// </summary>
-        public string ClassName { get; set; } = string.Empty;
+        public string ClassName { get; set; }
 
         /// <summary>
         /// 位置とサイズ
@@ -40,7 +39,6 @@ namespace WinCap.Models
         /// サイズ
         /// </summary>
         public Size Size { get { return this.Bounds.Size; } }
-        #endregion
 
         /// <summary>
         /// コンストラクタ

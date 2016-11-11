@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WinCap.Serialization;
 using WinCap.Util.Mvvm;
+using WinCap.ViewModels.Messages;
 using WinCap.ViewModels.Settings;
 
 namespace WinCap.ViewModels
@@ -96,9 +97,10 @@ namespace WinCap.ViewModels
             }
             TabItems.ForEach(x => x.Apply());
 
-            LocalSettingsProvider.Instance.Save();
-
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+            this.Messenger.Raise(new SetDialogResultMessage(){
+                MessageKey = "Window.DialogResult",
+                DialogResult = true
+            });
         }
 
         /// <summary>
@@ -108,7 +110,11 @@ namespace WinCap.ViewModels
         {
             TabItems.ForEach(x => x.Cancel());
 
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+            this.Messenger.Raise(new SetDialogResultMessage()
+            {
+                MessageKey = "Window.DialogResult",
+                DialogResult = false
+            });
         }
     }
 }
