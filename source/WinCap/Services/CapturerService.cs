@@ -56,6 +56,11 @@ namespace WinCap.Services
         private ControlSelectionWindowViewModel controlSelectionWindowViewModel;
 
         /// <summary>
+        /// キャプチャーした画像
+        /// </summary>
+        private Bitmap capturedImage;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public CapturerService(HookService hookService)
@@ -72,10 +77,7 @@ namespace WinCap.Services
             using (this.hookService.Suspend())
             {
                 // デスクトップ全体をキャプチャ
-                using (Bitmap bitmap = executeCapture(() => this.screenCapturer.CaptureFullScreen()))
-                {
-                    saveCaptureImage(bitmap);
-                }
+                saveCaptureImage(executeCapture(() => this.screenCapturer.CaptureFullScreen()));
             }
         }
 
@@ -87,10 +89,7 @@ namespace WinCap.Services
             using (this.hookService.Suspend())
             {
                 // アクティブウィンドウをキャプチャ
-                using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureActiveControl()))
-                {
-                    saveCaptureImage(bitmap);
-                }
+                saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureActiveControl()));
             }
         }
 
@@ -113,10 +112,7 @@ namespace WinCap.Services
                     }
 
                     // 選択コントロールをキャプチャ
-                    using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
-                    {
-                        saveCaptureImage(bitmap);
-                    }
+                    saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)));
                 }
             });
 
@@ -151,18 +147,12 @@ namespace WinCap.Services
                         // ウェブページ全体をキャプチャ
                         capturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
                         capturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                        using (Bitmap bitmap = executeCapture(() => capturer.Capture(viewModel.SelectedHandle)))
-                        {
-                            saveCaptureImage(bitmap);
-                        }
+                        saveCaptureImage(executeCapture(() => capturer.Capture(viewModel.SelectedHandle)));
                     }
                     else
                     {
                         // 選択コントロールをキャプチャ
-                        using (Bitmap bitmap = executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)))
-                        {
-                            saveCaptureImage(bitmap);
-                        }
+                        saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)));
                     }
                 }
             });
@@ -197,7 +187,10 @@ namespace WinCap.Services
             if (settings.OutputMethodType == OutputMethodType.Clipboard)
             {
                 // 画像をクリップボードに設定する
-                Clipboard.SetDataObject(bitmap, true);
+                this.capturedImage?.Dispose();
+                Clipboard.Clear();
+                Clipboard.SetDataObject(bitmap, false);
+                this.capturedImage = bitmap;
             }
             else if (settings.OutputMethodType == OutputMethodType.ImageFile)
             {
@@ -257,6 +250,7 @@ namespace WinCap.Services
         public void Dispose()
         {
             this.compositeDisposable.Dispose();
+            this.capturedImage?.Dispose();
         }
         #endregion
     }

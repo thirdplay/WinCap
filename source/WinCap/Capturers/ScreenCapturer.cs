@@ -26,18 +26,18 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public Bitmap CaptureBounds(Rectangle bounds)
         {
-            Bitmap bmp = new Bitmap(bounds.Width, bounds.Height);
+            Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height);
             IntPtr screenDC = NativeMethods.GetDC(IntPtr.Zero);
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (Graphics g = Graphics.FromImage(bitmap))
             {
                 IntPtr hDC = g.GetHdc();
-                NativeMethods.BitBlt(hDC, 0, 0, bmp.Width, bmp.Height,
+                NativeMethods.BitBlt(hDC, 0, 0, bitmap.Width, bitmap.Height,
                     screenDC, bounds.X, bounds.Y, TernaryRasterOperations.SRCCOPY);
                 g.ReleaseHdc(hDC);
             }
             NativeMethods.ReleaseDC(IntPtr.Zero, screenDC);
 
-            return bmp;
+            return bitmap;
         }
     }
 }

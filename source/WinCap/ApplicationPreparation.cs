@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Livet;
+using System;
+using System.Reactive.Disposables;
 using WinCap.Interop;
 using WinCap.Serialization;
 using WinCap.Util.Lifetime;
@@ -19,12 +21,18 @@ namespace WinCap
         private readonly Application application;
 
         /// <summary>
+        /// ショートカットキー登録リクエストのコンテナ
+        /// </summary>
+        private LivetCompositeDisposable registers = new LivetCompositeDisposable();
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="application">アプリケーションのインスタンス</param>
         public ApplicationPreparation(Application application)
         {
             this.application = application;
+            Disposable.Create(() => this.registers.Dispose());
         }
 
         /// <summary>
@@ -34,21 +42,29 @@ namespace WinCap
         {
             var settings = Settings.ShortcutKey;
 
-            this.application.HookService
-                .Register(settings.FullScreen, () => this.application.CapturerService.CaptureDesktop())
-                .AddTo(this.application);
+            this.registers.Add(this.application.HookService
+                .Register(settings.FullScreen, () => this.application.CapturerService.CaptureDesktop()));
 
-            this.application.HookService
-                .Register(settings.ActiveControl, () => this.application.CapturerService.CaptureActiveControl())
-                .AddTo(this.application);
+            this.registers.Add(this.application.HookService
+                .Register(settings.ActiveControl, () => this.application.CapturerService.CaptureActiveControl()));
 
-            this.application.HookService
-                .Register(settings.SelectionControl, () => this.application.CapturerService.CaptureSelectionControl())
-                .AddTo(this.application);
+            this.registers.Add(this.application.HookService
+                .Register(settings.SelectionControl, () => this.application.CapturerService.CaptureSelectionControl()));
 
-            this.application.HookService
-                .Register(settings.WebPage, () => this.application.CapturerService.CaptureWebPage())
-                .AddTo(this.application);
+            this.registers.Add(this.application.HookService
+                .Register(settings.WebPage, () => this.application.CapturerService.CaptureWebPage()));
+        }
+
+        /// <summary>
+        /// アクションの登録を解除します。
+        /// </summary>
+        public void DeregisterActions()
+        {
+            foreach (var register in this.registers)
+            {
+                register.Dispose();
+            }
+            this.registers.Clear();
         }
 
         /// <summary>
@@ -86,11 +102,15 @@ namespace WinCap
             if (this.application.HookService.IsSuspended) { return; }
             using (this.application.HookService.Suspend())
             {
+                this.DeregisterActions();
+
                 var window = new SettingsWindow
                 {
                     DataContext = new SettingsWindowViewModel()
                 };
                 window.ShowDialog();
+
+                this.RegisterActions();
             }
         }
     }
