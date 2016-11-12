@@ -6,6 +6,7 @@
            BasedOn="{StaticResource {x:Type metro:PromptTextBox}}">
         <Setter Property="FontFamily"
 				Value="{DynamicResource DefaultFontFamilyKey}" />
+        <Setter Property="Validation.ErrorTemplate" Value="{DynamicResource ValidationErrorTemplate}" />
     </Style>
 
 </ResourceDictionary>

@@ -19,7 +19,7 @@ namespace WinCap.Models
         public static string GetClassName(IntPtr handle)
         {
             StringBuilder builder = new StringBuilder(256);
-            if (NativeMethods.GetClassName(handle, builder, builder.Capacity) != 0)
+            if (NativeMethods.GetClassName(handle, builder, builder.Capacity))
             {
                 return builder.ToString();
             }
@@ -48,7 +48,7 @@ namespace WinCap.Models
             }
 
             // ウィンドウサイズの取得
-            if (NativeMethods.GetWindowRect(handle, ref rect) != 0)
+            if (NativeMethods.GetWindowRect(handle, out rect))
             {
                 return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
             }

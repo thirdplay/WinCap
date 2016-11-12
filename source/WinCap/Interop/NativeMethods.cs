@@ -26,8 +26,9 @@ namespace WinCap.Interop
         /// <param name="dwAttribute">属性の識別子</param>
         /// <param name="pvAttribute">属性情報の参照</param>
         /// <param name="cbAttribute">属性情報のサイズ</param>
-        /// <returns>成功なら0、失敗なら0以外を返す</returns>
+        /// <returns>成功ならtrue、失敗ならfalseを返します。</returns>
         [DllImport("Dwmapi.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, ref RECT pvAttribute, int cbAttribute);
 
         /// <summary>
@@ -44,9 +45,10 @@ namespace WinCap.Interop
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="lpRect">矩形情報の参照</param>
-        /// <returns>成功なら0以外、失敗なら0を返す</returns>
+        /// <returns>成功ならtrue、失敗ならfalseを返します。</returns>
         [DllImport("user32.dll")]
-        internal static extern int GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
         /// <summary>
         /// フォアグラウンドウィンドウ（現在ユーザーが作業しているウィンドウ）のハンドルを返す。
@@ -69,9 +71,10 @@ namespace WinCap.Interop
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <param name="lpClassName">クラス名の格納先</param>
         /// <param name="nMaxCount">クラス名バッファのサイズ</param>
-        /// <returns>成功すると0以外、失敗すると0</returns>
+        /// <returns>成功するとtrue、失敗するとfalseを返します。</returns>
         [DllImport("user32.dll", CharSet=CharSet.Unicode)]
-        internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
         /// <summary>
         /// ビットブロック転送を行います。
@@ -85,7 +88,7 @@ namespace WinCap.Interop
         /// <param name="nXSrc">コピー元長方形の左上隅の x 座標</param>
         /// <param name="nYSrc">コピー元長方形の左上隅の y 座標</param>
         /// <param name="dwRop">ラスタオペレーションコード</param>
-        /// <returns>成功すると0以外、失敗すると0が返ります。</returns>
+        /// <returns>成功するとtrue、失敗するとfalseを返します。</returns>
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, TernaryRasterOperations dwRop);
@@ -103,9 +106,9 @@ namespace WinCap.Interop
         /// </summary>
         /// <param name="hWnd">ウィンドウのハンドル</param>
         /// <param name="hDC">デバイスコンテキストのハンドル</param>
-        /// <returns>成功すると1、失敗すると0が返ります。</returns>
+        /// <returns>成功するとtrue、失敗するとfalseを返します。</returns>
         [DllImport("user32.dll")]
-        internal static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
+        internal static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
         /// <summary>
         /// システム全体で一意であることが保証される、1 つの新しいウィンドウメッセージを定義します。
@@ -125,9 +128,10 @@ namespace WinCap.Interop
         /// <param name="fuFlags">メッセージ送信方法</param>
         /// <param name="uTimeout">タイムアウト期間（ミリ秒）</param>
         /// <param name="lpdwResult">メッセージ処理結果</param>
-        /// <returns>成功なら0以外</returns>
+        /// <returns>成功するとtrue、失敗するとfalseを返します。</returns>
         [DllImport("user32.dll")]
-        internal static extern int SendMessageTimeout(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam, uint fuFlags, uint uTimeout, ref UIntPtr lpdwResult);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SendMessageTimeout(IntPtr hWnd, uint Msg, Int32 wParam, Int32 lParam, uint fuFlags, uint uTimeout, ref UIntPtr lpdwResult);
 
 
         /// <summary>
@@ -159,5 +163,20 @@ namespace WinCap.Interop
         /// <returns>成功ならコピーした文字列の長さ、失敗なら0が返ります。</returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern int GetKeyNameText(int lParam, [MarshalAs(UnmanagedType.LPWStr), Out] StringBuilder str, int size);
+
+        /// <summary>
+        /// 子ウィンドウ、ポップアップウィンドウ、またはトップレベルウィンドウのサイズ、位置、および Z オーダーを変更します。
+        /// </summary>
+        /// <param name="hWnd">ウィンドウハンドル</param>
+        /// <param name="hWndInsertAfter">Z オーダーを決めるためのウィンドウハンドル</param>
+        /// <param name="X">ウィンドウの左上端の新しい x 座標（クライアント座標）</param>
+        /// <param name="Y">ウィンドウの左上端の新しい y 座標（クライアント座標）</param>
+        /// <param name="cx">ウィンドウの新しい幅（ピクセル単位）</param>
+        /// <param name="cy">ウィンドウの新しい高さ（ピクセル単位）</param>
+        /// <param name="uFlags">ウィンドウのサイズと位置の変更に関するフラグを</param>
+        /// <returns>成功ならtrue、失敗ならfalseを返します。</returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
     }
 }
