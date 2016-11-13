@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock Text="スクリーンキャプチャ"
+        <TextBlock Text="{x:Static prop:Resources.Settings_SecreenCapture}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <Grid Style="{DynamicResource SettingsContentPanelStyleKey}">
             <Grid.ColumnDefinitions>
@@ -27,20 +27,20 @@
 
             <UniformGrid Grid.Column="0"
                          Columns="1">
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="デスクトップ全体をキャプチャ" />
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.Settings_DesktopCapture}" />
                     <Run Text=": " />
                 </TextBlock>
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="アクティブコントロールをキャプチャ" />
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.Settings_ActiveControlCapture}" />
                     <Run Text=": " />
                 </TextBlock>
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="選択コントロールをキャプチャ" />
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.Settings_SelectionControlCapture}" />
                     <Run Text=": " />
                 </TextBlock>
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
-                    <Run Text="ウェブページ全体をキャプチャ" />
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.Settings_WebPageCapture}" />
                     <Run Text=": " />
                 </TextBlock>
             </UniformGrid>

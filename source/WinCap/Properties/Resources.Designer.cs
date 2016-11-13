@@ -178,6 +178,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   アクティブコントロールをキャプチャ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ActiveControlCapture {
+            get {
+                return ResourceManager.GetString("Settings_ActiveControlCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   画像を自動保存する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_AutoSaveImage {
@@ -237,6 +246,15 @@ namespace WinCap.Properties {
         public static string Settings_DelayTime {
             get {
                 return ResourceManager.GetString("Settings_DelayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   デスクトップ全体をキャプチャ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_DesktopCapture {
+            get {
+                return ResourceManager.GetString("Settings_DesktopCapture", resourceCulture);
             }
         }
         
@@ -358,6 +376,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   出力形式 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_OutputFormat {
+            get {
+                return ResourceManager.GetString("Settings_OutputFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   BMP 画像ファイル (*.bmp) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_OutputFormatBmp {
@@ -430,11 +457,29 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   スクリーンキャプチャ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_SecreenCapture {
+            get {
+                return ResourceManager.GetString("Settings_SecreenCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   選択 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Selection {
             get {
                 return ResourceManager.GetString("Settings_Selection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   選択コントロールをキャプチャ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_SelectionControlCapture {
+            get {
+                return ResourceManager.GetString("Settings_SelectionControlCapture", resourceCulture);
             }
         }
         
@@ -471,6 +516,15 @@ namespace WinCap.Properties {
         public static string Settings_VersionInfo {
             get {
                 return ResourceManager.GetString("Settings_VersionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ウェブページ全体をキャプチャ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_WebPageCapture {
+            get {
+                return ResourceManager.GetString("Settings_WebPageCapture", resourceCulture);
             }
         }
         

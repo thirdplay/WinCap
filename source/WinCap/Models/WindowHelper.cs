@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using WinCap.Interop;
+using WinCap.Properties;
 using WinCap.Services;
 
 namespace WinCap.Models

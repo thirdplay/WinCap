@@ -3,7 +3,6 @@ using System;
 using System.Reactive.Disposables;
 using WinCap.Interop;
 using WinCap.Serialization;
-using WinCap.Util.Desktop;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;

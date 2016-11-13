@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using WinCap.Models;
+using WinCap.Properties;
 
 namespace WinCap
 {

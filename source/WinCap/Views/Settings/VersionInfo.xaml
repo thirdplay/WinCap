@@ -17,6 +17,47 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <TextBlock Text="VersionInfo" />
+        <TextBlock Text="{x:Static prop:ProductInfo.Title}"
+                   FontFamily="Seigo UI Light"
+                   FontSize="44"
+                   Margin="0,-8,0,0" />
+        <TextBlock FontSize="20"
+                   Margin="1,6">
+            <Run Text="version" />
+            <Run Text="{x:Static prop:ProductInfo.VersionString}" />
+        </TextBlock>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+
+        <TextBlock FontFamily="Seigo UI"
+                   Margin="0,0,0,10">
+            <Run Text="Source code:" />
+            <controls:HyperlinkEx Uri="https://github.com/thirdplay/WinCap">
+                <Run Text="https://github.com/thirdplay/WinCap" />
+            </controls:HyperlinkEx>
+			<LineBreak />
+            <Run Text="Developer:" />
+            <controls:HyperlinkEx Uri="https://github.com/thirdplay">
+                <Run Text="thirdplay" />
+            </controls:HyperlinkEx>
+        </TextBlock>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+
+        <TextBlock FontFamily="Seigo UI"
+                   Margin="0,0,0,10">
+            <Run Text="Build With:" />
+			<LineBreak />
+        </TextBlock>
+        <TextBlock FontFamily="Seigo UI">
+            <Run Text="{Binding Source={x:Static prop:ProductInfo.Copyright}, Mode=OneWay}" />
+            <LineBreak />
+			<Run Text="{Binding Source={x:Static prop:ProductInfo.Product}, Mode=OneWay}" />
+			<Run Text="is" />
+			<Run Text="OSS"
+                 ToolTip="Open Source Software" />
+            <Run Text="released under" />
+	        <controls:HyperlinkEx Uri="https://github.com/thirdplay/WinCap/blob/master/LICENSE">
+		        <Run Text="The MIT License." />
+	        </controls:HyperlinkEx>
+        </TextBlock>
     </StackPanel>
 </UserControl>

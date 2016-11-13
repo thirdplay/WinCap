@@ -156,6 +156,9 @@
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
   </data>
+  <data name="Settings_ActiveControlCapture" xml:space="preserve">
+    <value>アクティブコントロールをキャプチャ</value>
+  </data>
   <data name="Settings_AutoSaveImage" xml:space="preserve">
     <value>画像を自動保存する</value>
   </data>
@@ -176,6 +179,9 @@
   </data>
   <data name="Settings_DelayTime" xml:space="preserve">
     <value>遅延時間</value>
+  </data>
+  <data name="Settings_DesktopCapture" xml:space="preserve">
+    <value>デスクトップ全体をキャプチャ</value>
   </data>
   <data name="Settings_General" xml:space="preserve">
     <value>一般設定</value>
@@ -216,6 +222,9 @@
   <data name="Settings_OutputFolderSelectionDialog_Title" xml:space="preserve">
     <value>出力フォルダを指定</value>
   </data>
+  <data name="Settings_OutputFormat" xml:space="preserve">
+    <value>出力形式</value>
+  </data>
   <data name="Settings_OutputFormatBmp" xml:space="preserve">
     <value>BMP 画像ファイル (*.bmp)</value>
   </data>
@@ -240,8 +249,14 @@
   <data name="Settings_ScrollDelayTime" xml:space="preserve">
     <value>スクロールの遅延時間</value>
   </data>
+  <data name="Settings_SecreenCapture" xml:space="preserve">
+    <value>スクリーンキャプチャ</value>
+  </data>
   <data name="Settings_Selection" xml:space="preserve">
     <value>選択</value>
+  </data>
+  <data name="Settings_SelectionControlCapture" xml:space="preserve">
+    <value>選択コントロールをキャプチャ</value>
   </data>
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>
@@ -254,6 +269,9 @@
   </data>
   <data name="Settings_VersionInfo" xml:space="preserve">
     <value>バージョン情報</value>
+  </data>
+  <data name="Settings_WebPageCapture" xml:space="preserve">
+    <value>ウェブページ全体をキャプチャ</value>
   </data>
   <data name="Settings_WebPageCaptureStartWhenPageFirstMove" xml:space="preserve">
     <value>ウェブページ全体キャプチャ開始時にページ先頭に移動する</value>

@@ -3,25 +3,10 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
 
     <!-- ReSharper disable once InconsistentNaming -->
-    <Style x:Key="_TextBaseStyleKey"
-		   TargetType="{x:Type TextBlock}"
-		   BasedOn="{StaticResource {x:Type TextBlock}}">
+    <Style x:Key="DefaultTextStyleKey"
+		   TargetType="{x:Type TextBlock}">
         <Setter Property="VerticalAlignment"
 				Value="Center" />
-        <Style.Triggers>
-            <Trigger Property="IsEnabled"
-					 Value="False">
-                <Setter Property="Foreground"
-						Value="{DynamicResource InactiveForegroundBrushKey}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <FontFamily x:Key="DefaultFontFamilyKey">Meiryo UI, Segoe UI</FontFamily>
-    <s:Double x:Key="DefaultFontSizeKey">12</s:Double>
-    <Style x:Key="DefaultTextStyleKey"
-		   TargetType="{x:Type TextBlock}"
-		   BasedOn="{StaticResource _TextBaseStyleKey}">
         <Setter Property="FontFamily"
 				Value="{DynamicResource DefaultFontFamilyKey}" />
         <Setter Property="FontSize"
@@ -32,13 +17,22 @@
 				Value="WordEllipsis" />
         <Setter Property="TextWrapping"
 				Value="Wrap" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+					 Value="False">
+                <Setter Property="Foreground"
+						Value="{DynamicResource InactiveForegroundBrushKey}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <FontFamily x:Key="DetailFontFamilyKey">Meiryo UI, Segoe UI</FontFamily>
-    <s:Double x:Key="DetailFontSizeKey">10.5</s:Double>
+    <Style TargetType="{x:Type TextBlock}"
+		   BasedOn="{StaticResource DefaultTextStyleKey}">
+    </Style>
+
     <Style x:Key="DetailTextStyleKey"
 		   TargetType="{x:Type TextBlock}"
-		   BasedOn="{StaticResource _TextBaseStyleKey}">
+		   BasedOn="{StaticResource DefaultTextStyleKey}">
         <Setter Property="FontFamily"
 				Value="{DynamicResource DetailFontFamilyKey}" />
         <Setter Property="FontSize"
@@ -51,11 +45,9 @@
 				Value="Wrap" />
     </Style>
 
-    <FontFamily x:Key="HeaderFontFamilyKey">Meiryo UI, Segoe UI Light</FontFamily>
-    <s:Double x:Key="HeaderFontSizeKey">14</s:Double>
     <Style x:Key="HeaderTextStyleKey"
 		   TargetType="{x:Type TextBlock}"
-		   BasedOn="{StaticResource _TextBaseStyleKey}">
+		   BasedOn="{StaticResource DefaultTextStyleKey}">
         <Setter Property="FontFamily"
 				Value="{DynamicResource HeaderFontFamilyKey}" />
         <Setter Property="FontSize"

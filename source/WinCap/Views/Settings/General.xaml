@@ -53,11 +53,11 @@
 
             <UniformGrid Grid.Column="0"
                          Columns="1">
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_ScrollDelayTime}" />
                     <Run Text=": " />
                 </TextBlock>
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_CaptureDelayTime}" />
                     <Run Text=": " />
                 </TextBlock>
@@ -73,12 +73,10 @@
             </UniformGrid>
             <UniformGrid Grid.Column="2"
                          Columns="1">
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
-                           Margin="4,0">
+                <TextBlock Margin="4,0">
                     <Run Text="{x:Static prop:Resources.Settings_Milliseconds}" />
                 </TextBlock>
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
-                           Margin="4,0">
+                <TextBlock Margin="4,0">
                     <Run Text="{x:Static prop:Resources.Settings_Milliseconds}" />
                 </TextBlock>
             </UniformGrid>

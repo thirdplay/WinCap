@@ -14,7 +14,7 @@ namespace WinCap.Interop
         /// Objectを削除する。
         /// </summary>
         /// <param name="hObject">オブジェクトハンドル</param>
-        /// <returns></returns>
+        /// <returns>成功なら0、失敗なら0以外を返します。</returns>
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DeleteObject(IntPtr hObject);
@@ -26,9 +26,8 @@ namespace WinCap.Interop
         /// <param name="dwAttribute">属性の識別子</param>
         /// <param name="pvAttribute">属性情報の参照</param>
         /// <param name="cbAttribute">属性情報のサイズ</param>
-        /// <returns>成功ならtrue、失敗ならfalseを返します。</returns>
+        /// <returns>成功なら0、失敗なら0以外を返します。</returns>
         [DllImport("Dwmapi.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, ref RECT pvAttribute, int cbAttribute);
 
         /// <summary>

@@ -79,24 +79,23 @@
             <metro:PromptTextBox Prompt="{x:Static prop:Resources.Settings_OutputFileNamePattern}"
                                  Text="{Binding OutputFileNamePattern, Mode=TwoWay}"
                                  Margin="2,2" />
-            <TextBlock Style="{DynamicResource DefaultTextStyleKey}"
-                       Margin="0,4,0,0">
+            <TextBlock Margin="0,4,0,0">
                 <Run Text="{x:Static prop:Resources.Settings_Legend}" />
             </TextBlock>
             <StackPanel Margin="20,0,0,0">
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_LegendDate}" />
                 </TextBlock>
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_LegendTime}" />
                 </TextBlock>
-                <TextBlock Style="{DynamicResource DefaultTextStyleKey}">
+                <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_LegendSequence}" />
                 </TextBlock>
             </StackPanel>
         </StackPanel>
         <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
-        <TextBlock Text="出力形式"
+        <TextBlock Text="{x:Static prop:Resources.Settings_OutputFormat}"
                    Style="{DynamicResource SettingsHeaderTextStyleKey}" />
         <StackPanel Style="{DynamicResource SettingsContentPanelStyleKey}">
             <RadioButton Content="{x:Static prop:Resources.Settings_OutputFormatBmp}"

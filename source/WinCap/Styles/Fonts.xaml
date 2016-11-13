@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <FontFamily x:Key="DefaultFontFamilyKey">Meiryo UI, Segoe UI</FontFamily>
+    <FontFamily x:Key="DetailFontFamilyKey">Meiryo UI, Segoe UI</FontFamily>
+    <FontFamily x:Key="HeaderFontFamilyKey">Meiryo UI, Segoe UI Light</FontFamily>
+
+    <s:Double x:Key="DefaultFontSizeKey">12</s:Double>
+    <s:Double x:Key="DetailFontSizeKey">10.5</s:Double>
+    <s:Double x:Key="HeaderFontSizeKey">14</s:Double>
+
+</ResourceDictionary>
