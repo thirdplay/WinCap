@@ -6,8 +6,9 @@
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 			 xmlns:prop="clr-namespace:WinCap.Properties"
              xmlns:controls="clr-namespace:WinCap.Views.Controls"
+             xmlns:vmSettings="clr-namespace:WinCap.ViewModels.Settings"
              mc:Ignorable="d" 
-             d:DesignWidth="500"
+             d:DesignWidth="600"
              d:DesignHeight="450">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,17 +20,18 @@
     <StackPanel>
         <TextBlock Text="{x:Static prop:ProductInfo.Title}"
                    FontFamily="Seigo UI Light"
-                   FontSize="44"
-                   Margin="0,-8,0,0" />
+                   FontSize="44" />
         <TextBlock FontSize="20"
-                   Margin="1,6">
+                   Margin="1,0">
             <Run Text="version" />
             <Run Text="{x:Static prop:ProductInfo.VersionString}" />
         </TextBlock>
-        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+        <Rectangle Height="1"
+                   Margin="0,10"
+                   Style="{DynamicResource SeparatorRectangleStyleKey}" />
 
         <TextBlock FontFamily="Seigo UI"
-                   Margin="0,0,0,10">
+                   Margin="0">
             <Run Text="Source code:" />
             <controls:HyperlinkEx Uri="https://github.com/thirdplay/WinCap">
                 <Run Text="https://github.com/thirdplay/WinCap" />
@@ -40,14 +42,33 @@
                 <Run Text="thirdplay" />
             </controls:HyperlinkEx>
         </TextBlock>
-        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+        <Rectangle Height="1"
+                   Margin="0,10"
+                   Style="{DynamicResource SeparatorRectangleStyleKey}" />
+
+        <metro:BindableTextBlock TextSource="{Binding Libraries}"
+                                 TextWrapping="Wrap"
+                                 FontFamily="Seigo UI"
+								 Margin="0,6">
+            <metro:BindableTextBlock.TextTemplates>
+                <DataTemplate DataType="{x:Type vmSettings:HyperlinkViewModel}">
+                    <metro:InlineHolder>
+                        <controls:HyperlinkEx Uri="{Binding Uri}">
+                            <Run Text="{Binding Text, Mode=OneWay}" />
+                        </controls:HyperlinkEx>
+                    </metro:InlineHolder>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vmSettings:BindableTextViewModel}">
+                    <metro:InlineHolder>
+                        <Run Text="{Binding Text, Mode=OneWay}"
+                             Foreground="{DynamicResource ActiveForegroundBrushKey}" />
+                    </metro:InlineHolder>
+                </DataTemplate>
+            </metro:BindableTextBlock.TextTemplates>
+        </metro:BindableTextBlock>
 
         <TextBlock FontFamily="Seigo UI"
-                   Margin="0,0,0,10">
-            <Run Text="Build With:" />
-			<LineBreak />
-        </TextBlock>
-        <TextBlock FontFamily="Seigo UI">
+                   Margin="0,6">
             <Run Text="{Binding Source={x:Static prop:ProductInfo.Copyright}, Mode=OneWay}" />
             <LineBreak />
 			<Run Text="{Binding Source={x:Static prop:ProductInfo.Product}, Mode=OneWay}" />

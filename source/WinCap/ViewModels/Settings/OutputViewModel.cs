@@ -1,5 +1,4 @@
-﻿using Livet.Messaging;
-using Livet.Messaging.IO;
+﻿using Livet.Messaging.IO;
 using System;
 using System.IO;
 using WinCap.Models;
@@ -137,14 +136,12 @@ namespace WinCap.ViewModels.Settings
             {
                 // 画像を自動保存する場合、出力フォルダは必須
                 this.SetError(nameof(this.OutputFolder), Resources.Validation_Required);
-                this.Messenger.Raise(new InteractionMessage("OutputFolder.Focus"));
                 return false;
             }
             if (!string.IsNullOrEmpty(this.OutputFolder) && !Directory.Exists(this.OutputFolder))
             {
                 // 入力した出力フォルダが存在しない場合はNG
                 this.SetError(nameof(this.OutputFolder), Resources.Settings_NotFoundOutputFolderMessage);
-                this.Messenger.Raise(new InteractionMessage("OutputFolder.Focus"));
                 return false;
             }
             return true;

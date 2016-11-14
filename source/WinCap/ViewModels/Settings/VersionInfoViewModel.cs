@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using WinCap.Properties;
 
 namespace WinCap.ViewModels.Settings
@@ -9,6 +11,11 @@ namespace WinCap.ViewModels.Settings
     /// </summary>
     public class VersionInfoViewModel : SettingsBaseViewModel
     {
+        /// <summary>
+        /// ライブラリコンテナ
+        /// </summary>
+        public IReadOnlyCollection<BindableTextViewModel> Libraries { get; }
+
         #region TabItemViewModel mebmers
         /// <summary>
         /// タブ名を取得します。
@@ -19,6 +26,18 @@ namespace WinCap.ViewModels.Settings
             protected set { throw new NotImplementedException(); }
         }
         #endregion
+
+        public VersionInfoViewModel()
+        {
+            this.Libraries = ProductInfo.Libraries.Aggregate(
+                new List<BindableTextViewModel>(),
+                (list, lib) =>
+                {
+                    list.Add(new BindableTextViewModel { Text = list.Count == 0 ? "Build with " : ", " });
+                    list.Add(new HyperlinkViewModel { Text = lib.Name.Replace(' ', Convert.ToChar(160)), Uri = lib.Url });
+                    return list;
+                });
+        }
 
         #region SettingsBaseViewModel members
         /// <summary>

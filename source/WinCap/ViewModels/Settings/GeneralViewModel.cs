@@ -1,6 +1,4 @@
-﻿using Livet;
-using Livet.Messaging;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using WinCap.Properties;
 

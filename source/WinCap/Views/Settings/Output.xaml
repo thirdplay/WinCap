@@ -8,7 +8,7 @@
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 			 xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d"
-             d:DesignWidth="500"
+             d:DesignWidth="600"
              d:DesignHeight="450">
     <UserControl.Resources>
         <ResourceDictionary>

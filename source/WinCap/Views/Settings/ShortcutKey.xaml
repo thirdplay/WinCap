@@ -9,7 +9,7 @@
 			 xmlns:prop="clr-namespace:WinCap.Properties"
              xmlns:controls="clr-namespace:WinCap.Views.Controls"
              mc:Ignorable="d"
-             d:DesignWidth="500"
+             d:DesignWidth="600"
              d:DesignHeight="450">
     <UserControl.Resources>
         <ResourceDictionary>

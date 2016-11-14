@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace WinCap.Properties
@@ -16,6 +17,13 @@ namespace WinCap.Properties
         private static readonly Lazy<string> copyrightLazy = new Lazy<string>(() => ((AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyCopyrightAttribute))).Copyright);
         private static readonly Lazy<string> trademarkLazy = new Lazy<string>(() => ((AssemblyTrademarkAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyTrademarkAttribute))).Trademark);
         private static readonly Lazy<string> _versionLazy = new Lazy<string>(() => $"{Version.ToString(3)}{(Version.Revision == 0 ? "" : " rev." + Version.Revision)}");
+        private static readonly Lazy<IReadOnlyCollection<Library>> _librariesLazy = new Lazy<IReadOnlyCollection<Library>>(() => new List<Library>
+        {
+            new Library("Open.WinKeyboardHook", new Uri("https://github.com/lontivero/Open.WinKeyboardHook")),
+            new Library("MetroRadiance", new Uri("https://github.com/Grabacr07/MetroRadiance")),
+            new Library("Livet", new Uri("http://ugaya40.hateblo.jp/entry/Livet")),
+            new Library("StatefulModel", new Uri("http://ugaya40.hateblo.jp/entry/StatefulModel")),
+        });
 
         /// <summary>
         /// タイトルを取得します。
@@ -56,5 +64,25 @@ namespace WinCap.Properties
         /// バージョン文字列を取得します。
         /// </summary>
         public static string VersionString => _versionLazy.Value;
+
+        /// <summary>
+        /// ライブラリを取得します。
+        /// </summary>
+        public static IReadOnlyCollection<Library> Libraries => _librariesLazy.Value;
+    }
+
+    /// <summary>
+    /// ライブラリ情報を提供します。
+    /// </summary>
+    public class Library
+    {
+        public string Name { get; private set; }
+        public Uri Url { get; private set; }
+
+        public Library(string name, Uri url)
+        {
+            this.Name = name;
+            this.Url = url;
+        }
     }
 }
