@@ -76,9 +76,21 @@ namespace WinCap.Properties
     /// </summary>
     public class Library
     {
+        /// <summary>
+        /// ライブラリ名を取得します。
+        /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// ライブラリのURLを取得します。
+        /// </summary>
         public Uri Url { get; private set; }
 
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        /// <param name="name">ライブラリ名</param>
+        /// <param name="url">ライブラリのURL</param>
         public Library(string name, Uri url)
         {
             this.Name = name;
