@@ -71,7 +71,7 @@
                                 <DataTemplate DataType="{x:Type ValidationError}">
                                     <TextBlock MaxWidth="250"
                                                Margin="8 4 8 4"
-                                               Foreground="{DynamicResource ValidationTextBrush}"
+                                               Foreground="{DynamicResource ActiveForegroundBrushKey}"
                                                Text="{Binding ErrorContent}"
                                                TextWrapping="Wrap"
                                                UseLayoutRounding="False" />

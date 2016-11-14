@@ -53,7 +53,13 @@
                                  Grid.Column="0"
                                  Prompt="{x:Static prop:Resources.Settings_OutputFolder}"
                                  Text="{Binding OutputFolder, Mode=TwoWay}"
-                                 Margin="2,2" />
+                                 Margin="2,2">
+                <i:Interaction.Triggers>
+                    <livet:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="OutputFolder.Focus" >
+                        <livet:SetFocusAction />
+                    </livet:InteractionMessageTrigger>
+                </i:Interaction.Triggers>
+            </metro:PromptTextBox>
             <Button Grid.Row="0"
                     Grid.Column="1"
                     Content="{x:Static prop:Resources.Settings_Selection}"

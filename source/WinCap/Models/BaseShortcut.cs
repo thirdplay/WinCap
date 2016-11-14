@@ -1,14 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using WinCap.Util.Desktop;
 
-namespace WinCap
+namespace WinCap.Models
 {
     /// <summary>
-    /// スタートアップショートカットの作成機能を提供します。
+    /// ショートカットの作成機能を提供する基底クラスです。
     /// </summary>
-    public class StartupShortcut
+    public abstract class BaseShortcut
     {
         /// <summary>
         /// パス
@@ -26,7 +25,7 @@ namespace WinCap
         /// <summary>
         /// コンストラクタ。
         /// </summary>
-        public StartupShortcut()
+        public BaseShortcut()
             : this(Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location))
         {
         }
@@ -35,9 +34,9 @@ namespace WinCap
         /// コンストラクタ。
         /// </summary>
         /// <param name="path">ショートカットのファイル名</param>
-        public StartupShortcut(string fileName)
+        public BaseShortcut(string fileName)
         {
-            this.path = getStartupFilePath(fileName);
+            this.path = getShortcutFilePath(fileName);
         }
 
         /// <summary>
@@ -63,14 +62,10 @@ namespace WinCap
         }
 
         /// <summary>
-        /// スタートアップショートカットのファイルパスを取得します。
+        /// ショートカットのファイルパスを取得します。
         /// </summary>
         /// <param name="fileName">ファイル名</param>
         /// <returns>ファイルパス</returns>
-        private string getStartupFilePath(string fileName)
-        {
-            var dir = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            return Path.Combine(dir, fileName + ".lnk");
-        }
+        protected abstract string getShortcutFilePath(string fileName);
     }
 }

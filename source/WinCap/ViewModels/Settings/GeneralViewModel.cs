@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Livet;
+using Livet.Messaging;
+using System;
 using System.ComponentModel.DataAnnotations;
 using WinCap.Properties;
 
@@ -33,6 +35,25 @@ namespace WinCap.ViewModels.Settings
                 if (_IsRegisterInStartup != value)
                 {
                     _IsRegisterInStartup = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region IsCreateShortcutToDesktop 変更通知プロパティ
+        private bool _IsCreateShortcutToDesktop;
+        /// <summary>
+        /// デスクトップにショートカットを作成するか取得します。
+        /// </summary>
+        public bool IsCreateShortcutToDesktop
+        {
+            get { return _IsCreateShortcutToDesktop; }
+            set
+            { 
+                if (_IsCreateShortcutToDesktop != value)
+                {
+                    _IsCreateShortcutToDesktop = value;
                     RaisePropertyChanged();
                 }
             }
@@ -144,6 +165,7 @@ namespace WinCap.ViewModels.Settings
         {
             var settings = Serialization.Settings.General;
             settings.IsRegisterInStartup.Value = this.IsRegisterInStartup;
+            settings.IsCreateShortcutToDesktop.Value = this.IsCreateShortcutToDesktop;
             settings.IsPlaySeWhenCapture.Value = this.IsPlaySeWhenCapture;
             settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
             settings.ScrollDelayTime.Value = int.Parse(this.ScrollDelayTime);
@@ -165,6 +187,7 @@ namespace WinCap.ViewModels.Settings
         {
             var settings = Serialization.Settings.General;
             this.IsRegisterInStartup = settings.IsRegisterInStartup;
+            this.IsCreateShortcutToDesktop = settings.IsCreateShortcutToDesktop;
             this.IsPlaySeWhenCapture = settings.IsPlaySeWhenCapture;
             this.IsWebPageCaptureStartWhenPageFirstMove = settings.IsWebPageCaptureStartWhenPageFirstMove;
             this.ScrollDelayTime = settings.ScrollDelayTime.Value.ToString();

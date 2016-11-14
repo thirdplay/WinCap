@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Livet.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Properties;
@@ -122,13 +123,13 @@ namespace WinCap.ViewModels.Settings
             };
 
             // 重複するショートカットキーがあればエラー
-            this.ClearErrorsAll();
+            this.ClearErrors();
             foreach (var pair in shortcutKeys)
             {
                 if (pair.Value == ShortcutKey.None) { continue; }
                 if (shortcutKeys.Values.Where(x => x != ShortcutKey.None && x == pair.Value).Count() > 1)
                 {
-                    this.SetErrors(pair.Key, new string[] { Resources.Settings_ShortcutKeyDuplicationMessage });
+                    this.SetError(pair.Key, Resources.Settings_ShortcutKeyDuplicationMessage);
                 }
             }
 

@@ -177,6 +177,9 @@
   <data name="Settings_Clipboard" xml:space="preserve">
     <value>クリップボード</value>
   </data>
+  <data name="Settings_CreateShortcutToDesktop" xml:space="preserve">
+    <value>デスクトップにショートカットを作成する</value>
+  </data>
   <data name="Settings_DelayTime" xml:space="preserve">
     <value>遅延時間</value>
   </data>
@@ -243,6 +246,9 @@
   <data name="Settings_PlaySeWhenCapture" xml:space="preserve">
     <value>キャプチャー時に効果音を再生する</value>
   </data>
+  <data name="Settings_Program" xml:space="preserve">
+    <value>プログラム設定</value>
+  </data>
   <data name="Settings_RegisterInStartup" xml:space="preserve">
     <value>スタートアップに登録する</value>
   </data>
@@ -263,9 +269,6 @@
   </data>
   <data name="Settings_ShortcutKeyDuplicationMessage" xml:space="preserve">
     <value>ショートカットキーの組み合わせが重複しています。</value>
-  </data>
-  <data name="Settings_StartProgram" xml:space="preserve">
-    <value>スタートプログラム設定</value>
   </data>
   <data name="Settings_VersionInfo" xml:space="preserve">
     <value>バージョン情報</value>

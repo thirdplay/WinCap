@@ -2,6 +2,7 @@
 using System;
 using System.Reactive.Disposables;
 using WinCap.Interop;
+using WinCap.Models;
 using WinCap.Serialization;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
@@ -11,7 +12,7 @@ using PropResources = WinCap.Properties.Resources;
 namespace WinCap
 {
     /// <summary>
-    /// アプリケーションの準備を実施します。
+    /// アプリケーションの準備機能を提供します。
     /// </summary>
     public class ApplicationPreparation
     {
@@ -107,6 +108,16 @@ namespace WinCap
             else
             {
                 shortcut.Remove();
+            }
+
+            var desktopShortcut = new DesktopShortcut();
+            if (Settings.General.IsCreateShortcutToDesktop)
+            {
+                desktopShortcut.Create();
+            }
+            else
+            {
+                desktopShortcut.Remove();
             }
         }
 

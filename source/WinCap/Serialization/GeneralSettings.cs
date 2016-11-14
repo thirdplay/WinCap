@@ -27,6 +27,11 @@ namespace WinCap.Serialization
         public SerializableProperty<bool> IsRegisterInStartup => this.Cache(key => new SerializableProperty<bool>(key, this.provider, true));
 
         /// <summary>
+        /// デスクトップにショートカットを作成する
+        /// </summary>
+        public SerializableProperty<bool> IsCreateShortcutToDesktop => this.Cache(key => new SerializableProperty<bool>(key, this.provider, false));
+
+        /// <summary>
         /// キャプチャー時に効果音を再生する
         /// </summary>
         public SerializableProperty<bool> IsPlaySeWhenCapture => this.Cache(key => new SerializableProperty<bool>(key, this.provider, true));

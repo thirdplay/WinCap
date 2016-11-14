@@ -2,7 +2,6 @@
 using Livet.Messaging;
 using System.Collections.Generic;
 using System.Linq;
-using WinCap.Serialization;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
 using WinCap.ViewModels.Settings;
@@ -89,13 +88,15 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Ok()
         {
-            var tabItem = this.TabItems.Where(x => !x.Validate()).FirstOrDefault();
+            this.TabItems.ForEach(x => x.Validate());
+            var tabItem = this.TabItems.Where(x => x.HasErrors).FirstOrDefault();
             if (tabItem != null)
             {
                 this.SelectedItem = tabItem;
+                this.SelectedItem.Messenger.Raise(new InteractionMessage(this.SelectedItem.FirstErrorPropertyName + ".Focus"));
                 return;
             }
-            TabItems.ForEach(x => x.Apply());
+            this.TabItems.ForEach(x => x.Apply());
 
             this.Messenger.Raise(new SetDialogResultMessage(){
                 MessageKey = "Window.DialogResult",
@@ -108,7 +109,7 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Cancel()
         {
-            TabItems.ForEach(x => x.Cancel());
+            this.TabItems.ForEach(x => x.Cancel());
 
             this.Messenger.Raise(new SetDialogResultMessage()
             {

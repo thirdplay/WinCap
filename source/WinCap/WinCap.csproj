@@ -165,6 +165,7 @@
     <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
     <Compile Include="Interop\SMTO.cs" />
+    <Compile Include="Models\BaseShortcut.cs" />
     <Compile Include="Models\FileHelper.cs" />
     <Compile Include="Models\FileNamePattern.cs" />
     <Compile Include="Models\Helper.cs" />
@@ -192,7 +193,8 @@
     <Compile Include="Services\ShortcutKeyDetector.cs" />
     <Compile Include="Services\ShortcutKeyPressedEventArgs.cs" />
     <Compile Include="Capturers\ScreenCapturer.cs" />
-    <Compile Include="StartupShortcut.cs" />
+    <Compile Include="Models\DesktopShortcut.cs" />
+    <Compile Include="Models\StartupShortcut.cs" />
     <Compile Include="TaskTrayIcon.cs" />
     <Compile Include="ViewModels\Messages\SetDialogResultMessage.cs" />
     <Compile Include="ViewModels\Settings\VersionInfoViewModel.cs" />

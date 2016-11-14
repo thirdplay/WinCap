@@ -19,6 +19,11 @@ namespace WinCap.ViewModels
         /// </summary>
         private readonly Dictionary<string, List<string>> errors = new Dictionary<string, List<string>>();
 
+        /// <summary>
+        /// 最初のエラーのプロパティ名
+        /// </summary>
+        public string FirstErrorPropertyName { get; private set; }
+
         #region INotifyDataErrorInfoの実装
         /// <summary>
         /// 検証エラーイベント
@@ -95,7 +100,7 @@ namespace WinCap.ViewModels
         /// <returns>検証エラーがある場合はfalse、それ以外はtrue</returns>
         public bool ValidateAll()
         {
-            this.ClearErrorsAll();
+            this.ClearErrors();
             var context = new ValidationContext(this);
             var validationErrors = new List<ValidationResult>();
             if (!Validator.TryValidateObject(this, context, validationErrors, true))
@@ -108,6 +113,16 @@ namespace WinCap.ViewModels
             }
 
             return !this.HasErrors;
+        }
+
+        /// <summary>
+        /// 引数で指定されたプロパティに、<see cref="error"/> で指定されたエラーを登録します。
+        /// </summary>
+        /// <param name="propertyName">プロパティ名</param>
+        /// <param name="error">エラーメッセージ</param>
+        public void SetError(string propertyName, string error)
+        {
+            this.SetErrors(propertyName, new string[] { error });
         }
 
         /// <summary>
@@ -127,6 +142,10 @@ namespace WinCap.ViewModels
 
             if (hasNewError)
             {
+                if (this.errors.Count == 0)
+                {
+                    this.FirstErrorPropertyName = propertyName;
+                }
                 this.errors[propertyName] = new List<string>(errors);
             }
             else
@@ -137,28 +156,28 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// 引数で指定されたプロパティのエラーをすべて解除します。
+        /// 引数で指定されたプロパティまたはエンティティ全体のエラーをすべて解除します。
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
-        public void ClearErrors(string propertyName)
+        public void ClearErrors(string propertyName = null)
         {
-            if (this.errors.ContainsKey(propertyName))
+            if (!string.IsNullOrEmpty(propertyName))
             {
-                this.errors.Remove(propertyName);
-                OnErrorsChanged(propertyName);
+                if (this.errors.ContainsKey(propertyName))
+                {
+                    this.errors.Remove(propertyName);
+                    OnErrorsChanged(propertyName);
+                }
             }
-        }
-
-        /// <summary>
-        /// エンティティ全体のエラーをすべて解除します。
-        /// </summary>
-        public void ClearErrorsAll()
-        {
-            while (errors.Count > 0)
+            else
             {
-                string key = errors.First().Key;
-                this.errors.Remove(key);
-                OnErrorsChanged(key);
+                this.FirstErrorPropertyName = null;
+                while (this.errors.Count > 0)
+                {
+                    string key = this.errors.First().Key;
+                    this.errors.Remove(key);
+                    OnErrorsChanged(key);
+                }
             }
         }
     }

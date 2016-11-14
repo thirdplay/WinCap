@@ -241,6 +241,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   デスクトップにショートカットを作成する に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_CreateShortcutToDesktop {
+            get {
+                return ResourceManager.GetString("Settings_CreateShortcutToDesktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   遅延時間 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_DelayTime {
@@ -439,6 +448,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   プログラム設定 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Program {
+            get {
+                return ResourceManager.GetString("Settings_Program", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   スタートアップに登録する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_RegisterInStartup {
@@ -498,15 +516,6 @@ namespace WinCap.Properties {
         public static string Settings_ShortcutKeyDuplicationMessage {
             get {
                 return ResourceManager.GetString("Settings_ShortcutKeyDuplicationMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   スタートプログラム設定 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Settings_StartProgram {
-            get {
-                return ResourceManager.GetString("Settings_StartProgram", resourceCulture);
             }
         }
         
