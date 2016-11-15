@@ -198,7 +198,11 @@ namespace WinCap.Services
                 OutputFormatType outputFormatType = settings.OutputFormatType;
                 string fileExtension = outputFormatType.GetExtension();
                 string fileName = FileHelper.CreateFileName(settings.OutputFolder, fileExtension, settings.OutputFileNamePattern);
-                string filePath = Path.Combine(settings.OutputFolder, fileName) + fileExtension;
+                string filePath = fileName + fileExtension;
+                if (!string.IsNullOrEmpty(settings.OutputFolder))
+                {
+                    filePath = Path.Combine(settings.OutputFolder, filePath);
+                }
 
                 // 自動保存の場合
                 if (settings.IsAutoSaveImage)

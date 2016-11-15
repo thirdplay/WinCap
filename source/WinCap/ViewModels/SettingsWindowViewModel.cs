@@ -2,6 +2,7 @@
 using Livet.Messaging;
 using System.Collections.Generic;
 using System.Linq;
+using WinCap.Services;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
 using WinCap.ViewModels.Settings;
@@ -36,6 +37,16 @@ namespace WinCap.ViewModels
         #endregion
 
         /// <summary>
+        /// フックサービス
+        /// </summary>
+        private readonly HookService hookService;
+
+        /// <summary>
+        /// アプリケーションアクション
+        /// </summary>
+        private readonly ApplicationAction applicationAction;
+
+        /// <summary>
         /// タブ項目リスト
         /// </summary>
         public List<SettingsBaseViewModel> TabItems { get; set; }
@@ -62,7 +73,9 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public SettingsWindowViewModel()
+        /// <param name="hookService">フックサービス</param>
+        /// <param name="applicationAction">アプリケーションアクション</param>
+        public SettingsWindowViewModel(HookService hookService, ApplicationAction applicationAction)
         {
             this.TabItems = new List<SettingsBaseViewModel>
             {
@@ -72,6 +85,8 @@ namespace WinCap.ViewModels
                 (this.VersionInfo = new VersionInfoViewModel().AddTo(this)),
             };
             this.SelectedItem = this.TabItems.FirstOrDefault();
+            this.hookService = hookService;
+            this.applicationAction = applicationAction;
         }
 
         /// <summary>
@@ -80,6 +95,8 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
+            this.hookService.Suspend().AddTo(this);
+            this.applicationAction.DeregisterActions();
             this.TabItems.ForEach(x => x.Initialize());
         }
 
@@ -116,6 +133,16 @@ namespace WinCap.ViewModels
                 MessageKey = "Window.DialogResult",
                 DialogResult = false
             });
+        }
+
+        /// <summary>
+        /// このインスタンスによって使用されているリソースを全て破棄します。
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            this.applicationAction.RegisterActions();
         }
     }
 }

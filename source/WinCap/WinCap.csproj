@@ -156,6 +156,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationAction.cs" />
     <Compile Include="ApplicationPreparation.cs" />
     <Compile Include="Capturers\IWebBrowserCapturer.cs" />
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
@@ -197,8 +198,6 @@
     <Compile Include="Models\StartupShortcut.cs" />
     <Compile Include="TaskTrayIcon.cs" />
     <Compile Include="ViewModels\Messages\SetDialogResultMessage.cs" />
-    <Compile Include="ViewModels\Settings\BindableTextViewModel.cs" />
-    <Compile Include="ViewModels\Settings\HyperlinkViewModel.cs" />
     <Compile Include="ViewModels\Settings\VersionInfoViewModel.cs" />
     <Compile Include="ViewModels\Settings\GeneralViewModel.cs" />
     <Compile Include="ViewModels\Settings\SettingsBaseViewModel.cs" />

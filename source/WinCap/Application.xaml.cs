@@ -31,6 +31,11 @@ namespace WinCap
         internal CapturerService CapturerService { get; private set; }
 
         /// <summary>
+        /// アプリケーションアクション
+        /// </summary>
+        internal ApplicationAction ApplicationAction { get; private set; }
+
+        /// <summary>
         /// 静的コンストラクタ
         /// </summary>
         static Application()
@@ -62,12 +67,12 @@ namespace WinCap
 
                 this.HookService = new HookService().AddTo(this);
                 this.CapturerService = new CapturerService(this.HookService).AddTo(this);
+                this.ApplicationAction = new ApplicationAction(this).AddTo(this);
 
                 // アプリケーション準備
                 var preparation = new ApplicationPreparation(this);
                 preparation.CreateShortcut();
                 preparation.ShowTaskTrayIcon();
-                preparation.RegisterActions();
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);

@@ -1,6 +1,4 @@
-﻿using Livet;
-using System;
-using System.Reactive.Disposables;
+﻿using System;
 using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Serialization;
@@ -22,9 +20,9 @@ namespace WinCap
         private readonly Application application;
 
         /// <summary>
-        /// ショートカットキー登録リクエストのコンテナ
+        /// 設定ウィンドウ
         /// </summary>
-        private LivetCompositeDisposable registers = new LivetCompositeDisposable();
+        private SettingsWindow settingsWindow;
 
         /// <summary>
         /// コンストラクタ
@@ -33,39 +31,6 @@ namespace WinCap
         public ApplicationPreparation(Application application)
         {
             this.application = application;
-            Disposable.Create(() => this.registers.Dispose());
-        }
-
-        /// <summary>
-        /// アクションを登録します。
-        /// </summary>
-        public void RegisterActions()
-        {
-            var settings = Settings.ShortcutKey;
-
-            this.registers.Add(this.application.HookService
-                .Register(settings.FullScreen, () => this.application.CapturerService.CaptureDesktop()));
-
-            this.registers.Add(this.application.HookService
-                .Register(settings.ActiveControl, () => this.application.CapturerService.CaptureActiveControl()));
-
-            this.registers.Add(this.application.HookService
-                .Register(settings.SelectionControl, () => this.application.CapturerService.CaptureSelectionControl()));
-
-            this.registers.Add(this.application.HookService
-                .Register(settings.WebPage, () => this.application.CapturerService.CaptureWebPage()));
-        }
-
-        /// <summary>
-        /// アクションの登録を解除します。
-        /// </summary>
-        public void DeregisterActions()
-        {
-            foreach (var register in this.registers)
-            {
-                register.Dispose();
-            }
-            this.registers.Clear();
         }
 
         /// <summary>
@@ -87,7 +52,7 @@ namespace WinCap
                     new TaskTrayIconItem(PropResources.ContextMenu_WebPageCapture, () => this.application.CapturerService.CaptureWebPage()),
                 }),
                 new TaskTrayIconItem(PropResources.ContextMenu_Settings, () => this.showSettings()),
-                new TaskTrayIconItem(PropResources.ContextMenu_Exit, () => this.application.Shutdown()),
+                new TaskTrayIconItem(PropResources.ContextMenu_Exit, () => { this.settingsWindow?.Close(); this.application.Shutdown(); }),
             };
 
             var taskTrayIcon = new TaskTrayIcon(icon, menus);
@@ -126,23 +91,24 @@ namespace WinCap
         /// </summary>
         private void showSettings()
         {
-            if (this.application.HookService.IsSuspended) { return; }
-            using (this.application.HookService.Suspend())
+            if (settingsWindow != null)
             {
-                this.DeregisterActions();
-
-                var window = new SettingsWindow
+                this.settingsWindow.Activate();
+                return;
+            }
+            using (var viewModel = new SettingsWindowViewModel(this.application.HookService, this.application.ApplicationAction))
+            {
+                this.settingsWindow = new SettingsWindow
                 {
-                    DataContext = new SettingsWindowViewModel()
+                    DataContext = viewModel
                 };
-                var result = window.ShowDialog();
+                var result = this.settingsWindow.ShowDialog();
+                this.settingsWindow = null;
                 if (result.HasValue && result.Value)
                 {
                     LocalSettingsProvider.Instance.Save();
                     this.CreateShortcut();
                 }
-
-                this.RegisterActions();
             }
         }
     }

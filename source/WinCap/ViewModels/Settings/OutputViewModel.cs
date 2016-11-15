@@ -132,6 +132,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
+            this.ClearErrors();
             if (this.IsAutoSaveImage && string.IsNullOrEmpty(this.OutputFolder))
             {
                 // 画像を自動保存する場合、出力フォルダは必須
