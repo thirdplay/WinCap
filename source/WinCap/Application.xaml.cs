@@ -84,6 +84,7 @@ namespace WinCap
                 this.CreateShortcut();
                 this.ShowTaskTrayIcon();
 
+                //仮実装
                 if (e.Args.Length > 0 && e.Args[0] == "-UITest")
                 {
                     this.MainWindow = new Window();
