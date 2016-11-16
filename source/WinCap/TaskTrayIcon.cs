@@ -14,17 +14,17 @@ namespace WinCap
         /// <summary>
         /// アイコン
         /// </summary>
-        private readonly Icon _icon;
+        private readonly Icon icon;
 
         /// <summary>
         /// タスクトレイアイコン項目
         /// </summary>
-        private readonly TaskTrayIconItem[] _items;
+        private readonly TaskTrayIconItem[] items;
 
         /// <summary>
         /// 通知アイコン
         /// </summary>
-        private NotifyIcon _notifyIcon;
+        private NotifyIcon notifyIcon;
 
         /// <summary>
         /// テキスト
@@ -38,8 +38,8 @@ namespace WinCap
         /// <param name="items">タスクトレイ項目</param>
         public TaskTrayIcon(Icon icon, TaskTrayIconItem[] items)
         {
-            this._icon = icon;
-            this._items = items;
+            this.icon = icon;
+            this.items = items;
         }
 
         /// <summary>
@@ -47,15 +47,15 @@ namespace WinCap
         /// </summary>
         public void Show()
         {
-            var menus = this._items
+            var menus = this.items
                 .Where(x => x.CanDisplay())
                 .Select(x => x.GetMenuItem())
                 .ToArray();
 
-            this._notifyIcon = new NotifyIcon()
+            this.notifyIcon = new NotifyIcon()
             {
                 Text = this.Text,
-                Icon = this._icon,
+                Icon = this.icon,
                 Visible = true,
                 ContextMenu = new ContextMenu(menus),
             };
@@ -66,8 +66,8 @@ namespace WinCap
         /// </summary>
         public void Dispose()
         {
-            this._notifyIcon?.Dispose();
-            this._icon?.Dispose();
+            this.notifyIcon?.Dispose();
+            this.icon?.Dispose();
         }
     }
 

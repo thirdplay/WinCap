@@ -62,6 +62,22 @@ namespace WinCap.Models
         }
 
         /// <summary>
+        /// ショートカットを再作成します。
+        /// </summary>
+        /// <param name="isCreate">作成可否状態</param>
+        public void Recreate(bool isCreate)
+        {
+            if (isCreate)
+            {
+                this.Create();
+            }
+            else
+            {
+                this.Remove();
+            }
+        }
+
+        /// <summary>
         /// ショートカットのファイルパスを取得します。
         /// </summary>
         /// <param name="fileName">ファイル名</param>

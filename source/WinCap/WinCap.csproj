@@ -157,7 +157,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationAction.cs" />
-    <Compile Include="ApplicationPreparation.cs" />
     <Compile Include="Capturers\IWebBrowserCapturer.cs" />
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
     <Compile Include="Interop\MAPVK.cs" />

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using WinCap.Serialization;
 using WinCap.Util.Lifetime;
+using WinCap.ViewModels;
+using WinCap.Views;
 
 namespace WinCap
 {
@@ -63,6 +65,31 @@ namespace WinCap
             this.compositeDisposable.Clear();
         }
 
+        /// <summary>
+        /// 設定ウィンドウを表示します。
+        /// </summary>
+        public void ShowSettings()
+        {
+            if (this.application.SettingsWindow != null)
+            {
+                this.application.SettingsWindow.Activate();
+                return;
+            }
+            using (var viewModel = new SettingsWindowViewModel(this.application.HookService, this.application.ApplicationAction))
+            {
+                this.application.SettingsWindow = new SettingsWindow
+                {
+                    DataContext = viewModel
+                };
+                var result = this.application.SettingsWindow.ShowDialog();
+                this.application.SettingsWindow = null;
+                if (result.HasValue && result.Value)
+                {
+                    LocalSettingsProvider.Instance.Save();
+                    this.application.CreateShortcut();
+                }
+            }
+        }
         #region IDisposableHoloder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
@@ -71,7 +98,7 @@ namespace WinCap
         /// </summary>
         public void Dispose()
         {
-            this.compositeDisposable.Dispose();
+            this.DeregisterActions();
         }
         #endregion
     }

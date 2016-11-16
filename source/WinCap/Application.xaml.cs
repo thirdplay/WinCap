@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using WinCap.Interop;
+using WinCap.Models;
 using WinCap.Serialization;
 using WinCap.Services;
 using WinCap.Util.Lifetime;
+using WinCap.Views;
+using PropResources = WinCap.Properties.Resources;
 
 namespace WinCap
 {
@@ -31,6 +35,11 @@ namespace WinCap
         internal CapturerService CapturerService { get; private set; }
 
         /// <summary>
+        /// 設定ウィンドウ
+        /// </summary>
+        internal SettingsWindow SettingsWindow { get; set; }
+
+        /// <summary>
         /// アプリケーションアクション
         /// </summary>
         internal ApplicationAction ApplicationAction { get; private set; }
@@ -49,9 +58,11 @@ namespace WinCap
         /// <param name="e">イベント引数</param>
         protected override void OnStartup(StartupEventArgs e)
         {
+#if !DEBUG
             // 多重起動防止チェック
             var appInstance = new Util.Desktop.ApplicationInstance().AddTo(this);
             if (appInstance.IsFirst)
+#endif
             {
                 this.DispatcherUnhandledException += (sender, args) =>
                 {
@@ -70,17 +81,62 @@ namespace WinCap
                 this.ApplicationAction = new ApplicationAction(this).AddTo(this);
 
                 // アプリケーション準備
-                var preparation = new ApplicationPreparation(this);
-                preparation.CreateShortcut();
-                preparation.ShowTaskTrayIcon();
+                this.CreateShortcut();
+                this.ShowTaskTrayIcon();
+
+                if (e.Args.Length > 0 && e.Args[0] == "-UITest")
+                {
+                    this.MainWindow = new Window();
+                    this.MainWindow.Show();
+                }
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);
             }
+#if !DEBUG
             else
             {
                 this.Shutdown();
             }
+#endif
+        }
+
+        /// <summary>
+        /// ショートカットを作成します。
+        /// </summary>
+        public void CreateShortcut()
+        {
+            var shortcut = new StartupShortcut();
+            shortcut.Recreate(Settings.General.IsRegisterInStartup);
+            var desktopShortcut = new DesktopShortcut();
+            desktopShortcut.Recreate(Settings.General.IsCreateShortcutToDesktop);
+        }
+
+        /// <summary>
+        /// タスクトレイアイコンを表示します。
+        /// </summary>
+        public void ShowTaskTrayIcon()
+        {
+            const string iconUri = "pack://application:,,,/WinCap;component/Assets/app.ico";
+            Uri uri;
+            if (!Uri.TryCreate(iconUri, UriKind.Absolute, out uri)) { return; }
+
+            var icon = IconHelper.GetIconFromResource(uri);
+            var menus = new[]
+            {
+                new TaskTrayIconItem(PropResources.ContextMenu_Capture, new[]
+                {
+                    new TaskTrayIconItem(PropResources.ContextMenu_DesktopCapture, () => this.CapturerService.CaptureDesktop()),
+                    new TaskTrayIconItem(PropResources.ContextMenu_ControlCapture, () => this.CapturerService.CaptureSelectionControl()),
+                    new TaskTrayIconItem(PropResources.ContextMenu_WebPageCapture, () => this.CapturerService.CaptureWebPage()),
+                }),
+                new TaskTrayIconItem(PropResources.ContextMenu_Settings, () => this.ApplicationAction.ShowSettings()),
+                new TaskTrayIconItem(PropResources.ContextMenu_Exit, () => { this.Shutdown(); }),
+            };
+
+            var taskTrayIcon = new TaskTrayIcon(icon, menus);
+            taskTrayIcon.Show();
+            taskTrayIcon.AddTo(this);
         }
 
         /// <summary>
@@ -104,14 +160,14 @@ namespace WinCap
         /// <param name="exception">例外</param>
         private static void ReportException(object sender, Exception exception)
         {
-            #region const
+#region const
             const string messageFormat = @"
 ===========================================================
 ERROR, date = {0}, sender = {1},
 {2}
 ";
             const string path = "error.log";
-            #endregion
+#endregion
 
             try
             {
@@ -129,7 +185,7 @@ ERROR, date = {0}, sender = {1},
             Current.Shutdown();
         }
 
-        #region IDisposableHolder members
+#region IDisposableHolder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
@@ -139,6 +195,6 @@ ERROR, date = {0}, sender = {1},
         {
             this.compositeDisposable.Dispose();
         }
-        #endregion
+#endregion
     }
 }
