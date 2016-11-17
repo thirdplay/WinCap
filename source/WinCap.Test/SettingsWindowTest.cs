@@ -18,7 +18,7 @@ namespace WinCap.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            this.app = new WindowsAppFriend(Process.Start(@"D:\git\WinCap\source\WinCap\bin\x86\Debug\WinCap.exe", "-UITest"));
+            this.app = new WindowsAppFriend(Process.Start(@"WinCap.exe", "-UITest"));
         }
 
         [TestCleanup]

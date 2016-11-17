@@ -16,8 +16,8 @@ namespace WinCap.Properties
         private static readonly Lazy<string> productLazy = new Lazy<string>(() => ((AssemblyProductAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyProductAttribute))).Product);
         private static readonly Lazy<string> copyrightLazy = new Lazy<string>(() => ((AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyCopyrightAttribute))).Copyright);
         private static readonly Lazy<string> trademarkLazy = new Lazy<string>(() => ((AssemblyTrademarkAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyTrademarkAttribute))).Trademark);
-        private static readonly Lazy<string> _versionLazy = new Lazy<string>(() => $"{Version.ToString(3)}{(Version.Revision == 0 ? "" : " rev." + Version.Revision)}");
-        private static readonly Lazy<IReadOnlyCollection<Library>> _librariesLazy = new Lazy<IReadOnlyCollection<Library>>(() => new List<Library>
+        private static readonly Lazy<string> versionLazy = new Lazy<string>(() => $"{Version.ToString(3)}{(Version.Revision == 0 ? "" : " rev." + Version.Revision)}");
+        private static readonly Lazy<IReadOnlyCollection<Library>> librariesLazy = new Lazy<IReadOnlyCollection<Library>>(() => new List<Library>
         {
             new Library("Open.WinKeyboardHook", new Uri("https://github.com/lontivero/Open.WinKeyboardHook")),
             new Library("MetroRadiance", new Uri("https://github.com/Grabacr07/MetroRadiance")),
@@ -63,12 +63,12 @@ namespace WinCap.Properties
         /// <summary>
         /// バージョン文字列を取得します。
         /// </summary>
-        public static string VersionString => _versionLazy.Value;
+        public static string VersionString => versionLazy.Value;
 
         /// <summary>
         /// ライブラリを取得します。
         /// </summary>
-        public static IReadOnlyCollection<Library> Libraries => _librariesLazy.Value;
+        public static IReadOnlyCollection<Library> Libraries => librariesLazy.Value;
     }
 
     /// <summary>
