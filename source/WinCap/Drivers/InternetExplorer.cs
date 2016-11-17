@@ -9,8 +9,11 @@ using System.Windows.Forms;
 using WinCap.Interop;
 using WinCap.Models;
 
-namespace WinCap.WebBrowsers
+namespace WinCap.Drivers
 {
+    /// <summary>
+    /// IEの操作機能を提供します。
+    /// </summary>
     public class InternetExplorer : IDisposable
     {
         #region 定数

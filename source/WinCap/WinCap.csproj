@@ -253,7 +253,7 @@
     </Compile>
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Interop\WM.cs" />
-    <Compile Include="WebBrowsers\InternetExplorer.cs" />
+    <Compile Include="Drivers\InternetExplorer.cs" />
     <DesignData Include="SampleData\ControlSelectInfoViewModelSampleData.xaml">
       <SubType>Designer</SubType>
     </DesignData>

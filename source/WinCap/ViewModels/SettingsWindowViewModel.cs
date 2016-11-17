@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using WinCap.Services;
 using WinCap.Util.Mvvm;
-using WinCap.ViewModels.Messages;
 using WinCap.ViewModels.Settings;
 
 namespace WinCap.ViewModels
@@ -71,6 +70,11 @@ namespace WinCap.ViewModels
         #endregion
 
         /// <summary>
+        /// ダイアログ結果を取得します。
+        /// </summary>
+        public bool DialogResult { get; private set; }
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="hookService">フックサービス</param>
@@ -115,10 +119,8 @@ namespace WinCap.ViewModels
             }
             this.TabItems.ForEach(x => x.Apply());
 
-            this.Messenger.Raise(new SetDialogResultMessage(){
-                MessageKey = "Window.DialogResult",
-                DialogResult = true
-            });
+            this.DialogResult = true;
+            this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 
         /// <summary>
@@ -128,11 +130,8 @@ namespace WinCap.ViewModels
         {
             this.TabItems.ForEach(x => x.Cancel());
 
-            this.Messenger.Raise(new SetDialogResultMessage()
-            {
-                MessageKey = "Window.DialogResult",
-                DialogResult = false
-            });
+            this.DialogResult = false;
+            this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 
         /// <summary>

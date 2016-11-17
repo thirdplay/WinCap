@@ -27,9 +27,14 @@
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
 										 MethodName="Initialize" />
         </i:EventTrigger>
+
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction />
+        </i:EventTrigger>
+
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.DialogResult">
-            <behaviors:SetDialogResultAction />
+										 MessageKey="Window.Close">
+            <behaviors:CloseWindowAction />
         </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
 

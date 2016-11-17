@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using WinCap.WebBrowsers;
+using WinCap.Drivers;
 
 namespace WinCap.Capturers
 {

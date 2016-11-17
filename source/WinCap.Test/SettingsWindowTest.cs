@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace WinCap.Test
 {
@@ -31,12 +32,11 @@ namespace WinCap.Test
         [TestMethod]
         public void TestMethod1()
         {
-            dynamic application = this.app.Type<Application>().Current;
-            var task = new Task(() => application.ApplicationAction.ShowSettings());
-            task.Start();
-            Thread.Sleep(1000 * 2);
+            dynamic app = this.app.Type<Application>().Current;
+            app.ApplicationAction.ShowSettings();
+            //Thread.Sleep(1000 * 2);
 
-            var w = new WindowControl(application.SettingsWindow);
+            var w = new WindowControl(app.SettingsWindow);
             var visualTree = w.VisualTree();
             var scrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
             //var content = new WPFContentControl(w.LogicalTree().ByType("System.Windows.Controls.ContentControl")[0]);
@@ -51,14 +51,12 @@ namespace WinCap.Test
         [TestMethod]
         public void TestMethod2()
         {
-            dynamic application = this.app.Type<Application>().Current;
-            var task = new Task(() => application.ApplicationAction.ShowSettings());
-            task.Start();
-            Thread.Sleep(1000 * 2);
+            dynamic app = this.app.Type<Application>().Current;
+            app.ApplicationAction.ShowSettings();
 
-            var w = new WindowControl(application.SettingsWindow);
+            var w = new WindowControl(app.SettingsWindow);
             var logicalTree = w.LogicalTree();
-            var listBox = new WPFListBox(logicalTree.ByBinding("TabItems")[0]);
+            var listBox = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
 
             listBox.EmulateChangeSelectedIndex(1);
             Thread.Sleep(1000 * 1);

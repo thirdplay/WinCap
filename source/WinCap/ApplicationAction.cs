@@ -1,6 +1,7 @@
 ﻿using Livet;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using WinCap.Serialization;
 using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
@@ -75,21 +76,22 @@ namespace WinCap
                 this.application.SettingsWindow.Activate();
                 return;
             }
-            using (var viewModel = new SettingsWindowViewModel(this.application.HookService, this.application.ApplicationAction))
+
+            var viewModel = new SettingsWindowViewModel(this.application.HookService, this);
+            this.application.SettingsWindow = new SettingsWindow { DataContext = viewModel };
+            Observable.FromEventPattern<EventArgs>(this.application.SettingsWindow, nameof(this.application.SettingsWindow.Closed))
+            .Subscribe(x =>
             {
-                this.application.SettingsWindow = new SettingsWindow
-                {
-                    DataContext = viewModel
-                };
-                var result = this.application.SettingsWindow.ShowDialog();
-                this.application.SettingsWindow = null;
-                if (result.HasValue && result.Value)
+                if (viewModel.DialogResult)
                 {
                     LocalSettingsProvider.Instance.Save();
                     this.application.CreateShortcut();
                 }
-            }
+                this.application.SettingsWindow = null;
+            });
+            this.application.SettingsWindow.Show();
         }
+
         #region IDisposableHoloder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
