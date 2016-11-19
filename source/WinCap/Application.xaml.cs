@@ -86,11 +86,11 @@ namespace WinCap
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);
-                // TODO:仮実装
-                if (e.Args.Length > 0 && e.Args[0] == "-UITest")
+
+                // オプションが指定されている場合、設定ウィンドウを表示する
+                if (e.Args.Length > 0 && e.Args[0] == "-ShowSettings")
                 {
-                    this.MainWindow = new Window();
-                    this.MainWindow.Show();
+                    this.ApplicationAction.ShowSettings();
                 }
             }
 #if !DEBUG

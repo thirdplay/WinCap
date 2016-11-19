@@ -53,6 +53,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Codeer.Friendly, Version=2.5.0.0, Culture=neutral, PublicKeyToken=6c44da6fca38aa86, processorArchitecture=MSIL">
       <HintPath>..\packages\Codeer.Friendly.2.5.0\lib\net40\Codeer.Friendly.dll</HintPath>
@@ -131,7 +134,7 @@
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)WinCap\$(OutDir)* $(TargetDir)</PostBuildEvent>
+    <PostBuildEvent>xcopy /y /r $(SolutionDir)WinCap\$(OutDir)* $(TargetDir)app\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

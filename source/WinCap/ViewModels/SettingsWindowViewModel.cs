@@ -142,6 +142,7 @@ namespace WinCap.ViewModels
         {
             base.Dispose(disposing);
             this.applicationAction.RegisterActions();
+            System.Console.WriteLine("RegisterActions");
         }
     }
 }
