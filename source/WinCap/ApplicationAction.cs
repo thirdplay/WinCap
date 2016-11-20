@@ -69,27 +69,21 @@ namespace WinCap
         /// <summary>
         /// 設定ウィンドウを表示します。
         /// </summary>
-        public void ShowSettings()
+        /// <returns>設定ウィンドウ</returns>
+        public SettingsWindow ShowSettings()
         {
-            if (this.application.SettingsWindow != null)
+            var window = this.application.WindowService.GetSettingsWindow(x =>
             {
-                this.application.SettingsWindow.Activate();
-                return;
-            }
-
-            var viewModel = new SettingsWindowViewModel(this.application.HookService, this);
-            this.application.SettingsWindow = new SettingsWindow { DataContext = viewModel };
-            Observable.FromEventPattern<EventArgs>(this.application.SettingsWindow, nameof(this.application.SettingsWindow.Closed))
-            .Subscribe(x =>
-            {
-                if (viewModel.DialogResult)
+                if (x.DialogResult)
                 {
                     LocalSettingsProvider.Instance.Save();
                     this.application.CreateShortcut();
                 }
-                this.application.SettingsWindow = null;
             });
-            this.application.SettingsWindow.Show();
+            window.Show();
+            window.Activate();
+
+            return window;
         }
 
         #region IDisposableHoloder members

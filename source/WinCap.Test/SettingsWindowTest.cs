@@ -33,12 +33,14 @@ namespace WinCap.Test
         public void TestMethod1()
         {
             dynamic app = this.app.Type<Application>().Current;
-            app.ApplicationAction.ShowSettings();
+            var settingsWindow = app.ApplicationAction.ShowSettings();
             //Thread.Sleep(1000 * 2);
 
-            var w = new WindowControl(app.SettingsWindow);
+            var w = new WindowControl(settingsWindow);
             var visualTree = w.VisualTree();
             var scrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
+            //scrollDelayTime.EmulateChangeText("a");
+            Thread.Sleep(1000 * 2);
             //var content = new WPFContentControl(w.LogicalTree().ByType("System.Windows.Controls.ContentControl")[0]);
             //var button = new WPFButtonBase(w.LogicalTree().ByType("System.Windows.Controls.Button")[0]);
             //button.EmulateClick();
@@ -52,12 +54,13 @@ namespace WinCap.Test
         public void TestMethod2()
         {
             dynamic app = this.app.Type<Application>().Current;
-            app.ApplicationAction.ShowSettings();
+            var settingsWindow = app.ApplicationAction.ShowSettings();
 
-            var w = new WindowControl(app.SettingsWindow);
+            var w = new WindowControl(settingsWindow);
             var logicalTree = w.LogicalTree();
             var listBox = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
 
+            Thread.Sleep(1000 * 1);
             listBox.EmulateChangeSelectedIndex(1);
             Thread.Sleep(1000 * 1);
             listBox.EmulateChangeSelectedIndex(2);

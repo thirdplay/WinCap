@@ -77,9 +77,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="hookService">フックサービス</param>
-        /// <param name="applicationAction">アプリケーションアクション</param>
-        public SettingsWindowViewModel(HookService hookService, ApplicationAction applicationAction)
+        public SettingsWindowViewModel()
         {
             this.TabItems = new List<SettingsBaseViewModel>
             {
@@ -89,8 +87,8 @@ namespace WinCap.ViewModels
                 (this.VersionInfo = new VersionInfoViewModel().AddTo(this)),
             };
             this.SelectedItem = this.TabItems.FirstOrDefault();
-            this.hookService = hookService;
-            this.applicationAction = applicationAction;
+            this.hookService = Application.Instance.HookService;
+            this.applicationAction = Application.Instance.ApplicationAction;
         }
 
         /// <summary>
@@ -142,7 +140,6 @@ namespace WinCap.ViewModels
         {
             base.Dispose(disposing);
             this.applicationAction.RegisterActions();
-            System.Console.WriteLine("RegisterActions");
         }
     }
 }

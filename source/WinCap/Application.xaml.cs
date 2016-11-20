@@ -35,14 +35,19 @@ namespace WinCap
         internal CapturerService CapturerService { get; private set; }
 
         /// <summary>
-        /// 設定ウィンドウ
+        /// ウィンドウサービス
         /// </summary>
-        internal SettingsWindow SettingsWindow { get; set; }
+        internal WindowService WindowService { get; private set; }
 
         /// <summary>
         /// アプリケーションアクション
         /// </summary>
         internal ApplicationAction ApplicationAction { get; private set; }
+
+        /// <summary>
+        /// 現在の <see cref="AppDomain"/> の <see cref="Application"/> オブジェクトを取得します。
+        /// </summary>
+        public static Application Instance => Current as Application;
 
         /// <summary>
         /// 静的コンストラクタ
@@ -78,6 +83,7 @@ namespace WinCap
 
                 this.HookService = new HookService().AddTo(this);
                 this.CapturerService = new CapturerService(this.HookService).AddTo(this);
+                this.WindowService = new WindowService();
                 this.ApplicationAction = new ApplicationAction(this).AddTo(this);
 
                 // アプリケーション準備

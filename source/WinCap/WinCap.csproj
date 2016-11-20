@@ -186,6 +186,7 @@
     <Compile Include="Serialization\LocalSettingsProvider.cs" />
     <Compile Include="Serialization\Settings.cs" />
     <Compile Include="Serialization\SettingsHost.cs" />
+    <Compile Include="Services\WindowService.cs" />
     <Compile Include="Services\HookService.cs" />
     <Compile Include="Models\InteropHelper.cs" />
     <Compile Include="Services\KeyHelper.cs" />

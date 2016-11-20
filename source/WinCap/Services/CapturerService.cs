@@ -21,7 +21,7 @@ namespace WinCap.Services
     /// <summary>
     /// 画面やコントロールをキャプチャする機能を提供します。
     /// </summary>
-    public sealed class CapturerService : NotificationObject, IDisposableHolder
+    public sealed class CapturerService : IDisposableHolder
     {
         /// <summary>
         /// 基本CompositeDisposable
