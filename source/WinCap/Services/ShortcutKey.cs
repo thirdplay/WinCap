@@ -46,7 +46,7 @@ namespace WinCap.Services
         /// ショートカットキーの比較。
         /// </summary>
         /// <param name="other">別のショートカットキー</param>
-        /// <returns></returns>
+        /// <returns>等価の場合はtrue、それ以外はfalse</returns>
         public bool Equals(ShortcutKey other)
         {
             return this == other;
