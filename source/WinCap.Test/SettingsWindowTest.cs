@@ -33,12 +33,12 @@ namespace WinCap.Test
         public void TestMethod1()
         {
             dynamic app = this.app.Type<Application>().Current;
-            var settingsWindow = app.ApplicationAction.ShowSettings();
-            //Thread.Sleep(1000 * 2);
-
+            dynamic settingsWindow = app.ApplicationAction.ShowSettings();
             var w = new WindowControl(settingsWindow);
+
             var visualTree = w.VisualTree();
             var scrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
+            var button = new WPFButtonBase(settingsWindow.Ok);
             //scrollDelayTime.EmulateChangeText("a");
             Thread.Sleep(1000 * 2);
             //var content = new WPFContentControl(w.LogicalTree().ByType("System.Windows.Controls.ContentControl")[0]);

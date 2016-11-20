@@ -110,7 +110,8 @@
         <StackPanel Grid.Row="2">
             <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" VerticalAlignment="Top" />
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,8,8">
-                <Button Content="{x:Static prop:Resources.Settings_Ok}"
+                <Button x:Name="Ok"
+                        Content="{x:Static prop:Resources.Settings_Ok}"
                         MinWidth="90"
                         Margin="4,2"
                         IsDefault="True">
@@ -121,7 +122,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Content="{x:Static prop:Resources.Settings_Cancel}"
+                <Button x:Name="Cancel"
+                        Content="{x:Static prop:Resources.Settings_Cancel}"
                         MinWidth="90"
                         Margin="4,2"
                         IsCancel="True">
