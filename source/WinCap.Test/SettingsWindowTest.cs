@@ -34,20 +34,25 @@ namespace WinCap.Test
         {
             dynamic app = this.app.Type<Application>().Current;
             dynamic settingsWindow = app.ApplicationAction.ShowSettings();
+            dynamic settingsWindowViewModel = settingsWindow.DataContext;
+            dynamic generalViewModel = settingsWindowViewModel.General;
             var w = new WindowControl(settingsWindow);
 
             var visualTree = w.VisualTree();
             var scrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
-            var button = new WPFButtonBase(settingsWindow.Ok);
-            //scrollDelayTime.EmulateChangeText("a");
-            Thread.Sleep(1000 * 2);
+            var buttonOk = new WPFButtonBase(settingsWindow._buttonOk);
+            scrollDelayTime.EmulateChangeText("a");
+            buttonOk.EmulateClick();
+
+            string errorMessage = generalViewModel.GetErrors("ScrollDelayTime")[0];
+            //viewModel.General.GetErrors("ScrollDelayTime")[0]
             //var content = new WPFContentControl(w.LogicalTree().ByType("System.Windows.Controls.ContentControl")[0]);
             //var button = new WPFButtonBase(w.LogicalTree().ByType("System.Windows.Controls.Button")[0]);
             //button.EmulateClick();
             //var value = new WPFTabControl(w.LogicalTree().ByType("ItemsControl").Single());
 
             //MessageBox.Show("Result:" + settingsWindow.ApplicationAction);
-            Assert.AreEqual("100", scrollDelayTime.Text);
+            Assert.AreEqual("0以上、1000以下の数値を入力してください。", errorMessage);
         }
 
         [TestMethod]
@@ -71,6 +76,26 @@ namespace WinCap.Test
             Thread.Sleep(1000 * 1);
 
             Assert.AreEqual("100", "100");
+        }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            dynamic app = this.app.Type<Application>().Current;
+            dynamic settingsWindow = app.ApplicationAction.ShowSettings();
+            var wc = new WindowControl(settingsWindow);
+            var visualTree = wc.VisualTree();
+            var logicalTree = wc.LogicalTree();
+            var listBox = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
+
+
+            listBox.EmulateChangeSelectedIndex(1);
+            Thread.Sleep(1000 * 1);
+            var itemControl = new WPFListViewItem(logicalTree.ByType("System.Windows.Controls.ItemsControl").ByBinding("TabItems")[1]);
+            //wc.VisualTree().ByType<Button>()[4]
+            //var buttonSelection = new WPFButtonBase(itemControl._buttonSelection);
+            //buttonSelection.EmulateClick();
+            //Thread.Sleep(1000 * 2);
         }
     }
 }

@@ -60,7 +60,8 @@
                     </livet:InteractionMessageTrigger>
                 </i:Interaction.Triggers>
             </metro:PromptTextBox>
-            <Button Grid.Row="0"
+            <Button x:Name="_buttonSelection"
+                    Grid.Row="0"
                     Grid.Column="1"
                     Content="{x:Static prop:Resources.Settings_Selection}"
                     Width="45"
