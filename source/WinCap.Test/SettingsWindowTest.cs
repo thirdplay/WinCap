@@ -4,6 +4,7 @@ using Codeer.Friendly.Windows.Grasp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RM.Friendly.WPFStandardControls;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
