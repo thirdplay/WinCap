@@ -19,7 +19,14 @@ namespace WinCap.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            this.app = new WindowsAppFriend(Process.Start(@"app\WinCap.exe", "-ShowSettings"));
+#if DEBUG
+            var build = "Debug";
+#else
+            var build = "Release";
+#endif
+            var exePath = Path.GetFullPath("../../../../WinCap/bin/x86/" + build + "/WinCap.exe");
+            this.app = new WindowsAppFriend(Process.Start(exePath, "-ShowSettings"));
+            //this.app = new WindowsAppFriend(Process.Start(@"app\WinCap.exe", "-ShowSettings"));
         }
 
         [TestCleanup]
