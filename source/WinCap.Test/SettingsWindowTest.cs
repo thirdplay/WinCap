@@ -33,7 +33,6 @@ namespace WinCap.Test
         [TestCleanup]
         public void TestCleanup()
         {
-            //Process.GetProcessById(this.app.ProcessId).CloseMainWindow();
             this.app.Type<Application>().Current.Shutdown();
         }
 
