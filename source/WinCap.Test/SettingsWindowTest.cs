@@ -27,7 +27,6 @@ namespace WinCap.Test
 #endif
             var exePath = Path.GetFullPath("../../../../WinCap/bin/x86/" + build + "/WinCap.exe");
             this.app = new WindowsAppFriend(Process.Start(exePath, "-ShowSettings"));
-            //this.app = new WindowsAppFriend(Process.Start(@"app\WinCap.exe", "-ShowSettings"));
         }
 
         [TestCleanup]
