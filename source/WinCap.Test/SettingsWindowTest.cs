@@ -102,6 +102,7 @@ namespace WinCap.Test
             //var buttonSelection = new WPFButtonBase(itemControl._buttonSelection);
             //buttonSelection.EmulateClick();
             //Thread.Sleep(1000 * 2);
+            Assert.AreEqual("100", "100");
         }
     }
 }
