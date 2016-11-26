@@ -51,7 +51,6 @@ namespace WinCap.Test
             buttonOk.EmulateClick();
 
             string errorMessage = generalViewModel.GetErrors("ScrollDelayTime")[0];
-            //viewModel.General.GetErrors("ScrollDelayTime")[0]
             //var content = new WPFContentControl(w.LogicalTree().ByType("System.Windows.Controls.ContentControl")[0]);
             //var button = new WPFButtonBase(w.LogicalTree().ByType("System.Windows.Controls.Button")[0]);
             //button.EmulateClick();
