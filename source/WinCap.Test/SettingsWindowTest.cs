@@ -97,7 +97,6 @@ namespace WinCap.Test
             listBox.EmulateChangeSelectedIndex(1);
             Thread.Sleep(1000 * 1);
             var itemControl = new WPFListViewItem(logicalTree.ByType("System.Windows.Controls.ItemsControl").ByBinding("TabItems")[1]);
-            //wc.VisualTree().ByType<Button>()[4]
             //var buttonSelection = new WPFButtonBase(itemControl._buttonSelection);
             //buttonSelection.EmulateClick();
             //Thread.Sleep(1000 * 2);
