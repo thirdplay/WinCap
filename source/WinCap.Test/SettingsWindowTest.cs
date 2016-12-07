@@ -32,6 +32,7 @@ namespace WinCap.Test
         [TestCleanup]
         public void TestCleanup()
         {
+            //this.app.Dispose();
             this.app.Type<Application>().Current.Shutdown();
         }
 
