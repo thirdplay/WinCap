@@ -35,6 +35,11 @@ namespace WinCap.Driver
         public WindowControl Window { get; private set; }
 
         /// <summary>
+        /// タブアイテムを取得します。
+        /// </summary>
+        public WPFListBox TabItems { get; private set; }
+
+        /// <summary>
         /// スクロールの遅延時間を取得します。
         /// </summary>
         public WPFTextBox ScrollDelayTime { get; private set; }
@@ -49,9 +54,9 @@ namespace WinCap.Driver
             var logicalTree = windowControl.LogicalTree();
 
             this.Window = windowControl;
-            var listBox = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
+            this.TabItems = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
 
-            listBox.EmulateChangeSelectedIndex(1);
+            this.TabItems.EmulateChangeSelectedIndex(1);
             this.ScrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
         }
     }
