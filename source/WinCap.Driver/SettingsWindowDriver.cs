@@ -14,13 +14,21 @@ namespace WinCap.Driver
         public WindowControl Window { get; private set; }
 
         /// <summary>
+        /// タブアイテムを取得します。
+        /// </summary>
+        public WPFListBox TabItems { get; private set; }
+
+        /// <summary>
         /// コンストラクタ。
         /// </summary>
         /// <param name="windowControl">ウィンドウコントロール</param>
         public SettingsWindowDriver(WindowControl windowControl)
         {
             var visualTree = windowControl.VisualTree();
+            var logicalTree = windowControl.LogicalTree();
+
             this.Window = windowControl;
+            this.TabItems = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
         }
     }
 
@@ -48,13 +56,12 @@ namespace WinCap.Driver
         /// コンストラクタ。
         /// </summary>
         /// <param name="windowControl">ウィンドウコントロール</param>
-        public General(WindowControl windowControl)
+        public General(WindowControl windowControl, WPFListBox tabItems)
         {
             var visualTree = windowControl.VisualTree();
-            var logicalTree = windowControl.LogicalTree();
 
             this.Window = windowControl;
-            this.TabItems = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
+            this.TabItems = tabItems;
 
             this.TabItems.EmulateChangeSelectedIndex(1);
             this.ScrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
