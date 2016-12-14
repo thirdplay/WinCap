@@ -56,6 +56,7 @@ namespace WinCap.Driver
         /// コンストラクタ。
         /// </summary>
         /// <param name="windowControl">ウィンドウコントロール</param>
+        /// <param name="tabItems">タブアイテム</param>
         public General(WindowControl windowControl, WPFListBox tabItems)
         {
             var visualTree = windowControl.VisualTree();
