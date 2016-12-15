@@ -46,7 +46,7 @@ namespace WinCap.Driver
         public SettingsWindowDriver ShowSettingsWindow()
         {
             var appVar = this._app.Type<Application>().Current;
-            return new SettingsWindowDriver(new WindowControl(appVar.ApplicationAction.ShowSettings()));
+            return new SettingsWindowDriver(appVar.ApplicationAction.ShowSettings());
         }
     }
 }

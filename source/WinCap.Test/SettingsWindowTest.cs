@@ -10,55 +10,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using WinCap.Driver;
 
 namespace WinCap.Test
 {
     [TestClass]
     public class SettingsWindowTest
     {
-        WindowsAppFriend app;
+        AppDriver _appDriver;
 
         [TestInitialize]
         public void TestInitialize()
         {
-#if DEBUG
-            var build = "Debug";
-#else
-            var build = "Release";
-#endif
-            var exePath = Path.GetFullPath("../../../../WinCap/bin/x86/" + build + "/WinCap.exe");
-            this.app = new WindowsAppFriend(Process.Start(exePath, "-ShowSettings"));
+            this._appDriver = new AppDriver();
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            //this.app.Dispose();
-            this.app.Type<Application>().Current.Shutdown();
+            this._appDriver.Release();
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestScrollDelayTime()
         {
-            dynamic app = this.app.Type<Application>().Current;
-            dynamic settingsWindow = app.ApplicationAction.ShowSettings();
-            dynamic settingsWindowViewModel = settingsWindow.DataContext;
-            dynamic generalViewModel = settingsWindowViewModel.General;
-            var w = new WindowControl(settingsWindow);
+            var settingsWindow = this._appDriver.ShowSettingsWindow();
 
-            var visualTree = w.VisualTree();
-            var scrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
-            var buttonOk = new WPFButtonBase(settingsWindow._buttonOk);
-            scrollDelayTime.EmulateChangeText("a");
-            buttonOk.EmulateClick();
+            settingsWindow.General.ScrollDelayTime.EmulateChangeText("a");
+            settingsWindow.ButtonOk.EmulateClick();
 
-            string errorMessage = generalViewModel.GetErrors("ScrollDelayTime")[0];
-            //var content = new WPFContentControl(w.LogicalTree().ByType("System.Windows.Controls.ContentControl")[0]);
-            //var button = new WPFButtonBase(w.LogicalTree().ByType("System.Windows.Controls.Button")[0]);
-            //button.EmulateClick();
-            //var value = new WPFTabControl(w.LogicalTree().ByType("ItemsControl").Single());
+            string errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
 
-            //MessageBox.Show("Result:" + settingsWindow.ApplicationAction);
             Assert.AreEqual("0以上、1000以下の数値を入力してください。", errorMessage);
         }
 

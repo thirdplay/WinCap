@@ -113,6 +113,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WinCap.Driver\WinCap.Driver.csproj">
+      <Project>{62AA7C8A-3986-4E7C-BDB7-97760EF88080}</Project>
+      <Name>WinCap.Driver</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
