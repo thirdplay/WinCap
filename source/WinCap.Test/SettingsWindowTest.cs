@@ -1,15 +1,4 @@
-﻿using Codeer.Friendly.Dynamic;
-using Codeer.Friendly.Windows;
-using Codeer.Friendly.Windows.Grasp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RM.Friendly.WPFStandardControls;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WinCap.Driver;
 
 namespace WinCap.Test
@@ -35,12 +24,17 @@ namespace WinCap.Test
         public void TestScrollDelayTime()
         {
             var settingsWindow = this._appDriver.ShowSettingsWindow();
+            var general = settingsWindow.General;
+            var buttonOk = settingsWindow.ButtonOk;
 
-            settingsWindow.General.ScrollDelayTime.EmulateChangeText("a");
-            settingsWindow.ButtonOk.EmulateClick();
-
+            general.ScrollDelayTime.EmulateChangeText("");
+            buttonOk.EmulateClick();
             string errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
+            Assert.AreEqual("必須項目です。", errorMessage);
 
+            general.ScrollDelayTime.EmulateChangeText("a");
+            buttonOk.EmulateClick();
+            errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
             Assert.AreEqual("0以上、1000以下の数値を入力してください。", errorMessage);
         }
 
