@@ -29,6 +29,7 @@ namespace WinCap.Driver
 #endif
             var exePath = Path.GetFullPath("../../../../WinCap/bin/x86/" + build + "/WinCap.exe");
             this._app = new WindowsAppFriend(Process.Start(exePath, "-ShowSettings"));
+            //dynamic settings = this._app.Type("WinCap.Serialization.Settings");
         }
 
         /// <summary>

@@ -1,10 +1,8 @@
 ﻿using Livet;
 using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 using WinCap.Serialization;
 using WinCap.Util.Lifetime;
-using WinCap.ViewModels;
 using WinCap.Views;
 
 namespace WinCap
@@ -42,16 +40,16 @@ namespace WinCap
             var settings = Settings.ShortcutKey;
 
             this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.FullScreen, () => this.application.CapturerService.CaptureDesktop()));
+                .Register(settings.FullScreen.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop()));
 
             this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.ActiveControl, () => this.application.CapturerService.CaptureActiveControl()));
+                .Register(settings.ActiveControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl()));
 
             this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.SelectionControl, () => this.application.CapturerService.CaptureSelectionControl()));
+                .Register(settings.SelectionControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl()));
 
             this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.WebPage, () => this.application.CapturerService.CaptureWebPage()));
+                .Register(settings.WebPage.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage()));
         }
 
         /// <summary>

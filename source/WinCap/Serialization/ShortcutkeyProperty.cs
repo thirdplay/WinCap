@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Windows.Input;
-using WinCap.Services;
+using System.Globalization;
+using System.Linq;
+using WinCap.Util.Linq;
 using WinCap.Util.Serialization;
 
 namespace WinCap.Serialization
@@ -8,8 +9,13 @@ namespace WinCap.Serialization
     /// <summary>
     /// ショートカットキープロパティ
     /// </summary>
-    public class ShortcutkeyProperty : SerializablePropertyBase<ShortcutKey>
+    public class ShortcutkeyProperty : SerializablePropertyBase<int[]>
     {
+        /// <summary>
+        /// 空データ文字列
+        /// </summary>
+        private const string _empryString = "(none)";
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -23,18 +29,20 @@ namespace WinCap.Serialization
         /// <param name="key">キー</param>
         /// <param name="provider">シリアライズ化機能の提供者</param>
         /// <param name="defaultValue">デフォルト値</param>
-        public ShortcutkeyProperty(string key, ISerializationProvider provider, ShortcutKey defaultValue) : base(key, provider, defaultValue) { }
+        public ShortcutkeyProperty(string key, ISerializationProvider provider, int[] defaultValue) : base(key, provider, defaultValue) { }
 
         /// <summary>
         /// シリアライズのコア処理。
         /// </summary>
         /// <param name="value">シリアライズ前の値</param>
         /// <returns>シリアライズ後の値</returns>
-        protected override object SerializeCore(ShortcutKey value)
+        protected override object SerializeCore(int[] value)
         {
-            if (value == ShortcutKey.None) { return string.Empty; }
+            if (value == null || value.Length == 0) { return _empryString; }
 
-            return (int)value.Key + "," + (int)value.ModifierKeys;
+            return value
+                .Select(x => x.ToString(CultureInfo.InvariantCulture))
+                .JoinString(",");
         }
 
         /// <summary>
@@ -42,20 +50,17 @@ namespace WinCap.Serialization
         /// </summary>
         /// <param name="value">デシリアライズ前の値</param>
         /// <returns>デシリアライズ後の値</returns>
-        protected override ShortcutKey DeserializeCore(object value)
+        protected override int[] DeserializeCore(object value)
         {
             var data = value as string;
             if (data == null) { return base.DeserializeCore(value); }
 
-            if (string.IsNullOrEmpty(data)) { return ShortcutKey.None; }
-            if (data.Split(',').Length < 2) { return ShortcutKey.None; }
+            if (string.IsNullOrEmpty(data)) { return null; }
+            if (string.Equals(data, _empryString, StringComparison.OrdinalIgnoreCase)) { return Array.Empty<int>(); }
 
-            Key key;
-            if (!Enum.TryParse(data.Split(',')[0], out key)) { return ShortcutKey.None; }
-            ModifierKeys modifierKeys = ModifierKeys.None;
-            if (!Enum.TryParse(data.Split(',')[1], out modifierKeys)) { return ShortcutKey.None; }
-
-            return new ShortcutKey(key, modifierKeys);
+            return data.Split(',')
+                .Select(x => int.Parse(x))
+                .ToArray();
         }
     }
 }

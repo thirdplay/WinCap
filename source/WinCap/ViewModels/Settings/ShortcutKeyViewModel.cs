@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Properties;
+using WinCap.Serialization;
 using WinCap.Services;
 
 namespace WinCap.ViewModels.Settings
@@ -23,11 +24,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region FullScreen 変更通知プロパティ
-        private ShortcutKey _FullScreen;
+        private int[] _FullScreen;
         /// <summary>
         /// 画面全体をキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey FullScreen
+        public int[] FullScreen
         {
             get { return _FullScreen; }
             set
@@ -42,11 +43,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region ActiveControl 変更通知プロパティ
-        private ShortcutKey _ActiveControl;
+        private int[] _ActiveControl;
         /// <summary>
         /// アクティブコントロールをキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey ActiveControl
+        public int[] ActiveControl
         {
             get { return _ActiveControl; }
             set
@@ -61,11 +62,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region SelectionControl 変更通知プロパティ
-        private ShortcutKey _SelectionControl;
+        private int[] _SelectionControl;
         /// <summary>
         /// 選択コントロールをキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey SelectionControl
+        public int[] SelectionControl
         {
             get { return _SelectionControl; }
             set
@@ -80,11 +81,11 @@ namespace WinCap.ViewModels.Settings
         #endregion
 
         #region WebPage 変更通知プロパティ
-        private ShortcutKey _WebPage;
+        private int[] _WebPage;
         /// <summary>
         /// Webページ全体をキャプチャするショートカットキーを取得します。
         /// </summary>
-        public ShortcutKey WebPage
+        public int[] WebPage
         {
             get { return _WebPage; }
             set
@@ -115,10 +116,10 @@ namespace WinCap.ViewModels.Settings
         {
             var shortcutKeys = new Dictionary<string, ShortcutKey>
             {
-                {nameof(this.FullScreen), this.FullScreen},
-                {nameof(this.ActiveControl),  this.ActiveControl},
-                {nameof(this.SelectionControl), this.SelectionControl},
-                {nameof(this.WebPage), this.WebPage},
+                {nameof(this.FullScreen), this.FullScreen.ToShortcutKey()},
+                {nameof(this.ActiveControl),  this.ActiveControl.ToShortcutKey()},
+                {nameof(this.SelectionControl), this.SelectionControl.ToShortcutKey()},
+                {nameof(this.WebPage), this.WebPage.ToShortcutKey()},
             };
 
             // 重複するショートカットキーがあればエラー

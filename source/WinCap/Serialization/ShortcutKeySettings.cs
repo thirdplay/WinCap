@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using WinCap.Services;
 using WinCap.Util.Serialization;
 
 namespace WinCap.Serialization
@@ -44,10 +43,21 @@ namespace WinCap.Serialization
         public ShortcutkeyProperty WebPage => this.Cache(key => new ShortcutkeyProperty(key, this.provider, WebPageDefaultValue));
 
         #region default values
-        private static ShortcutKey FullScreenDefaultValue { get; } = new ShortcutKey(Key.PrintScreen);
-        private static ShortcutKey ActiveControlDefaultValue { get; } = new ShortcutKey(Key.PrintScreen, ModifierKeys.Alt);
-        private static ShortcutKey SelectControlDefaultValue { get; } = new ShortcutKey(Key.PrintScreen, ModifierKeys.Control);
-        private static ShortcutKey WebPageDefaultValue { get; } = new ShortcutKey(Key.PrintScreen, ModifierKeys.Control | ModifierKeys.Alt);
+        private static int[] FullScreenDefaultValue { get; } = {
+            (int)Key.PrintScreen
+        };
+        private static int[] ActiveControlDefaultValue { get; } = {
+            (int)Key.PrintScreen,
+            (int)ModifierKeys.Alt
+        };
+        private static int[] SelectControlDefaultValue { get; } = {
+            (int)Key.PrintScreen,
+            (int)ModifierKeys.Control
+        };
+        private static int[] WebPageDefaultValue { get; } = {
+            (int)Key.PrintScreen,
+            (int)(ModifierKeys.Control | ModifierKeys.Alt)
+        };
         #endregion
     }
 }

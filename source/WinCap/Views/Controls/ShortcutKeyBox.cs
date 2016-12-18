@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WinCap.Serialization;
@@ -50,16 +47,16 @@ namespace WinCap.Views.Controls
         #region Current 依存関係プロパティ
 
         /// <summary>
-        /// 現在のショートカットキーのキーコード
+        /// 現在のショートカットキーのキーコードを取得します。
         /// </summary>
-        public ShortcutKey Current
+        public int[] Current
         {
-            get { return (ShortcutKey)this.GetValue(CurrentProperty); }
+            get { return (int[])this.GetValue(CurrentProperty); }
             set { this.SetValue(CurrentProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentProperty =
-            DependencyProperty.Register(nameof(Current), typeof(ShortcutKey), typeof(ShortcutKeyBox), new UIPropertyMetadata(ShortcutKey.None, CurrentPropertyChangedCallback));
+            DependencyProperty.Register(nameof(Current), typeof(int[]), typeof(ShortcutKeyBox), new UIPropertyMetadata(null, CurrentPropertyChangedCallback));
 
         private static void CurrentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
@@ -67,6 +64,14 @@ namespace WinCap.Views.Controls
             instance.updateText();
         }
 
+        /// <summary>
+        /// 現在のショートカットキーを取得します。
+        /// </summary>
+        private ShortcutKey? CurrentAsKeys
+        {
+            get { return this.Current?.ToShortcutKey(); }
+            set { this.Current = value?.ToSerializable(); }
+        }
         #endregion
 
         /// <summary>
@@ -165,7 +170,7 @@ namespace WinCap.Views.Controls
                 this.pressedKey = key;
             }
 
-            this.Current = this.pressedKey != Key.None
+            this.CurrentAsKeys = this.pressedKey != Key.None
                 ? this.getShortcutKey()
                 : ShortcutKey.None;
 
@@ -177,9 +182,7 @@ namespace WinCap.Views.Controls
         /// </summary>
         private void updateText()
         {
-            var text = (this.Current != ShortcutKey.None
-                ? this.Current
-                : this.getShortcutKey()).ToString();
+            var text = (this.CurrentAsKeys ?? this.getShortcutKey()).ToString();
 
             this.Text = text;
             this.CaretIndex = text.Length;
