@@ -17,7 +17,7 @@ namespace WinCap.Driver
         /// <summary>
         /// ViewModelを取得します。
         /// </summary>
-        public object ViewModel { get; private set; }
+        public dynamic ViewModel { get; private set; }
 
         /// <summary>
         /// タブアイテムを取得します。
@@ -37,10 +37,7 @@ namespace WinCap.Driver
         {
             get
             {
-                if (this._general == null)
-                {
-                    this._general = new General(this.Window, this.ViewModel, this.TabItems);
-                }
+                this._general = this._general ?? new General(this.Window, this.ViewModel.General, this.TabItems);
                 return this._general;
             }
         }
@@ -78,9 +75,14 @@ namespace WinCap.Driver
         public WPFListBox TabItems { get; private set; }
 
         /// <summary>
-        /// スクロールの遅延時間を取得します。
+        /// スクロール遅延時間を取得します。
         /// </summary>
         public WPFTextBox ScrollDelayTime { get; private set; }
+
+        /// <summary>
+        /// キャプチャ遅延時間を取得します。
+        /// </summary>
+        public WPFTextBox CaptureDelayTime { get; private set; }
 
         /// <summary>
         /// コンストラクタ。
@@ -92,10 +94,11 @@ namespace WinCap.Driver
         {
             var visualTree = windowControl.VisualTree();
 
-            this.ViewModel = viewModel.General;
+            this.ViewModel = viewModel;
             this.TabItems = tabItems;
             this.TabItems.EmulateChangeSelectedIndex(0);
             this.ScrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
+            this.CaptureDelayTime = new WPFTextBox(visualTree.ByBinding("CaptureDelayTime").Single());
         }
 
         /// <summary>

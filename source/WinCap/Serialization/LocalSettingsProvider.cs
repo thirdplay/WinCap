@@ -95,7 +95,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// 非同期読み込みのコア処理。
         /// </summary>
-        /// <returns>読み込んだ設定</returns>
+        /// <returns>タスク</returns>
         protected override Task<IDictionary<string, object>> LoadAsyncCore()
         {
             if (!this.Available || !this.targetFile.Exists)
