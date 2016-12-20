@@ -113,7 +113,7 @@ namespace WinCap.ViewModels
             if (tabItem != null)
             {
                 this.SelectedItem = tabItem;
-                this.SelectedItem.Messenger.Raise(new InteractionMessage(this.SelectedItem.FirstErrorPropertyName + ".Focus"));
+                this.SelectedItem.Messenger.Raise(new InteractionMessage(this.SelectedItem.GetErrorPropertyName() + ".Focus"));
                 return;
             }
             this.TabItems.ForEach(x => x.Apply());

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using WinCap.Util.Collections.Generic;
 
 namespace WinCap.ViewModels
 {
@@ -17,12 +18,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 各プロパティのエラーコンテナ
         /// </summary>
-        private readonly Dictionary<string, List<string>> errors = new Dictionary<string, List<string>>();
-
-        /// <summary>
-        /// 最初のエラーのプロパティ名
-        /// </summary>
-        public string FirstErrorPropertyName { get; private set; }
+        private readonly OrderedDictionary<string, List<string>> _errors = new OrderedDictionary<string, List<string>>();
 
         #region INotifyDataErrorInfoの実装
         /// <summary>
@@ -51,15 +47,15 @@ namespace WinCap.ViewModels
                 if (string.IsNullOrEmpty(propertyName))
                 {
                     var allErrors = new List<string>();
-                    foreach (var errors in this.errors.Values)
+                    foreach (var errors in this._errors.Values)
                     {
                         allErrors.AddRange(errors);
                     }
                     return allErrors;
                 }
-                if (this.errors.ContainsKey(propertyName))
+                if (this._errors.ContainsKey(propertyName))
                 {
-                    return this.errors[propertyName];
+                    return this._errors[propertyName];
                 }
             }
             return null;
@@ -68,8 +64,21 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 検証エラーがあるかどうか取得します。
         /// </summary>
-        public bool HasErrors => this.errors.Count > 0;
+        public bool HasErrors => this._errors.Count > 0;
         #endregion
+
+        /// <summary>
+        /// 検証エラーがあるプロパティを取得します。
+        /// </summary>
+        /// <returns>プロパティ名</returns>
+        public string GetErrorPropertyName()
+        {
+            if (this._errors.Count > 0)
+            {
+                return this._errors.KeyAt(0);
+            }
+            return "";
+        }
 
         /// <summary>
         /// プロパティの入力値を検証する
@@ -126,13 +135,13 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// 引数で指定されたプロパティに、<see cref="errors"/> で指定されたエラーをすべて登録します。
+        /// 引数で指定されたプロパティに、<see cref="_errors"/> で指定されたエラーをすべて登録します。
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
         /// <param name="errors">エラーリスト</param>
         public void SetErrors(string propertyName, IEnumerable<string> errors)
         {
-            var hasCurrentError = this.errors.ContainsKey(propertyName);
+            var hasCurrentError = this._errors.ContainsKey(propertyName);
             var hasNewError = errors != null && errors.Count() > 0;
 
             if (!hasCurrentError && !hasNewError)
@@ -142,15 +151,11 @@ namespace WinCap.ViewModels
 
             if (hasNewError)
             {
-                if (this.errors.Count == 0)
-                {
-                    this.FirstErrorPropertyName = propertyName;
-                }
-                this.errors[propertyName] = new List<string>(errors);
+                this._errors[propertyName] = new List<string>(errors);
             }
             else
             {
-                this.errors.Remove(propertyName);
+                this._errors.Remove(propertyName);
             }
             OnErrorsChanged(propertyName);
         }
@@ -163,19 +168,18 @@ namespace WinCap.ViewModels
         {
             if (!string.IsNullOrEmpty(propertyName))
             {
-                if (this.errors.ContainsKey(propertyName))
+                if (this._errors.ContainsKey(propertyName))
                 {
-                    this.errors.Remove(propertyName);
+                    this._errors.Remove(propertyName);
                     OnErrorsChanged(propertyName);
                 }
             }
             else
             {
-                this.FirstErrorPropertyName = null;
-                while (this.errors.Count > 0)
+                while (this._errors.Count > 0)
                 {
-                    string key = this.errors.First().Key;
-                    this.errors.Remove(key);
+                    string key = this._errors.First().Key;
+                    this._errors.Remove(key);
                     OnErrorsChanged(key);
                 }
             }

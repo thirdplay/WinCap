@@ -25,22 +25,22 @@ namespace WinCap
         private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
-        /// フックサービス
+        /// フックサービス。
         /// </summary>
         internal HookService HookService { get; private set; }
 
         /// <summary>
-        /// キャプチャサービス
+        /// キャプチャサービス。
         /// </summary>
         internal CapturerService CapturerService { get; private set; }
 
         /// <summary>
-        /// ウィンドウサービス
+        /// ウィンドウサービス。
         /// </summary>
         internal WindowService WindowService { get; private set; }
 
         /// <summary>
-        /// アプリケーションアクション
+        /// アプリケーションアクション。
         /// </summary>
         internal ApplicationAction ApplicationAction { get; private set; }
 
@@ -50,7 +50,7 @@ namespace WinCap
         public static Application Instance => Current as Application;
 
         /// <summary>
-        /// 静的コンストラクタ
+        /// 静的コンストラクタ。
         /// </summary>
         static Application()
         {
@@ -58,7 +58,7 @@ namespace WinCap
         }
 
         /// <summary>
-        /// 起動イベント
+        /// 起動イベント。
         /// </summary>
         /// <param name="e">イベント引数</param>
         protected override void OnStartup(StartupEventArgs e)

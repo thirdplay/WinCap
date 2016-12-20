@@ -79,6 +79,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Generic\IOrderedDictionary.cs" />
+    <Compile Include="Collections\Generic\OrderedDictionary.cs" />
     <Compile Include="Desktop\ApplicationInstance.cs" />
     <Compile Include="Desktop\Shortcut.cs" />
     <Compile Include="Lifetime\DisposableExtensions.cs" />
