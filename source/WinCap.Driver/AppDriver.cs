@@ -1,8 +1,4 @@
-﻿using Codeer.Friendly.Dynamic;
-using Codeer.Friendly.Windows;
-using System.Windows;
-
-namespace WinCap.Driver
+﻿namespace WinCap.Driver
 {
     /// <summary>
     /// 対象アプリケーションを操作する機能を提供します。
@@ -15,14 +11,9 @@ namespace WinCap.Driver
         private IAppDriverCore _core;
 
         /// <summary>
-        /// Windowsアプリケーション操作クラス。
-        /// </summary>
-        private WindowsAppFriend _app;
-
-        /// <summary>
         /// デバッグ中かどうかを示す値を取得します。
         /// </summary>
-        public bool IsDebug { get { return this._core is AppDriverDebug; } }
+        public bool IsDebug => this._core is AppDriverDebug;
 
         /// <summary>
         /// コンストラクタ。
@@ -37,7 +28,7 @@ namespace WinCap.Driver
         /// </summary>
         public void Attach()
         {
-            this._app = this._core.Attach();
+            this._core.Attach();
             this.InitApp();
         }
 
@@ -71,8 +62,7 @@ namespace WinCap.Driver
         /// <returns>設定ウィンドウドライバー</returns>
         public SettingsWindowDriver ShowSettingsWindow()
         {
-            var appVar = this._app.Type<Application>().Current;
-            return new SettingsWindowDriver(appVar.ApplicationAction.ShowSettings());
+            return this._core.ShowSettingsWindow();
         }
     }
 }

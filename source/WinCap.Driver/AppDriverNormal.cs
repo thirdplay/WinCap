@@ -1,5 +1,6 @@
 ﻿using Codeer.Friendly.Dynamic;
 using Codeer.Friendly.Windows;
+using Codeer.Friendly.Windows.Grasp;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -26,9 +27,21 @@ namespace WinCap.Driver
         private static string ExecutablePath { get; } = Path.GetFullPath("../../../../WinCap/bin/x86/" + BuildDir + "/WinCap.exe");
 
         /// <summary>
+        /// アプリケーション操作クラス。
+        /// </summary>
+        private WindowsAppFriend _app;
+
+        /// <summary>
         /// タイムアウト検出クラス。
         /// </summary>
         private TimeoutDetector _detector;
+
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        public AppDriverNormal()
+        {
+        }
 
         #region IAppDriverCore members
         /// <summary>
@@ -37,38 +50,24 @@ namespace WinCap.Driver
         public Process Process { get; private set; }
 
         /// <summary>
-        /// アプリケーション操作クラスを取得します。
-        /// </summary>
-        public WindowsAppFriend App { get; private set; }
-
-        /// <summary>
-        /// タイムアウト時間を設定します。
-        /// </summary>
-        /// <param name="time">タイムアウト時間</param>
-        public void SetTimeout(int time)
-        {
-            this._detector.Timeout = time;
-        }
-
-        /// <summary>
         /// アプリケーションをアタッチします。
         /// </summary>
-        /// <returns>アプリケーション操作クラス</returns>
-        public WindowsAppFriend Attach()
+        public void Attach()
         {
             if (this.Process == null)
             {
                 this.Process = Process.Start(ExecutablePath, "-ShowSettings");
-                this.App = new WindowsAppFriend(this.Process);
-                //dynamic settings = this._app.Type("WinCap.Serialization.Settings");
+                this._app = new WindowsAppFriend(this.Process);
+                this.ShowSettingsWindow().Close();
+
+                dynamic settings = this._app.Type("WinCap.Serialization.Settings");
+                settings.Reset();
             }
             this._detector = new TimeoutDetector(1000 * 60 * 5);
             this._detector.Timedout += (sender, e) =>
             {
-                this.App.Type<Application>().Current.Shutdown();
+                this._app.Type<Application>().Current.Shutdown();
             };
-
-            return this.App;
         }
 
         /// <summary>
@@ -94,8 +93,18 @@ namespace WinCap.Driver
         {
             this._detector?.Finish();
             this._detector = null;
-            this.App?.Type<Application>().Current.Shutdown();
-            this.App = null;
+            this._app?.Type<Application>().Current.Shutdown();
+            this._app = null;
+        }
+
+        /// <summary>
+        /// 設定ウィンドウを表示します。
+        /// </summary>
+        /// <returns>設定ウィンドウドライバー</returns>
+        public SettingsWindowDriver ShowSettingsWindow()
+        {
+            var appVar = this._app.Type<Application>().Current;
+            return new SettingsWindowDriver(new WindowControl(appVar.ApplicationAction.ShowSettings()));
         }
         #endregion
     }

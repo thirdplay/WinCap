@@ -80,6 +80,7 @@ namespace WinCap
 
                 // ローカル設定の読み込み
                 LocalSettingsProvider.Instance.Load();
+                //LocalSettingsProvider.Instance.Reset();
 
                 this.HookService = new HookService().AddTo(this);
                 this.CapturerService = new CapturerService(this.HookService).AddTo(this);
@@ -113,8 +114,9 @@ namespace WinCap
         public void CreateShortcut()
         {
             var shortcut = new StartupShortcut();
-            shortcut.Recreate(Settings.General.IsRegisterInStartup);
             var desktopShortcut = new DesktopShortcut();
+
+            shortcut.Recreate(Settings.General.IsRegisterInStartup);
             desktopShortcut.Recreate(Settings.General.IsCreateShortcutToDesktop);
         }
 

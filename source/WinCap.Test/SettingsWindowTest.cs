@@ -47,7 +47,7 @@ namespace WinCap.Test
         }
 
         /// <summary>
-        /// テストケース開始処理を行います。
+        /// テスト開始処理。
         /// </summary>
         [TestInitialize]
         public void TestInitialize()
@@ -56,7 +56,7 @@ namespace WinCap.Test
         }
 
         /// <summary>
-        /// テストケースの終了処理を行います。
+        /// テスト終了処理。
         /// </summary>
         [TestCleanup]
         public void TestCleanup()
@@ -110,6 +110,14 @@ namespace WinCap.Test
             errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
             Assert.AreEqual("0以上、10000以下の数値を入力してください。", errorMessage);
         }
+
+        ///// <summary>
+        ///// 全般タブの入力エラーテスト。
+        ///// </summary>
+        //[TestMethod]
+        //public void TestGeneralError()
+        //{
+        //}
         
         //[TestMethod]
         //public void TestMethod2()

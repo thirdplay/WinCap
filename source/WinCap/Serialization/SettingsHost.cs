@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using WinCap.Util.Serialization;
 
 namespace WinCap.Serialization
 {
@@ -12,12 +13,12 @@ namespace WinCap.Serialization
         /// <summary>
         /// 静的な設定管理マップ
         /// </summary>
-        private static readonly Dictionary<Type, SettingsHost> instances = new Dictionary<Type, SettingsHost>();
+        private static readonly Dictionary<Type, SettingsHost> _instances = new Dictionary<Type, SettingsHost>();
 
         /// <summary>
         /// プロパティのキャッシュ管理用マップ
         /// </summary>
-        private readonly Dictionary<string, object> cachedProperties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _cachedProperties = new Dictionary<string, object>();
 
         /// <summary>
         /// カテゴリー名
@@ -29,7 +30,7 @@ namespace WinCap.Serialization
         /// </summary>
         protected SettingsHost()
         {
-            instances[this.GetType()] = this;
+            _instances[this.GetType()] = this;
         }
 
         /// <summary>
@@ -44,15 +45,27 @@ namespace WinCap.Serialization
             var key = this.CategoryName + "." + propertyName;
 
             object obj;
-            if (this.cachedProperties.TryGetValue(key, out obj) && obj is T)
+            if (this._cachedProperties.TryGetValue(key, out obj) && obj is T)
             {
                 return (T)obj;
             }
 
             var property = create(key);
-            this.cachedProperties[key] = property;
+            this._cachedProperties[key] = property;
 
             return property;
+        }
+
+        /// <summary>
+        /// プロパティを全てリセットします。
+        /// </summary>
+        public void Reset()
+        {
+            foreach (object obj in this._cachedProperties.Values)
+            {
+                ISerializableProperty property = obj as ISerializableProperty;
+                property.Reset();
+            }
         }
 
         /// <summary>
@@ -63,7 +76,7 @@ namespace WinCap.Serialization
         public static T Instance<T>() where T : SettingsHost
         {
             SettingsHost host;
-            return instances.TryGetValue(typeof(T), out host) ? (T)host : null;
+            return _instances.TryGetValue(typeof(T), out host) ? (T)host : null;
         }
     }
 }

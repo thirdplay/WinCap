@@ -90,6 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\DictionaryProvider.cs" />
     <Compile Include="Serialization\EnumProperty.cs" />
+    <Compile Include="Serialization\ISerializableProperty.cs" />
     <Compile Include="Serialization\ISerializationProvider.cs" />
     <Compile Include="Serialization\SerializableProperty.cs" />
     <Compile Include="Serialization\SerializablePropertyBase.cs" />

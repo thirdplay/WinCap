@@ -1,7 +1,9 @@
-﻿using Codeer.Friendly.Windows;
+﻿using Codeer.Friendly.Dynamic;
+using Codeer.Friendly.Windows;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 
 namespace WinCap.Driver
 {
@@ -11,36 +13,30 @@ namespace WinCap.Driver
     public class AppDriverDebug : IAppDriverCore
     {
         /// <summary>
+        /// アプリケーション操作クラス。
+        /// </summary>
+        private WindowsAppFriend _app;
+
+        /// <summary>
         /// デバッグプロセスが存在するか判定します。
         /// </summary>
-        public static bool Exists { get { return GetDebugProcess() != null; } }
+        public static bool Exists => GetDebugProcess() != null;
 
         #region IAppDriverCore members
+
         /// <summary>
         /// プロセスを取得します。
         /// </summary>
         public Process Process { get; private set; }
 
         /// <summary>
-        /// アプリケーション操作クラスを取得します。
-        /// </summary>
-        public WindowsAppFriend App { get; private set; }
-
-        /// <summary>
-        /// タイムアウト時間を設定します。
-        /// </summary>
-        /// <param name="time">タイムアウト時間</param>
-        public void SetTimeout(int time) { }
-
-        /// <summary>
         /// アプリケーションをアタッチします。
         /// </summary>
         /// <returns>アプリケーション操作クラス</returns>
-        public WindowsAppFriend Attach()
+        public void Attach()
         {
             this.Process = GetDebugProcess();
-            this.App = new WindowsAppFriend(this.Process);
-            return this.App;
+            this._app = new WindowsAppFriend(this.Process);
         }
 
         /// <summary>
@@ -49,13 +45,25 @@ namespace WinCap.Driver
         /// <param name="isContinue">処理を継続するかどうかを示す値</param>
         public void Release(bool isContinue)
         {
-            this.App.Dispose();
+            this._app?.Dispose();
+            this._app = null;
         }
 
         /// <summary>
         /// アプリケーションを終了します。
         /// </summary>
         public void EndProcess() { }
+
+        /// <summary>
+        /// 設定ウィンドウを表示します。
+        /// </summary>
+        /// <returns>設定ウィンドウドライバー</returns>
+        public SettingsWindowDriver ShowSettingsWindow()
+        {
+            var appVar = this._app.Type<Application>().Current;
+            return new SettingsWindowDriver(appVar.ApplicationAction.ShowSettings());
+        }
+
         #endregion
 
         /// <summary>

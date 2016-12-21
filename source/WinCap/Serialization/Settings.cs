@@ -19,5 +19,15 @@
         /// ショートカットキー設定
         /// </summary>
         public static ShortcutKeySettings ShortcutKey { get; } = new ShortcutKeySettings(LocalSettingsProvider.Instance);
+
+        /// <summary>
+        /// アプリケーション設定をリセットします。
+        /// </summary>
+        public static void Reset()
+        {
+            Settings.General.Reset();
+            Settings.Output.Reset();
+            Settings.ShortcutKey.Reset();
+        }
     }
 }

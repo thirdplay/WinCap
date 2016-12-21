@@ -32,17 +32,11 @@ namespace WinCap.Interop
         /// <summary>
         /// 四角形の横幅を取得します。
         /// </summary>
-        public int Width
-        {
-            get { return Math.Abs(right - left); }
-        }
+        public int Width => Math.Abs(right - left);
 
         /// <summary>
         /// 四角形の高さを取得します。
         /// </summary>
-        public int Height
-        {
-            get { return bottom - top; }
-        }
+        public int Height => bottom - top;
     }
 }

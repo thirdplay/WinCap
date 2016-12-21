@@ -10,7 +10,7 @@ namespace WinCap.Util.Serialization
     /// </summary>
     /// <typeparam name="T">任意のクラス</typeparam>
     [DebuggerDisplay("Value={Value}, Key={Key}, Default={Default}")]
-    public abstract class SerializablePropertyBase<T> : INotifyPropertyChanged
+    public abstract class SerializablePropertyBase<T> : ISerializableProperty, INotifyPropertyChanged
     {
         /// <summary>
         /// プロパティ値
@@ -23,7 +23,7 @@ namespace WinCap.Util.Serialization
         private bool cached;
 
         /// <summary>
-        /// キー
+        /// プロパティを表すキーを取得します。
         /// </summary>
         public string Key { get; }
 
@@ -33,7 +33,7 @@ namespace WinCap.Util.Serialization
         public ISerializationProvider Provider { get; }
 
         /// <summary>
-        /// 自動保存状態
+        /// 自動保存状態を示す値を取得または設定します。
         /// </summary>
         public bool AutoSave { get; set; }
 
@@ -91,16 +91,16 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="provider"></param>
+        /// <param name="key">プロパティのキー</param>
+        /// <param name="provider">シリアル化機能の提供者</param>
         protected SerializablePropertyBase(string key, ISerializationProvider provider) : this(key, provider, default(T)) { }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="provider"></param>
-        /// <param name="defaultValue"></param>
+        /// <param name="key">プロパティのキー</param>
+        /// <param name="provider">シリアル化機能の提供者</param>
+        /// <param name="defaultValue">プロパティのデフォルト値</param>
         protected SerializablePropertyBase(string key, ISerializationProvider provider, T defaultValue)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
@@ -164,7 +164,7 @@ namespace WinCap.Util.Serialization
         }
 
         /// <summary>
-        /// リセット
+        /// プロパティをリセットします。
         /// </summary>
         public virtual void Reset()
         {
@@ -182,7 +182,7 @@ namespace WinCap.Util.Serialization
                     this.cached = false;
                     this.OnValueChanged(this.DeserializeCore(old), this.Default);
 
-                    if (this.AutoSave) this.Provider.Save();
+                    if (this.AutoSave) { this.Provider.Save(); }
                 }
             }
         }
@@ -214,17 +214,18 @@ namespace WinCap.Util.Serialization
         }
 
         /// <summary>
-        /// 
+        /// プロパティ値の変換演算子。
         /// </summary>
-        /// <param name="property"></param>
+        /// <param name="property">プロパティ</param>
         public static implicit operator T(SerializablePropertyBase<T> property)
         {
             return property.Value;
         }
 
         #region events
+
         /// <summary>
-        /// プロパティ値変更イベント
+        /// プロパティ値変更イベント。
         /// </summary>
         public event EventHandler<ValueChangedEventArgs<T>> ValueChanged;
 
@@ -239,13 +240,13 @@ namespace WinCap.Util.Serialization
         }
 
         /// <summary>
-        /// 
+        /// プロパティ値の変更イベントハンドルのコンテナ。
         /// </summary>
         private readonly Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>> _handlers
             = new Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>>();
 
         /// <summary>
-        /// プロパティ変更イベント
+        /// プロパティ変更イベント。
         /// </summary>
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
@@ -260,6 +261,7 @@ namespace WinCap.Util.Serialization
                 }
             }
         }
+
         #endregion
     }
 }

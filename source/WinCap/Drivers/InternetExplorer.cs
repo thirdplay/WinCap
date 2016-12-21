@@ -17,6 +17,7 @@ namespace WinCap.Drivers
     public class InternetExplorer : IDisposable
     {
         #region 定数
+        
         /// <summary>
         /// HTMLObject取得メッセージ
         /// </summary>
@@ -31,9 +32,11 @@ namespace WinCap.Drivers
         /// ズーム：等倍
         /// </summary>
         protected static readonly int ZoomActual = 100;
+
         #endregion
 
         #region フィールド
+
         /// <summary>
         /// リソース解放フラグ
         /// </summary>
@@ -88,9 +91,11 @@ namespace WinCap.Drivers
         /// 元の光学ズーム倍率
         /// </summary>
         protected int _zoomOriginal = ZoomActual;
+
         #endregion
 
         #region プロパティ
+        
         /// <summary>
         /// クライアント領域の矩形
         /// </summary>
@@ -104,26 +109,18 @@ namespace WinCap.Drivers
         /// <summary>
         /// スクロール位置
         /// </summary>
-        public Point ScrollPoint
-        {
-            get { return new Point(_body.scrollLeft, _body.scrollTop); }
-        }
+        public Point ScrollPoint => new Point(_body.scrollLeft, _body.scrollTop);
 
         /// <summary>
         /// スクロールサイズ
         /// </summary>
-        public Size ScrollSize
-        {
-            get { return new Size(_body.scrollWidth, _body.scrollHeight); }
-        }
+        public Size ScrollSize => new Size(_body.scrollWidth, _body.scrollHeight);
 
         /// <summary>
         /// 横スクロールバーが表示されているかどうか
         /// </summary>
-        public bool IsVisibleScrollbarH
-        {
-            get { return Client.Width < _body.scrollWidth; }
-        }
+        public bool IsVisibleScrollbarH => Client.Width < _body.scrollWidth;
+
         #endregion
 
         /// <summary>

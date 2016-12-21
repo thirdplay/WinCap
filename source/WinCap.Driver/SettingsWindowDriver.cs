@@ -1,6 +1,7 @@
-﻿using Codeer.Friendly;
+﻿using Codeer.Friendly.Dynamic;
 using Codeer.Friendly.Windows.Grasp;
 using RM.Friendly.WPFStandardControls;
+using System.Collections.Generic;
 
 namespace WinCap.Driver
 {
@@ -46,16 +47,23 @@ namespace WinCap.Driver
         /// コンストラクタ。
         /// </summary>
         /// <param name="windowObject">ウィンドウオブジェクト</param>
-        public SettingsWindowDriver(dynamic windowObject)
+        public SettingsWindowDriver(WindowControl windowControl)
         {
-            var windowControl = new WindowControl(windowObject);
             var visualTree = windowControl.VisualTree();
             var logicalTree = windowControl.LogicalTree();
 
-            this.ViewModel = windowObject.DataContext;
+            this.ViewModel = windowControl.Dynamic().DataContext;
             this.Window = windowControl;
             this.TabItems = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
-            this.ButtonOk = new WPFButtonBase(windowObject._buttonOk);
+            this.ButtonOk = new WPFButtonBase(windowControl.Dynamic()._buttonOk);
+        }
+
+        /// <summary>
+        /// 設定ウィンドウを閉じます。
+        /// </summary>
+        public void Close()
+        {
+            this.Window.Dynamic().Close();
         }
     }
 
@@ -108,7 +116,7 @@ namespace WinCap.Driver
         /// <returns>エラーメッセージ</returns>
         public string GetError(string propertyName)
         {
-            var errors = this.ViewModel.GetErrors(propertyName).CodeerFriendlyAppVar.Core;
+            var errors = (List<string>)this.ViewModel.GetErrors(propertyName);
             if (errors.Count > 0)
             {
                 return errors[0];

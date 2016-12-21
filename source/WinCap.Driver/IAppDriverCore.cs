@@ -14,21 +14,9 @@ namespace WinCap.Driver
         Process Process { get; }
 
         /// <summary>
-        /// アプリケーション操作クラスを取得します。
-        /// </summary>
-        WindowsAppFriend App { get; }
-
-        /// <summary>
-        /// タイムアウト時間を設定します。
-        /// </summary>
-        /// <param name="time">タイムアウト時間</param>
-        void SetTimeout(int time);
-
-        /// <summary>
         /// アプリケーションをアタッチします。
         /// </summary>
-        /// <returns>アプリケーション操作クラス</returns>
-        WindowsAppFriend Attach();
+        void Attach();
 
         /// <summary>
         /// リソースを解放します。
@@ -40,5 +28,11 @@ namespace WinCap.Driver
         /// アプリケーションを終了します。
         /// </summary>
         void EndProcess();
+
+        /// <summary>
+        /// 設定ウィンドウを表示します。
+        /// </summary>
+        /// <returns>設定ウィンドウドライバー</returns>
+        SettingsWindowDriver ShowSettingsWindow();
     }
 }

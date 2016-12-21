@@ -17,10 +17,7 @@ namespace WinCap.Models
         /// <summary>
         /// ショートカットが存在するかどうか確認します。
         /// </summary>
-        public bool IsExists
-        {
-            get { return File.Exists(this.path); }
-        }
+        public bool IsExists => File.Exists(this.path);
 
         /// <summary>
         /// コンストラクタ。
