@@ -1,34 +1,72 @@
-﻿namespace WinCap.Driver
+﻿using Codeer.Friendly.Dynamic;
+using Codeer.Friendly.Windows;
+using Codeer.Friendly.Windows.Grasp;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+
+namespace WinCap.Driver
 {
     /// <summary>
-    /// 対象アプリケーションを操作する機能を提供します。
+    /// アプリケーションを操作する機能を提供します。
     /// </summary>
     public class AppDriver
     {
         /// <summary>
-        /// アプリケーション操作インターフェイス。
+        /// ビルドディレクトリ
         /// </summary>
-        private IAppDriverCore _core;
+#if DEBUG
+        private static string BuildDir { get; } = "Debug";
+#else
+        private static string BuildDir { get; } = "Release";
+#endif
 
         /// <summary>
-        /// デバッグ中かどうかを示す値を取得します。
+        /// 実行ファイルパスを取得します。
         /// </summary>
-        public bool IsDebug => this._core is AppDriverDebug;
+        private static string ExecutablePath { get; } = Path.GetFullPath("../../../../WinCap/bin/x86/" + BuildDir + "/WinCap.exe");
+
+        /// <summary>
+        /// アプリケーション操作クラス。
+        /// </summary>
+        private WindowsAppFriend _app;
+
+        /// <summary>
+        /// タイムアウト検出クラス。
+        /// </summary>
+        private TimeoutDetector _detector;
+
+        /// <summary>
+        /// プロセスを取得します。
+        /// </summary>
+        public Process Process { get; private set; }
 
         /// <summary>
         /// コンストラクタ。
         /// </summary>
         public AppDriver()
         {
-            this._core = AppDriverDebug.Exists ? (IAppDriverCore)new AppDriverDebug() : new AppDriverNormal();
         }
 
         /// <summary>
-        /// プロセスをアタッチします。
+        /// アプリケーションをアタッチします。
         /// </summary>
         public void Attach()
         {
-            this._core.Attach();
+            if (this.Process == null)
+            {
+                this.Process = Process.Start(ExecutablePath, "-UITest");
+                this._app = new WindowsAppFriend(this.Process);
+
+                // アプリケーション設定をリセットする
+                dynamic settings = this._app.Type("WinCap.Serialization.Settings");
+                settings.Reset();
+            }
+            this._detector = new TimeoutDetector(1000 * 60 * 5);
+            this._detector.Timedout += (sender, e) =>
+            {
+                this.Shutdown();
+            };
             this.InitApp();
         }
 
@@ -38,7 +76,14 @@
         /// <param name="isContinue">処理を継続するかどうかを示す値</param>
         public void Release(bool isContinue)
         {
-            this._core.Release(isContinue);
+            if (isContinue)
+            {
+                this._detector.Finish();
+            }
+            else
+            {
+                this.EndProcess();
+            }
         }
 
         /// <summary>
@@ -53,7 +98,9 @@
         /// </summary>
         public void EndProcess()
         {
-            this._core.EndProcess();
+            this._detector?.Finish();
+            this._detector = null;
+            this.Shutdown();
         }
 
         /// <summary>
@@ -62,7 +109,17 @@
         /// <returns>設定ウィンドウドライバー</returns>
         public SettingsWindowDriver ShowSettingsWindow()
         {
-            return this._core.ShowSettingsWindow();
+            dynamic appVar = this._app.Type<Application>().Current;
+            return new SettingsWindowDriver(new WindowControl(appVar.ApplicationAction.ShowSettings()));
+        }
+
+        /// <summary>
+        /// アプリケーションをシャットダウンします。
+        /// </summary>
+        private void Shutdown()
+        {
+            this._app?.Type<Application>().Current.Shutdown();
+            this._app = null;
         }
     }
 }

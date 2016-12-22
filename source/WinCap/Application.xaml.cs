@@ -94,10 +94,11 @@ namespace WinCap
                 // 親メソッド呼び出し
                 base.OnStartup(e);
 
-                // オプションが指定されている場合、設定ウィンドウを表示する
-                if (e.Args.Length > 0 && e.Args[0] == "-ShowSettings")
+                // UIテストの場合、ダミーウィンドウを表示する
+                if (e.Args.Length > 0 && e.Args[0] == "-UITest")
                 {
-                    this.ApplicationAction.ShowSettings();
+                    this.MainWindow = new Window();
+                    this.MainWindow.Show();
                 }
             }
 #if !DEBUG
