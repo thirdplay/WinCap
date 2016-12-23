@@ -209,8 +209,14 @@ namespace WinCap.Util.Collections.Generic
         /// <value><see cref="OrderedDictionary{TKey, TValue}"/> 内のキーを格納している <see cref="KeyCollection"/>。</value>
         public KeyCollection Keys => _keys ?? (_keys = new KeyCollection(this));
 
+        /// <summary>
+        /// <see cref="OrderedDictionary{TKey, TValue}"/> のキーを保持しているコレクションを取得します。
+        /// </summary>
         ICollection<TKey> IDictionary<TKey, TValue>.Keys => Keys;
 
+        /// <summary>
+        /// 読み取り専用のディクショナリでキーを含む列挙可能なコレクションを取得します。
+        /// </summary>
         IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Keys;
 
         /// <summary>
@@ -219,8 +225,14 @@ namespace WinCap.Util.Collections.Generic
         /// <value><see cref="OrderedDictionary{TKey, TValue}"/> 内の値を格納している <see cref="ValueCollection"/>。</value>
         public ValueCollection Values => _values ?? (_values = new ValueCollection(this));
 
+        /// <summary>
+        /// <see cref="OrderedDictionary{TKey, TValue}"/> 内の値を格納しているコレクションを取得します。
+        /// </summary>
         ICollection<TValue> IDictionary<TKey, TValue>.Values => Values;
 
+        /// <summary>
+        /// 読み取り専用のディクショナリで値を含む列挙可能なコレクションを取得します。
+        /// </summary>
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Values;
 
         #endregion

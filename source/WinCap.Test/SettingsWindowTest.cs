@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Driver;
@@ -9,23 +10,8 @@ namespace WinCap.Test
     /// 設定ウィンドウのUIテスト。
     /// </summary>
     [TestClass]
-    public class SettingsWindowTest
+    public class SettingsWindowTest : TestBase<SettingsWindowTest>
     {
-        /// <summary>
-        /// アプリケーションドライバー。
-        /// </summary>
-        private static AppDriver _app;
-
-        /// <summary>
-        /// テスト結果。
-        /// </summary>
-        private static Dictionary<string, bool> _tests;
-
-        /// <summary>
-        /// テストコンテキストを取得、設定します。
-        /// </summary>
-        public TestContext TestContext { get; set; }
-
         /// <summary>
         /// テストクラスを初期化します。
         /// </summary>
@@ -33,8 +19,7 @@ namespace WinCap.Test
         [ClassInitialize]
         public static void ClassInitialize(TestContext c)
         {
-            _app = new AppDriver();
-            _tests = typeof(SettingsWindowTest).GetMethods().Where(e => 0 < e.GetCustomAttributes(typeof(TestMethodAttribute), true).Length).ToDictionary(e => e.Name, e => true);
+            NotifyClassInitialize();
         }
 
         /// <summary>
@@ -43,7 +28,7 @@ namespace WinCap.Test
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            _app.EndProcess();
+            NotifyClassCleanup();
         }
 
         /// <summary>
@@ -52,7 +37,7 @@ namespace WinCap.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            _app.Attach();
+            this.NotifyTestInitialize();
         }
 
         /// <summary>
@@ -61,21 +46,16 @@ namespace WinCap.Test
         [TestCleanup]
         public void TestCleanup()
         {
-            if (TestContext.DataRow == null ||
-                ReferenceEquals(TestContext.DataRow, TestContext.DataRow.Table.Rows[TestContext.DataRow.Table.Rows.Count - 1]))
-            {
-                _tests.Remove(TestContext.TestName);
-            }
-            _app.Release(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed && 0 < _tests.Count);
+            this.NotifyTestCleanup();
         }
-
+            
         /// <summary>
         /// スクロール遅延時間のテスト。
         /// </summary>
         [TestMethod]
         public void TestScrollDelayTime()
         {
-            var settingsWindow = _app.ShowSettingsWindow();
+            var settingsWindow = App.ShowSettingsWindow();
             var general = settingsWindow.General;
             var buttonOk = settingsWindow.ButtonOk;
 
@@ -96,7 +76,7 @@ namespace WinCap.Test
         [TestMethod]
         public void TestCaptureDelayTime()
         {
-            var settingsWindow = _app.ShowSettingsWindow();
+            var settingsWindow = App.ShowSettingsWindow();
             var general = settingsWindow.General;
             var buttonOk = settingsWindow.ButtonOk;
 
@@ -118,7 +98,7 @@ namespace WinCap.Test
         //public void TestGeneralError()
         //{
         //}
-        
+
         //[TestMethod]
         //public void TestMethod2()
         //{
@@ -162,5 +142,6 @@ namespace WinCap.Test
         //    //Thread.Sleep(1000 * 2);
         //    Assert.AreEqual("100", "100");
         //}
+
     }
 }
