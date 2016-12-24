@@ -49,54 +49,80 @@ namespace WinCap.Test
             this.NotifyTestCleanup();
         }
             
-        /// <summary>
-        /// スクロール遅延時間のテスト。
-        /// </summary>
-        [TestMethod]
-        public void TestScrollDelayTime()
-        {
-            var settingsWindow = App.ShowSettingsWindow();
-            var general = settingsWindow.General;
-            var buttonOk = settingsWindow.ButtonOk;
+        ///// <summary>
+        ///// スクロール遅延時間のテスト。
+        ///// </summary>
+        //[TestMethod]
+        //public void TestScrollDelayTime()
+        //{
+        //    var settingsWindow = App.ShowSettingsWindow();
+        //    var general = settingsWindow.General;
+        //    var buttonOk = settingsWindow.ButtonOk;
 
-            general.ScrollDelayTime.EmulateChangeText("");
-            buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
-            Assert.AreEqual("必須項目です。", errorMessage);
+        //    general.ScrollDelayTime.EmulateChangeText("");
+        //    buttonOk.EmulateClick();
+        //    string errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
+        //    Assert.AreEqual("必須項目です。", errorMessage);
 
-            general.ScrollDelayTime.EmulateChangeText("a");
-            buttonOk.EmulateClick();
-            errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
-            Assert.AreEqual("0以上、1000以下の数値を入力してください。", errorMessage);
-        }
+        //    general.ScrollDelayTime.EmulateChangeText("a");
+        //    buttonOk.EmulateClick();
+        //    errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
+        //    Assert.AreEqual("0以上、1000以下の数値を入力してください。", errorMessage);
+        //}
 
-        /// <summary>
-        /// キャプチャ遅延時間のテスト。
-        /// </summary>
-        [TestMethod]
-        public void TestCaptureDelayTime()
-        {
-            var settingsWindow = App.ShowSettingsWindow();
-            var general = settingsWindow.General;
-            var buttonOk = settingsWindow.ButtonOk;
+        ///// <summary>
+        ///// キャプチャ遅延時間のテスト。
+        ///// </summary>
+        //[TestMethod]
+        //public void TestCaptureDelayTime()
+        //{
+        //    var settingsWindow = App.ShowSettingsWindow();
+        //    var general = settingsWindow.General;
+        //    var buttonOk = settingsWindow.ButtonOk;
 
-            general.CaptureDelayTime.EmulateChangeText("");
-            buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
-            Assert.AreEqual("必須項目です。", errorMessage);
+        //    general.CaptureDelayTime.EmulateChangeText("");
+        //    buttonOk.EmulateClick();
+        //    string errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
+        //    Assert.AreEqual("必須項目です。", errorMessage);
 
-            general.CaptureDelayTime.EmulateChangeText("a");
-            buttonOk.EmulateClick();
-            errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
-            Assert.AreEqual("0以上、10000以下の数値を入力してください。", errorMessage);
-        }
+        //    general.CaptureDelayTime.EmulateChangeText("a");
+        //    buttonOk.EmulateClick();
+        //    errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
+        //    Assert.AreEqual("0以上、10000以下の数値を入力してください。", errorMessage);
+        //}
 
+        ///// <summary>
+        ///// エラーパラメータを表します。
+        ///// </summary>
+        //class ErrorParam
+        //{
+        //    public string ScrollDelayTime { get; set; }
+        //    public string CaptureDelayTime { get; set; }
+        //    public string PropertyName { get; set; }
+        //    public string Message { get; set; }
+        //}
+        
         ///// <summary>
         ///// 全般タブの入力エラーテスト。
         ///// </summary>
         //[TestMethod]
+        //[DataSource("System.Data.OleDB",
+        //    @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=Params.xlsx; Extended Properties='Excel 12.0;HDR=yes';",
+        //    "TestGeneralError$",
+        //    DataAccessMethod.Sequential
+        //)]
         //public void TestGeneralError()
         //{
+        //    var param = GetParam<ErrorParam>();
+        //    var settingsWindow = App.ShowSettingsWindow();
+        //    var general = settingsWindow.General;
+        //    var buttonOk = settingsWindow.ButtonOk;
+
+        //    general.ScrollDelayTime.EmulateChangeText(param.ScrollDelayTime);
+        //    general.CaptureDelayTime.EmulateChangeText(param.CaptureDelayTime);
+        //    buttonOk.EmulateClick();
+        //    string errorMessage = settingsWindow.General.GetError(param.PropertyName);
+        //    Assert.AreEqual(param.Message, errorMessage);
         //}
 
         //[TestMethod]
