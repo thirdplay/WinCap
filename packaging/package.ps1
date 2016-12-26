@@ -1,8 +1,23 @@
 ﻿function Main
 {
+    [CmdletBinding()]
+    param
+    (
+        [parameter(
+            mandatory = 1,
+            position  = 0,
+            ValueFromPipeline = 1,
+            ValueFromPipelineByPropertyName = 1)]
+        [string]
+        $PsDir
+    )
     begin
     {
         $ErrorActionPreference = 'stop'
+
+        # カレントディレクトリをスクリプト自身のパスに変更
+        $OldDir = Convert-Path .
+        Set-CurrentDirectory $PsDir
 
         $target = 'Release'
         $result = 'WinCap'
@@ -40,6 +55,9 @@
                 Rename-Item -NewName $result -Path $target
                 New-ZipCompression -source $(Join-Path $(Get-Location) $result) -destination $(Join-Path $(Get-Location).Path ('./' + $result + '.zip'))
             }
+            
+            # カレントディレクトリを元に戻す
+            Set-CurrentDirectory $OldDir
         }
         catch
         {
@@ -317,4 +335,12 @@ function New-ZipCompression
     }
 }
 
-Main
+# カレントディレクトリ変更
+function Set-CurrentDirectory ($path) {
+    Set-Location $path
+    if ((Get-Location).Provider.Name -eq 'FileSystem') {
+        [IO.Directory]::SetCurrentDirectory((Get-Location).ProviderPath)
+    }
+}
+
+Main -psdir (Split-Path $MyInvocation.MyCommand.Path -Parent)
