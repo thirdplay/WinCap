@@ -3,14 +3,14 @@
     begin
     {
         $ErrorActionPreference = 'stop'
- 
+
         $target = 'Release'
         $result = 'WinCap'
         $bin = '..\source\WinCap\bin\x86\'
- 
+
         $targetKeywords = '*.exe','*.dll','*.exe.config','*.txt','*.VisualElementsManifest.xml'
         $ignoreKeywords = '*.vshost.*','Microsoft.*.resources.dll'
- 
+
         $exeSource  = 'WinCap.exe'
 
         if (-not(Test-Path $bin))
@@ -18,7 +18,7 @@
             throw 'スクリプトが無効なパスを検出しました。<repository root>\tools-release\が存在していることを確認してください。'
         }
     }
- 
+
     end
     {
         try
@@ -47,8 +47,8 @@
         }
     }
 }
- 
- 
+
+
 # 指定ファイルフィルタでフォルダ構成とともにファイルをコピーする
 # https://gist.github.com/guitarrapc/e78bbd4ddc07389e17d6
 function Copy-StrictedFilterFileWithDirectoryStructure
@@ -63,21 +63,21 @@ function Copy-StrictedFilterFileWithDirectoryStructure
             ValueFromPipelineByPropertyName = 1)]
         [string]
         $Path,
- 
+
         [parameter(
             mandatory = 1,
             position  = 1,
             ValueFromPipelineByPropertyName = 1)]
         [string]
         $Destination,
- 
+
         [parameter(
             mandatory = 1,
             position  = 2,
             ValueFromPipelineByPropertyName = 1)]
         [string[]]
         $Targets,
- 
+
         [parameter(
             mandatory = 0,
             position  = 3,
@@ -85,12 +85,12 @@ function Copy-StrictedFilterFileWithDirectoryStructure
         [string[]]
         $Excludes
     )
- 
+
     begin
     {
         $list = New-Object 'System.Collections.Generic.List[String]'
     }
- 
+
     process
     {
         Foreach ($target in $Targets)
@@ -99,7 +99,7 @@ function Copy-StrictedFilterFileWithDirectoryStructure
             Copy-Item -Path $Path -Destination $Destination -Force -Recurse -Filter $target
         }
     }
- 
+
     end
     {
         # Remove -Exclude Item
@@ -107,7 +107,7 @@ function Copy-StrictedFilterFileWithDirectoryStructure
         {
             Get-ChildItem -Path $Destination -Recurse -File | where Name -like $exclude | Remove-Item
         }
- 
+
         # search Folder which include file
         $allFolder = Get-ChildItem $Destination -Recurse -Directory
         $containsFile = $allFolder | where {$_.GetFiles()}
@@ -123,7 +123,7 @@ function Copy-StrictedFilterFileWithDirectoryStructure
             $result | %{$list.Add($_)}
         }
         $folderToKeep = $list | sort -Unique
- 
+
         # Remove All Empty (none file exist) folders
         Get-ChildItem -Path $Destination -Recurse -Directory | where fullName -notin $folderToKeep | Remove-Item -Recurse
     }
@@ -132,7 +132,7 @@ function Copy-StrictedFilterFileWithDirectoryStructure
 # Zip圧縮処理
 # http://tech.guitarrapc.com/entry/2013/10/08/040325
 function New-ZipCompression
-{ 
+{
     [CmdletBinding()]
     param
     (
@@ -143,7 +143,7 @@ function New-ZipCompression
             valuefrompipelinebypropertyname)]
         [string]
         $source,
- 
+
         [parameter(
             mandatory = 0,
             position = 1,
@@ -151,20 +151,20 @@ function New-ZipCompression
             valuefrompipelinebypropertyname)]
         [string]
         $destination,
- 
+
         [parameter(
             mandatory = 0,
             position = 2)]
         [switch]
         $quiet,
- 
+
         [parameter(
             mandatory = 0,
             position = 3)]
         [switch]
         $force
     )
- 
+
     try
     {
         Add-Type -AssemblyName 'System.IO.Compression.FileSystem'
@@ -172,13 +172,13 @@ function New-ZipCompression
     catch
     {
     }
- 
+
     # check file is directory
     $file = Get-Item -Path $source
- 
+
     # set zip extension
     $zipExtension = '.zip'
- 
+
     # set desktop as destination path if it null
     if ([string]::IsNullOrWhiteSpace($destination))
     {
@@ -190,28 +190,28 @@ function New-ZipCompression
         {
             $destination = (Join-Path ([System.Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop)) [System.IO.Path]::GetFileNameWithoutExtension(($file | select -First 1 -ExpandProperty fullname))) + $zipExtension
         }
- 
+
     }
- 
+
     # check destination is input as .zip
     if (-not($destination.EndsWith($zipExtension)))
     {
         throw ('destination parameter value [{0}] not end with extension {1}' -f $destination, $zipExtension)
     }
- 
+
     # check destination is already exist or not
     if (Test-Path $destination)
     {
         Remove-Item -Path $destination -Confirm
     }
- 
- 
+
+
     # compressionLevel
     $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
- 
+
     # check file mode for source
     Write-Verbose ('file.mode = {0}' -f $file.Mode)
- 
+
     if ($file.Mode -like 'd*') # Directory should be d---
     {
         try # create zip from directory
@@ -224,12 +224,12 @@ function New-ZipCompression
                 {
                     # show warning for same destination exist.
                     Write-Verbose ('Detected destination name {0} is already exist. Force trying output to new destination zip name.' -f $destination)
- 
+
                     # get current destination information
                     $destinationRoot = [System.IO.Path]::GetDirectoryName($destination)
                     $destinationfile = [System.IO.Path]::GetFileNameWithoutExtension($destination)
                     $destinationExtension = [System.IO.Path]::GetExtension($destination)
- 
+
                     # renew destination name with (2)...(x) until no more same name catch.
                     $count = 2
                     $destination = Join-Path $destinationRoot ($destinationfile + '(' + $count + ')' + $destinationExtension)
@@ -238,21 +238,21 @@ function New-ZipCompression
                         ++$count
                         $destination = Join-Path $destinationRoot ($destinationfile + '(' + $count + ')' + $destinationExtension)
                     }
- 
+
                     # show warning as destination name had been changed due to escape error.
                     Write-Verbose ('Deistination name change to new name {0}' -f $destination)
                 }
             }
- 
+
             # include BaseDirectory
             $includeBaseDirectory = $true
- 
+
             Write-Verbose ('destination = {0}' -f $destination)
- 
+
             Write-Verbose ('file.fullname = {0}' -f $file.FullName)
             Write-Verbose ('compressionLevel = {0}' -f $compressionLevel)
             Write-Verbose ('includeBaseDirectory = {0}' -f $includeBaseDirectory)
- 
+
             if ($quiet)
             {
                 Write-Verbose ('zipping up folder {0} to {1}' -f $file.FullName,$destination)
@@ -278,19 +278,19 @@ function New-ZipCompression
         {
             # create zip to add
             $destzip = [System.IO.Compression.Zipfile]::Open($destination,'Update')
- 
+
             # get items
             $files = Get-ChildItem -Path $source
- 
+
             foreach ($file in $files)
             {
                 $file2 = $file.name
- 
+
                 Write-Verbose ('destzip = {0}' -f $destzip)
                 Write-Verbose ('file.fullname = {0}' -f $file.FullName)
                 Write-Verbose ('file2 = {0}' -f $file2)
                 Write-Verbose ('compressionLevel = {0}' -f $compressionLevel)
- 
+
                 if ($quiet)
                 {
                     Write-Verbose ('zipping up files {0} to {1}' -f $file.FullName,$destzip)
@@ -316,5 +316,5 @@ function New-ZipCompression
         }
     }
 }
- 
+
 Main
