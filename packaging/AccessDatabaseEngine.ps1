@@ -40,14 +40,16 @@ function Download-File
         {
             # 取り出したURLからファイル名を取り出す
             $uri = New-Object System.Uri($Url)
-            $destFileName = Split-Path $uri.AbsolutePath -Leaf
+            $fileName = Split-Path $uri.AbsolutePath -Leaf
 
             # 指定されたURLからファイルをダウンロードし、同名のファイル名で保存
-            Start-BitsTransfer -Source $Url -Destination $Path\$destFileName -DisplayName "Downloading `'$destFileName`' to $Path" -Priority High -Description "From $Url..." -ErrorVariable err
+            $client = New-Object System.Net.WebClient
+            $client.DownloadFile($Uri, (Join-Path $Path $file))
+            #Start-BitsTransfer -Source $Url -Destination $Path\$fileName -DisplayName "Downloading `'$fileName`' to $Path" -Priority High -Description "From $Url..." -ErrorVariable err
         }
         catch
         {
-            Write-Warning " - An error occurred downloading `'$destFileName`'"
+            Write-Warning " - An error occurred downloading `'$fileName`'"
             throw $_
         }
 
