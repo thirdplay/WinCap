@@ -11,6 +11,7 @@
         [string]
         $PsDir
     )
+
     begin
     {
         $ErrorActionPreference = 'stop'
@@ -55,13 +56,15 @@
                 Rename-Item -NewName $result -Path $target
                 New-ZipCompression -source $(Join-Path $(Get-Location) $result) -destination $(Join-Path $(Get-Location).Path ('./' + $result + '.zip'))
             }
-            
-            # カレントディレクトリを元に戻す
-            Set-CurrentDirectory $OldDir
         }
         catch
         {
             throw $_
+        }
+        finally
+        {
+            # カレントディレクトリを元に戻す
+            Set-CurrentDirectory $OldDir
         }
     }
 }

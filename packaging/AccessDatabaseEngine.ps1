@@ -1,13 +1,44 @@
 function Main
 {
-    $ComponentName = "AccessDatabaseEngine"
+    [CmdletBinding()]
+    param
+    (
+        [parameter(
+            mandatory = 1,
+            position  = 0,
+            ValueFromPipeline = 1,
+            ValueFromPipelineByPropertyName = 1)]
+        [string]
+        $PsDir
+    )
 
-    # コンポーネントのダウンロード
-    Download-File (Convert-Path .) "https://download.microsoft.com/download/5/0/F/50FFBB52-334F-4C6D-9727-838CD3CB399E/$ComponentName.exe"
+    begin
+    {
+        try
+        {
+            # カレントディレクトリをスクリプト自身のパスに変更
+            $OldDir = Convert-Path .
+            Set-CurrentDirectory $PsDir
 
-    # コンポーネントのインストール
-    Start-Process -FilePath .\AccessDatabaseEngine.exe -ArgumentList "/quiet /log:.\$ComponentName.log" -Wait
-    Write-Host "- Install completed."
+            $ComponentName = "AccessDatabaseEngine"
+
+            # コンポーネントのダウンロード
+            Download-File (Convert-Path .) "https://download.microsoft.com/download/5/0/F/50FFBB52-334F-4C6D-9727-838CD3CB399E/$ComponentName.exe"
+
+            # コンポーネントのインストール
+            Start-Process -FilePath .\AccessDatabaseEngine.exe -ArgumentList "/quiet /log:.\$ComponentName.log" -Wait
+            Write-Host "- Install completed."
+        }
+        catch
+        {
+            throw $_
+        }
+        finally
+        {
+            # カレントディレクトリを元に戻す
+            Set-CurrentDirectory $OldDir
+        }
+    }
 }
 
 # ファイルダウンロード処理
@@ -59,4 +90,12 @@ function Download-File
     }
 }
 
-Main
+# カレントディレクトリ変更
+function Set-CurrentDirectory ($path) {
+    Set-Location $path
+    if ((Get-Location).Provider.Name -eq 'FileSystem') {
+        [IO.Directory]::SetCurrentDirectory((Get-Location).ProviderPath)
+    }
+}
+
+Main -psdir (Split-Path $MyInvocation.MyCommand.Path -Parent)
