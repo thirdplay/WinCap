@@ -1,3 +1,5 @@
+Import-Module BitsTransfer
+
 function Main
 {
     $ComponentName = "AccessDatabaseEngine"
