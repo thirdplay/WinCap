@@ -1,5 +1,3 @@
-Import-Module BitsTransfer
-
 function Main
 {
     $ComponentName = "AccessDatabaseEngine"
@@ -38,6 +36,8 @@ function Download-File
     {
         try
         {
+            Import-Module BitsTransfer
+
             # 取り出したURLからファイル名を取り出す
             $uri = New-Object System.Uri($Url)
             $destFileName = Split-Path $uri.AbsolutePath -Leaf
