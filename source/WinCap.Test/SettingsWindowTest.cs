@@ -91,39 +91,39 @@ namespace WinCap.Test
         //    Assert.AreEqual("0以上、10000以下の数値を入力してください。", errorMessage);
         //}
 
-        /// <summary>
-        /// エラーパラメータを表します。
-        /// </summary>
-        class ErrorParam
-        {
-            public string ScrollDelayTime { get; set; }
-            public string CaptureDelayTime { get; set; }
-            public string PropertyName { get; set; }
-            public string Message { get; set; }
-        }
+        ///// <summary>
+        ///// エラーパラメータを表します。
+        ///// </summary>
+        //class ErrorParam
+        //{
+        //    public string ScrollDelayTime { get; set; }
+        //    public string CaptureDelayTime { get; set; }
+        //    public string PropertyName { get; set; }
+        //    public string Message { get; set; }
+        //}
 
-        /// <summary>
-        /// 全般タブの入力エラーテスト。
-        /// </summary>
-        [TestMethod]
-        [DataSource("System.Data.OleDB",
-            @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=Params.xlsx; Extended Properties='Excel 12.0;HDR=yes';",
-            "TestGeneralError$",
-            DataAccessMethod.Sequential
-        )]
-        public void TestGeneralError()
-        {
-            var param = GetParam<ErrorParam>();
-            var settingsWindow = App.ShowSettingsWindow();
-            var general = settingsWindow.General;
-            var buttonOk = settingsWindow.ButtonOk;
+        ///// <summary>
+        ///// 全般タブの入力エラーテスト。
+        ///// </summary>
+        //[TestMethod]
+        //[DataSource("System.Data.OleDB",
+        //    @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=Params.xlsx; Extended Properties='Excel 12.0;HDR=yes';",
+        //    "TestGeneralError$",
+        //    DataAccessMethod.Sequential
+        //)]
+        //public void TestGeneralError()
+        //{
+        //    var param = GetParam<ErrorParam>();
+        //    var settingsWindow = App.ShowSettingsWindow();
+        //    var general = settingsWindow.General;
+        //    var buttonOk = settingsWindow.ButtonOk;
 
-            general.ScrollDelayTime.EmulateChangeText(param.ScrollDelayTime);
-            general.CaptureDelayTime.EmulateChangeText(param.CaptureDelayTime);
-            buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.General.GetError(param.PropertyName);
-            Assert.AreEqual(param.Message, errorMessage);
-        }
+        //    general.ScrollDelayTime.EmulateChangeText(param.ScrollDelayTime);
+        //    general.CaptureDelayTime.EmulateChangeText(param.CaptureDelayTime);
+        //    buttonOk.EmulateClick();
+        //    string errorMessage = settingsWindow.General.GetError(param.PropertyName);
+        //    Assert.AreEqual(param.Message, errorMessage);
+        //}
 
         //[TestMethod]
         //public void TestMethod2()

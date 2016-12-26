@@ -27,7 +27,7 @@ function Main
 
             # コンポーネントのインストール
             Start-Process -FilePath .\AccessDatabaseEngine.exe -ArgumentList "/quiet /log:.\$ComponentName.log" -Wait
-            Write-Host "- Install completed."
+            Write-Host "- Install completed"
         }
         catch
         {
