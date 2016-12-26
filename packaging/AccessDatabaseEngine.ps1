@@ -1,3 +1,5 @@
+#Import-Module BitsTransfer
+
 function Main
 {
     $ComponentName = "AccessDatabaseEngine"
@@ -56,4 +58,5 @@ function Download-File
     }
 }
 
+$PSVersionTable
 Main
