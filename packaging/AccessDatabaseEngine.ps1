@@ -1,5 +1,3 @@
-Import-Module BitsTransfer
-
 function Main
 {
     $ComponentName = "AccessDatabaseEngine"
@@ -45,6 +43,7 @@ function Download-File
             # 指定されたURLからファイルをダウンロードし、同名のファイル名で保存
             $client = New-Object System.Net.WebClient
             $client.DownloadFile($Uri, (Join-Path $Path $file))
+            Write-Host "Downloading `'$fileName`' to $Path From $Url..."
             #Start-BitsTransfer -Source $Url -Destination $Path\$fileName -DisplayName "Downloading `'$fileName`' to $Path" -Priority High -Description "From $Url..." -ErrorVariable err
         }
         catch
