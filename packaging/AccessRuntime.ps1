@@ -26,7 +26,7 @@ function Main
             Download-File (Convert-Path .) "https://download.microsoft.com/download/9/9/6/996A2380-2842-43F0-BA8A-F80133E6E961/$ComponentName.exe"
 
             # コンポーネントのインストール
-            Start-Process -FilePath .\AccessDatabaseEngine.exe -ArgumentList "/quiet /log:.\$ComponentName.log" -Wait
+            Start-Process -FilePath .\$ComponentName.exe -ArgumentList "/quiet /log:.\$ComponentName.log" -Wait
             Write-Host "- Install completed"
         }
         catch
