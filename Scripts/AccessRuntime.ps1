@@ -16,6 +16,8 @@ function Main
     {
         try
         {
+            [System.Environment]::Is64BitProcess
+
             # カレントディレクトリをスクリプト自身のパスに変更
             $OldDir = Convert-Path .
             Set-CurrentDirectory $PsDir
@@ -82,11 +84,7 @@ function Download-File
             Write-Warning " - An error occurred downloading `'$fileName`'"
             throw $_
         }
-
-        # Pause
-        Write-Host "- Downloads completed"
-        #Write-Host "- Downloads completed, press any key to exit..."
-        #$null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        Write-Host "- Download completed"
     }
 }
 
