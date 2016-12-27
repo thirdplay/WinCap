@@ -16,8 +16,6 @@ function Main
     {
         try
         {
-            $Host.version
-
             # カレントディレクトリをスクリプト自身のパスに変更
             $OldDir = Convert-Path .
             Set-CurrentDirectory $PsDir
