@@ -117,7 +117,7 @@ namespace WinCap.Driver
         public string GetError(string propertyName)
         {
             var errors = (List<string>)this.ViewModel.GetErrors(propertyName);
-            if (errors.Count > 0)
+            if (errors?.Count > 0)
             {
                 return errors[0];
             }

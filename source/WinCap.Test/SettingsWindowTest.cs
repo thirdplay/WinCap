@@ -1,8 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using WinCap.Driver;
 
 namespace WinCap.Test
 {
@@ -49,47 +45,41 @@ namespace WinCap.Test
             this.NotifyTestCleanup();
         }
 
-        ///// <summary>
-        ///// スクロール遅延時間のテスト。
-        ///// </summary>
-        //[TestMethod]
-        //public void TestScrollDelayTime()
-        //{
-        //    var settingsWindow = App.ShowSettingsWindow();
-        //    var general = settingsWindow.General;
-        //    var buttonOk = settingsWindow.ButtonOk;
+        /// <summary>
+        /// スクロール遅延時間のテスト。
+        /// </summary>
+        [TestMethod]
+        public void TestScrollDelayTime()
+        {
+            var settingsWindow = App.ShowSettingsWindow();
+            var general = settingsWindow.General;
+            var buttonOk = settingsWindow.ButtonOk;
 
-        //    general.ScrollDelayTime.EmulateChangeText("");
-        //    buttonOk.EmulateClick();
-        //    string errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
-        //    Assert.AreEqual("必須項目です。", errorMessage);
+            general.ScrollDelayTime.EmulateChangeText("200");
+            buttonOk.EmulateClick();
+            string errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
 
-        //    general.ScrollDelayTime.EmulateChangeText("a");
-        //    buttonOk.EmulateClick();
-        //    errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
-        //    Assert.AreEqual("0以上、1000以下の数値を入力してください。", errorMessage);
-        //}
+            Assert.IsTrue(string.IsNullOrEmpty(errorMessage));
+            Assert.AreEqual("200", general.ScrollDelayTime.Text);
+        }
 
-        ///// <summary>
-        ///// キャプチャ遅延時間のテスト。
-        ///// </summary>
-        //[TestMethod]
-        //public void TestCaptureDelayTime()
-        //{
-        //    var settingsWindow = App.ShowSettingsWindow();
-        //    var general = settingsWindow.General;
-        //    var buttonOk = settingsWindow.ButtonOk;
+        /// <summary>
+        /// キャプチャ遅延時間のテスト。
+        /// </summary>
+        [TestMethod]
+        public void TestCaptureDelayTime()
+        {
+            var settingsWindow = App.ShowSettingsWindow();
+            var general = settingsWindow.General;
+            var buttonOk = settingsWindow.ButtonOk;
 
-        //    general.CaptureDelayTime.EmulateChangeText("");
-        //    buttonOk.EmulateClick();
-        //    string errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
-        //    Assert.AreEqual("必須項目です。", errorMessage);
+            general.CaptureDelayTime.EmulateChangeText("300");
+            buttonOk.EmulateClick();
+            string errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
 
-        //    general.CaptureDelayTime.EmulateChangeText("a");
-        //    buttonOk.EmulateClick();
-        //    errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
-        //    Assert.AreEqual("0以上、10000以下の数値を入力してください。", errorMessage);
-        //}
+            Assert.IsTrue(string.IsNullOrEmpty(errorMessage));
+            Assert.AreEqual("300", general.CaptureDelayTime.Text);
+        }
 
         /// <summary>
         /// エラーパラメータを表します。

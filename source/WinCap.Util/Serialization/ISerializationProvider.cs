@@ -23,6 +23,16 @@ namespace WinCap.Util.Serialization
         void Load();
 
         /// <summary>
+        /// 設定をリセットします。
+        /// </summary>
+        void Reset();
+        
+        /// <summary>
+        /// 設定のリセットが発生したときに発生します。
+        /// </summary>
+        event EventHandler Reseted;
+
+        /// <summary>
         /// 設定のリロードが発生したときに発生します。
         /// </summary>
         event EventHandler Reloaded;

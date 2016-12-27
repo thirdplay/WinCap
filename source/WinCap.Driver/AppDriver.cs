@@ -59,8 +59,8 @@ namespace WinCap.Driver
                 this._app = new WindowsAppFriend(this.Process);
 
                 // アプリケーション設定をリセットする
-                dynamic settings = this._app.Type("WinCap.Serialization.Settings");
-                settings.Reset();
+                dynamic provider = this._app.Type("WinCap.Serialization.LocalSettingsProvider");
+                provider.Instance.Reset();
             }
             this._detector = new TimeoutDetector(1000 * 60 * 5);
             this._detector.Timedout += (sender, e) =>

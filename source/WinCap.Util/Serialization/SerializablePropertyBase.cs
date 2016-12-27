@@ -110,6 +110,7 @@ namespace WinCap.Util.Serialization
             this.Provider = provider;
             this.Default = defaultValue;
 
+            this.Provider.Reseted += (sender, args) => this.Reset();
             this.Provider.Reloaded += (sender, args) =>
             {
                 if (this.cached)
@@ -164,7 +165,7 @@ namespace WinCap.Util.Serialization
         }
 
         /// <summary>
-        /// プロパティをリセットします。
+        /// プロパティ値をリセットします。
         /// </summary>
         public virtual void Reset()
         {
@@ -178,11 +179,14 @@ namespace WinCap.Util.Serialization
             {
                 if (this.Provider.RemoveValue(this.Key))
                 {
-                    this.value = default(T);
+                    this.value = this.Default;
                     this.cached = false;
                     this.OnValueChanged(this.DeserializeCore(old), this.Default);
 
-                    if (this.AutoSave) { this.Provider.Save(); }
+                    if (this.AutoSave)
+                    {
+                        this.Provider.Save();
+                    }
                 }
             }
         }

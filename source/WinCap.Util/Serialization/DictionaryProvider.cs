@@ -35,6 +35,11 @@ namespace WinCap.Util.Serialization
         public virtual Type[] KnownTypes { get; } = { typeof(bool) };
 
         /// <summary>
+        /// 設定のリセットが発生したときに発生します。
+        /// </summary>
+        public event EventHandler Reseted;
+
+        /// <summary>
         /// 設定のリロードが発生したときに発生します。
         /// </summary>
         public event EventHandler Reloaded;
@@ -151,6 +156,23 @@ namespace WinCap.Util.Serialization
         /// </summary>
         /// <returns>読み込んだ設定</returns>
         protected abstract Task<IDictionary<string, object>> LoadAsyncCore();
+
+        /// <summary>
+        /// 設定をリセットします。
+        /// </summary>
+        public void Reset()
+        {
+            this.OnReseted();
+        }
+
+        /// <summary>
+        /// リセットイベントを発生させます。
+        /// </summary>
+        protected void OnReseted()
+        {
+            this.Reseted?.Invoke(this, EventArgs.Empty);
+            this.settings.Clear();
+        }
 
         /// <summary>
         /// リロードイベントを発生させます。

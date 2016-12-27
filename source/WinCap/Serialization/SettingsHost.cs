@@ -57,18 +57,6 @@ namespace WinCap.Serialization
         }
 
         /// <summary>
-        /// プロパティを全てリセットします。
-        /// </summary>
-        public void Reset()
-        {
-            foreach (object obj in this._cachedProperties.Values)
-            {
-                ISerializableProperty property = obj as ISerializableProperty;
-                property.Reset();
-            }
-        }
-
-        /// <summary>
         /// 一意なインスタンスを取得します。
         /// </summary>
         /// <typeparam name="T">任意のクラス</typeparam>
