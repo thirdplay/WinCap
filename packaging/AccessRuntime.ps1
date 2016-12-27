@@ -23,7 +23,7 @@ function Main
             $ComponentName = "AccessRuntime"
 
             # コンポーネントのダウンロード
-            Download-File (Convert-Path .) "https://download.microsoft.com/download/9/9/6/996A2380-2842-43F0-BA8A-F80133E6E961//$ComponentName.exe"
+            Download-File (Convert-Path .) "https://download.microsoft.com/download/9/9/6/996A2380-2842-43F0-BA8A-F80133E6E961/$ComponentName.exe"
 
             # コンポーネントのインストール
             Start-Process -FilePath .\AccessDatabaseEngine.exe -ArgumentList "/quiet /log:.\$ComponentName.log" -Wait
