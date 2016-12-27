@@ -16,7 +16,7 @@ function Main
     {
         try
         {
-            [System.Environment]::Is64BitProcess
+            $Host.version
 
             # カレントディレクトリをスクリプト自身のパスに変更
             $OldDir = Convert-Path .
