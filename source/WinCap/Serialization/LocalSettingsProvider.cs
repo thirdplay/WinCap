@@ -112,9 +112,21 @@ namespace WinCap.Serialization
 
                 var serializer = new DataContractSerializer(typeof(IDictionary<string, object>), this.KnownTypes);
 
-                using (var stream = this.targetFile.OpenRead())
+                try
                 {
-                    return serializer.ReadObject(stream) as IDictionary<string, object>;
+                    using (var stream = this.targetFile.OpenRead())
+                    {
+                        return serializer.ReadObject(stream) as IDictionary<string, object>;
+                    }
+                }
+                catch (SerializationException)
+                {
+#if DEBUG
+                    // デバッグ中は逆シリアル化エラーを無視する
+                    return null;
+#else
+                    throw;
+#endif
                 }
             });
         }
