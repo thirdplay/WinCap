@@ -98,9 +98,20 @@ namespace WinCap.Driver
         /// </summary>
         public void EndProcess()
         {
-            this._detector?.Finish();
-            this._detector = null;
-            this.Shutdown();
+            if (this._detector != null)
+            {
+                this._detector.Finish();
+                this._detector = null;
+
+                // ショートカット作成を無効にする
+                dynamic settings = this._app.Type("WinCap.Serialization.Settings");
+                settings.General.IsRegisterInStartup.Value = false;
+                settings.General.IsCreateShortcutToDesktop.Value = false;
+                dynamic provider = this._app.Type("WinCap.Serialization.LocalSettingsProvider");
+                provider.Instance.Save();
+
+                this.Shutdown();
+            }
         }
 
         /// <summary>
