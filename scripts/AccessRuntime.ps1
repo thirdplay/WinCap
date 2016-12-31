@@ -72,9 +72,9 @@ function Download-File
             $fileName = Split-Path $uri.AbsolutePath -Leaf
 
             # 指定されたURLからファイルをダウンロードし、同名のファイル名で保存
+            Write-Host "Downloading `'$fileName`' to $Path From $Url..."
             $client = New-Object System.Net.WebClient
             $client.DownloadFile($Uri, (Join-Path $Path $fileName))
-            Write-Host "Downloading `'$fileName`' to $Path From $Url..."
             #Start-BitsTransfer -Source $Url -Destination $Path\$fileName -DisplayName "Downloading `'$fileName`' to $Path" -Priority High -Description "From $Url..." -ErrorVariable err
         }
         catch
