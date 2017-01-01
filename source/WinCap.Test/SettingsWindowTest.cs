@@ -82,9 +82,9 @@ namespace WinCap.Test
         }
 
         /// <summary>
-        /// エラーパラメータを表します。
+        /// 全般タブのエラーパラメータを表します。
         /// </summary>
-        class ErrorParam
+        class GeneralErrorParam
         {
             public string ScrollDelayTime { get; set; }
             public string CaptureDelayTime { get; set; }
@@ -103,7 +103,7 @@ namespace WinCap.Test
         )]
         public void TestGeneralError()
         {
-            var param = GetParam<ErrorParam>();
+            var param = GetParam<GeneralErrorParam>();
             var settingsWindow = App.ShowSettingsWindow();
             var general = settingsWindow.General;
             var buttonOk = settingsWindow.ButtonOk;
@@ -112,6 +112,40 @@ namespace WinCap.Test
             general.CaptureDelayTime.EmulateChangeText(param.CaptureDelayTime);
             buttonOk.EmulateClick();
             string errorMessage = settingsWindow.General.GetError(param.PropertyName);
+            Assert.AreEqual(param.Message, errorMessage);
+        }
+
+        /// <summary>
+        /// 出力タブのエラーパラメータを表します。
+        /// </summary>
+        class OutputErrorParam
+        {
+            public string OutputFolder { get; set; }
+            public bool IsAutoSaveImage { get; set; }
+            public string PropertyName { get; set; }
+            public string Message { get; set; }
+        }
+
+        /// <summary>
+        /// 出力タブの入力エラーテスト。
+        /// </summary>
+        [TestMethod]
+        [DataSource("System.Data.OleDB",
+            @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=Params.xlsx; Extended Properties='Excel 12.0;HDR=yes';",
+            "TestOutputError$",
+            DataAccessMethod.Sequential
+        )]
+        public void TestOutputError()
+        {
+            var param = GetParam<OutputErrorParam>();
+            var settingsWindow = App.ShowSettingsWindow();
+            var output = settingsWindow.Output;
+            var buttonOk = settingsWindow.ButtonOk;
+
+            output.OutputFolder.EmulateChangeText(param.OutputFolder);
+            output.IsAutoSaveImage.EmulateCheck(param.IsAutoSaveImage);
+            buttonOk.EmulateClick();
+            string errorMessage = settingsWindow.Output.GetError(param.PropertyName);
             Assert.AreEqual(param.Message, errorMessage);
         }
 

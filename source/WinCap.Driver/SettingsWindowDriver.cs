@@ -43,6 +43,19 @@ namespace WinCap.Driver
             }
         }
 
+        private Output _output;
+        /// <summary>
+        /// 出力タブを取得します。
+        /// </summary>
+        public Output Output
+        {
+            get
+            {
+                this._output = this._output ?? new Output(this.Window, this.ViewModel.Output, this.TabItems);
+                return this._output;
+            }
+        }
+
         /// <summary>
         /// コンストラクタ。
         /// </summary>
@@ -78,11 +91,6 @@ namespace WinCap.Driver
         public dynamic ViewModel { get; private set; }
 
         /// <summary>
-        /// タブアイテムを取得します。
-        /// </summary>
-        public WPFListBox TabItems { get; private set; }
-
-        /// <summary>
         /// スクロール遅延時間を取得します。
         /// </summary>
         public WPFTextBox ScrollDelayTime { get; private set; }
@@ -100,13 +108,64 @@ namespace WinCap.Driver
         /// <param name="tabItems">タブアイテム</param>
         public General(WindowControl windowControl, dynamic viewModel, WPFListBox tabItems)
         {
-            var visualTree = windowControl.VisualTree();
+            tabItems.EmulateChangeSelectedIndex((int)TabItem.General);
 
+            var visualTree = windowControl.VisualTree();
             this.ViewModel = viewModel;
-            this.TabItems = tabItems;
-            this.TabItems.EmulateChangeSelectedIndex(0);
             this.ScrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
             this.CaptureDelayTime = new WPFTextBox(visualTree.ByBinding("CaptureDelayTime").Single());
+        }
+
+        /// <summary>
+        /// プロパティ名のエラーメッセージを取得します。
+        /// </summary>
+        /// <param name="propertyName">プロパティ名</param>
+        /// <returns>エラーメッセージ</returns>
+        public string GetError(string propertyName)
+        {
+            var errors = (List<string>)this.ViewModel.GetErrors(propertyName);
+            if (errors?.Count > 0)
+            {
+                return errors[0];
+            }
+            return string.Empty;
+        }
+    }
+
+    /// <summary>
+    /// 設定ウィンドウの出力タブを操作する機能を提供します。
+    /// </summary>
+    public class Output
+    {
+        /// <summary>
+        /// ViewModelを取得します。
+        /// </summary>
+        public dynamic ViewModel { get; private set; }
+
+        /// <summary>
+        /// 出力フォルダを取得します。
+        /// </summary>
+        public WPFTextBox OutputFolder { get; private set; }
+
+        /// <summary>
+        /// 画像を自動保存するかどうかを示す値を取得します。
+        /// </summary>
+        public WPFToggleButton IsAutoSaveImage { get; private set; }
+
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        /// <param name="windowControl">ウィンドウコントロール</param>
+        /// <param name="viewModel">ViewModel</param>
+        /// <param name="tabItems">タブアイテム</param>
+        public Output(WindowControl windowControl, dynamic viewModel, WPFListBox tabItems)
+        {
+            tabItems.EmulateChangeSelectedIndex((int)TabItem.Output);
+
+            var visualTree = windowControl.VisualTree();
+            this.ViewModel = viewModel;
+            this.OutputFolder = new WPFTextBox(visualTree.ByBinding("OutputFolder").Single());
+            this.IsAutoSaveImage = new WPFToggleButton(visualTree.ByBinding("IsAutoSaveImage").Single());
         }
 
         /// <summary>

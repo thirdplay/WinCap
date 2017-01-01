@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDriver.cs" />
+    <Compile Include="TabItem.cs" />
     <Compile Include="TimeoutDetector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsWindowDriver.cs" />
