@@ -38,7 +38,8 @@ namespace WinCap.Driver
         {
             get
             {
-                this._general = this._general ?? new General(this.Window, this.ViewModel.General, this.TabItems);
+                ChangeSelectedIndex(TabItem.General);
+                this._general = this._general ?? new General(this.Window, this.ViewModel.General);
                 return this._general;
             }
         }
@@ -51,7 +52,8 @@ namespace WinCap.Driver
         {
             get
             {
-                this._output = this._output ?? new Output(this.Window, this.ViewModel.Output, this.TabItems);
+                ChangeSelectedIndex(TabItem.Output);
+                this._output = this._output ?? new Output(this.Window, this.ViewModel.Output);
                 return this._output;
             }
         }
@@ -77,6 +79,20 @@ namespace WinCap.Driver
         public void Close()
         {
             this.Window.Dynamic().Close();
+        }
+
+        /// <summary>
+        /// 選択中のタブ項目を変更します。
+        /// </summary>
+        /// <param name="tabItem">タブ項目</param>
+        public void ChangeSelectedIndex(TabItem tabItem)
+        {
+            int index = (int)tabItem;
+
+            if (this.TabItems.SelectedIndex != index)
+            {
+                this.TabItems.EmulateChangeSelectedIndex(index);
+            }
         }
     }
 
@@ -105,11 +121,8 @@ namespace WinCap.Driver
         /// </summary>
         /// <param name="windowControl">ウィンドウコントロール</param>
         /// <param name="viewModel">ViewModel</param>
-        /// <param name="tabItems">タブアイテム</param>
-        public General(WindowControl windowControl, dynamic viewModel, WPFListBox tabItems)
+        public General(WindowControl windowControl, dynamic viewModel)
         {
-            tabItems.EmulateChangeSelectedIndex((int)TabItem.General);
-
             var visualTree = windowControl.VisualTree();
             this.ViewModel = viewModel;
             this.ScrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
@@ -157,11 +170,8 @@ namespace WinCap.Driver
         /// </summary>
         /// <param name="windowControl">ウィンドウコントロール</param>
         /// <param name="viewModel">ViewModel</param>
-        /// <param name="tabItems">タブアイテム</param>
-        public Output(WindowControl windowControl, dynamic viewModel, WPFListBox tabItems)
+        public Output(WindowControl windowControl, dynamic viewModel)
         {
-            tabItems.EmulateChangeSelectedIndex((int)TabItem.Output);
-
             var visualTree = windowControl.VisualTree();
             this.ViewModel = viewModel;
             this.OutputFolder = new WPFTextBox(visualTree.ByBinding("OutputFolder").Single());
