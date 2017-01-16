@@ -79,15 +79,25 @@ namespace WinCap.Serialization
 
             return Task.Run(() =>
             {
-                var serializer = new DataContractSerializer(dic.GetType(), this.KnownTypes);
-                var settings = new XmlWriterSettings
+                var tempFileName = Path.GetTempFileName();
+                try
                 {
-                    Indent = true, // more readable!!!
-                };
-                using (var stream = this.targetFile.OpenWrite())
-                using (var writer = XmlWriter.Create(stream, settings))
+                    var serializer = new DataContractSerializer(dic.GetType(), this.KnownTypes);
+                    var settings = new XmlWriterSettings
+                    {
+                        Indent = true, // more readable!!!
+                    };
+                    using (var stream = new FileInfo(tempFileName).OpenWrite())
+                    using (var writer = XmlWriter.Create(stream, settings))
+                    {
+                        serializer.WriteObject(writer, dic);
+                    }
+                }
+                finally
                 {
-                    serializer.WriteObject(writer, dic);
+                    // 最後に一時ファイルを設定ファイルに上書きする
+                    File.Copy(tempFileName, this.targetFile.FullName, true);
+                    File.Delete(tempFileName);
                 }
             });
         }
