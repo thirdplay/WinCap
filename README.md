@@ -1,7 +1,6 @@
 # WinCap
-[![Build status (develop)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap/develop.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/wincap/branch/develop)
+<!-- [![Build status (develop)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap/develop.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/wincap/branch/develop) -->
 [![Build status (master)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap/master.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/wincap/branch/master)
-[![Build status (master)](https://ci.appveyor.com/api/projects/status/n1cycl1sbc0thhfm/branch/develop?svg=true)](https://ci.appveyor.com/project/thirdplay/wincap/branch/develop)
 
 WinCapは、画面キャプチャツールです。
 デスクトップ全体のキャプチャやウェブページ全体のキャプチャ機能を提供します。
