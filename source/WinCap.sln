@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCap", "WinCap\WinCap.csproj", "{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0485173D-5A54-4B4B-A58E-C04BF6CF73EF} = {0485173D-5A54-4B4B-A58E-C04BF6CF73EF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCap.Util", "WinCap.Util\WinCap.Util.csproj", "{0485173D-5A54-4B4B-A58E-C04BF6CF73EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCap.Test", "WinCap.Test\WinCap.Test.csproj", "{3D82C9A4-903B-41D6-939E-0FF0E70D4930}"
+	ProjectSection(ProjectDependencies) = postProject
+		{62AA7C8A-3986-4E7C-BDB7-97760EF88080} = {62AA7C8A-3986-4E7C-BDB7-97760EF88080}
+		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B} = {1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCap.Driver", "WinCap.Driver\WinCap.Driver.csproj", "{62AA7C8A-3986-4E7C-BDB7-97760EF88080}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B} = {1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}.Debug|x86.ActiveCfg = Debug|x86
+		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}.Debug|x86.Build.0 = Debug|x86
+		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}.Release|x86.ActiveCfg = Release|x86
+		{1DFE3DC8-DBAA-413B-99E2-9639DDDE488B}.Release|x86.Build.0 = Release|x86
+		{0485173D-5A54-4B4B-A58E-C04BF6CF73EF}.Debug|x86.ActiveCfg = Debug|x86
+		{0485173D-5A54-4B4B-A58E-C04BF6CF73EF}.Debug|x86.Build.0 = Debug|x86
+		{0485173D-5A54-4B4B-A58E-C04BF6CF73EF}.Release|x86.ActiveCfg = Release|x86
+		{0485173D-5A54-4B4B-A58E-C04BF6CF73EF}.Release|x86.Build.0 = Release|x86
+		{3D82C9A4-903B-41D6-939E-0FF0E70D4930}.Debug|x86.ActiveCfg = Debug|x86
+		{3D82C9A4-903B-41D6-939E-0FF0E70D4930}.Debug|x86.Build.0 = Debug|x86
+		{3D82C9A4-903B-41D6-939E-0FF0E70D4930}.Release|x86.ActiveCfg = Release|x86
+		{3D82C9A4-903B-41D6-939E-0FF0E70D4930}.Release|x86.Build.0 = Release|x86
+		{62AA7C8A-3986-4E7C-BDB7-97760EF88080}.Debug|x86.ActiveCfg = Debug|x86
+		{62AA7C8A-3986-4E7C-BDB7-97760EF88080}.Debug|x86.Build.0 = Debug|x86
+		{62AA7C8A-3986-4E7C-BDB7-97760EF88080}.Release|x86.ActiveCfg = Release|x86
+		{62AA7C8A-3986-4E7C-BDB7-97760EF88080}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

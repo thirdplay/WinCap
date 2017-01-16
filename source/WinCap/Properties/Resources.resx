@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ContextMenu_Capture" xml:space="preserve">
+    <value>キャプチャ(&amp;C)</value>
+  </data>
+  <data name="ContextMenu_ControlCapture" xml:space="preserve">
+    <value>選択コントロールをキャプチャ(&amp;C)</value>
+  </data>
+  <data name="ContextMenu_DesktopCapture" xml:space="preserve">
+    <value>デスクトップ全体をキャプチャ(&amp;D)</value>
+  </data>
+  <data name="ContextMenu_Exit" xml:space="preserve">
+    <value>終了(&amp;X)</value>
+  </data>
+  <data name="ContextMenu_Settings" xml:space="preserve">
+    <value>設定(&amp;S)</value>
+  </data>
+  <data name="ContextMenu_WebPageCapture" xml:space="preserve">
+    <value>ウェブページ全体をキャプチャ(&amp;P)</value>
+  </data>
+  <data name="ControlSelectionInfo_Description" xml:space="preserve">
+    <value>左クリックで領域を選択してください。</value>
+  </data>
+  <data name="ControlSelectionInfo_Name" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="ControlSelectionInfo_Position" xml:space="preserve">
+    <value>座標</value>
+  </data>
+  <data name="ControlSelectionInfo_Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="Services_SaveImageFileDialog_Filter" xml:space="preserve">
+    <value>Bitmaps(*.bmp)|*.bmp|JPEG Image File(*.jpg)|*.jpg|Portable Network Graphics(*.png)|*.png|CompuServe GIF Image(*.gif)|*.gif</value>
+  </data>
+  <data name="Services_SaveImageFileDialog_Title" xml:space="preserve">
+    <value>名前を付けて保存</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Settings_ActiveControlCapture" xml:space="preserve">
+    <value>アクティブコントロールをキャプチャ</value>
+  </data>
+  <data name="Settings_AutoSaveImage" xml:space="preserve">
+    <value>画像を自動保存する</value>
+  </data>
+  <data name="Settings_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Settings_Capture" xml:space="preserve">
+    <value>キャプチャ設定</value>
+  </data>
+  <data name="Settings_CaptureDelayTime" xml:space="preserve">
+    <value>キャプチャの遅延時間</value>
+  </data>
+  <data name="Settings_CaptureOption" xml:space="preserve">
+    <value>キャプチャオプション</value>
+  </data>
+  <data name="Settings_Clipboard" xml:space="preserve">
+    <value>クリップボード</value>
+  </data>
+  <data name="Settings_CreateShortcutToDesktop" xml:space="preserve">
+    <value>デスクトップにショートカットを作成する</value>
+  </data>
+  <data name="Settings_DelayTime" xml:space="preserve">
+    <value>遅延時間</value>
+  </data>
+  <data name="Settings_DesktopCapture" xml:space="preserve">
+    <value>デスクトップ全体をキャプチャ</value>
+  </data>
+  <data name="Settings_General" xml:space="preserve">
+    <value>一般設定</value>
+  </data>
+  <data name="Settings_ImageFile" xml:space="preserve">
+    <value>画像ファイル</value>
+  </data>
+  <data name="Settings_Legend" xml:space="preserve">
+    <value>凡例:)</value>
+  </data>
+  <data name="Settings_LegendDate" xml:space="preserve">
+    <value>%y: 年, %m: 月, %d: 日</value>
+  </data>
+  <data name="Settings_LegendSequence" xml:space="preserve">
+    <value>%c: 連番</value>
+  </data>
+  <data name="Settings_LegendTime" xml:space="preserve">
+    <value>%h: 時, %n: 分, %s: 秒</value>
+  </data>
+  <data name="Settings_Milliseconds" xml:space="preserve">
+    <value>ms</value>
+  </data>
+  <data name="Settings_NotFoundOutputFolderMessage" xml:space="preserve">
+    <value>出力フォルダが存在しません。</value>
+  </data>
+  <data name="Settings_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Settings_Output" xml:space="preserve">
+    <value>出力設定</value>
+  </data>
+  <data name="Settings_OutputFileNamePattern" xml:space="preserve">
+    <value>出力ファイル名パターン</value>
+  </data>
+  <data name="Settings_OutputFolder" xml:space="preserve">
+    <value>出力フォルダ</value>
+  </data>
+  <data name="Settings_OutputFolderSelectionDialog_Title" xml:space="preserve">
+    <value>出力フォルダを指定</value>
+  </data>
+  <data name="Settings_OutputFormat" xml:space="preserve">
+    <value>出力形式</value>
+  </data>
+  <data name="Settings_OutputFormatBmp" xml:space="preserve">
+    <value>BMP 画像ファイル (*.bmp)</value>
+  </data>
+  <data name="Settings_OutputFormatGif" xml:space="preserve">
+    <value>GIF 画像ファイル (*.gif)</value>
+  </data>
+  <data name="Settings_OutputFormatJpg" xml:space="preserve">
+    <value>JPEG 画像ファイル (*.jpg)</value>
+  </data>
+  <data name="Settings_OutputFormatPng" xml:space="preserve">
+    <value>PNG 画像ファイル (*.png)</value>
+  </data>
+  <data name="Settings_OutputMethod" xml:space="preserve">
+    <value>出力方法</value>
+  </data>
+  <data name="Settings_PlaySeWhenCapture" xml:space="preserve">
+    <value>キャプチャー時に効果音を再生する</value>
+  </data>
+  <data name="Settings_Program" xml:space="preserve">
+    <value>プログラム設定</value>
+  </data>
+  <data name="Settings_RegisterInStartup" xml:space="preserve">
+    <value>スタートアップに登録する</value>
+  </data>
+  <data name="Settings_ScrollDelayTime" xml:space="preserve">
+    <value>スクロールの遅延時間</value>
+  </data>
+  <data name="Settings_SecreenCapture" xml:space="preserve">
+    <value>スクリーンキャプチャ</value>
+  </data>
+  <data name="Settings_Selection" xml:space="preserve">
+    <value>選択</value>
+  </data>
+  <data name="Settings_SelectionControlCapture" xml:space="preserve">
+    <value>選択コントロールをキャプチャ</value>
+  </data>
+  <data name="Settings_ShortcutKey" xml:space="preserve">
+    <value>ショートカットキー設定</value>
+  </data>
+  <data name="Settings_ShortcutKeyDuplicationMessage" xml:space="preserve">
+    <value>ショートカットキーの組み合わせが重複しています。</value>
+  </data>
+  <data name="Settings_VersionInfo" xml:space="preserve">
+    <value>バージョン情報</value>
+  </data>
+  <data name="Settings_WebPageCapture" xml:space="preserve">
+    <value>ウェブページ全体をキャプチャ</value>
+  </data>
+  <data name="Settings_WebPageCaptureStartWhenPageFirstMove" xml:space="preserve">
+    <value>ウェブページ全体キャプチャ開始時にページ先頭に移動する</value>
+  </data>
+  <data name="Validation_Numeric" xml:space="preserve">
+    <value>数値を入力してください。</value>
+  </data>
+  <data name="Validation_Range" xml:space="preserve">
+    <value>{1}以上、{2}以下の数値を入力してください。</value>
+  </data>
+  <data name="Validation_Required" xml:space="preserve">
+    <value>必須項目です。</value>
+  </data>
+</root>

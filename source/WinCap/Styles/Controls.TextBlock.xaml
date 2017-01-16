@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ReSharper disable once InconsistentNaming -->
+    <Style x:Key="DefaultTextStyleKey"
+		   TargetType="{x:Type TextBlock}">
+        <Setter Property="VerticalAlignment"
+				Value="Center" />
+        <Setter Property="FontFamily"
+				Value="{DynamicResource DefaultFontFamilyKey}" />
+        <Setter Property="FontSize"
+				Value="{DynamicResource DefaultFontSizeKey}" />
+        <Setter Property="Foreground"
+                Value="{DynamicResource ActiveForegroundBrushKey}" />
+        <Setter Property="TextTrimming"
+				Value="WordEllipsis" />
+        <Setter Property="TextWrapping"
+				Value="Wrap" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+					 Value="False">
+                <Setter Property="Foreground"
+						Value="{DynamicResource InactiveForegroundBrushKey}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}"
+		   BasedOn="{StaticResource DefaultTextStyleKey}">
+    </Style>
+
+    <Style x:Key="DetailTextStyleKey"
+		   TargetType="{x:Type TextBlock}"
+		   BasedOn="{StaticResource DefaultTextStyleKey}">
+        <Setter Property="FontFamily"
+				Value="{DynamicResource DetailFontFamilyKey}" />
+        <Setter Property="FontSize"
+				Value="{DynamicResource DetailFontSizeKey}" />
+        <Setter Property="Foreground"
+				Value="{DynamicResource ForegroundBrushKey}" />
+        <Setter Property="TextTrimming"
+				Value="WordEllipsis" />
+        <Setter Property="TextWrapping"
+				Value="Wrap" />
+    </Style>
+
+    <Style x:Key="HeaderTextStyleKey"
+		   TargetType="{x:Type TextBlock}"
+		   BasedOn="{StaticResource DefaultTextStyleKey}">
+        <Setter Property="FontFamily"
+				Value="{DynamicResource HeaderFontFamilyKey}" />
+        <Setter Property="FontSize"
+				Value="{DynamicResource HeaderFontSizeKey}" />
+        <Setter Property="Foreground"
+				Value="{DynamicResource ForegroundBrushKey}" />
+        <Setter Property="TextTrimming"
+				Value="WordEllipsis" />
+    </Style>
+
+</ResourceDictionary>
