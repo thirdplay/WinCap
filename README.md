@@ -18,13 +18,17 @@ WinCapは、画面キャプチャツールです。  
 * 設定ウィンドウ （タスクトレイからの呼び出し）
 ![settingswindow](https://cloud.githubusercontent.com/assets/14181039/21991387/bd50f456-dc55-11e6-994c-3aa3a91325a9.png)
 
+### 動作環境
+* Windows7以降
+* [.NET Framework 4.6](https://www.microsoft.com/ja-jp/download/details.aspx?id=48130)
+
 ### ライセンス
 
 * [The MIT License (MIT)](LICENSE)
 
 ### 使用ライブラリ
 
-以下のライブラリを使用して開発を行っています。
+以下のライブラリを使用しています。
 
 #### [Open.WinKeyboardHook](https://github.com/lontivero/Open.WinKeyboardHook)
 
