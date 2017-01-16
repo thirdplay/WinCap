@@ -1,16 +1,18 @@
 # WinCap
 [![Build status (develop)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/WinCap)
 
-画面をキャプチャするキャプチャーソフトです。
+WinCapは、画面キャプチャツールです。
+画面のキャプチャやウェブページ全体のキャプチャ機能を提供します。
 
-### 機能
-* デスクトップ全体のキャプチャ
-* アクティブコントロールのキャプチャ
-* 選択コントロールのキャプチャ
-* ウェブページ全体のキャプチャ
-
-### 使い方
-* wiki作成予定
+### 特徴
+* デスクトップ全体のキャプチャ  
+（デフォルトキー: `PrintScreen`）
+* アクティブコントロールのキャプチャ  
+（デフォルトキー: `Alt` + `PrintScreen`）
+* 選択コントロールのキャプチャ  
+（デフォルトキー: `Ctrl` + `PrintScreen`）
+* ウェブページ全体のキャプチャ  
+（デフォルトキー: `Ctrl` + `Alt` + `PrintScreen`）
 
 ### ライセンス
 
