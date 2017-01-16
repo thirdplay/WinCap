@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WinCap")]
-[assembly: AssemblyCopyright("Copyright © 2016 thirdplay")]
+[assembly: AssemblyCopyright("Copyright © 2017 thirdplay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Guid("48082311-5C4C-4E9A-B6A2-A1B5E336C57F")]

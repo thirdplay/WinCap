@@ -24,7 +24,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// スタートアップに登録する
         /// </summary>
-        public SerializableProperty<bool> IsRegisterInStartup => this.Cache(key => new SerializableProperty<bool>(key, this.provider, true));
+        public SerializableProperty<bool> IsRegisterInStartup => this.Cache(key => new SerializableProperty<bool>(key, this.provider, false));
 
         /// <summary>
         /// デスクトップにショートカットを作成する
