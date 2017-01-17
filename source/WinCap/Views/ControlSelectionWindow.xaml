@@ -62,17 +62,6 @@
         </Rectangle>
         <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}"
                                     Visibility="Hidden">
-            <i:Interaction.Triggers>
-                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-                                                 MessageKey="ControlSelectionInfo.Margin">
-                    <behaviors:SetMarginAction />
-                </livet:InteractionMessageTrigger>
-
-                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										         MessageKey="ControlSelectionInfo.Visibility">
-                    <behaviors:SetVisibilityAction />
-                </livet:InteractionMessageTrigger>
-            </i:Interaction.Triggers>
         </views:ControlSelectionInfo>
     </Canvas>
 </Window>

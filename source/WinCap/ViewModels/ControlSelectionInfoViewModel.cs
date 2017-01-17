@@ -1,5 +1,7 @@
 ﻿using Livet;
 using System.Drawing;
+using System.Windows;
+using WinCap.ViewModels.Messages;
 
 namespace WinCap.ViewModels
 {
@@ -11,7 +13,7 @@ namespace WinCap.ViewModels
         #region ClassName 変更通知プロパティ
         private string _ClassName;
         /// <summary>
-        /// クラス名
+        /// クラス名を取得または設定します。
         /// </summary>
         public string ClassName
         {
@@ -27,19 +29,38 @@ namespace WinCap.ViewModels
         }
         #endregion
 
-        #region Bounds 変更通知プロパティ
-        private Rectangle _Bounds;
+        #region Point 変更通知プロパティ
+        private System.Drawing.Point _Point;
         /// <summary>
-        /// 位置と座標
+        /// 位置を取得または設定します。
         /// </summary>
-        public Rectangle Bounds
+        public System.Drawing.Point Point
         {
-            get { return _Bounds; }
+            get { return _Point; }
             set
-            {
-                if (_Bounds != value)
+            { 
+                if (_Point != value)
                 {
-                    _Bounds = value;
+                    _Point = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region Size 変更通知プロパティ
+        private System.Drawing.Size _Size;
+        /// <summary>
+        /// サイズを取得または設定します。
+        /// </summary>
+        public System.Drawing.Size Size
+        {
+            get { return _Size; }
+            set
+            { 
+                if (_Size != value)
+                {
+                    _Size = value;
                     RaisePropertyChanged();
                 }
             }
@@ -47,10 +68,37 @@ namespace WinCap.ViewModels
         #endregion
 
         /// <summary>
-        /// コンストラクタ
+        /// コンストラクタ。
         /// </summary>
         public ControlSelectionInfoViewModel()
         {
+        }
+
+        /// <summary>
+		/// 初期化。
+        /// </summary>
+        public void Initialize()
+        {
+            SetMargin(12.0, 12.0);
+
+            this.Messenger.Raise(new SetVisibilityMessage
+            {
+                MessageKey = "Window.Visibility",
+                Visibility = Visibility.Visible
+            });
+        }
+
+        /// <summary>
+        /// ウィンドウのマージンを設定します。
+        /// </summary>
+        private void SetMargin(double? left, double? top)
+        {
+            this.Messenger.Raise(new SetMarginMessage
+            {
+                MessageKey = "Window.Margin",
+                Left = left,
+                Top = top
+            });
         }
     }
 }

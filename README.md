@@ -1,5 +1,4 @@
 # WinCap
-<!-- [![Build status (develop)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap/develop.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/wincap/branch/develop) -->
 [![Build status (master)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap/master.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/wincap/branch/master)
 
 WinCapは、画面キャプチャツールです。  
