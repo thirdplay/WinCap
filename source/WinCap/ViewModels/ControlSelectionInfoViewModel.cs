@@ -1,6 +1,8 @@
 ﻿using Livet;
+using System;
 using System.Drawing;
 using System.Windows;
+using WinCap.Models;
 using WinCap.ViewModels.Messages;
 
 namespace WinCap.ViewModels
@@ -86,6 +88,18 @@ namespace WinCap.ViewModels
                 MessageKey = "Window.Visibility",
                 Visibility = Visibility.Visible
             });
+        }
+
+        /// <summary>
+        /// コントロール情報を設定します。
+        /// </summary>
+        /// <param name="handle">コントロールのハンドル</param>
+        /// <param name="bounds">コントロールの範囲</param>
+        public void SetInfo(IntPtr handle, Rectangle bounds)
+        {
+            this.ClassName = InteropHelper.GetClassName(handle);
+            this.Point = bounds.Location;
+            this.Size = bounds.Size;
         }
 
         /// <summary>

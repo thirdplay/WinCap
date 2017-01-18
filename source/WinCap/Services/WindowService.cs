@@ -1,17 +1,8 @@
 ﻿using Livet;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Media;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Windows;
-using WinCap.Capturers;
-using WinCap.Models;
-using WinCap.Properties;
-using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;
 
@@ -81,6 +72,7 @@ namespace WinCap.Services
             }
             return this.container[key] as T;
         }
+
         #region IDisposable members
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄する。
