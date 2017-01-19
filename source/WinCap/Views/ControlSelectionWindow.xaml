@@ -61,6 +61,8 @@
             </i:Interaction.Triggers>
         </Rectangle>
         <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}"
+                                    Canvas.Left="{Binding Left, Mode=OneWay}"
+                                    Canvas.Top="{Binding Top, Mode=OneWay}"
                                     Visibility="Hidden">
         </views:ControlSelectionInfo>
     </Canvas>

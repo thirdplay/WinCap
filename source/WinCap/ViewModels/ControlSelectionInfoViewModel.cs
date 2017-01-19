@@ -12,6 +12,44 @@ namespace WinCap.ViewModels
     /// </summary>
     public class ControlSelectionInfoViewModel : ViewModel
     {
+        #region Left 変更通知プロパティ
+        private double _Left;
+        /// <summary>
+        /// コントロール選択情報のX座標を取得または設定します。
+        /// </summary>
+        public double Left
+        {
+            get { return _Left; }
+            set
+            {
+                if (_Left != value)
+                {
+                    _Left = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region Top 変更通知プロパティ
+        private double _Top;
+        /// <summary>
+        /// コントロール選択情報のY座標を取得または設定します。
+        /// </summary>
+        public double Top
+        {
+            get { return _Top; }
+            set
+            {
+                if (_Top != value)
+                {
+                    _Top = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
         #region ClassName 変更通知プロパティ
         private string _ClassName;
         /// <summary>
@@ -74,6 +112,8 @@ namespace WinCap.ViewModels
         /// </summary>
         public ControlSelectionInfoViewModel()
         {
+            this.Left = 12.0;
+            this.Top = 12.0;
         }
 
         /// <summary>
@@ -81,8 +121,6 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
-            SetMargin(12.0, 12.0);
-
             this.Messenger.Raise(new SetVisibilityMessage
             {
                 MessageKey = "Window.Visibility",
@@ -103,16 +141,10 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// ウィンドウのマージンを設定します。
+        /// 選択コントロール情報を更新します。
         /// </summary>
-        private void SetMargin(double? left, double? top)
+        public void Update()
         {
-            this.Messenger.Raise(new SetMarginMessage
-            {
-                MessageKey = "Window.Margin",
-                Left = left,
-                Top = top
-            });
         }
     }
 }

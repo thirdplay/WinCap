@@ -1,9 +1,6 @@
 ﻿using Livet;
 using Livet.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using WinCap.Models;
 using WinCap.Util.Mvvm;
@@ -103,6 +100,9 @@ namespace WinCap.ViewModels
                     Height = bounds.Height
                 });
             }
+
+            // 選択コントロール情報を更新する
+            this.ControlSelectInfo.Update();
         }
 
         /// <summary>
