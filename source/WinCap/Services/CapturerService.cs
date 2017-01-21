@@ -12,6 +12,7 @@ using WinCap.Capturers;
 using WinCap.Models;
 using WinCap.Properties;
 using WinCap.Util.Lifetime;
+using WinCap.Util.Mvvm;
 using WinCap.ViewModels;
 using WinCap.Views;
 using Settings = WinCap.Serialization.Settings;
@@ -98,6 +99,19 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureSelectionControl()
         {
+#if true
+            using (this.hookService.Suspend())
+            using (var viewModel = new ControlSelectionWindowViewModel())
+            {
+                var window = new ControlSelectionWindow { DataContext = viewModel };
+                viewModel.Initialized += (s, e) => window.Activate();
+                viewModel.Selected += (s, e) =>
+                {
+                    saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)));
+                };
+                window.ShowDialog();
+            }
+#else
             var suspended = this.hookService.Suspend();
             var viewModel = this.controlSelectionWindowViewModel;
             var window = new ControlSelectionWindow { DataContext = viewModel };
@@ -119,6 +133,7 @@ namespace WinCap.Services
             // 選択ウィンドウの表示
             window.Show();
             window.Activate();
+#endif
         }
 
         /// <summary>
@@ -126,6 +141,33 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureWebPage()
         {
+#if true
+            using (this.hookService.Suspend())
+            using (var viewModel = new ControlSelectionWindowViewModel())
+            {
+                var window = new ControlSelectionWindow { DataContext = viewModel };
+                viewModel.Initialized += (s, e) => window.Activate();
+                viewModel.Selected += (s, e) =>
+                {
+                    // キャプチャ可能か判定
+                    string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
+                    var capturer = this.webBrowserCapturers.Where(_ => _.CanCapture(className)).FirstOrDefault();
+                    if (capturer != null)
+                    {
+                        // ウェブページ全体をキャプチャ
+                        capturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
+                        capturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
+                        saveCaptureImage(executeCapture(() => capturer.Capture(viewModel.SelectedHandle)));
+                    }
+                    else
+                    {
+                        // 選択コントロールをキャプチャ
+                        saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)));
+                    }
+                };
+                window.ShowDialog();
+            }
+#else
             var suspended = this.hookService.Suspend();
             var viewModel = this.controlSelectionWindowViewModel;
             var window = new ControlSelectionWindow { DataContext = viewModel };
@@ -161,6 +203,7 @@ namespace WinCap.Services
             // 選択ウィンドウの表示
             window.Show();
             window.Activate();
+#endif
         }
 
         /// <summary>

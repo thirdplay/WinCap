@@ -1,7 +1,9 @@
 ﻿using Livet;
 using Livet.Messaging;
 using System;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WinCap.Models;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
@@ -35,11 +37,22 @@ namespace WinCap.ViewModels
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
 
         /// <summary>
+        /// 初期化時に発生するイベント。
+        /// </summary>
+        public event EventHandler Initialized;
+
+        /// <summary>
+        /// コントロール選択時に発生するイベント。
+        /// </summary>
+        public event EventHandler Selected;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public ControlSelectionWindowViewModel()
         {
             this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
+            this.Initialized += (s, e) => this.ControlSelectInfo.Initialize();
         }
 
         /// <summary>
@@ -61,15 +74,15 @@ namespace WinCap.ViewModels
             this._location = screenRect.Location;
             this._controlSelection = new ControlSelection();
 
-            // コントロール選択情報の初期化
-            this.ControlSelectInfo.Initialize();
+            // 初期化イベントを発火
+            this.Initialized?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
-        /// マウス移動イベント
+        /// マウス移動時に呼ばれます。
         /// </summary>
         /// <param name="e">イベント引数</param>
-        public void MouseMove(MouseEventArgs e)
+        public void OnMouseMove(MouseEventArgs e)
         {
             if (this._controlSelection == null)
             {
@@ -106,29 +119,74 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// マウスアップイベント
+        /// マウスアップ時に呼ばれます。
         /// </summary>
         /// <param name="e">イベント引数</param>
-        public void MouseUp(MouseEventArgs e)
+        public void OnMouseUp(MouseEventArgs e)
         {
             e.Handled = true;
-            var handle = IntPtr.Zero;
+            var handle = this.SelectedHandle;
             if (e.LeftButton != MouseButtonState.Released)
             {
-                this.SelectedHandle = IntPtr.Zero;
+                handle = IntPtr.Zero;
             }
+
+            SelectedControl(handle);
+        }
+
+        /// <summary>
+        /// キーダウン時に呼ばれます。
+        /// </summary>
+        /// <param name="e">イベント引数</param>
+        public void OnKeyDown(KeyEventArgs e)
+        {
+            e.Handled = true;
+            SelectedControl(IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// ウィンドウを閉じます。
+        /// </summary>
+        public void Close()
+        {
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 
         /// <summary>
-        /// キーダウンイベント
+        /// ウィンドウの表示状態を設定します。
         /// </summary>
-        /// <param name="e"></param>
-        public void KeyDown(KeyEventArgs e)
+        /// <param name="value">表示状態</param>
+        private void SetVisibility(Visibility visibility)
         {
-            e.Handled = true;
-            this.SelectedHandle = IntPtr.Zero;
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+            this.Messenger.Raise(new SetVisibilityMessage
+            {
+                MessageKey = "Window.Visibility",
+                Visibility = visibility
+            });
+        }
+
+        /// <summary>
+        /// コントロールを選択し、ウィンドウを閉じます。
+        /// </summary>
+        /// <param name="handle">選択したハンドル</param>
+        private void SelectedControl(IntPtr handle)
+        {
+            this.SelectedHandle = handle;
+            this.SetVisibility(Visibility.Hidden);
+            BackgroundInvoke();
+            if (handle != IntPtr.Zero)
+            {
+                this.Selected?.Invoke(this, EventArgs.Empty);
+            }
+            this.Close();
+        }
+
+        /// <summary>
+        /// バックグラインド処理を呼び出し、他の操作の完了を待ちます。
+        /// </summary>
+        private void BackgroundInvoke()
+        {
+            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
         }
     }
 }

@@ -25,17 +25,17 @@
 
         <i:EventTrigger EventName="MouseMove">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="MouseMove" />
+                                                    MethodName="OnMouseMove" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseUp">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="MouseUp" />
+                                                    MethodName="OnMouseUp" />
         </i:EventTrigger>
         
         <i:EventTrigger EventName="KeyDown">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="KeyDown" />
+                                                    MethodName="OnKeyDown" />
         </i:EventTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
@@ -47,7 +47,14 @@
 										 MessageKey="Window.Close">
             <behaviors:CloseWindowAction />
         </livet:InteractionMessageTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+										 MessageKey="Window.Visibility">
+            <behaviors:SetVisibilityAction />
+        </livet:InteractionMessageTrigger>
+
     </i:Interaction.Triggers>
+    
     <Canvas>
         <Rectangle Stroke="#CCFF0000"
                    StrokeThickness="4"
