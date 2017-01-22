@@ -159,6 +159,7 @@
     <Compile Include="ApplicationAction.cs" />
     <Compile Include="Capturers\IWebBrowserCapturer.cs" />
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
+    <Compile Include="Interop\InteropExtensions.cs" />
     <Compile Include="Interop\Win32\Dwmapi.cs" />
     <Compile Include="Interop\Win32\Gdi32.cs" />
     <Compile Include="Interop\Win32\MAPVK.cs" />
@@ -194,7 +195,6 @@
     <Compile Include="Serialization\SettingsHost.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="Services\HookService.cs" />
-    <Compile Include="Models\InteropHelper.cs" />
     <Compile Include="Services\KeyHelper.cs" />
     <Compile Include="Services\ShortcutKey.cs" />
     <Compile Include="Services\ShortcutKeyDetector.cs" />
@@ -210,7 +210,6 @@
     <Compile Include="ViewModels\Settings\ShortcutKeyViewModel.cs" />
     <Compile Include="ViewModels\Settings\OutputViewModel.cs" />
     <Compile Include="Capturers\ControlCapturer.cs" />
-    <Compile Include="Models\WindowHelper.cs" />
     <Compile Include="Models\ControlInfo.cs" />
     <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetVisibilityMessage.cs" />

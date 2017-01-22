@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
@@ -30,6 +31,11 @@ namespace WinCap.ViewModels
         /// コントロール選択モデル。
         /// </summary>
         private ControlSelection _controlSelection;
+
+        /// <summary>
+        /// DPI倍率を取得または設定します。
+        /// </summary>
+        public Point DpiScaleFactor { get; set; } = new Point(1.0, 1.0);
 
         /// <summary>
         /// 選択コントロールのハンドルを取得します。
@@ -61,7 +67,7 @@ namespace WinCap.ViewModels
             this._controlSelection.Subscribe(nameof(this._controlSelection.SelectedHandle), () =>
             {
                 var handle = this._controlSelection.SelectedHandle;
-                var bounds = InteropHelper.GetWindowBounds(handle);
+                var bounds = handle.GetWindowBounds();
 
                 // コントロール情報の更新
                 this.ControlSelectInfo.SetInfo(handle, bounds);

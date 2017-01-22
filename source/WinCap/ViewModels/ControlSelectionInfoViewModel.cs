@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Windows;
+using WinCap.Interop;
 using WinCap.Models;
 using WinCap.ViewModels.Messages;
 
@@ -151,7 +152,7 @@ namespace WinCap.ViewModels
         /// <param name="bounds">コントロールの範囲</param>
         public void SetInfo(IntPtr handle, Rectangle bounds)
         {
-            this.ClassName = InteropHelper.GetClassName(handle);
+            this.ClassName = handle.GetClassName();
             this.Point = bounds.Location;
             this.Size = bounds.Size;
         }

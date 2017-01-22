@@ -9,6 +9,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Windows;
 using WinCap.Capturers;
+using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Properties;
 using WinCap.Util.Lifetime;
@@ -70,9 +71,8 @@ namespace WinCap.Services
         public void CaptureDesktop()
         {
             using (this._hookService.Suspend())
-            using (var bitmap = ExecuteCapture(() => this._screenCapturer.CaptureFullScreen()))
             {
-                SaveCaptureImage(bitmap);
+                ExecuteCapture(() => this._screenCapturer.CaptureFullScreen());
             }
         }
 
@@ -82,9 +82,8 @@ namespace WinCap.Services
         public void CaptureActiveControl()
         {
             using (this._hookService.Suspend())
-            using (var bitmap = ExecuteCapture(() => this._controlCapturer.CaptureActiveControl()))
             {
-                SaveCaptureImage(bitmap);
+                ExecuteCapture(() => this._controlCapturer.CaptureActiveControl());
             }
         }
 
@@ -97,13 +96,11 @@ namespace WinCap.Services
             {
                 var viewModel = this._controlSelectionWindowViewModel;
                 var window = new ControlSelectionWindow { DataContext = viewModel };
+                viewModel.DpiScaleFactor = window.GetDpiScaleFactor();
                 viewModel.Initialized = () => window.Activate();
                 viewModel.Selected = () =>
                 {
-                    using (var bitmap = ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle)))
-                    {
-                        SaveCaptureImage(bitmap);
-                    }
+                    ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle));
                 };
                 window.ShowDialog();
                 window.Close();
@@ -119,29 +116,24 @@ namespace WinCap.Services
             {
                 var viewModel = this._controlSelectionWindowViewModel;
                 var window = new ControlSelectionWindow { DataContext = viewModel };
+                viewModel.DpiScaleFactor = window.GetDpiScaleFactor();
                 viewModel.Initialized = () => window.Activate();
                 viewModel.Selected = () =>
                 {
                     // キャプチャ可能か判定
-                    string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
+                    string className = viewModel.SelectedHandle.GetClassName();
                     var capturer = this._webBrowserCapturers.Where(_ => _.CanCapture(className)).FirstOrDefault();
                     if (capturer != null)
                     {
                         // ウェブページ全体をキャプチャ
                         capturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
                         capturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                        using (var bitmap = ExecuteCapture(() => capturer.Capture(viewModel.SelectedHandle)))
-                        {
-                            SaveCaptureImage(bitmap);
-                        }
+                        ExecuteCapture(() => capturer.Capture(viewModel.SelectedHandle));
                     }
                     else
                     {
                         // 選択コントロールをキャプチャ
-                        using (var bitmap = ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle)))
-                        {
-                            SaveCaptureImage(bitmap);
-                        }
+                        ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle));
                     }
                 };
                 window.ShowDialog();
@@ -150,17 +142,19 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// キャプチャを実行します。
+        /// キャプチャ処理を実行します。
         /// </summary>
-        /// <param name="action">キャプチャ処理メソッド</param>
-        /// <returns>ビットマップ</returns>
-        private Bitmap ExecuteCapture(Func<Bitmap> action)
+        /// <param name="action">キャプチャ処理アクション</param>
+        private void ExecuteCapture(Func<Bitmap> action)
         {
             if (Settings.General.CaptureDelayTime > 0)
             {
                 Thread.Sleep(Settings.General.CaptureDelayTime);
             }
-            return action();
+            using (Bitmap bitmap = action())
+            {
+                SaveCaptureImage(bitmap);
+            }
         }
 
         /// <summary>
