@@ -88,17 +88,17 @@ namespace WinCap.Services
             var sb = new StringBuilder();
             if ((this.ModifierKeys & ModifierKeys.Alt) == ModifierKeys.Alt)
             {
-                sb.Append(getLocalizedKeyName((int)VK.MENU));
+                sb.Append(GetLocalizedKeyName((int)VK.MENU));
                 sb.Append(" + ");
             }
             if ((this.ModifierKeys & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                sb.Append(getLocalizedKeyName((int)VK.CONTROL));
+                sb.Append(GetLocalizedKeyName((int)VK.CONTROL));
                 sb.Append(" + ");
             }
             if ((this.ModifierKeys & ModifierKeys.Shift) == ModifierKeys.Shift)
             {
-                sb.Append(getLocalizedKeyName((int)VK.SHIFT));
+                sb.Append(GetLocalizedKeyName((int)VK.SHIFT));
                 sb.Append(" + ");
             }
             if ((this.ModifierKeys & ModifierKeys.Windows) == ModifierKeys.Windows)
@@ -113,7 +113,7 @@ namespace WinCap.Services
             }
             else
             {
-                sb.Append(getLocalizedKeyName(KeyInterop.VirtualKeyFromKey(this.Key)));
+                sb.Append(GetLocalizedKeyName(KeyInterop.VirtualKeyFromKey(this.Key)));
             }
 
             return sb.ToString();
@@ -124,7 +124,7 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="key">仮想キーコード</param>
         /// <returns>キー名称</returns>
-        private static string getLocalizedKeyName(int key)
+        private static string GetLocalizedKeyName(int key)
         {
             // 修飾キーを削除
             long keyCode = key & 0xffff;

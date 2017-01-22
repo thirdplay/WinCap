@@ -22,7 +22,7 @@ namespace WinCap
         /// <summary>
         /// 基本CompositeDisposable。
         /// </summary>
-        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+        private readonly LivetCompositeDisposable _compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
         /// フックサービス。
@@ -194,14 +194,14 @@ ERROR, date = {0}, sender = {1},
         }
 
 #region IDisposableHolder members
-        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
+        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this._compositeDisposable;
 
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {
-            this.compositeDisposable.Dispose();
+            this._compositeDisposable.Dispose();
         }
 #endregion
     }

@@ -15,66 +15,6 @@ namespace WinCap.Services
         /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
         public static bool IsModifyKey(this Keys key)
         {
-            return isModifyKey(key);
-        }
-
-        /// <summary>
-        /// 修飾キーかどうか判定します。
-        /// </summary>
-        /// <param name="key">キーコード</param>
-        /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
-        public static bool IsModifyKey(this Key key)
-        {
-            return isModifyKey(key.ToVirtualKey());
-        }
-
-        /// <summary>
-        /// 修飾キーセットを取得します。
-        /// </summary>
-        /// <param name="key">仮想キー</param>
-        /// <returns>修飾キーセット</returns>
-        public static ModifierKeys GetModifierKeys(this Keys key)
-        {
-            return getModifierKeys(key);
-        }
-
-        /// <summary>
-        /// 修飾キーセットを取得します。
-        /// </summary>
-        /// <param name="key">キーコード</param>
-        /// <returns>修飾キーセット</returns>
-        public static ModifierKeys GetModifierKeys(this Key key)
-        {
-            return getModifierKeys(key.ToVirtualKey());
-        }
-
-        /// <summary>
-        /// 仮想キーをキーに変換します。
-        /// </summary>
-        /// <param name="keys">仮想キー</param>
-        /// <returns>キー</returns>
-        public static Key ToKey(this Keys keys)
-        {
-            return KeyInterop.KeyFromVirtualKey((int)keys);
-        }
-
-        /// <summary>
-        /// キーを仮想キーに変換します。
-        /// </summary>
-        /// <param name="key">キーコード</param>
-        /// <returns>仮想キー</returns>
-        public static Keys ToVirtualKey(this Key key)
-        {
-            return (Keys)KeyInterop.VirtualKeyFromKey(key);
-        }
-
-        /// <summary>
-        /// 装飾キーかどうか判定します。
-        /// </summary>
-        /// <param name="key">仮想キー</param>
-        /// <returns>装飾キーの場合はtrue、それ以外はfalse</returns>
-        private static bool isModifyKey(Keys key)
-        {
             switch (key)
             {
                 case Keys.LMenu:
@@ -93,11 +33,21 @@ namespace WinCap.Services
         }
 
         /// <summary>
+        /// 修飾キーかどうか判定します。
+        /// </summary>
+        /// <param name="key">キーコード</param>
+        /// <returns>修飾キーの場合はtrue、それ以外はfalse</returns>
+        public static bool IsModifyKey(this Key key)
+        {
+            return IsModifyKey(key.ToVirtualKey());
+        }
+
+        /// <summary>
         /// 修飾キーセットを取得します。
         /// </summary>
         /// <param name="key">仮想キー</param>
         /// <returns>修飾キーセット</returns>
-        private static ModifierKeys getModifierKeys(this Keys key)
+        public static ModifierKeys GetModifierKeys(this Keys key)
         {
             var result = ModifierKeys.None;
             switch (key)
@@ -120,6 +70,36 @@ namespace WinCap.Services
                     break;
             }
             return result;
+        }
+
+        /// <summary>
+        /// 修飾キーセットを取得します。
+        /// </summary>
+        /// <param name="key">キーコード</param>
+        /// <returns>修飾キーセット</returns>
+        public static ModifierKeys GetModifierKeys(this Key key)
+        {
+            return GetModifierKeys(key.ToVirtualKey());
+        }
+
+        /// <summary>
+        /// 仮想キーをキーに変換します。
+        /// </summary>
+        /// <param name="keys">仮想キー</param>
+        /// <returns>キー</returns>
+        public static Key ToKey(this Keys keys)
+        {
+            return KeyInterop.KeyFromVirtualKey((int)keys);
+        }
+
+        /// <summary>
+        /// キーを仮想キーに変換します。
+        /// </summary>
+        /// <param name="key">キーコード</param>
+        /// <returns>仮想キー</returns>
+        public static Keys ToVirtualKey(this Key key)
+        {
+            return (Keys)KeyInterop.VirtualKeyFromKey(key);
         }
     }
 }

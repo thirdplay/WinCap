@@ -15,12 +15,12 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// プロパティ値
         /// </summary>
-        private T value;
+        private T _value;
 
         /// <summary>
         /// キャッシュ状態
         /// </summary>
-        private bool cached;
+        private bool _cached;
 
         /// <summary>
         /// プロパティを表すキーを取得します。
@@ -49,7 +49,7 @@ namespace WinCap.Util.Serialization
         {
             get
             {
-                if (this.cached) { return this.value; }
+                if (this._cached) { return this._value; }
 
                 if (!this.Provider.IsLoaded)
                 {
@@ -59,28 +59,28 @@ namespace WinCap.Util.Serialization
                 object obj;
                 if (this.Provider.TryGetValue(this.Key, out obj))
                 {
-                    this.value = this.DeserializeCore(obj);
-                    this.cached = true;
+                    this._value = this.DeserializeCore(obj);
+                    this._cached = true;
                 }
                 else
                 {
-                    this.value = this.Default;
+                    this._value = this.Default;
                 }
 
-                return this.cached ? this.value : this.Default;
+                return this._cached ? this._value : this.Default;
             }
             set
             {
-                if (this.cached && Equals(this.value, value)) { return; }
+                if (this._cached && Equals(this._value, value)) { return; }
 
                 if (!this.Provider.IsLoaded)
                 {
                     this.Provider.Load();
                 }
 
-                var old = this.value;
-                this.value = value;
-                this.cached = true;
+                var old = this._value;
+                this._value = value;
+                this._cached = true;
                 this.Provider.SetValue(this.Key, this.SerializeCore(value));
                 this.OnValueChanged(old, value);
 
@@ -113,11 +113,11 @@ namespace WinCap.Util.Serialization
             this.Provider.Reseted += (sender, args) => this.Reset();
             this.Provider.Reloaded += (sender, args) =>
             {
-                if (this.cached)
+                if (this._cached)
                 {
-                    this.cached = false;
+                    this._cached = false;
 
-                    var oldValue = this.value;
+                    var oldValue = this._value;
                     var newValue = this.Value;
                     if (!Equals(oldValue, newValue))
                     {
@@ -179,8 +179,8 @@ namespace WinCap.Util.Serialization
             {
                 if (this.Provider.RemoveValue(this.Key))
                 {
-                    this.value = this.Default;
-                    this.cached = false;
+                    this._value = this.Default;
+                    this._cached = false;
                     this.OnValueChanged(this.DeserializeCore(old), this.Default);
 
                     if (this.AutoSave)

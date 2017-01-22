@@ -14,30 +14,30 @@ namespace WinCap.Services
         /// <summary>
         /// ショートカットキー検出器
         /// </summary>
-        private readonly ShortcutKeyDetector detector = new ShortcutKeyDetector();
+        private readonly ShortcutKeyDetector _detector = new ShortcutKeyDetector();
 
         /// <summary>
         /// フックアクションリスト
         /// </summary>
-        private readonly List<HookAction> hookActions = new List<HookAction>();
+        private readonly List<HookAction> _hookActions = new List<HookAction>();
 
         /// <summary>
         /// 停止リクエストカウンタ
         /// </summary>
-        private int suspendRequestCount;
+        private int _suspendRequestCount;
 
         /// <summary>
         /// ショートカット監視の停止状態
         /// </summary>
-        public bool IsSuspended => this.detector.IsSuspended;
+        public bool IsSuspended => this._detector.IsSuspended;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public HookService()
         {
-            this.detector.Pressed += this.keyHookOnPressed;
-            this.detector.Start();
+            this._detector.Pressed += this.KeyHookOnPressed;
+            this._detector.Start();
         }
 
         /// <summary>
@@ -46,15 +46,15 @@ namespace WinCap.Services
         /// <returns>停止リクエスト</returns>
         public IDisposable Suspend()
         {
-            this.suspendRequestCount++;
-            this.detector.Stop();
+            this._suspendRequestCount++;
+            this._detector.Stop();
 
             return Disposable.Create(() =>
             {
-                this.suspendRequestCount--;
-                if (this.suspendRequestCount == 0)
+                this._suspendRequestCount--;
+                if (this._suspendRequestCount == 0)
                 {
-                    this.detector.Start();
+                    this._detector.Start();
                 }
             });
         }
@@ -80,9 +80,9 @@ namespace WinCap.Services
         public IDisposable Register(ShortcutKey shortcutKey, Action action, Func<bool> canExecute)
         {
             var hook = new HookAction(shortcutKey, action, canExecute);
-            this.hookActions.Add(hook);
+            this._hookActions.Add(hook);
 
-            return Disposable.Create(() => this.hookActions.Remove(hook));
+            return Disposable.Create(() => this._hookActions.Remove(hook));
         }
 
         /// <summary>
@@ -90,11 +90,11 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="sender">イベント発生元オブジェクト</param>
         /// <param name="args">イベント引数</param>
-        private void keyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
+        private void KeyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
         {
             if (args.ShortcutKey == ShortcutKey.None) { return; }
 
-            var target = this.hookActions.FirstOrDefault(x => x.ShortcutKey == args.ShortcutKey);
+            var target = this._hookActions.FirstOrDefault(x => x.ShortcutKey == args.ShortcutKey);
             if (target != null && target.CanExecute())
             {
                 DispatcherHelper.UIDispatcher.Invoke(() => target.Action());
@@ -107,7 +107,7 @@ namespace WinCap.Services
         /// </summary>
         public void Dispose()
         {
-            this.detector.Stop();
+            this._detector.Stop();
         }
 
         /// <summary>

@@ -37,14 +37,14 @@ namespace WinCap.ViewModels
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
 
         /// <summary>
-        /// 初期化時に発生するイベント。
+        /// 初期化時に呼び出すアクション。
         /// </summary>
-        public event EventHandler Initialized;
+        public Action Initialized;
 
         /// <summary>
-        /// コントロール選択時に発生するイベント。
+        /// コントロール選択時に呼び出すアクション。
         /// </summary>
-        public event EventHandler Selected;
+        public Action Selected;
 
         /// <summary>
         /// コンストラクタ
@@ -52,7 +52,6 @@ namespace WinCap.ViewModels
         public ControlSelectionWindowViewModel()
         {
             this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
-            this.Initialized += (s, e) => this.ControlSelectInfo.Initialize();
         }
 
         /// <summary>
@@ -61,6 +60,8 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
+            this.SelectedHandle = IntPtr.Zero;
+
             // ウィンドウに画面全体の範囲を設定する
             Rectangle screenRect = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
@@ -75,7 +76,8 @@ namespace WinCap.ViewModels
             this._controlSelection = new ControlSelection();
 
             // 初期化イベントを発火
-            this.Initialized?.Invoke(this, EventArgs.Empty);
+            this.Initialized?.Invoke();
+            this.ControlSelectInfo.Initialize();
         }
 
         /// <summary>
@@ -176,7 +178,7 @@ namespace WinCap.ViewModels
             if (handle != IntPtr.Zero)
             {
                 DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
-                this.Selected?.Invoke(this, EventArgs.Empty);
+                this.Selected?.Invoke();
             }
             this.Close();
         }

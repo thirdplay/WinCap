@@ -10,7 +10,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// シリアル化機能
         /// </summary>
-        private readonly ISerializationProvider provider;
+        private readonly ISerializationProvider _provider;
 
         /// <summary>
         /// コンストラクタ
@@ -18,37 +18,37 @@ namespace WinCap.Serialization
         /// <param name="provider">シリアル化機能提供者</param>
         public GeneralSettings(ISerializationProvider provider)
         {
-            this.provider = provider;
+            this._provider = provider;
         }
 
         /// <summary>
         /// スタートアップに登録する
         /// </summary>
-        public SerializableProperty<bool> IsRegisterInStartup => this.Cache(key => new SerializableProperty<bool>(key, this.provider, false));
+        public SerializableProperty<bool> IsRegisterInStartup => this.Cache(key => new SerializableProperty<bool>(key, this._provider, false));
 
         /// <summary>
         /// デスクトップにショートカットを作成する
         /// </summary>
-        public SerializableProperty<bool> IsCreateShortcutToDesktop => this.Cache(key => new SerializableProperty<bool>(key, this.provider, false));
+        public SerializableProperty<bool> IsCreateShortcutToDesktop => this.Cache(key => new SerializableProperty<bool>(key, this._provider, false));
 
         /// <summary>
         /// キャプチャー時に効果音を再生する
         /// </summary>
-        public SerializableProperty<bool> IsPlaySeWhenCapture => this.Cache(key => new SerializableProperty<bool>(key, this.provider, true));
+        public SerializableProperty<bool> IsPlaySeWhenCapture => this.Cache(key => new SerializableProperty<bool>(key, this._provider, true));
 
         /// <summary>
         /// ウェブページ全体キャプチャ開始時にページ先頭に移動する
         /// </summary>
-        public SerializableProperty<bool> IsWebPageCaptureStartWhenPageFirstMove => this.Cache(key => new SerializableProperty<bool>(key, this.provider, true));
+        public SerializableProperty<bool> IsWebPageCaptureStartWhenPageFirstMove => this.Cache(key => new SerializableProperty<bool>(key, this._provider, true));
 
         /// <summary>
         /// スクロール遅延時間
         /// </summary>
-        public SerializableProperty<int> ScrollDelayTime => this.Cache(key => new SerializableProperty<int>(key, this.provider, 100));
+        public SerializableProperty<int> ScrollDelayTime => this.Cache(key => new SerializableProperty<int>(key, this._provider, 100));
 
         /// <summary>
         /// キャプチャ遅延時間
         /// </summary>
-        public SerializableProperty<int> CaptureDelayTime => this.Cache(key => new SerializableProperty<int>(key, this.provider, 0));
+        public SerializableProperty<int> CaptureDelayTime => this.Cache(key => new SerializableProperty<int>(key, this._provider, 0));
     }
 }

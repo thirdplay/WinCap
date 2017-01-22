@@ -16,9 +16,9 @@ namespace WinCap.Driver
         /// ビルドディレクトリ
         /// </summary>
 #if DEBUG
-        private static string BuildDir { get; } = "Debug";
+        private const string BuildDir = "Debug";
 #else
-        private static string BuildDir { get; } = "Release";
+        private const string BuildDir = "Release";
 #endif
 
         /// <summary>

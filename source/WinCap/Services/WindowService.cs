@@ -16,7 +16,7 @@ namespace WinCap.Services
         /// <summary>
         /// ウィンドウコンテナ
         /// </summary>
-        private readonly Dictionary<string, Window> container = new Dictionary<string, Window>();
+        private readonly Dictionary<string, Window> _container = new Dictionary<string, Window>();
 
         /// <summary>
         /// コンストラクタ
@@ -32,7 +32,7 @@ namespace WinCap.Services
         /// <returns>ウィンドウ</returns>
         public SettingsWindow GetSettingsWindow(Action<SettingsWindowViewModel> closedAction)
         {
-            return getWindow<SettingsWindow, SettingsWindowViewModel>(closedAction);
+            return GetWindow<SettingsWindow, SettingsWindowViewModel>(closedAction);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace WinCap.Services
         /// </summary>
         public bool IsExists<T>() where T : Window, new()
         {
-            return this.container.ContainsKey(typeof(T).Name);
+            return this._container.ContainsKey(typeof(T).Name);
         }
 
         /// <summary>
@@ -50,13 +50,13 @@ namespace WinCap.Services
         /// <typeparam name="U">ViewModelを継承したクラス</typeparam>
         /// <param name="closedAction">Closed時の処理メソッド</param>
         /// <returns>ウィンドウ</returns>
-        private T getWindow<T, U>(Action<U> closedAction)
+        private T GetWindow<T, U>(Action<U> closedAction)
             where T : Window, new()
             where U : ViewModel, new()
         {
             var key = typeof(T).Name;
 
-            if (!this.container.ContainsKey(key))
+            if (!this._container.ContainsKey(key))
             {
                 var viewModel = new U();
                 var window = new T() { DataContext = viewModel };
@@ -65,12 +65,12 @@ namespace WinCap.Services
                 .Subscribe(x =>
                 {
                     DispatcherHelper.UIDispatcher.Invoke(() => closedAction(viewModel));
-                    this.container.Remove(key);
+                    this._container.Remove(key);
                 });
 
-                this.container.Add(key, window);
+                this._container.Add(key, window);
             }
-            return this.container[key] as T;
+            return this._container[key] as T;
         }
 
         #region IDisposable members
@@ -79,11 +79,11 @@ namespace WinCap.Services
         /// </summary>
         public void Dispose()
         {
-            foreach (Window window in this.container.Values)
+            foreach (Window window in this._container.Values)
             {
                 window.Close();
             }
-            this.container.Clear();
+            this._container.Clear();
         }
         #endregion
     }

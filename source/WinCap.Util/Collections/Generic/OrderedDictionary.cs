@@ -284,7 +284,7 @@ namespace WinCap.Util.Collections.Generic
         /// <returns>指定した値を持つ要素が <see cref="OrderedDictionary{TKey, TValue}"/> に格納されている場合は true。それ以外の場合は false。</returns>
         public bool ContainsValue(TValue value) => _dic.ContainsValue(value);
 
-        private void copyTo(KeyValuePair<TKey, TValue>[] array, int index)
+        private void CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
         {
             ThrowIf(array == null, () => new ArgumentNullException(nameof(array)));
             ThrowIf(index < 0 || array.Length <= index, () => new ArgumentNullException(nameof(index)));
@@ -447,7 +447,7 @@ namespace WinCap.Util.Collections.Generic
 
         void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
         {
-            copyTo(array, index);
+            CopyTo(array, index);
         }
 
         bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
@@ -517,7 +517,7 @@ namespace WinCap.Util.Collections.Generic
             var kvps = array as KeyValuePair<TKey, TValue>[];
             if (kvps != null)
             {
-                copyTo(kvps, index);
+                CopyTo(kvps, index);
             }
             else if (array is DictionaryEntry[])
             {
@@ -672,24 +672,24 @@ namespace WinCap.Util.Collections.Generic
         [Serializable]
         public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDictionaryEnumerator
         {
-            private OrderedDictionary<TKey, TValue> dic;
-            private KeyValuePair<TKey, TValue> current;
+            private OrderedDictionary<TKey, TValue> _dic;
+            private KeyValuePair<TKey, TValue> _current;
             private int index;
             private int version;
 
             internal Enumerator(OrderedDictionary<TKey, TValue> dictionary)
             {
-                dic = dictionary;
+                _dic = dictionary;
                 index = 0;
                 version = dictionary._version;
-                current = new KeyValuePair<TKey, TValue>();
+                _current = new KeyValuePair<TKey, TValue>();
             }
 
             /// <summary>
             /// 列挙子の現在位置の要素を取得します。
             /// </summary>
             /// <value><see cref="OrderedDictionary{TKey, TValue}"/> のうち、列挙子の現在位置にある要素。</value>
-            public KeyValuePair<TKey, TValue> Current => current;
+            public KeyValuePair<TKey, TValue> Current => _current;
 
             /// <summary>
             /// <see cref="Enumerator"/> によって使用されているすべてのリソースを解放します。
@@ -705,32 +705,32 @@ namespace WinCap.Util.Collections.Generic
             /// <exception cref="InvalidOperationException">コレクションは、列挙子の作成後に変更されました。</exception>
             public bool MoveNext()
             {
-                if (version != dic._version)
+                if (version != _dic._version)
                 {
                     throw new InvalidOperationException();
                 }
 
-                while ((uint)index < (uint)dic.Count)
+                while ((uint)index < (uint)_dic.Count)
                 {
-                    var k = dic._list[index];
-                    current = new KeyValuePair<TKey, TValue>(k, dic._dic[k]);
+                    var k = _dic._list[index];
+                    _current = new KeyValuePair<TKey, TValue>(k, _dic._dic[k]);
                     index++;
                     return true;
                 }
-                index = dic.Count + 1;
-                current = new KeyValuePair<TKey, TValue>();
+                index = _dic.Count + 1;
+                _current = new KeyValuePair<TKey, TValue>();
                 return false;
             }
 
             void IEnumerator.Reset()
             {
-                if (version != dic._version)
+                if (version != _dic._version)
                 {
                     throw new InvalidOperationException();
                 }
 
                 index = 0;
-                current = new KeyValuePair<TKey, TValue>();
+                _current = new KeyValuePair<TKey, TValue>();
             }
 
             object IEnumerator.Current => Current;
