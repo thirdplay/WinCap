@@ -21,6 +21,8 @@
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
 										 MethodName="Initialize" />
+            <livet:LivetCallMethodAction MethodTarget="{Binding ControlSelectInfo}"
+										 MethodName="Initialize" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseMove">
@@ -41,11 +43,6 @@
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
 										 MessageKey="Window.Bounds">
             <behaviors:SetWindowBoundsAction />
-        </livet:InteractionMessageTrigger>
-
-        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.Close">
-            <behaviors:CloseWindowAction />
         </livet:InteractionMessageTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"

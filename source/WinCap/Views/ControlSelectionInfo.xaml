@@ -9,8 +9,8 @@
              xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignData /SampleData/ControlSelectInfoViewModelSampleData.xaml}"
-             Width="240"
-             Height="100"
+             Width="{Binding Width}"
+             Height="{Binding Height}"
              Foreground="#FFFFFFFF"
 			 Background="{DynamicResource BackgroundBrushKey}">
     <UserControl.Resources>

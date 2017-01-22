@@ -130,7 +130,7 @@ namespace WinCap.Services
                         // ウェブページ全体をキャプチャ
                         capturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
                         capturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                        using(var bitmap = ExecuteCapture(() => capturer.Capture(viewModel.SelectedHandle)))
+                        using (var bitmap = ExecuteCapture(() => capturer.Capture(viewModel.SelectedHandle)))
                         {
                             SaveCaptureImage(bitmap);
                         }
@@ -138,7 +138,7 @@ namespace WinCap.Services
                     else
                     {
                         // 選択コントロールをキャプチャ
-                        using(var bitmap = ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle)))
+                        using (var bitmap = ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle)))
                         {
                             SaveCaptureImage(bitmap);
                         }
@@ -173,7 +173,6 @@ namespace WinCap.Services
             if (settings.OutputMethodType == OutputMethodType.Clipboard)
             {
                 // 画像をクリップボードに設定する
-                Clipboard.Clear();
                 Clipboard.SetDataObject(bitmap.ToBitmapSource(), false);
             }
             else if (settings.OutputMethodType == OutputMethodType.ImageFile)
@@ -219,7 +218,7 @@ namespace WinCap.Services
                 }
 
                 // 画像ファイルに保存
-                bitmap.Save(filePath, settings.OutputFormatType.Value.ToImageFormat());
+                bitmap.Save(filePath, outputFormatType.ToImageFormat());
             }
 
             // SE再生

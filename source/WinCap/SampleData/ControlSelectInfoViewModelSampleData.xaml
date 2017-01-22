@@ -3,7 +3,9 @@
                                           xmlns:drawing="clr-namespace:System.Drawing;assembly=System.Drawing"
                                           xmlns:viewModels="clr-namespace:WinCap.ViewModels"
                                           xmlns:models="clr-namespace:WinCap.Models"
-                                          ClassName="TestClass">
+                                          ClassName="TestClass"
+                                          Width="240.0"
+                                          Height="100.0">
     <viewModels:ControlSelectionInfoViewModel.Point>
         <drawing:Point X="10"
                        Y="20" />

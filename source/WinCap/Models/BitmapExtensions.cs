@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Reactive.Disposables;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -23,17 +24,11 @@ namespace WinCap.Models
         public static BitmapSource ToBitmapSource(this Bitmap source)
         {
             IntPtr ptr = source.GetHbitmap();
-            BitmapSource bs;
-            try
+            using (Disposable.Create(() => DeleteObject(ptr)))
             {
-                bs = Imaging.CreateBitmapSourceFromHBitmap(
+                return Imaging.CreateBitmapSourceFromHBitmap(
                         ptr, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             }
-            finally
-            {
-                DeleteObject(ptr);
-            }
-            return bs;
         }
     }
 }

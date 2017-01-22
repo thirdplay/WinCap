@@ -13,19 +13,65 @@ namespace WinCap.Models
     /// <summary>
     /// コントロール選択ウィンドウのロジックを提供します。
     /// </summary>
-    public class ControlSelection
+    public class ControlSelection : NotificationObject
     {
         /// <summary>
         /// ウィンドウハンドルリスト。
         /// </summary>
-        private readonly List<IntPtr> _handles;
+        private List<IntPtr> _handles;
 
+        #region SelectedHandle 変更通知プロパティ
+        private IntPtr _SelectedHandle;
+        /// <summary>
+        /// 選択コントロールのハンドルを取得します。
+        /// </summary>
+        public IntPtr SelectedHandle
+        {
+            get { return _SelectedHandle; }
+            set
+            { 
+                if (_SelectedHandle != value)
+                {
+                    _SelectedHandle = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+        
         /// <summary>
         /// コンストラクタ。
         /// </summary>
         public ControlSelection()
         {
+        }
+
+        /// <summary>
+        /// 初期化。
+        /// </summary>
+        public void Initialize()
+        {
             this._handles = this.GetHandles();
+            this.SelectedHandle = IntPtr.Zero;
+        }
+
+        /// <summary>
+        /// マウス座標を更新します。
+        /// </summary>
+        /// <param name="point">マウス座標</param>
+        public void UpdateMousePoint(Point point)
+        {
+            var selectedHandle = IntPtr.Zero;
+            foreach (var handle in this._handles)
+            {
+                Rectangle bounds = InteropHelper.GetWindowBounds(handle);
+                if (bounds != Rectangle.Empty && bounds.Contains(point))
+                {
+                    selectedHandle = handle;
+                    break;
+                }
+            }
+            this.SelectedHandle = selectedHandle;
         }
 
         /// <summary>

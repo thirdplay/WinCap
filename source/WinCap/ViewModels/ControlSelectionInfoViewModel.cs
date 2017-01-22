@@ -12,6 +12,21 @@ namespace WinCap.ViewModels
     /// </summary>
     public class ControlSelectionInfoViewModel : ViewModel
     {
+        /// <summary>
+        /// ウィンドウの横幅を取得します。
+        /// </summary>
+        public double Width { get; } = 240.0;
+
+        /// <summary>
+        /// ウィンドウの高さを取得します。
+        /// </summary>
+        public double Height { get; } = 100.0;
+
+        /// <summary>
+        /// ウィンドウのマージンを取得します。
+        /// </summary>
+        public System.Windows.Point Margin { get; } = new System.Windows.Point(12.0, 12.0);
+
         #region Left 変更通知プロパティ
         private double _Left;
         /// <summary>
@@ -112,8 +127,6 @@ namespace WinCap.ViewModels
         /// </summary>
         public ControlSelectionInfoViewModel()
         {
-            this.Left = 12.0;
-            this.Top = 12.0;
         }
 
         /// <summary>
@@ -121,6 +134,9 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
+            this.Left = this.Margin.X;
+            this.Top = this.Margin.Y;
+
             this.Messenger.Raise(new SetVisibilityMessage
             {
                 MessageKey = "Window.Visibility",
@@ -141,10 +157,17 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// 選択コントロール情報を更新します。
+        /// マウス座標を更新します。
         /// </summary>
-        public void Update()
+        /// <param name="point">マウス座標</param>
+        public void UpdateMousePoint(System.Drawing.Point point)
         {
+            // スクリーン取得
+            var screen = ScreenHelper.GetCurrentScreen(point);
+
+            // スクリーンの左端座標に設定する
+            this.Left = screen.Bounds.Left + Margin.X;
+            this.Top = screen.Bounds.Top + Margin.Y;
         }
     }
 }
