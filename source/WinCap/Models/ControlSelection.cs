@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WinCap.Interop;
+using WinCap.Interop.Win32;
 using WinCap.Properties;
 
 namespace WinCap.Models
@@ -102,9 +99,9 @@ namespace WinCap.Models
             List<IntPtr> list = new List<IntPtr>();
 
             // 一番手前のウィンドウを取得
-            IntPtr handle = NativeMethods.GetForegroundWindow();
+            IntPtr handle = User32.GetForegroundWindow();
             IntPtr hWndPrev;
-            while ((hWndPrev = NativeMethods.GetWindow(handle, GW.HWNDPREV)) != IntPtr.Zero)
+            while ((hWndPrev = User32.GetWindow(handle, GW.HWNDPREV)) != IntPtr.Zero)
             {
                 handle = hWndPrev;
             }
@@ -115,14 +112,14 @@ namespace WinCap.Models
                 if (this.IsValidWindow(handle))
                 {
                     // 子ウィンドウ判定
-                    IntPtr hWndChild = NativeMethods.GetWindow(handle, GW.CHILD);
+                    IntPtr hWndChild = User32.GetWindow(handle, GW.CHILD);
                     if (hWndChild != IntPtr.Zero)
                     {
                         this.GetHandles(hWndChild, ref list);
                     }
                     list.Add(handle);
                 }
-            } while ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
+            } while ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
             // クラス名にWinCapを含むウィンドウは除外する
             list.RemoveAll(x => InteropHelper.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
@@ -138,7 +135,7 @@ namespace WinCap.Models
         {
             if (this.IsValidWindow(handle))
             {
-                IntPtr hWndChild = NativeMethods.GetWindow(handle, GW.CHILD);
+                IntPtr hWndChild = User32.GetWindow(handle, GW.CHILD);
                 if (hWndChild != IntPtr.Zero)
                 {
                     this.GetHandles(hWndChild, ref list);
@@ -146,7 +143,7 @@ namespace WinCap.Models
                 list.Add(handle);
             }
 
-            if ((handle = NativeMethods.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero)
+            if ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero)
             {
                 this.GetHandles(handle, ref list);
             }
@@ -160,7 +157,7 @@ namespace WinCap.Models
         private bool IsValidWindow(IntPtr handle)
         {
             // ウィンドウの表示状態を取得
-            int visible = NativeMethods.IsWindowVisible(handle);
+            int visible = User32.IsWindowVisible(handle);
             if (visible != 0)
             {
                 // 矩形情報を取得

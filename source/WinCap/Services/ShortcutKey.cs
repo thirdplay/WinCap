@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
-using WinCap.Interop;
+using WinCap.Interop.Win32;
 
 namespace WinCap.Services
 {
@@ -131,7 +131,7 @@ namespace WinCap.Services
 
             var sb = new StringBuilder(256);
 
-            long scanCode = NativeMethods.MapVirtualKey((uint)keyCode, (int)MAPVK.VK_TO_VSC);
+            long scanCode = User32.MapVirtualKey((uint)keyCode, (int)MAPVK.VK_TO_VSC);
 
             // 上位ワードにスキャンコードをシフトする
             scanCode = (scanCode << 16);
@@ -144,7 +144,7 @@ namespace WinCap.Services
                 scanCode |= 0x1000000;
             }
 
-            if (NativeMethods.GetKeyNameText((int)scanCode, sb, 256) == 0)
+            if (User32.GetKeyNameText((int)scanCode, sb, 256) == 0)
             {
                 return "";
             }

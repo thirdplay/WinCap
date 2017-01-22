@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
-using WinCap.Interop;
+using WinCap.Interop.Win32;
 
 namespace WinCap.Models
 {
@@ -19,7 +19,7 @@ namespace WinCap.Models
         public static string GetClassName(IntPtr handle)
         {
             StringBuilder builder = new StringBuilder(256);
-            if (NativeMethods.GetClassName(handle, builder, builder.Capacity))
+            if (User32.GetClassName(handle, builder, builder.Capacity))
             {
                 return builder.ToString();
             }
@@ -37,7 +37,7 @@ namespace WinCap.Models
             RECT rect = new RECT();
             if (Environment.OSVersion.Version.Major >= 6)
             {
-                if (NativeMethods.DwmGetWindowAttribute(handle, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(RECT))) == 0)
+                if (Dwmapi.DwmGetWindowAttribute(handle, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(RECT))) == 0)
                 {
                     Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                     if (rectangle.Width > 0 && rectangle.Height > 0)
@@ -48,7 +48,7 @@ namespace WinCap.Models
             }
 
             // ウィンドウサイズの取得
-            if (NativeMethods.GetWindowRect(handle, out rect))
+            if (User32.GetWindowRect(handle, out rect))
             {
                 return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
             }

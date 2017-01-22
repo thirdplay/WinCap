@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using WinCap.Interop;
+using WinCap.Interop.Win32;
 using WinCap.Models;
 
 namespace WinCap.Drivers
@@ -301,10 +302,10 @@ namespace WinCap.Drivers
             IWebBrowser2 wb = null;
 
             // WM_HTML_GETOBJECTメッセージの登録
-            uint msg = NativeMethods.RegisterWindowMessage(HtmlGetObjectMessage);
+            uint msg = User32.RegisterWindowMessage(HtmlGetObjectMessage);
 
             // WM_HTML_GETOBJECTメッセージの送信
-            NativeMethods.SendMessageTimeout(hWnd, msg, 0, 0, (uint)SMTO.ABORTIFHUNG, 1000, ref sendMessageResult);
+            User32.SendMessageTimeout(hWnd, msg, 0, 0, (uint)SMTO.ABORTIFHUNG, 1000, ref sendMessageResult);
             if (sendMessageResult == UIntPtr.Zero)
             {
                 return null;
@@ -314,7 +315,7 @@ namespace WinCap.Drivers
             try
             {
                 // HTML文書情報の取得
-                if (NativeMethods.ObjectFromLresult(sendMessageResult, ref IID_IHTMLDocument3, 0, ref doc) != 0)
+                if (Oleacc.ObjectFromLresult(sendMessageResult, ref IID_IHTMLDocument3, 0, ref doc) != 0)
                 {
                     return null;
                 }

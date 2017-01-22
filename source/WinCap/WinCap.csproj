@@ -159,12 +159,16 @@
     <Compile Include="ApplicationAction.cs" />
     <Compile Include="Capturers\IWebBrowserCapturer.cs" />
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
-    <Compile Include="Interop\MAPVK.cs" />
-    <Compile Include="Interop\SWP.cs" />
-    <Compile Include="Interop\VK.cs" />
+    <Compile Include="Interop\Win32\Dwmapi.cs" />
+    <Compile Include="Interop\Win32\Gdi32.cs" />
+    <Compile Include="Interop\Win32\MAPVK.cs" />
+    <Compile Include="Interop\Win32\Oleacc.cs" />
+    <Compile Include="Interop\Win32\SWP.cs" />
+    <Compile Include="Interop\Win32\User32.cs" />
+    <Compile Include="Interop\Win32\VK.cs" />
     <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\IServiceProvider.cs" />
-    <Compile Include="Interop\SMTO.cs" />
+    <Compile Include="Interop\Win32\SMTO.cs" />
     <Compile Include="Models\BaseShortcut.cs" />
     <Compile Include="Models\BitmapExtensions.cs" />
     <Compile Include="Models\ControlSelection.cs" />
@@ -241,11 +245,11 @@
     <Compile Include="Views\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interop\DWMWA.cs" />
-    <Compile Include="Interop\GW.cs" />
-    <Compile Include="Interop\MOD.cs" />
-    <Compile Include="Interop\RECT.cs" />
-    <Compile Include="Interop\TernaryRasterOperations.cs" />
+    <Compile Include="Interop\Win32\DWMWA.cs" />
+    <Compile Include="Interop\Win32\GW.cs" />
+    <Compile Include="Interop\Win32\MOD.cs" />
+    <Compile Include="Interop\Win32\RECT.cs" />
+    <Compile Include="Interop\Win32\TernaryRasterOperations.cs" />
     <Compile Include="Services\CapturerService.cs" />
     <Compile Include="ViewModels\ControlSelectionWindowViewModel.cs" />
     <Compile Include="Views\ControlSelectionInfo.xaml.cs">
@@ -254,8 +258,7 @@
     <Compile Include="Views\ControlSelectionWindow.xaml.cs">
       <DependentUpon>ControlSelectionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interop\NativeMethods.cs" />
-    <Compile Include="Interop\WM.cs" />
+    <Compile Include="Interop\Win32\WM.cs" />
     <Compile Include="Drivers\InternetExplorer.cs" />
     <DesignData Include="SampleData\ControlSelectInfoViewModelSampleData.xaml">
       <SubType>Designer</SubType>

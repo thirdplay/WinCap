@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using WinCap.Interop;
+using WinCap.Interop.Win32;
 using WinCap.Models;
 
 namespace WinCap.Capturers
@@ -27,15 +28,15 @@ namespace WinCap.Capturers
         public Bitmap CaptureBounds(Rectangle bounds)
         {
             Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height);
-            IntPtr screenDC = NativeMethods.GetDC(IntPtr.Zero);
+            IntPtr screenDC = User32.GetDC(IntPtr.Zero);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 IntPtr hDC = g.GetHdc();
-                NativeMethods.BitBlt(hDC, 0, 0, bitmap.Width, bitmap.Height,
+                Gdi32.BitBlt(hDC, 0, 0, bitmap.Width, bitmap.Height,
                     screenDC, bounds.X, bounds.Y, TernaryRasterOperations.SRCCOPY);
                 g.ReleaseHdc(hDC);
             }
-            NativeMethods.ReleaseDC(IntPtr.Zero, screenDC);
+            User32.ReleaseDC(IntPtr.Zero, screenDC);
 
             return bitmap;
         }

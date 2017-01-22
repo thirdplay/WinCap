@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
-using WinCap.Interop;
+using WinCap.Interop.Win32;
 
 namespace WinCap.Views.Controls
 {
@@ -171,7 +171,7 @@ namespace WinCap.Views.Controls
             var hwnd = hwndSource.Handle;
 
             RECT rect;
-            if (!NativeMethods.GetWindowRect(hwnd, out rect))
+            if (!User32.GetWindowRect(hwnd, out rect))
             {
                 return;
             }
@@ -183,7 +183,7 @@ namespace WinCap.Views.Controls
             var height = rect.Height;
             if (isTop)
             {
-                NativeMethods.SetWindowPos(hwnd, HWND_TOPMOST, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_TOPMOST, left, top, width, height, TopmostFlags);
             }
             else
             {
@@ -191,9 +191,9 @@ namespace WinCap.Views.Controls
                 // the titlebar (as opposed to other parts of the external
                 // window) unless I first set the popup to HWND_BOTTOM
                 // then HWND_TOP before HWND_NOTOPMOST
-                NativeMethods.SetWindowPos(hwnd, HWND_BOTTOM, left, top, width, height, TopmostFlags);
-                NativeMethods.SetWindowPos(hwnd, HWND_TOP, left, top, width, height, TopmostFlags);
-                NativeMethods.SetWindowPos(hwnd, HWND_NOTOPMOST, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_BOTTOM, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_TOP, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_NOTOPMOST, left, top, width, height, TopmostFlags);
             }
 
             this._appliedTopMost = isTop;
