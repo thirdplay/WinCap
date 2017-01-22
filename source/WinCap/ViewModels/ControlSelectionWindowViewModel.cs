@@ -173,20 +173,12 @@ namespace WinCap.ViewModels
         {
             this.SelectedHandle = handle;
             this.SetVisibility(Visibility.Hidden);
-            BackgroundInvoke();
             if (handle != IntPtr.Zero)
             {
+                DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
                 this.Selected?.Invoke(this, EventArgs.Empty);
             }
             this.Close();
-        }
-
-        /// <summary>
-        /// バックグラインド処理を呼び出し、他の操作の完了を待ちます。
-        /// </summary>
-        private void BackgroundInvoke()
-        {
-            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
         }
     }
 }
