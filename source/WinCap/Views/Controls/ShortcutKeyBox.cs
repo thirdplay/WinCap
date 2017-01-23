@@ -41,7 +41,7 @@ namespace WinCap.Views.Controls
         /// </summary>
         public ShortcutKeyBox()
         {
-            this.detector.Pressed += this.keyHookOnPressed;
+            this.detector.Pressed += this.KeyHookOnPressed;
         }
 
         #region Current 依存関係プロパティ
@@ -61,7 +61,7 @@ namespace WinCap.Views.Controls
         private static void CurrentPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var instance = (ShortcutKeyBox)d;
-            instance.updateText();
+            instance.UpdateText();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace WinCap.Views.Controls
             base.OnGotKeyboardFocus(e);
 
             this.detector.Start();
-            this.updateText();
+            this.UpdateText();
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace WinCap.Views.Controls
             if (!e.IsRepeat)
             {
                 var key = e.Key == Key.System ? e.SystemKey : e.Key;
-                executeKeyDown(key);
+                ExecuteKeyDown(key);
             }
 
             e.Handled = true;
@@ -128,7 +128,7 @@ namespace WinCap.Views.Controls
                 }
 
                 this.pressedKey = Key.None;
-                this.updateText();
+                this.UpdateText();
             }
 
             e.Handled = true;
@@ -140,13 +140,13 @@ namespace WinCap.Views.Controls
         /// </summary>
         /// <param name="sender">イベント発生元オブジェクト</param>
         /// <param name="args">イベント引数</param>
-        private void keyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
+        private void KeyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
         {
             if (args.ShortcutKey == ShortcutKey.None) { return; }
 
             if (args.ShortcutKey.Key == Key.PrintScreen)
             {
-                executeKeyDown(Key.PrintScreen);
+                ExecuteKeyDown(Key.PrintScreen);
             }
         }
 
@@ -154,7 +154,7 @@ namespace WinCap.Views.Controls
         /// キー押下時の処理を実行します。
         /// </summary>
         /// <param name="key">キーコード</param>
-        private void executeKeyDown(Key key)
+        private void ExecuteKeyDown(Key key)
         {
             if (key == Key.Back)
             {
@@ -171,18 +171,18 @@ namespace WinCap.Views.Controls
             }
 
             this.CurrentAsKeys = this.pressedKey != Key.None
-                ? this.getShortcutKey()
+                ? this.GetShortcutKey()
                 : ShortcutKey.None;
 
-            this.updateText();
+            this.UpdateText();
         }
 
         /// <summary>
         /// テキストを更新します。
         /// </summary>
-        private void updateText()
+        private void UpdateText()
         {
-            var text = (this.CurrentAsKeys ?? this.getShortcutKey()).ToString();
+            var text = (this.CurrentAsKeys ?? this.GetShortcutKey()).ToString();
 
             this.Text = text;
             this.CaretIndex = text.Length;
@@ -192,7 +192,7 @@ namespace WinCap.Views.Controls
         /// ショートカットキーを取得します。
         /// </summary>
         /// <returns>ショートカットキー</returns>
-        private ShortcutKey getShortcutKey()
+        private ShortcutKey GetShortcutKey()
         {
             return new ShortcutKey(this.pressedKey, this.pressedModifiers);
         }

@@ -30,7 +30,7 @@ namespace WinCap.Driver
         /// </summary>
         public WPFButtonBase ButtonOk { get; private set; }
 
-        private General _general;
+        private General general;
         /// <summary>
         /// 全般タブを取得します。
         /// </summary>
@@ -39,12 +39,12 @@ namespace WinCap.Driver
             get
             {
                 ChangeSelectedIndex(TabItem.General);
-                this._general = this._general ?? new General(this.Window, this.ViewModel.General);
-                return this._general;
+                this.general = this.general ?? new General(this.Window, this.ViewModel.General);
+                return this.general;
             }
         }
 
-        private Output _output;
+        private Output output;
         /// <summary>
         /// 出力タブを取得します。
         /// </summary>
@@ -53,8 +53,8 @@ namespace WinCap.Driver
             get
             {
                 ChangeSelectedIndex(TabItem.Output);
-                this._output = this._output ?? new Output(this.Window, this.ViewModel.Output);
-                return this._output;
+                this.output = this.output ?? new Output(this.Window, this.ViewModel.Output);
+                return this.output;
             }
         }
 

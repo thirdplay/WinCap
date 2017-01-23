@@ -13,12 +13,12 @@ namespace WinCap.Driver
         /// <summary>
         /// 監視タスク
         /// </summary>
-        private Task _monitor;
+        private Task monitor;
 
         /// <summary>
         /// 監視状態
         /// </summary>
-        private bool _monitoring = true;
+        private bool monitoring = true;
 
         /// <summary>
         /// タイムアウト時間を取得、設定します。
@@ -37,11 +37,11 @@ namespace WinCap.Driver
         public TimeoutDetector(int timeout)
         {
             this.Timeout = timeout;
-            this._monitor = Task.Factory.StartNew(() =>
+            this.monitor = Task.Factory.StartNew(() =>
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                while (this._monitoring)
+                while (this.monitoring)
                 {
                     if (this.Timeout < watch.ElapsedMilliseconds)
                     {
@@ -58,8 +58,8 @@ namespace WinCap.Driver
         /// </summary>
         public void Finish()
         {
-            this._monitoring = false;
-            this._monitor.Wait();
+            this.monitoring = false;
+            this.monitor.Wait();
         }
     }
 }

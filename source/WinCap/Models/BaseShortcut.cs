@@ -10,7 +10,7 @@ namespace WinCap.Models
     public abstract class BaseShortcut
     {
         /// <summary>
-        /// パス
+        /// パス。
         /// </summary>
         private readonly string path;
 
@@ -33,7 +33,7 @@ namespace WinCap.Models
         /// <param name="path">ショートカットのファイル名</param>
         public BaseShortcut(string fileName)
         {
-            this.path = getShortcutFilePath(fileName);
+            this.path = GetShortcutFilePath(fileName);
         }
 
         /// <summary>
@@ -79,6 +79,6 @@ namespace WinCap.Models
         /// </summary>
         /// <param name="fileName">ファイル名</param>
         /// <returns>ファイルパス</returns>
-        protected abstract string getShortcutFilePath(string fileName);
+        protected abstract string GetShortcutFilePath(string fileName);
     }
 }

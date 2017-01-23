@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
-using WinCap.Interop;
+using WinCap.Interop.Win32;
 
 namespace WinCap.Views.Controls
 {
@@ -67,18 +67,18 @@ namespace WinCap.Views.Controls
                 return;
             }
 
-            this.hostWindow.LocationChanged -= this.hostWindow_SizeOrLocationChanged;
-            this.hostWindow.LocationChanged += this.hostWindow_SizeOrLocationChanged;
-            this.hostWindow.SizeChanged -= this.hostWindow_SizeOrLocationChanged;
-            this.hostWindow.SizeChanged += this.hostWindow_SizeOrLocationChanged;
-            target.SizeChanged -= this.hostWindow_SizeOrLocationChanged;
-            target.SizeChanged += this.hostWindow_SizeOrLocationChanged;
-            this.hostWindow.StateChanged -= this.hostWindow_StateChanged;
-            this.hostWindow.StateChanged += this.hostWindow_StateChanged;
-            this.hostWindow.Activated -= this.hostWindow_Activated;
-            this.hostWindow.Activated += this.hostWindow_Activated;
-            this.hostWindow.Deactivated -= this.hostWindow_Deactivated;
-            this.hostWindow.Deactivated += this.hostWindow_Deactivated;
+            this.hostWindow.LocationChanged -= this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.LocationChanged += this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.SizeChanged += this.HostWindow_SizeOrLocationChanged;
+            target.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
+            target.SizeChanged += this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.StateChanged -= this.HostWindow_StateChanged;
+            this.hostWindow.StateChanged += this.HostWindow_StateChanged;
+            this.hostWindow.Activated -= this.HostWindow_Activated;
+            this.hostWindow.Activated += this.HostWindow_Activated;
+            this.hostWindow.Deactivated -= this.HostWindow_Deactivated;
+            this.hostWindow.Deactivated += this.HostWindow_Deactivated;
 
             this.Unloaded -= this.CustomValidationPopup_Unloaded;
             this.Unloaded += this.CustomValidationPopup_Unloaded;
@@ -89,12 +89,12 @@ namespace WinCap.Views.Controls
             this.SetTopmostState(true);
         }
 
-        private void hostWindow_Activated(object sender, EventArgs e)
+        private void HostWindow_Activated(object sender, EventArgs e)
         {
             this.SetTopmostState(true);
         }
 
-        private void hostWindow_Deactivated(object sender, EventArgs e)
+        private void HostWindow_Deactivated(object sender, EventArgs e)
         {
             this.SetTopmostState(false);
         }
@@ -104,22 +104,22 @@ namespace WinCap.Views.Controls
             var target = this.PlacementTarget as FrameworkElement;
             if (target != null)
             {
-                target.SizeChanged -= this.hostWindow_SizeOrLocationChanged;
+                target.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
             }
             if (this.hostWindow != null)
             {
-                this.hostWindow.LocationChanged -= this.hostWindow_SizeOrLocationChanged;
-                this.hostWindow.SizeChanged -= this.hostWindow_SizeOrLocationChanged;
-                this.hostWindow.StateChanged -= this.hostWindow_StateChanged;
-                this.hostWindow.Activated -= this.hostWindow_Activated;
-                this.hostWindow.Deactivated -= this.hostWindow_Deactivated;
+                this.hostWindow.LocationChanged -= this.HostWindow_SizeOrLocationChanged;
+                this.hostWindow.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
+                this.hostWindow.StateChanged -= this.HostWindow_StateChanged;
+                this.hostWindow.Activated -= this.HostWindow_Activated;
+                this.hostWindow.Deactivated -= this.HostWindow_Deactivated;
             }
             this.Unloaded -= this.CustomValidationPopup_Unloaded;
             this.Opened -= this.CustomValidationPopup_Opened;
             this.hostWindow = null;
         }
 
-        private void hostWindow_StateChanged(object sender, EventArgs e)
+        private void HostWindow_StateChanged(object sender, EventArgs e)
         {
             if (this.hostWindow != null && this.hostWindow.WindowState != WindowState.Minimized)
             {
@@ -136,7 +136,7 @@ namespace WinCap.Views.Controls
             }
         }
 
-        private void hostWindow_SizeOrLocationChanged(object sender, EventArgs e)
+        private void HostWindow_SizeOrLocationChanged(object sender, EventArgs e)
         {
             var offset = this.HorizontalOffset;
             // "bump" the offset to cause the popup to reposition itself on its own
@@ -171,7 +171,7 @@ namespace WinCap.Views.Controls
             var hwnd = hwndSource.Handle;
 
             RECT rect;
-            if (!NativeMethods.GetWindowRect(hwnd, out rect))
+            if (!User32.GetWindowRect(hwnd, out rect))
             {
                 return;
             }
@@ -183,7 +183,7 @@ namespace WinCap.Views.Controls
             var height = rect.Height;
             if (isTop)
             {
-                NativeMethods.SetWindowPos(hwnd, HWND_TOPMOST, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_TOPMOST, left, top, width, height, TopmostFlags);
             }
             else
             {
@@ -191,9 +191,9 @@ namespace WinCap.Views.Controls
                 // the titlebar (as opposed to other parts of the external
                 // window) unless I first set the popup to HWND_BOTTOM
                 // then HWND_TOP before HWND_NOTOPMOST
-                NativeMethods.SetWindowPos(hwnd, HWND_BOTTOM, left, top, width, height, TopmostFlags);
-                NativeMethods.SetWindowPos(hwnd, HWND_TOP, left, top, width, height, TopmostFlags);
-                NativeMethods.SetWindowPos(hwnd, HWND_NOTOPMOST, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_BOTTOM, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_TOP, left, top, width, height, TopmostFlags);
+                User32.SetWindowPos(hwnd, HWND_NOTOPMOST, left, top, width, height, TopmostFlags);
             }
 
             this.appliedTopMost = isTop;

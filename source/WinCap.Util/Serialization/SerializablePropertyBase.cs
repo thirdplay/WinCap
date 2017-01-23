@@ -246,7 +246,7 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// プロパティ値の変更イベントハンドルのコンテナ。
         /// </summary>
-        private readonly Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>> _handlers
+        private readonly Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>> handlers
             = new Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>>();
 
         /// <summary>
@@ -254,14 +254,14 @@ namespace WinCap.Util.Serialization
         /// </summary>
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
-            add { this.ValueChanged += (this._handlers[value] = (sender, args) => value(sender, new PropertyChangedEventArgs(nameof(this.Value)))); }
+            add { this.ValueChanged += (this.handlers[value] = (sender, args) => value(sender, new PropertyChangedEventArgs(nameof(this.Value)))); }
             remove
             {
                 EventHandler<ValueChangedEventArgs<T>> handler;
-                if (this._handlers.TryGetValue(value, out handler))
+                if (this.handlers.TryGetValue(value, out handler))
                 {
                     this.ValueChanged -= handler;
-                    this._handlers.Remove(value);
+                    this.handlers.Remove(value);
                 }
             }
         }

@@ -33,7 +33,7 @@ namespace WinCap.Models
         /// <summary>
         /// 位置
         /// </summary>
-        public Point Locale => this.Bounds.Location;
+        public Point Location => this.Bounds.Location;
 
         /// <summary>
         /// サイズ

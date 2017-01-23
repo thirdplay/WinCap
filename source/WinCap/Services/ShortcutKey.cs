@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
-using WinCap.Interop;
+using WinCap.Interop.Win32;
 
 namespace WinCap.Services
 {
@@ -88,17 +88,17 @@ namespace WinCap.Services
             var sb = new StringBuilder();
             if ((this.ModifierKeys & ModifierKeys.Alt) == ModifierKeys.Alt)
             {
-                sb.Append(getLocalizedKeyName((int)VK.MENU));
+                sb.Append(GetLocalizedKeyName((int)VK.MENU));
                 sb.Append(" + ");
             }
             if ((this.ModifierKeys & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                sb.Append(getLocalizedKeyName((int)VK.CONTROL));
+                sb.Append(GetLocalizedKeyName((int)VK.CONTROL));
                 sb.Append(" + ");
             }
             if ((this.ModifierKeys & ModifierKeys.Shift) == ModifierKeys.Shift)
             {
-                sb.Append(getLocalizedKeyName((int)VK.SHIFT));
+                sb.Append(GetLocalizedKeyName((int)VK.SHIFT));
                 sb.Append(" + ");
             }
             if ((this.ModifierKeys & ModifierKeys.Windows) == ModifierKeys.Windows)
@@ -113,7 +113,7 @@ namespace WinCap.Services
             }
             else
             {
-                sb.Append(getLocalizedKeyName(KeyInterop.VirtualKeyFromKey(this.Key)));
+                sb.Append(GetLocalizedKeyName(KeyInterop.VirtualKeyFromKey(this.Key)));
             }
 
             return sb.ToString();
@@ -124,14 +124,14 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="key">仮想キーコード</param>
         /// <returns>キー名称</returns>
-        private static string getLocalizedKeyName(int key)
+        private static string GetLocalizedKeyName(int key)
         {
             // 修飾キーを削除
             long keyCode = key & 0xffff;
 
             var sb = new StringBuilder(256);
 
-            long scanCode = NativeMethods.MapVirtualKey((uint)keyCode, (int)MAPVK.VK_TO_VSC);
+            long scanCode = User32.MapVirtualKey((uint)keyCode, (int)MAPVK.VK_TO_VSC);
 
             // 上位ワードにスキャンコードをシフトする
             scanCode = (scanCode << 16);
@@ -144,7 +144,7 @@ namespace WinCap.Services
                 scanCode |= 0x1000000;
             }
 
-            if (NativeMethods.GetKeyNameText((int)scanCode, sb, 256) == 0)
+            if (User32.GetKeyNameText((int)scanCode, sb, 256) == 0)
             {
                 return "";
             }

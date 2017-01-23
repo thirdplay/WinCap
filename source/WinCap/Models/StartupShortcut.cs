@@ -13,7 +13,7 @@ namespace WinCap.Models
         /// </summary>
         /// <param name="fileName">ファイル名</param>
         /// <returns>ファイルパス</returns>
-        protected override string getShortcutFilePath(string fileName)
+        protected override string GetShortcutFilePath(string fileName)
         {
             var dir = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
             return Path.Combine(dir, fileName + ".lnk");

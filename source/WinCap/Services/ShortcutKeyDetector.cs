@@ -46,8 +46,8 @@ namespace WinCap.Services
         /// </summary>
         public ShortcutKeyDetector()
         {
-            this.interceptor.KeyDown += this.interceptorOnKeyDown;
-            this.interceptor.KeyUp += this.interceptorOnKeyUp;
+            this.interceptor.KeyDown += this.InterceptorOnKeyDown;
+            this.interceptor.KeyUp += this.InterceptorOnKeyUp;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="sender">イベント発生元オブジェクト</param>
         /// <param name="args">イベント引数</param>
-        private void interceptorOnKeyDown(object sender, KeyEventArgs args)
+        private void InterceptorOnKeyDown(object sender, KeyEventArgs args)
         {
             if (this.suspended) { return; }
 
@@ -102,7 +102,7 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="sender">イベント発生元オブジェクト</param>
         /// <param name="args">イベント引数</param>
-        private void interceptorOnKeyUp(object sender, KeyEventArgs args)
+        private void InterceptorOnKeyUp(object sender, KeyEventArgs args)
         {
             if (this.suspended) { return; }
 

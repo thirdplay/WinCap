@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using WinCap.Interop;
+using WinCap.Interop.Win32;
 using WinCap.Models;
 
 namespace WinCap.Drivers
@@ -40,57 +41,57 @@ namespace WinCap.Drivers
         /// <summary>
         /// リソース解放フラグ
         /// </summary>
-        protected bool _disposed = false;
+        protected bool disposed = false;
 
         /// <summary>
         /// ウィンドウハンドル
         /// </summary>
-        protected IntPtr _handle = IntPtr.Zero;
+        protected IntPtr handle = IntPtr.Zero;
 
         /// <summary>
         /// ウェブブラウザ情報
         /// </summary>
-        protected IWebBrowser2 _webBrowser = null;
+        protected IWebBrowser2 webBrowser = null;
 
         /// <summary>
         /// HTML文書2
         /// </summary>
-        protected IHTMLDocument2 _document2 = null;
+        protected IHTMLDocument2 document2 = null;
 
         /// <summary>
         /// HTML文書3
         /// </summary>
-        protected IHTMLDocument3 _document3 = null;
+        protected IHTMLDocument3 document3 = null;
 
         /// <summary>
         /// HTML文書6
         /// </summary>
-        protected IHTMLDocument6 _document6 = null;
+        protected IHTMLDocument6 document6 = null;
 
         /// <summary>
         /// HTMLウィンドウ
         /// </summary>
-        protected IHTMLWindow2 _window = null;
+        protected IHTMLWindow2 window = null;
 
         /// <summary>
         /// HTML文書本体
         /// </summary>
-        protected IHTMLElement2 _body = null;
+        protected IHTMLElement2 body = null;
 
         /// <summary>
         /// ドキュメントモード
         /// </summary>
-        protected string _documentMode = null;
+        protected string documentMode = null;
 
         /// <summary>
         /// 元の文字サイズ
         /// </summary>
-        protected int _charSizeOriginal = CharSizeMiddle;
+        protected int charSizeOriginal = CharSizeMiddle;
 
         /// <summary>
         /// 元の光学ズーム倍率
         /// </summary>
-        protected int _zoomOriginal = ZoomActual;
+        protected int zoomOriginal = ZoomActual;
 
         #endregion
 
@@ -109,17 +110,17 @@ namespace WinCap.Drivers
         /// <summary>
         /// スクロール位置
         /// </summary>
-        public Point ScrollPoint => new Point(_body.scrollLeft, _body.scrollTop);
+        public Point ScrollPoint => new Point(body.scrollLeft, body.scrollTop);
 
         /// <summary>
         /// スクロールサイズ
         /// </summary>
-        public Size ScrollSize => new Size(_body.scrollWidth, _body.scrollHeight);
+        public Size ScrollSize => new Size(body.scrollWidth, body.scrollHeight);
 
         /// <summary>
         /// 横スクロールバーが表示されているかどうか
         /// </summary>
-        public bool IsVisibleScrollbarH => Client.Width < _body.scrollWidth;
+        public bool IsVisibleScrollbarH => Client.Width < body.scrollWidth;
 
         #endregion
 
@@ -154,40 +155,40 @@ namespace WinCap.Drivers
         public void SetHandle(IntPtr handle)
         {
             // ウェブブラウザ情報を取得する
-            _webBrowser = getWebBrowser(handle);
-            if (_webBrowser == null)
+            webBrowser = getWebBrowser(handle);
+            if (webBrowser == null)
             {
                 // HTMLDocument情報が取得できなかった
                 throw new Exception("ウェブブラウザ情報の取得に失敗");
             }
 
             // IEのHTML文書を取得する
-            _document2 = (IHTMLDocument2)_webBrowser.Document;
-            _document3 = (IHTMLDocument3)_webBrowser.Document;
-            _document6 = (IHTMLDocument6)_webBrowser.Document;
+            document2 = (IHTMLDocument2)webBrowser.Document;
+            document3 = (IHTMLDocument3)webBrowser.Document;
+            document6 = (IHTMLDocument6)webBrowser.Document;
 
             // HTMLウィンドウを取得する
-            _window = _document2.parentWindow;
+            window = document2.parentWindow;
 
             // HTML文書本体の取得
-            _body = (IHTMLElement2)_document3.documentElement;
+            body = (IHTMLElement2)document3.documentElement;
             // クライアントサイズが0の場合はbodyを参照する
-            if (_body.clientWidth == 0 && _body.clientHeight == 0)
+            if (body.clientWidth == 0 && body.clientHeight == 0)
             {
-                releaseComObject(_body);
-                _body = (IHTMLElement2)_document2.body;
+                releaseComObject(body);
+                body = (IHTMLElement2)document2.body;
             }
 
             // ドキュメントモードの取得
-            _documentMode = _document6.documentMode.ToString();
+            documentMode = document6.documentMode.ToString();
 
             // クライアント領域のオフセットを取得
-            Offset = getMargin(_documentMode);
-            Client = new Rectangle(Offset.X, Offset.Y, _body.clientWidth, _body.clientHeight);
+            Offset = getMargin(documentMode);
+            Client = new Rectangle(Offset.X, Offset.Y, body.clientWidth, body.clientHeight);
 
             // 横スクロールバーが表示中かつ
             // 「ウィンドウ高さ」と「クライアント高さ」の差分が「水平スクロールバーの高さ」より小さい場合
-            Rectangle wndRect = InteropHelper.GetWindowBounds(handle);
+            Rectangle wndRect = InteropExtensions.GetWindowBounds(handle);
             if (IsVisibleScrollbarH && (wndRect.Height - Client.Height) < SystemInformation.HorizontalScrollBarHeight)
             {
                 // ※暫定的にクライアント高さからスクロールバー分を引いて処理する
@@ -195,15 +196,15 @@ namespace WinCap.Drivers
             }
 
             // 文字サイズと光学ズームの倍率取得
-            _charSizeOriginal = GetCharSize();
-            _zoomOriginal = GetZoom();
+            charSizeOriginal = GetCharSize();
+            zoomOriginal = GetZoom();
 
             // 文字サイズとズームを等倍にする
             SetCharSize(CharSizeMiddle);
             SetZoom(ZoomActual);
 
             // 最後にウィンドウハンドルを登録する
-            _handle = handle;
+            this.handle = handle;
         }
 
         /// <summary>
@@ -274,7 +275,7 @@ namespace WinCap.Drivers
         {
             // スクロール位置の設定
             Point nextPoint = new Point(Math.Min(x, ScrollSize.Width - Client.Width), Math.Min(y, ScrollSize.Height - Client.Height));
-            _window.scrollTo(nextPoint.X, nextPoint.Y);
+            window.scrollTo(nextPoint.X, nextPoint.Y);
 
             // 遅延時間が設定されている場合、指定時間スリープする
             if (delayTime > 0)
@@ -301,10 +302,10 @@ namespace WinCap.Drivers
             IWebBrowser2 wb = null;
 
             // WM_HTML_GETOBJECTメッセージの登録
-            uint msg = NativeMethods.RegisterWindowMessage(HtmlGetObjectMessage);
+            uint msg = User32.RegisterWindowMessage(HtmlGetObjectMessage);
 
             // WM_HTML_GETOBJECTメッセージの送信
-            NativeMethods.SendMessageTimeout(hWnd, msg, 0, 0, (uint)SMTO.ABORTIFHUNG, 1000, ref sendMessageResult);
+            User32.SendMessageTimeout(hWnd, msg, 0, 0, (uint)SMTO.ABORTIFHUNG, 1000, ref sendMessageResult);
             if (sendMessageResult == UIntPtr.Zero)
             {
                 return null;
@@ -314,13 +315,13 @@ namespace WinCap.Drivers
             try
             {
                 // HTML文書情報の取得
-                if (NativeMethods.ObjectFromLresult(sendMessageResult, ref IID_IHTMLDocument3, 0, ref doc) != 0)
+                if (Oleacc.ObjectFromLresult(sendMessageResult, ref IID_IHTMLDocument3, 0, ref doc) != 0)
                 {
                     return null;
                 }
 
                 // ウェブブラウザの取得
-                var serviceProvider = (Interop.IServiceProvider)doc.parentWindow;
+                var serviceProvider = (Interop.Win32.IServiceProvider)doc.parentWindow;
                 try
                 {
                     Guid webBrowserAppGUID = typeof(IWebBrowserApp).GUID;
@@ -374,7 +375,7 @@ namespace WinCap.Drivers
         {
             object pvaIn = Type.Missing;
             object pvaOut = Type.Missing;
-            _webBrowser.ExecWB(cmdId, cmdExecOpt, ref pvaIn, ref pvaOut);
+            webBrowser.ExecWB(cmdId, cmdExecOpt, ref pvaIn, ref pvaOut);
             return pvaOut;
         }
 
@@ -388,7 +389,7 @@ namespace WinCap.Drivers
         {
             object pvaIn = param;
             object pvaOut = Type.Missing;
-            _webBrowser.ExecWB(cmdId, cmdExecOpt, ref pvaIn, ref pvaOut);
+            webBrowser.ExecWB(cmdId, cmdExecOpt, ref pvaIn, ref pvaOut);
         }
 
         /// <summary>
@@ -431,13 +432,13 @@ namespace WinCap.Drivers
         {
             lock (this)
             {
-                if (_disposed)
+                if (disposed)
                 {
                     //既に呼びだしずみであるならばなんもしない
                     return;
                 }
 
-                _disposed = true;
+                disposed = true;
 
                 if (disposing)
                 {
@@ -445,20 +446,20 @@ namespace WinCap.Drivers
                 }
 
                 // ウィンドウハンドルが登録されている場合
-                if (_handle != IntPtr.Zero)
+                if (handle != IntPtr.Zero)
                 {
                     // 文字サイズとズームを復元する
-                    SetCharSize(_charSizeOriginal);
-                    SetZoom(_zoomOriginal);
+                    SetCharSize(charSizeOriginal);
+                    SetZoom(zoomOriginal);
                 }
 
                 // アンマネージリソースの解放
-                releaseComObject(_body);
-                releaseComObject(_window);
-                releaseComObject(_document2);
-                releaseComObject(_document3);
-                releaseComObject(_document6);
-                releaseComObject(_webBrowser);
+                releaseComObject(body);
+                releaseComObject(window);
+                releaseComObject(document2);
+                releaseComObject(document3);
+                releaseComObject(document6);
+                releaseComObject(webBrowser);
             }
         }
         #endregion

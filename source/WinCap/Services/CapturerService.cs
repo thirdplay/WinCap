@@ -9,6 +9,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Windows;
 using WinCap.Capturers;
+using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Properties;
 using WinCap.Util.Lifetime;
@@ -53,12 +54,7 @@ namespace WinCap.Services
         /// <summary>
         /// コントロール選択ウィンドウのViewModel
         /// </summary>
-        private ControlSelectionWindowViewModel controlSelectionWindowViewModel;
-
-        /// <summary>
-        /// キャプチャーした画像
-        /// </summary>
-        private Bitmap capturedImage;
+        private readonly ControlSelectionWindowViewModel controlSelectionWindowViewModel;
 
         /// <summary>
         /// コンストラクタ
@@ -76,8 +72,7 @@ namespace WinCap.Services
         {
             using (this.hookService.Suspend())
             {
-                // デスクトップ全体をキャプチャ
-                saveCaptureImage(executeCapture(() => this.screenCapturer.CaptureFullScreen()));
+                ExecuteCapture(() => this.screenCapturer.CaptureFullScreen());
             }
         }
 
@@ -88,8 +83,7 @@ namespace WinCap.Services
         {
             using (this.hookService.Suspend())
             {
-                // アクティブウィンドウをキャプチャ
-                saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureActiveControl()));
+                ExecuteCapture(() => this.controlCapturer.CaptureActiveControl());
             }
         }
 
@@ -98,27 +92,18 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureSelectionControl()
         {
-            var suspended = this.hookService.Suspend();
-            var viewModel = this.controlSelectionWindowViewModel;
-            var window = new ControlSelectionWindow { DataContext = viewModel };
-            Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
-            .Subscribe(x =>
+            using (this.hookService.Suspend())
             {
-                using (suspended)
+                var viewModel = this.controlSelectionWindowViewModel;
+                var window = new ControlSelectionWindow { DataContext = viewModel };
+                viewModel.Initialized = () => window.Activate();
+                viewModel.Selected = () =>
                 {
-                    if (viewModel.SelectedHandle == IntPtr.Zero)
-                    {
-                        return;
-                    }
-
-                    // 選択コントロールをキャプチャ
-                    saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)));
-                }
-            });
-
-            // 選択ウィンドウの表示
-            window.Show();
-            window.Activate();
+                    ExecuteCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle));
+                };
+                window.ShowDialog();
+                window.Close();
+            }
         }
 
         /// <summary>
@@ -126,71 +111,61 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureWebPage()
         {
-            var suspended = this.hookService.Suspend();
-            var viewModel = this.controlSelectionWindowViewModel;
-            var window = new ControlSelectionWindow { DataContext = viewModel };
-            Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
-            .Subscribe(x =>
+            using (this.hookService.Suspend())
             {
-                using (suspended)
+                var viewModel = this.controlSelectionWindowViewModel;
+                var window = new ControlSelectionWindow { DataContext = viewModel };
+                viewModel.Initialized = () => window.Activate();
+                viewModel.Selected = () =>
                 {
-                    if (viewModel.SelectedHandle == IntPtr.Zero)
-                    {
-                        return;
-                    }
-
                     // キャプチャ可能か判定
-                    string className = InteropHelper.GetClassName(viewModel.SelectedHandle);
+                    string className = InteropExtensions.GetClassName(viewModel.SelectedHandle);
                     var capturer = this.webBrowserCapturers.Where(_ => _.CanCapture(className)).FirstOrDefault();
                     if (capturer != null)
                     {
                         // ウェブページ全体をキャプチャ
                         capturer.IsScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
                         capturer.ScrollDelayTime = Settings.General.ScrollDelayTime.Value;
-                        saveCaptureImage(executeCapture(() => capturer.Capture(viewModel.SelectedHandle)));
+                        ExecuteCapture(() => capturer.Capture(viewModel.SelectedHandle));
                     }
                     else
                     {
                         // 選択コントロールをキャプチャ
-                        saveCaptureImage(executeCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle)));
+                        ExecuteCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle));
                     }
-                }
-            });
-
-
-            // 選択ウィンドウの表示
-            window.Show();
-            window.Activate();
+                };
+                window.ShowDialog();
+                window.Close();
+            }
         }
 
         /// <summary>
-        /// キャプチャを実行します。
+        /// キャプチャ処理を実行します。
         /// </summary>
-        /// <param name="action">キャプチャ処理メソッド</param>
-        /// <returns>ビットマップ</returns>
-        private Bitmap executeCapture(Func<Bitmap> action)
+        /// <param name="action">キャプチャ処理アクション</param>
+        private void ExecuteCapture(Func<Bitmap> action)
         {
             if (Settings.General.CaptureDelayTime > 0)
             {
                 Thread.Sleep(Settings.General.CaptureDelayTime);
             }
-            return action();
+            using (Bitmap bitmap = action())
+            {
+                SaveCaptureImage(bitmap);
+            }
         }
 
         /// <summary>
         /// キャプチャ画像を保存します。
         /// </summary>
         /// <param name="bitmap">画像</param>
-        private void saveCaptureImage(Bitmap bitmap)
+        private void SaveCaptureImage(Bitmap bitmap)
         {
             var settings = Settings.Output;
             if (settings.OutputMethodType == OutputMethodType.Clipboard)
             {
                 // 画像をクリップボードに設定する
-                this.capturedImage?.Dispose();
-                Clipboard.Clear();
-                Clipboard.SetDataObject(bitmap, false);
-                this.capturedImage = bitmap;
+                Clipboard.SetImage(bitmap.ToBitmapSource());
             }
             else if (settings.OutputMethodType == OutputMethodType.ImageFile)
             {
@@ -235,7 +210,7 @@ namespace WinCap.Services
                 }
 
                 // 画像ファイルに保存
-                bitmap.Save(filePath, settings.OutputFormatType.Value.ToImageFormat());
+                bitmap.Save(filePath, outputFormatType.ToImageFormat());
             }
 
             // SE再生
@@ -254,7 +229,6 @@ namespace WinCap.Services
         public void Dispose()
         {
             this.compositeDisposable.Dispose();
-            this.capturedImage?.Dispose();
         }
         #endregion
     }
