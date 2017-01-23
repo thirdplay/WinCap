@@ -165,7 +165,7 @@ namespace WinCap.Services
             if (settings.OutputMethodType == OutputMethodType.Clipboard)
             {
                 // 画像をクリップボードに設定する
-                Clipboard.SetDataObject(bitmap.ToBitmapSource(), false);
+                Clipboard.SetImage(bitmap.ToBitmapSource());
             }
             else if (settings.OutputMethodType == OutputMethodType.ImageFile)
             {
