@@ -159,6 +159,7 @@
     <Compile Include="ApplicationAction.cs" />
     <Compile Include="Capturers\IWebBrowserCapturer.cs" />
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
+    <Compile Include="Interop\Dpi.cs" />
     <Compile Include="Interop\InteropExtensions.cs" />
     <Compile Include="Interop\Win32\Dwmapi.cs" />
     <Compile Include="Interop\Win32\Gdi32.cs" />
