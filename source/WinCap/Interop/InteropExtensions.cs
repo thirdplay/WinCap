@@ -30,34 +30,37 @@ namespace WinCap.Interop
         /// <returns>ウィンドウの範囲</returns>
         public static Rectangle GetWindowBounds(IntPtr handle)
         {
+            var result = Rectangle.Empty;
+
             // Vista以降の場合、DWMでウィンドウサイズを取得
             var rect = new RECT();
             if (Environment.OSVersion.Version.Major >= 6)
             {
                 if (Dwmapi.DwmGetWindowAttribute(handle, (int)DWMWA.EXTENDED_FRAME_BOUNDS, ref rect, Marshal.SizeOf(typeof(RECT))) == 0)
                 {
-                    var rectangle = new Rectangle(
-                        rect.left, rect.top,
-                        rect.right - rect.left, rect.bottom - rect.top);
+                    var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                     if (rectangle.Width > 0 && rectangle.Height > 0)
                     {
-                        // 高DPI対応
-                        var dpi = PerMonitorDpi.GetDpi(handle);
-                        rectangle.X = (int)Math.Round(rectangle.X * dpi.ScaleX);
-                        rectangle.Y = (int)Math.Round(rectangle.Y * dpi.ScaleY);
-                        rectangle.Width = (int)Math.Round(rectangle.Width * dpi.ScaleX);
-                        rectangle.Height = (int)Math.Round(rectangle.Height * dpi.ScaleY);
-                        return rectangle;
+                        result = rectangle;
                     }
                 }
             }
-
-            // ウィンドウサイズの取得
-            if (User32.GetWindowRect(handle, out rect))
+            if (result == Rectangle.Empty && User32.GetWindowRect(handle, out rect))
             {
-                return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+                result = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
             }
-            return Rectangle.Empty;
+
+            if (result != Rectangle.Empty)
+            {
+                // 高DPI対応
+                var dpi = PerMonitorDpi.GetDpi(handle);
+                result.X = (int)(result.X * (1 / dpi.ScaleX));
+                result.Y = (int)(result.Y * (1 / dpi.ScaleY));
+                result.Width = (int)(result.Width * (1 / dpi.ScaleX));
+                result.Height = (int)(result.Height * (1 / dpi.ScaleY));
+            }
+
+            return result;
         }
     }
 }
