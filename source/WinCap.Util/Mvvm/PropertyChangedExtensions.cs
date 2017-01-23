@@ -55,11 +55,11 @@ namespace WinCap.Util.Mvvm
         /// </example>
         public class ListenerWrapper : IDisposable
         {
-            private readonly PropertyChangedEventListener _listener;
+            private readonly PropertyChangedEventListener listener;
 
             internal ListenerWrapper(INotifyPropertyChanged source)
             {
-                this._listener = new PropertyChangedEventListener(source);
+                this.listener = new PropertyChangedEventListener(source);
             }
 
             /// <summary>
@@ -71,11 +71,11 @@ namespace WinCap.Util.Mvvm
             public ListenerWrapper Subscribe(string propertyName, Action action, bool immediately = true)
             {
                 if (immediately) action();
-                this._listener.Add(propertyName, (sender, args) => action());
+                this.listener.Add(propertyName, (sender, args) => action());
                 return this;
             }
 
-            void IDisposable.Dispose() => this._listener.Dispose();
+            void IDisposable.Dispose() => this.listener.Dispose();
         }
     }
 }

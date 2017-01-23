@@ -12,12 +12,12 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// 非同期オブジェクト
         /// </summary>
-        private readonly object _sync = new object();
+        private readonly object sync = new object();
 
         /// <summary>
         /// 設定の管理マップ
         /// </summary>
-        private Dictionary<string, object> _settings = new Dictionary<string, object>();
+        private Dictionary<string, object> settings = new Dictionary<string, object>();
 
         /// <summary>
         /// 読み込み状態
@@ -52,9 +52,9 @@ namespace WinCap.Util.Serialization
         /// <param name="value">値</param>
         public void SetValue<T>(string key, T value)
         {
-            lock (this._sync)
+            lock (this.sync)
             {
-                this._settings[key] = value;
+                this.settings[key] = value;
             }
         }
 
@@ -67,10 +67,10 @@ namespace WinCap.Util.Serialization
         /// <returns>取得結果</returns>
         public bool TryGetValue<T>(string key, out T value)
         {
-            lock (this._sync)
+            lock (this.sync)
             {
                 object obj;
-                if (this._settings.TryGetValue(key, out obj) && obj is T)
+                if (this.settings.TryGetValue(key, out obj) && obj is T)
                 {
                     value = (T)obj;
                     return true;
@@ -88,9 +88,9 @@ namespace WinCap.Util.Serialization
         /// <returns>削除結果</returns>
         public bool RemoveValue(string key)
         {
-            lock (this._sync)
+            lock (this.sync)
             {
-                return this._settings.Remove(key);
+                return this.settings.Remove(key);
             }
         }
 
@@ -110,9 +110,9 @@ namespace WinCap.Util.Serialization
         {
             SortedDictionary<string, object> current;
 
-            lock (this._sync)
+            lock (this.sync)
             {
-                current = new SortedDictionary<string, object>(this._settings);
+                current = new SortedDictionary<string, object>(this.settings);
             }
 
             await this.SaveAsyncCore(current).ConfigureAwait(false);
@@ -141,9 +141,9 @@ namespace WinCap.Util.Serialization
         {
             var dic = await this.LoadAsyncCore().ConfigureAwait(false);
 
-            lock (this._sync)
+            lock (this.sync)
             {
-                this._settings = dic != null
+                this.settings = dic != null
                     ? new Dictionary<string, object>(dic)
                     : new Dictionary<string, object>();
             }
@@ -171,7 +171,7 @@ namespace WinCap.Util.Serialization
         protected void OnReseted()
         {
             this.Reseted?.Invoke(this, EventArgs.Empty);
-            this._settings.Clear();
+            this.settings.Clear();
         }
 
         /// <summary>

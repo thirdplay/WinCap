@@ -21,7 +21,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// 対象ファイル情報
         /// </summary>
-        private readonly FileInfo _targetFile;
+        private readonly FileInfo targetFile;
 
         /// <summary>
         /// 利用可能状態
@@ -31,7 +31,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// 対象ファイルのファイルパス
         /// </summary>
-        public string FilePath => this._targetFile.FullName;
+        public string FilePath => this.targetFile.FullName;
 
         /// <summary>
         /// シリアライズ化時に渡す既知の型
@@ -61,7 +61,7 @@ namespace WinCap.Serialization
                 file.Directory.Create();
             }
 
-            this._targetFile = file;
+            this.targetFile = file;
             this.Available = true;
         }
 
@@ -96,7 +96,7 @@ namespace WinCap.Serialization
                 finally
                 {
                     // 最後に一時ファイルを設定ファイルに上書きする
-                    File.Copy(tempFileName, this._targetFile.FullName, true);
+                    File.Copy(tempFileName, this.targetFile.FullName, true);
                     File.Delete(tempFileName);
                 }
             });
@@ -108,14 +108,14 @@ namespace WinCap.Serialization
         /// <returns>タスク</returns>
         protected override Task<IDictionary<string, object>> LoadAsyncCore()
         {
-            if (!this.Available || !this._targetFile.Exists)
+            if (!this.Available || !this.targetFile.Exists)
             {
                 return Task.FromResult<IDictionary<string, object>>(null);
             }
 
             return Task.Run(() =>
             {
-                if (!this._targetFile.Exists)
+                if (!this.targetFile.Exists)
                 {
                     return null;
                 }
@@ -124,7 +124,7 @@ namespace WinCap.Serialization
 
                 try
                 {
-                    using (var stream = this._targetFile.OpenRead())
+                    using (var stream = this.targetFile.OpenRead())
                     {
                         return serializer.ReadObject(stream) as IDictionary<string, object>;
                     }

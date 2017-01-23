@@ -14,7 +14,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// 空データ文字列
         /// </summary>
-        private const string _empryString = "(none)";
+        private const string empryString = "(none)";
 
         /// <summary>
         /// コンストラクタ
@@ -38,7 +38,7 @@ namespace WinCap.Serialization
         /// <returns>シリアライズ後の値</returns>
         protected override object SerializeCore(int[] value)
         {
-            if (value == null || value.Length == 0) { return _empryString; }
+            if (value == null || value.Length == 0) { return empryString; }
 
             return value
                 .Select(x => x.ToString(CultureInfo.InvariantCulture))
@@ -56,7 +56,7 @@ namespace WinCap.Serialization
             if (data == null) { return base.DeserializeCore(value); }
 
             if (string.IsNullOrEmpty(data)) { return null; }
-            if (string.Equals(data, _empryString, StringComparison.OrdinalIgnoreCase)) { return Array.Empty<int>(); }
+            if (string.Equals(data, empryString, StringComparison.OrdinalIgnoreCase)) { return Array.Empty<int>(); }
 
             return data.Split(',')
                 .Select(x => int.Parse(x))

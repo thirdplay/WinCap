@@ -12,7 +12,7 @@ namespace WinCap.Capturers
         /// <summary>
         /// コントロールキャプチャ
         /// </summary>
-        private readonly ControlCapturer _capturer = new ControlCapturer();
+        private readonly ControlCapturer capturer = new ControlCapturer();
 
         #region IWebBrowserCapturer members
         /// <summary>
@@ -115,7 +115,7 @@ namespace WinCap.Capturers
             Rectangle destRect = new Rectangle(scrollPoint.X - scrollStart.X, scrollPoint.Y - scrollStart.Y, client.Width, client.Height);
 
             // ウィンドウをキャプチャする
-            using (Bitmap bitmap = _capturer.CaptureControl(hWnd))
+            using (Bitmap bitmap = capturer.CaptureControl(hWnd))
             {
                 // キャプチャした画像を書き込む
                 g.DrawImage(bitmap, destRect, client, GraphicsUnit.Pixel);

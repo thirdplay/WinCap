@@ -16,7 +16,7 @@ namespace WinCap.Services
         /// <summary>
         /// ウィンドウコンテナ
         /// </summary>
-        private readonly Dictionary<string, Window> _container = new Dictionary<string, Window>();
+        private readonly Dictionary<string, Window> container = new Dictionary<string, Window>();
 
         /// <summary>
         /// コンストラクタ
@@ -40,7 +40,7 @@ namespace WinCap.Services
         /// </summary>
         public bool IsExists<T>() where T : Window, new()
         {
-            return this._container.ContainsKey(typeof(T).Name);
+            return this.container.ContainsKey(typeof(T).Name);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace WinCap.Services
         {
             var key = typeof(T).Name;
 
-            if (!this._container.ContainsKey(key))
+            if (!this.container.ContainsKey(key))
             {
                 var viewModel = new U();
                 var window = new T() { DataContext = viewModel };
@@ -65,12 +65,12 @@ namespace WinCap.Services
                 .Subscribe(x =>
                 {
                     DispatcherHelper.UIDispatcher.Invoke(() => closedAction(viewModel));
-                    this._container.Remove(key);
+                    this.container.Remove(key);
                 });
 
-                this._container.Add(key, window);
+                this.container.Add(key, window);
             }
-            return this._container[key] as T;
+            return this.container[key] as T;
         }
 
         #region IDisposable members
@@ -79,11 +79,11 @@ namespace WinCap.Services
         /// </summary>
         public void Dispose()
         {
-            foreach (Window window in this._container.Values)
+            foreach (Window window in this.container.Values)
             {
                 window.Close();
             }
-            this._container.Clear();
+            this.container.Clear();
         }
         #endregion
     }

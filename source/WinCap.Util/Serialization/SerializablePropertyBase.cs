@@ -15,12 +15,12 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// プロパティ値
         /// </summary>
-        private T _value;
+        private T value;
 
         /// <summary>
         /// キャッシュ状態
         /// </summary>
-        private bool _cached;
+        private bool cached;
 
         /// <summary>
         /// プロパティを表すキーを取得します。
@@ -49,7 +49,7 @@ namespace WinCap.Util.Serialization
         {
             get
             {
-                if (this._cached) { return this._value; }
+                if (this.cached) { return this.value; }
 
                 if (!this.Provider.IsLoaded)
                 {
@@ -59,28 +59,28 @@ namespace WinCap.Util.Serialization
                 object obj;
                 if (this.Provider.TryGetValue(this.Key, out obj))
                 {
-                    this._value = this.DeserializeCore(obj);
-                    this._cached = true;
+                    this.value = this.DeserializeCore(obj);
+                    this.cached = true;
                 }
                 else
                 {
-                    this._value = this.Default;
+                    this.value = this.Default;
                 }
 
-                return this._cached ? this._value : this.Default;
+                return this.cached ? this.value : this.Default;
             }
             set
             {
-                if (this._cached && Equals(this._value, value)) { return; }
+                if (this.cached && Equals(this.value, value)) { return; }
 
                 if (!this.Provider.IsLoaded)
                 {
                     this.Provider.Load();
                 }
 
-                var old = this._value;
-                this._value = value;
-                this._cached = true;
+                var old = this.value;
+                this.value = value;
+                this.cached = true;
                 this.Provider.SetValue(this.Key, this.SerializeCore(value));
                 this.OnValueChanged(old, value);
 
@@ -113,11 +113,11 @@ namespace WinCap.Util.Serialization
             this.Provider.Reseted += (sender, args) => this.Reset();
             this.Provider.Reloaded += (sender, args) =>
             {
-                if (this._cached)
+                if (this.cached)
                 {
-                    this._cached = false;
+                    this.cached = false;
 
-                    var oldValue = this._value;
+                    var oldValue = this.value;
                     var newValue = this.Value;
                     if (!Equals(oldValue, newValue))
                     {
@@ -179,8 +179,8 @@ namespace WinCap.Util.Serialization
             {
                 if (this.Provider.RemoveValue(this.Key))
                 {
-                    this._value = this.Default;
-                    this._cached = false;
+                    this.value = this.Default;
+                    this.cached = false;
                     this.OnValueChanged(this.DeserializeCore(old), this.Default);
 
                     if (this.AutoSave)
@@ -246,7 +246,7 @@ namespace WinCap.Util.Serialization
         /// <summary>
         /// プロパティ値の変更イベントハンドルのコンテナ。
         /// </summary>
-        private readonly Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>> _handlers
+        private readonly Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>> handlers
             = new Dictionary<PropertyChangedEventHandler, EventHandler<ValueChangedEventArgs<T>>>();
 
         /// <summary>
@@ -254,14 +254,14 @@ namespace WinCap.Util.Serialization
         /// </summary>
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
-            add { this.ValueChanged += (this._handlers[value] = (sender, args) => value(sender, new PropertyChangedEventArgs(nameof(this.Value)))); }
+            add { this.ValueChanged += (this.handlers[value] = (sender, args) => value(sender, new PropertyChangedEventArgs(nameof(this.Value)))); }
             remove
             {
                 EventHandler<ValueChangedEventArgs<T>> handler;
-                if (this._handlers.TryGetValue(value, out handler))
+                if (this.handlers.TryGetValue(value, out handler))
                 {
                     this.ValueChanged -= handler;
-                    this._handlers.Remove(value);
+                    this.handlers.Remove(value);
                 }
             }
         }

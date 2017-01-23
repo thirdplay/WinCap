@@ -14,7 +14,7 @@ namespace WinCap.Capturers
         /// <summary>
         /// 画面キャプチャ
         /// </summary>
-        private readonly ScreenCapturer _capturer = new ScreenCapturer();
+        private readonly ScreenCapturer capturer = new ScreenCapturer();
 
         /// <summary>
         /// アクティブなコントロールをキャプチャします。
@@ -32,7 +32,7 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public Bitmap CaptureControl(IntPtr handle)
         {
-            return _capturer.CaptureBounds(handle.GetWindowBounds());
+            return capturer.CaptureBounds(handle.GetWindowBounds());
         }
     }
 }

@@ -14,7 +14,7 @@ namespace WinCap.Views.Controls
         /// <summary>
         /// ショートカットキー検出器
         /// </summary>
-        private readonly ShortcutKeyDetector _detector = new ShortcutKeyDetector();
+        private readonly ShortcutKeyDetector detector = new ShortcutKeyDetector();
 
         /// <summary>
         /// 静的なコンストラクタ。
@@ -29,19 +29,19 @@ namespace WinCap.Views.Controls
         /// <summary>
         /// 押下した修飾キーセット
         /// </summary>
-        private ModifierKeys _pressedModifiers = ModifierKeys.None;
+        private ModifierKeys pressedModifiers = ModifierKeys.None;
 
         /// <summary>
         /// 押下したキー
         /// </summary>
-        private Key _pressedKey = Key.None;
+        private Key pressedKey = Key.None;
 
         /// <summary>
         /// コンストラクタ。
         /// </summary>
         public ShortcutKeyBox()
         {
-            this._detector.Pressed += this.KeyHookOnPressed;
+            this.detector.Pressed += this.KeyHookOnPressed;
         }
 
         #region Current 依存関係プロパティ
@@ -82,7 +82,7 @@ namespace WinCap.Views.Controls
         {
             base.OnGotKeyboardFocus(e);
 
-            this._detector.Start();
+            this.detector.Start();
             this.UpdateText();
         }
 
@@ -94,7 +94,7 @@ namespace WinCap.Views.Controls
         {
             base.OnLostKeyboardFocus(e);
 
-            this._detector.Stop();
+            this.detector.Stop();
         }
 
         /// <summary>
@@ -124,10 +124,10 @@ namespace WinCap.Views.Controls
                 var key = e.Key == Key.System ? e.SystemKey : e.Key;
                 if (key.IsModifyKey())
                 {
-                    this._pressedModifiers ^= key.GetModifierKeys();
+                    this.pressedModifiers ^= key.GetModifierKeys();
                 }
 
-                this._pressedKey = Key.None;
+                this.pressedKey = Key.None;
                 this.UpdateText();
             }
 
@@ -158,19 +158,19 @@ namespace WinCap.Views.Controls
         {
             if (key == Key.Back)
             {
-                this._pressedModifiers = ModifierKeys.None;
-                this._pressedKey = Key.None;
+                this.pressedModifiers = ModifierKeys.None;
+                this.pressedKey = Key.None;
             }
             else if (key.IsModifyKey())
             {
-                this._pressedModifiers |= key.GetModifierKeys();
+                this.pressedModifiers |= key.GetModifierKeys();
             }
             else
             {
-                this._pressedKey = key;
+                this.pressedKey = key;
             }
 
-            this.CurrentAsKeys = this._pressedKey != Key.None
+            this.CurrentAsKeys = this.pressedKey != Key.None
                 ? this.GetShortcutKey()
                 : ShortcutKey.None;
 
@@ -194,7 +194,7 @@ namespace WinCap.Views.Controls
         /// <returns>ショートカットキー</returns>
         private ShortcutKey GetShortcutKey()
         {
-            return new ShortcutKey(this._pressedKey, this._pressedModifiers);
+            return new ShortcutKey(this.pressedKey, this.pressedModifiers);
         }
     }
 }

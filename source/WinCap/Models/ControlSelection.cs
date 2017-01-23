@@ -16,7 +16,7 @@ namespace WinCap.Models
         /// <summary>
         /// ウィンドウハンドルリスト。
         /// </summary>
-        private List<IntPtr> _handles;
+        private List<IntPtr> handles;
 
         #region SelectedHandle 変更通知プロパティ
         private IntPtr _SelectedHandle;
@@ -49,8 +49,8 @@ namespace WinCap.Models
         /// </summary>
         public void Initialize()
         {
-            this._handles = this.GetHandles();
-            this.SelectedHandle = IntPtr.Zero;
+            this.handles = this.GetHandles();
+            this._SelectedHandle = IntPtr.Zero;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace WinCap.Models
         public void UpdateMousePoint(Point point)
         {
             var selectedHandle = IntPtr.Zero;
-            foreach (var handle in this._handles)
+            foreach (var handle in this.handles)
             {
                 Rectangle bounds = handle.GetWindowBounds();
                 if (bounds != Rectangle.Empty && bounds.Contains(point))
@@ -79,7 +79,7 @@ namespace WinCap.Models
         /// <returns>ウィンドウハンドル</returns>
         public IntPtr GetWindowHandle(Point point)
         {
-            foreach (var handle in this._handles)
+            foreach (var handle in this.handles)
             {
                 Rectangle bounds = handle.GetWindowBounds();
                 if (bounds != Rectangle.Empty && bounds.Contains(point))

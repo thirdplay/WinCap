@@ -39,12 +39,12 @@ namespace WinCap.ViewModels
         /// <summary>
         /// フックサービス
         /// </summary>
-        private readonly HookService _hookService;
+        private readonly HookService hookService;
 
         /// <summary>
         /// アプリケーションアクション
         /// </summary>
-        private readonly ApplicationAction _applicationAction;
+        private readonly ApplicationAction applicationAction;
 
         /// <summary>
         /// タブ項目リスト
@@ -88,8 +88,8 @@ namespace WinCap.ViewModels
                 (this.VersionInfo = new VersionInfoViewModel().AddTo(this)),
             };
             this.SelectedItem = this.TabItems.FirstOrDefault();
-            this._hookService = Application.Instance.HookService;
-            this._applicationAction = Application.Instance.ApplicationAction;
+            this.hookService = Application.Instance.HookService;
+            this.applicationAction = Application.Instance.ApplicationAction;
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace WinCap.ViewModels
         /// </summary>
         public void Initialize()
         {
-            this._hookService.Suspend().AddTo(this);
-            this._applicationAction.DeregisterActions();
+            this.hookService.Suspend().AddTo(this);
+            this.applicationAction.DeregisterActions();
             this.TabItems.ForEach(x => x.Initialize());
         }
 
@@ -140,7 +140,7 @@ namespace WinCap.ViewModels
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            this._applicationAction.RegisterActions();
+            this.applicationAction.RegisterActions();
         }
     }
 }

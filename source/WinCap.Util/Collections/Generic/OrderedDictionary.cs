@@ -22,15 +22,15 @@ namespace WinCap.Util.Collections.Generic
     {
         #region Fields
 
-        private Dictionary<TKey, TValue> _dic;
-        private List<TKey> _list;
-        private int _initialCapacity;
-        private IEqualityComparer<TKey> _eqComparer;
-        private KeyCollection _keys;
-        private ValueCollection _values;
-        private SerializationInfo _si;
-        private object _syncRoot;
-        private int _version;
+        private Dictionary<TKey, TValue> dic;
+        private List<TKey> list;
+        private int initialCapacity;
+        private IEqualityComparer<TKey> eqComparer;
+        private KeyCollection keys;
+        private ValueCollection values;
+        private SerializationInfo si;
+        private object syncRoot;
+        private int version;
 
         private const string VersionName = "Version";
         private const string EqualityComparerName = "EqualityComparer";
@@ -69,11 +69,11 @@ namespace WinCap.Util.Collections.Generic
         {
             ThrowIf(dictionary == null, () => new ArgumentNullException(nameof(dictionary)));
 
-            _initialCapacity = dictionary.Count;
-            _eqComparer = comparer ?? EqualityComparer<TKey>.Default;
+            initialCapacity = dictionary.Count;
+            eqComparer = comparer ?? EqualityComparer<TKey>.Default;
 
-            _dic = new Dictionary<TKey, TValue>(_initialCapacity, _eqComparer);
-            _list = new List<TKey>();
+            dic = new Dictionary<TKey, TValue>(initialCapacity, eqComparer);
+            list = new List<TKey>();
 
             foreach (var e in dictionary)
                 Add(e.Key, e.Value);
@@ -108,11 +108,11 @@ namespace WinCap.Util.Collections.Generic
         {
             ThrowIf(capacity < 0, () => new ArgumentOutOfRangeException(nameof(capacity)));
 
-            _initialCapacity = capacity;
-            _eqComparer = comparer ?? EqualityComparer<TKey>.Default;
+            initialCapacity = capacity;
+            eqComparer = comparer ?? EqualityComparer<TKey>.Default;
 
-            _dic = new Dictionary<TKey, TValue>(_initialCapacity, _eqComparer);
-            _list = new List<TKey>(_initialCapacity);
+            dic = new Dictionary<TKey, TValue>(initialCapacity, eqComparer);
+            list = new List<TKey>(initialCapacity);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace WinCap.Util.Collections.Generic
         /// <param name="context"><see cref="OrderedDictionary{TKey, TValue}"/> に関連付けられているシリアル化ストリームの送信元および送信先を格納している <see cref="StreamingContext"/> 構造体。</param>
         protected OrderedDictionary(SerializationInfo info, StreamingContext context)
         {
-            _si = info;
+            si = info;
         }
 
         #endregion
@@ -133,13 +133,13 @@ namespace WinCap.Util.Collections.Generic
         /// ディクショナリのキーが等しいかどうかを確認するために使用する <see cref="IEqualityComparer{T}"/> を取得します。
         /// </summary>
         /// <value>現在の <see cref="OrderedDictionary{TKey, TValue}"/> のキーが等しいかどうかを確認し、キーのハッシュ値を提供するために使用する <see cref="IEqualityComparer{T}"/> ジェネリック インターフェイスの実装。</value>
-        public IEqualityComparer<TKey> Comparer => _eqComparer ?? EqualityComparer<TKey>.Default;
+        public IEqualityComparer<TKey> Comparer => eqComparer ?? EqualityComparer<TKey>.Default;
 
         /// <summary>
         /// <see cref="OrderedDictionary{TKey, TValue}"/> に格納されているキー/値ペアの数を取得します。
         /// </summary>
         /// <value><see cref="OrderedDictionary{TKey, TValue}"/> に格納されているキー/値ペアの数。</value>
-        public int Count => _list.Count;
+        public int Count => list.Count;
 
         /// <summary>
         /// 指定したインデックスにある要素を取得または設定します。
@@ -151,16 +151,16 @@ namespace WinCap.Util.Collections.Generic
         {
             get
             {
-                ThrowIf(index < 0 || _list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
+                ThrowIf(index < 0 || list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
 
-                return _dic[_list[index]];
+                return dic[list[index]];
             }
             set
             {
-                ThrowIf(index < 0 || _list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
+                ThrowIf(index < 0 || list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
 
-                _dic[_list[index]] = value;
-                _version++;
+                dic[list[index]] = value;
+                version++;
             }
         }
 
@@ -177,29 +177,29 @@ namespace WinCap.Util.Collections.Generic
             {
                 ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
 
-                if (!_dic.ContainsKey(key))
+                if (!dic.ContainsKey(key))
                 {
                     throw new KeyNotFoundException(nameof(key));
                 }
 
-                return _dic[key];
+                return dic[key];
             }
             set
             {
                 ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
 
-                if (_dic.ContainsKey(key))
+                if (dic.ContainsKey(key))
                 {
-                    _dic[key] = value;
-                    var idx = _list.FindIndex(e => _eqComparer.Equals(e, key));
-                    _list[idx] = key;
+                    dic[key] = value;
+                    var idx = list.FindIndex(e => eqComparer.Equals(e, key));
+                    list[idx] = key;
                 }
                 else
                 {
-                    _dic[key] = value;
-                    _list.Add(key);
+                    dic[key] = value;
+                    list.Add(key);
                 }
-                _version++;
+                version++;
             }
         }
 
@@ -207,7 +207,7 @@ namespace WinCap.Util.Collections.Generic
         /// <see cref="OrderedDictionary{TKey, TValue}"/> 内のキーを格納しているコレクションを取得します。
         /// </summary>
         /// <value><see cref="OrderedDictionary{TKey, TValue}"/> 内のキーを格納している <see cref="KeyCollection"/>。</value>
-        public KeyCollection Keys => _keys ?? (_keys = new KeyCollection(this));
+        public KeyCollection Keys => keys ?? (keys = new KeyCollection(this));
 
         /// <summary>
         /// <see cref="OrderedDictionary{TKey, TValue}"/> のキーを保持しているコレクションを取得します。
@@ -223,7 +223,7 @@ namespace WinCap.Util.Collections.Generic
         /// <see cref="OrderedDictionary{TKey, TValue}"/> 内の値を格納しているコレクションを取得します。
         /// </summary>
         /// <value><see cref="OrderedDictionary{TKey, TValue}"/> 内の値を格納している <see cref="ValueCollection"/>。</value>
-        public ValueCollection Values => _values ?? (_values = new ValueCollection(this));
+        public ValueCollection Values => values ?? (values = new ValueCollection(this));
 
         /// <summary>
         /// <see cref="OrderedDictionary{TKey, TValue}"/> 内の値を格納しているコレクションを取得します。
@@ -247,11 +247,11 @@ namespace WinCap.Util.Collections.Generic
         public void Add(TKey key, TValue value)
         {
             ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
-            ThrowIf(_dic.ContainsKey(key), () => new ArgumentException(nameof(key)));
+            ThrowIf(dic.ContainsKey(key), () => new ArgumentException(nameof(key)));
 
-            _list.Add(key);
-            _dic.Add(key, value);
-            _version++;
+            list.Add(key);
+            dic.Add(key, value);
+            version++;
         }
 
         /// <summary>
@@ -259,9 +259,9 @@ namespace WinCap.Util.Collections.Generic
         /// </summary>
         public void Clear()
         {
-            _dic.Clear();
-            _list.Clear();
-            _version++;
+            dic.Clear();
+            list.Clear();
+            version++;
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace WinCap.Util.Collections.Generic
         {
             ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
 
-            return _dic.ContainsKey(key);
+            return dic.ContainsKey(key);
         }
 
         /// <summary>
@@ -282,17 +282,17 @@ namespace WinCap.Util.Collections.Generic
         /// </summary>
         /// <param name="value"><see cref="OrderedDictionary{TKey, TValue}"/> 内で検索される値。参照型の場合は null の値を使用できます。</param>
         /// <returns>指定した値を持つ要素が <see cref="OrderedDictionary{TKey, TValue}"/> に格納されている場合は true。それ以外の場合は false。</returns>
-        public bool ContainsValue(TValue value) => _dic.ContainsValue(value);
+        public bool ContainsValue(TValue value) => dic.ContainsValue(value);
 
         private void CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
         {
             ThrowIf(array == null, () => new ArgumentNullException(nameof(array)));
             ThrowIf(index < 0 || array.Length <= index, () => new ArgumentNullException(nameof(index)));
-            ThrowIf(array.Length - index < _list.Count, () => new ArgumentException());
+            ThrowIf(array.Length - index < list.Count, () => new ArgumentException());
 
-            for (int i = 0; i < _list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                array[index++] = new KeyValuePair<TKey, TValue>(_list[i], _dic[_list[i]]);
+                array[index++] = new KeyValuePair<TKey, TValue>(list[i], dic[list[i]]);
             }
         }
 
@@ -313,12 +313,12 @@ namespace WinCap.Util.Collections.Generic
         {
             ThrowIf(info == null, () => new ArgumentNullException(nameof(info)));
 
-            info.AddValue(InitialCapacityName, _initialCapacity);
-            info.AddValue(VersionName, _version);
-            info.AddValue(EqualityComparerName, _eqComparer, typeof(IEqualityComparer<TKey>));
-            if (_list.Count != 0)
+            info.AddValue(InitialCapacityName, initialCapacity);
+            info.AddValue(VersionName, version);
+            info.AddValue(EqualityComparerName, eqComparer, typeof(IEqualityComparer<TKey>));
+            if (list.Count != 0)
             {
-                var ary = _list.Select(e => new KeyValuePair<TKey, TValue>(e, _dic[e])).ToArray();
+                var ary = list.Select(e => new KeyValuePair<TKey, TValue>(e, dic[e])).ToArray();
                 info.AddValue(KeyValuePairsName, ary, typeof(KeyValuePair<TKey, TValue>[]));
             }
         }
@@ -333,12 +333,12 @@ namespace WinCap.Util.Collections.Generic
         /// <exception cref="ArgumentException">同じキーを持つ要素がコレクションに既に存在しています。</exception>
         public void Insert(int index, TKey key, TValue value)
         {
-            ThrowIf(index < 0 || _list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
-            ThrowIf(_dic.ContainsKey(key), () => new ArgumentException(nameof(key)));
+            ThrowIf(index < 0 || list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
+            ThrowIf(dic.ContainsKey(key), () => new ArgumentException(nameof(key)));
 
-            _list.Insert(index, key);
-            _dic[key] = value;
-            _version++;
+            list.Insert(index, key);
+            dic[key] = value;
+            version++;
         }
 
         /// <summary>
@@ -348,18 +348,18 @@ namespace WinCap.Util.Collections.Generic
         /// <exception cref="SerializationException"><see cref="OrderedDictionary{TKey, TValue}"/> オブジェクトに現在関連付けられている <see cref="SerializationInfo"/> インスタンスが無効です。</exception>
         public virtual void OnDeserialization(object sender)
         {
-            ThrowIf(_si == null, () => new SerializationException());
+            ThrowIf(si == null, () => new SerializationException());
 
-            _eqComparer = _si.GetValue(EqualityComparerName, typeof(IEqualityComparer<TKey>)) as IEqualityComparer<TKey>;
-            _initialCapacity = _si.GetInt32(InitialCapacityName);
-            var realVersion = _si.GetInt32(VersionName);
-            var kvps = _si.GetValue(KeyValuePairsName, typeof(KeyValuePair<TKey, TValue>[])) as KeyValuePair<TKey, TValue>[] ?? new KeyValuePair<TKey, TValue>[] { };
+            eqComparer = si.GetValue(EqualityComparerName, typeof(IEqualityComparer<TKey>)) as IEqualityComparer<TKey>;
+            initialCapacity = si.GetInt32(InitialCapacityName);
+            var realVersion = si.GetInt32(VersionName);
+            var kvps = si.GetValue(KeyValuePairsName, typeof(KeyValuePair<TKey, TValue>[])) as KeyValuePair<TKey, TValue>[] ?? new KeyValuePair<TKey, TValue>[] { };
 
             foreach (var e in kvps)
             {
                 Add(e.Key, e.Value);
             }
-            _version = realVersion;
+            version = realVersion;
         }
 
         /// <summary>
@@ -372,9 +372,9 @@ namespace WinCap.Util.Collections.Generic
         {
             ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
 
-            if (_dic.Remove(key) && _list.Remove(key))
+            if (dic.Remove(key) && list.Remove(key))
             {
-                _version++;
+                version++;
                 return true;
             }
             else
@@ -390,12 +390,12 @@ namespace WinCap.Util.Collections.Generic
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> が 0 未満です。または <paramref name="index"/> が <see cref="Count"/> 以上になっています。</exception>
         public void RemoveAt(int index)
         {
-            ThrowIf(index < 0 || _list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
+            ThrowIf(index < 0 || list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
 
-            var k = _list[index];
-            _dic.Remove(k);
-            _list.RemoveAt(index);
-            _version++;
+            var k = list[index];
+            dic.Remove(k);
+            list.RemoveAt(index);
+            version++;
         }
 
         /// <summary>
@@ -409,9 +409,9 @@ namespace WinCap.Util.Collections.Generic
         {
             ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
 
-            if (_dic.ContainsKey(key))
+            if (dic.ContainsKey(key))
             {
-                value = _dic[key];
+                value = dic[key];
                 return true;
             }
             else
@@ -429,9 +429,9 @@ namespace WinCap.Util.Collections.Generic
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> が 0 未満です。または <paramref name="index"/> が <see cref="Count"/> 以上になっています。</exception>
         public TKey KeyAt(int index)
         {
-            ThrowIf(index < 0 || _list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
+            ThrowIf(index < 0 || list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
 
-            return _list[index];
+            return list[index];
         }
 
         #endregion
@@ -443,7 +443,7 @@ namespace WinCap.Util.Collections.Generic
             Add(item.Key, item.Value);
         }
 
-        bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item) => _dic.ContainsKey(item.Key) && _dic[item.Key].Equals(item.Value);
+        bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item) => dic.ContainsKey(item.Key) && dic[item.Key].Equals(item.Value);
 
         void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
         {
@@ -452,7 +452,7 @@ namespace WinCap.Util.Collections.Generic
 
         bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (_dic.ContainsKey(item.Key) && _dic[item.Key].Equals(item.Value))
+            if (dic.ContainsKey(item.Key) && dic[item.Key].Equals(item.Value))
             {
                 return Remove(item.Key);
             }
@@ -512,7 +512,7 @@ namespace WinCap.Util.Collections.Generic
             ThrowIf(array.Rank != 1, () => new ArgumentException(nameof(array)));
             ThrowIf(array.GetLowerBound(0) != 0, () => new ArgumentException(nameof(array)));
             ThrowIf(index < 0 || array.Length <= index, () => new ArgumentOutOfRangeException(nameof(index)));
-            ThrowIf(array.Length - index < _list.Count, () => new ArgumentException());
+            ThrowIf(array.Length - index < list.Count, () => new ArgumentException());
 
             var kvps = array as KeyValuePair<TKey, TValue>[];
             if (kvps != null)
@@ -522,8 +522,8 @@ namespace WinCap.Util.Collections.Generic
             else if (array is DictionaryEntry[])
             {
                 var deary = array as DictionaryEntry[];
-                for (int i = 0; i < _list.Count; i++)
-                    deary[index++] = new DictionaryEntry(_list[i], _dic[_list[i]]);
+                for (int i = 0; i < list.Count; i++)
+                    deary[index++] = new DictionaryEntry(list[i], dic[list[i]]);
             }
             else
             {
@@ -533,8 +533,8 @@ namespace WinCap.Util.Collections.Generic
 
                 try
                 {
-                    for (int i = 0; i < _list.Count; i++)
-                        objs[index++] = new KeyValuePair<TKey, TValue>(_list[i], _dic[_list[i]]);
+                    for (int i = 0; i < list.Count; i++)
+                        objs[index++] = new KeyValuePair<TKey, TValue>(list[i], dic[list[i]]);
                 }
                 catch (ArrayTypeMismatchException)
                 {
@@ -549,11 +549,11 @@ namespace WinCap.Util.Collections.Generic
         {
             get
             {
-                if (_syncRoot == null)
+                if (syncRoot == null)
                 {
-                    Interlocked.CompareExchange<object>(ref _syncRoot, new object(), null);
+                    Interlocked.CompareExchange<object>(ref syncRoot, new object(), null);
                 }
-                return _syncRoot;
+                return syncRoot;
             }
         }
 
@@ -571,9 +571,9 @@ namespace WinCap.Util.Collections.Generic
             {
                 ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
                 var k = (TKey)key;
-                if (_dic.ContainsKey(k))
+                if (dic.ContainsKey(k))
                 {
-                    return _dic[k];
+                    return dic[k];
                 }
                 return null;
             }
@@ -588,7 +588,7 @@ namespace WinCap.Util.Collections.Generic
                     try
                     {
                         this[k] = (TValue)value;
-                        _version++;
+                        version++;
                     }
                     catch (InvalidCastException)
                     {
@@ -614,7 +614,7 @@ namespace WinCap.Util.Collections.Generic
                 try
                 {
                     this[index] = (TValue)value;
-                    _version++;
+                    version++;
                 }
                 catch (InvalidCastException)
                 {
@@ -625,13 +625,13 @@ namespace WinCap.Util.Collections.Generic
 
         void IOrderedDictionary.Insert(int index, object key, object value)
         {
-            ThrowIf(index < 0 || _list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
+            ThrowIf(index < 0 || list.Count <= index, () => new ArgumentOutOfRangeException(nameof(index)));
             ThrowIf(key == null, () => new ArgumentNullException(nameof(key)));
             ThrowIf(value == null && default(TValue) != null, () => new ArgumentNullException(nameof(value))); // TValue is struct.
             try
             {
                 var k = (TKey)key;
-                ThrowIf(_dic.ContainsKey(k), () => new ArgumentException(nameof(key)));
+                ThrowIf(dic.ContainsKey(k), () => new ArgumentException(nameof(key)));
 
                 try
                 {
@@ -672,24 +672,24 @@ namespace WinCap.Util.Collections.Generic
         [Serializable]
         public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDictionaryEnumerator
         {
-            private OrderedDictionary<TKey, TValue> _dic;
-            private KeyValuePair<TKey, TValue> _current;
+            private OrderedDictionary<TKey, TValue> dic;
+            private KeyValuePair<TKey, TValue> current;
             private int index;
             private int version;
 
             internal Enumerator(OrderedDictionary<TKey, TValue> dictionary)
             {
-                _dic = dictionary;
+                dic = dictionary;
                 index = 0;
-                version = dictionary._version;
-                _current = new KeyValuePair<TKey, TValue>();
+                version = dictionary.version;
+                current = new KeyValuePair<TKey, TValue>();
             }
 
             /// <summary>
             /// 列挙子の現在位置の要素を取得します。
             /// </summary>
             /// <value><see cref="OrderedDictionary{TKey, TValue}"/> のうち、列挙子の現在位置にある要素。</value>
-            public KeyValuePair<TKey, TValue> Current => _current;
+            public KeyValuePair<TKey, TValue> Current => current;
 
             /// <summary>
             /// <see cref="Enumerator"/> によって使用されているすべてのリソースを解放します。
@@ -705,32 +705,32 @@ namespace WinCap.Util.Collections.Generic
             /// <exception cref="InvalidOperationException">コレクションは、列挙子の作成後に変更されました。</exception>
             public bool MoveNext()
             {
-                if (version != _dic._version)
+                if (version != dic.version)
                 {
                     throw new InvalidOperationException();
                 }
 
-                while ((uint)index < (uint)_dic.Count)
+                while ((uint)index < (uint)dic.Count)
                 {
-                    var k = _dic._list[index];
-                    _current = new KeyValuePair<TKey, TValue>(k, _dic._dic[k]);
+                    var k = dic.list[index];
+                    current = new KeyValuePair<TKey, TValue>(k, dic.dic[k]);
                     index++;
                     return true;
                 }
-                index = _dic.Count + 1;
-                _current = new KeyValuePair<TKey, TValue>();
+                index = dic.Count + 1;
+                current = new KeyValuePair<TKey, TValue>();
                 return false;
             }
 
             void IEnumerator.Reset()
             {
-                if (version != _dic._version)
+                if (version != dic.version)
                 {
                     throw new InvalidOperationException();
                 }
 
                 index = 0;
-                _current = new KeyValuePair<TKey, TValue>();
+                current = new KeyValuePair<TKey, TValue>();
             }
 
             object IEnumerator.Current => Current;
@@ -789,19 +789,19 @@ namespace WinCap.Util.Collections.Generic
                 {
                     throw new ArgumentOutOfRangeException(nameof(index));
                 }
-                if (array.Length - index < d._list.Count)
+                if (array.Length - index < d.list.Count)
                 {
                     throw new ArgumentException();
                 }
 
-                d._list.CopyTo(array, index);
+                d.list.CopyTo(array, index);
             }
 
             /// <summary>
             /// <see cref="KeyCollection"/> に格納されている要素の数を取得します。
             /// </summary>
             /// <value><see cref="KeyCollection"/> に格納されている要素の数。このプロパティ値を取得することは、O(1) 操作になります。</value>
-            public int Count => d._list.Count;
+            public int Count => d.list.Count;
 
             bool ICollection<TKey>.IsReadOnly => true;
 
@@ -815,7 +815,7 @@ namespace WinCap.Util.Collections.Generic
                 throw new NotSupportedException();
             }
 
-            bool ICollection<TKey>.Contains(TKey item) => d._dic.ContainsKey(item);
+            bool ICollection<TKey>.Contains(TKey item) => d.dic.ContainsKey(item);
 
             bool ICollection<TKey>.Remove(TKey item)
             {
@@ -840,7 +840,7 @@ namespace WinCap.Util.Collections.Generic
                 {
                     throw new ArgumentOutOfRangeException(nameof(index));
                 }
-                if (array.Length - index < d._list.Count)
+                if (array.Length - index < d.list.Count)
                 {
                     throw new ArgumentException();
                 }
@@ -859,9 +859,9 @@ namespace WinCap.Util.Collections.Generic
                     }
                     try
                     {
-                        for (int i = 0; i < d._list.Count; i++)
+                        for (int i = 0; i < d.list.Count; i++)
                         {
-                            objs[index++] = d._list[i];
+                            objs[index++] = d.list[i];
                         }
                     }
                     catch (ArrayTypeMismatchException)
@@ -894,7 +894,7 @@ namespace WinCap.Util.Collections.Generic
                 {
                     d = dictionary;
                     index = 0;
-                    version = dictionary._version;
+                    version = dictionary.version;
                     current = default(TKey);
                 }
 
@@ -912,19 +912,19 @@ namespace WinCap.Util.Collections.Generic
                 /// <exception cref="InvalidOperationException">コレクションは、列挙子の作成後に変更されました。</exception>
                 public bool MoveNext()
                 {
-                    if (d._version != version)
+                    if (d.version != version)
                     {
                         throw new InvalidOperationException();
                     }
 
-                    while ((uint)index < (uint)d._list.Count)
+                    while ((uint)index < (uint)d.list.Count)
                     {
-                        current = d._list[index];
+                        current = d.list[index];
                         index++;
                         return true;
                     }
 
-                    index = d._list.Count + 1;
+                    index = d.list.Count + 1;
                     current = default(TKey);
                     return false;
                 }
@@ -939,7 +939,7 @@ namespace WinCap.Util.Collections.Generic
                 {
                     get
                     {
-                        if (index == 0 || index == d._list.Count + 1)
+                        if (index == 0 || index == d.list.Count + 1)
                         {
                             throw new InvalidOperationException();
                         }
@@ -1002,14 +1002,14 @@ namespace WinCap.Util.Collections.Generic
                 {
                     throw new ArgumentOutOfRangeException(nameof(index));
                 }
-                if (array.Length - index < d._list.Count)
+                if (array.Length - index < d.list.Count)
                 {
                     throw new ArgumentException();
                 }
 
-                for (int i = 0; i < d._list.Count; i++)
+                for (int i = 0; i < d.list.Count; i++)
                 {
-                    array[index++] = d._dic[d._list[i]];
+                    array[index++] = d.dic[d.list[i]];
                 }
             }
 
@@ -1017,7 +1017,7 @@ namespace WinCap.Util.Collections.Generic
             /// <see cref="ValueCollection"/> に格納されている要素の数を取得します。
             /// </summary>
             /// <value><see cref="ValueCollection"/> に格納されている要素の数。</value>
-            public int Count => d._list.Count;
+            public int Count => d.list.Count;
 
             bool ICollection<TValue>.IsReadOnly => true;
 
@@ -1036,7 +1036,7 @@ namespace WinCap.Util.Collections.Generic
                 throw new NotSupportedException();
             }
 
-            bool ICollection<TValue>.Contains(TValue item) => d._dic.ContainsValue(item);
+            bool ICollection<TValue>.Contains(TValue item) => d.dic.ContainsValue(item);
 
             void ICollection.CopyTo(Array array, int index)
             {
@@ -1056,7 +1056,7 @@ namespace WinCap.Util.Collections.Generic
                 {
                     throw new ArgumentOutOfRangeException(nameof(index));
                 }
-                if (array.Length - index < d._list.Count)
+                if (array.Length - index < d.list.Count)
                 {
                     throw new ArgumentException();
                 }
@@ -1076,9 +1076,9 @@ namespace WinCap.Util.Collections.Generic
 
                     try
                     {
-                        for (int i = 0; i < d._list.Count; i++)
+                        for (int i = 0; i < d.list.Count; i++)
                         {
-                            objs[index++] = d._dic[d._list[i]];
+                            objs[index++] = d.dic[d.list[i]];
                         }
                     }
                     catch (ArrayTypeMismatchException)
@@ -1102,17 +1102,17 @@ namespace WinCap.Util.Collections.Generic
             [Serializable]
             public struct Enumerator : IEnumerator<TValue>, IEnumerator
             {
-                private OrderedDictionary<TKey, TValue> _d;
-                private int _index;
-                private TValue _current;
-                private int _version;
+                private OrderedDictionary<TKey, TValue> d;
+                private int index;
+                private TValue current;
+                private int version;
 
                 internal Enumerator(OrderedDictionary<TKey, TValue> dictionary)
                 {
-                    _d = dictionary;
-                    _index = 0;
-                    _version = dictionary._version;
-                    _current = default(TValue);
+                    d = dictionary;
+                    index = 0;
+                    version = dictionary.version;
+                    current = default(TValue);
                 }
 
                 /// <summary>
@@ -1129,20 +1129,20 @@ namespace WinCap.Util.Collections.Generic
                 /// <exception cref="InvalidOperationException">コレクションは、列挙子の作成後に変更されました。</exception>
                 public bool MoveNext()
                 {
-                    if (_d._version != _version)
+                    if (d.version != version)
                     {
                         throw new InvalidOperationException();
                     }
 
-                    while ((uint)_index < (uint)_d._list.Count)
+                    while ((uint)index < (uint)d.list.Count)
                     {
-                        _current = _d._dic[_d._list[_index]];
-                        _index++;
+                        current = d.dic[d.list[index]];
+                        index++;
                         return true;
                     }
 
-                    _index = _d._list.Count + 1;
-                    _current = default(TValue);
+                    index = d.list.Count + 1;
+                    current = default(TValue);
                     return false;
                 }
 
@@ -1150,25 +1150,25 @@ namespace WinCap.Util.Collections.Generic
                 /// 列挙子の現在位置の要素を取得します。
                 /// </summary>
                 /// <value><see cref="ValueCollection"/> のうち、列挙子の現在位置にある要素。</value>
-                public TValue Current => _current;
+                public TValue Current => current;
 
                 object IEnumerator.Current
                 {
                     get
                     {
-                        if (_index == 0 || (uint)_index == (uint)_d._list.Count + 1u)
+                        if (index == 0 || (uint)index == (uint)d.list.Count + 1u)
                         {
                             throw new InvalidOperationException();
                         }
 
-                        return _current;
+                        return current;
                     }
                 }
 
                 void IEnumerator.Reset()
                 {
-                    _index = 0;
-                    _current = default(TValue);
+                    index = 0;
+                    current = default(TValue);
                 }
             }
         }

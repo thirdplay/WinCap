@@ -17,8 +17,8 @@ namespace WinCap.Util.Desktop
     /// </summary>
     public sealed class ApplicationInstance : IDisposable
     {
-        private readonly IChannel _channel;
-        private readonly ApplicationInstanceMessage _appInstanceMessage;
+        private readonly IChannel channel;
+        private readonly ApplicationInstanceMessage appInstanceMessage;
 
         /// <summary>
         /// このインスタンスが、初回起動のインスタンスかどうかを示す値を取得します。
@@ -56,28 +56,28 @@ namespace WinCap.Util.Desktop
                 try
                 {
                     // サーバーを作成
-                    this._channel = new IpcServerChannel(portName, portName, new BinaryServerFormatterSinkProvider { TypeFilterLevel = TypeFilterLevel.Full, });
-                    ChannelServices.RegisterChannel(this._channel, true);
+                    this.channel = new IpcServerChannel(portName, portName, new BinaryServerFormatterSinkProvider { TypeFilterLevel = TypeFilterLevel.Full, });
+                    ChannelServices.RegisterChannel(this.channel, true);
 
                     RemotingConfiguration.RegisterWellKnownServiceType(typeof(ApplicationInstanceMessage), uri, WellKnownObjectMode.Singleton);
-                    this._appInstanceMessage = new ApplicationInstanceMessage();
-                    RemotingServices.Marshal(this._appInstanceMessage, uri, typeof(ApplicationInstanceMessage));
+                    this.appInstanceMessage = new ApplicationInstanceMessage();
+                    RemotingServices.Marshal(this.appInstanceMessage, uri, typeof(ApplicationInstanceMessage));
 
                     // ApplicationInstanceServiceMessage の CommandLineArgsReceived イベントを購読して、
                     // このクラスに設定された CommandLineArgsReceived イベントを発生させる
-                    this._appInstanceMessage.MessageReceived += this.OnMessageReceived;
+                    this.appInstanceMessage.MessageReceived += this.OnMessageReceived;
 
                     this.IsFirst = true;
                 }
                 catch (RemotingException)
                 {
                     // クライアント作成
-                    this._channel = new IpcClientChannel();
-                    ChannelServices.RegisterChannel(this._channel, true);
+                    this.channel = new IpcClientChannel();
+                    ChannelServices.RegisterChannel(this.channel, true);
 
                     RemotingConfiguration.RegisterWellKnownClientType(typeof(ApplicationInstanceMessage), $"ipc://{portName}/{uri}");
 
-                    this._appInstanceMessage = new ApplicationInstanceMessage();
+                    this.appInstanceMessage = new ApplicationInstanceMessage();
 
                     this.IsFirst = false;
                 }
@@ -99,12 +99,12 @@ namespace WinCap.Util.Desktop
         /// <param name="commandLineArgs">現在のプロセスのコマンド ライン引数。</param>
         public void SendCommandLineArgs(string[] commandLineArgs)
         {
-            this._appInstanceMessage.OnMessageReceived(commandLineArgs);
+            this.appInstanceMessage.OnMessageReceived(commandLineArgs);
         }
 
         public void Dispose()
         {
-            ChannelServices.UnregisterChannel(this._channel);
+            ChannelServices.UnregisterChannel(this.channel);
         }
 
 

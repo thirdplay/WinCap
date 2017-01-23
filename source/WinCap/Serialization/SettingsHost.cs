@@ -13,12 +13,12 @@ namespace WinCap.Serialization
         /// <summary>
         /// 静的な設定管理マップ
         /// </summary>
-        private static readonly Dictionary<Type, SettingsHost> _instances = new Dictionary<Type, SettingsHost>();
+        private static readonly Dictionary<Type, SettingsHost> instances = new Dictionary<Type, SettingsHost>();
 
         /// <summary>
         /// プロパティのキャッシュ管理用マップ
         /// </summary>
-        private readonly Dictionary<string, object> _cachedProperties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> cachedProperties = new Dictionary<string, object>();
 
         /// <summary>
         /// カテゴリー名
@@ -30,7 +30,7 @@ namespace WinCap.Serialization
         /// </summary>
         protected SettingsHost()
         {
-            _instances[this.GetType()] = this;
+            instances[this.GetType()] = this;
         }
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace WinCap.Serialization
             var key = this.CategoryName + "." + propertyName;
 
             object obj;
-            if (this._cachedProperties.TryGetValue(key, out obj) && obj is T)
+            if (this.cachedProperties.TryGetValue(key, out obj) && obj is T)
             {
                 return (T)obj;
             }
 
             var property = create(key);
-            this._cachedProperties[key] = property;
+            this.cachedProperties[key] = property;
 
             return property;
         }
@@ -64,7 +64,7 @@ namespace WinCap.Serialization
         public static T Instance<T>() where T : SettingsHost
         {
             SettingsHost host;
-            return _instances.TryGetValue(typeof(T), out host) ? (T)host : null;
+            return instances.TryGetValue(typeof(T), out host) ? (T)host : null;
         }
     }
 }

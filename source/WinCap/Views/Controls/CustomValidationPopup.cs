@@ -19,7 +19,7 @@ namespace WinCap.Views.Controls
     {
         private const int TopmostFlags = (int)SWP.NOACTIVATE | (int)SWP.NOOWNERZORDER | (int)SWP.NOSIZE | (int)SWP.NOMOVE | (int)SWP.NOREDRAW | (int)SWP.NOSENDCHANGING;
 
-        private Window _hostWindow;
+        private Window hostWindow;
 
         /// <summary>
         /// コンストラクタ。
@@ -61,24 +61,24 @@ namespace WinCap.Views.Controls
                 return;
             }
 
-            this._hostWindow = Window.GetWindow(target);
-            if (this._hostWindow == null)
+            this.hostWindow = Window.GetWindow(target);
+            if (this.hostWindow == null)
             {
                 return;
             }
 
-            this._hostWindow.LocationChanged -= this.HostWindow_SizeOrLocationChanged;
-            this._hostWindow.LocationChanged += this.HostWindow_SizeOrLocationChanged;
-            this._hostWindow.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
-            this._hostWindow.SizeChanged += this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.LocationChanged -= this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.LocationChanged += this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
+            this.hostWindow.SizeChanged += this.HostWindow_SizeOrLocationChanged;
             target.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
             target.SizeChanged += this.HostWindow_SizeOrLocationChanged;
-            this._hostWindow.StateChanged -= this.HostWindow_StateChanged;
-            this._hostWindow.StateChanged += this.HostWindow_StateChanged;
-            this._hostWindow.Activated -= this.HostWindow_Activated;
-            this._hostWindow.Activated += this.HostWindow_Activated;
-            this._hostWindow.Deactivated -= this.HostWindow_Deactivated;
-            this._hostWindow.Deactivated += this.HostWindow_Deactivated;
+            this.hostWindow.StateChanged -= this.HostWindow_StateChanged;
+            this.hostWindow.StateChanged += this.HostWindow_StateChanged;
+            this.hostWindow.Activated -= this.HostWindow_Activated;
+            this.hostWindow.Activated += this.HostWindow_Activated;
+            this.hostWindow.Deactivated -= this.HostWindow_Deactivated;
+            this.hostWindow.Deactivated += this.HostWindow_Deactivated;
 
             this.Unloaded -= this.CustomValidationPopup_Unloaded;
             this.Unloaded += this.CustomValidationPopup_Unloaded;
@@ -106,22 +106,22 @@ namespace WinCap.Views.Controls
             {
                 target.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
             }
-            if (this._hostWindow != null)
+            if (this.hostWindow != null)
             {
-                this._hostWindow.LocationChanged -= this.HostWindow_SizeOrLocationChanged;
-                this._hostWindow.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
-                this._hostWindow.StateChanged -= this.HostWindow_StateChanged;
-                this._hostWindow.Activated -= this.HostWindow_Activated;
-                this._hostWindow.Deactivated -= this.HostWindow_Deactivated;
+                this.hostWindow.LocationChanged -= this.HostWindow_SizeOrLocationChanged;
+                this.hostWindow.SizeChanged -= this.HostWindow_SizeOrLocationChanged;
+                this.hostWindow.StateChanged -= this.HostWindow_StateChanged;
+                this.hostWindow.Activated -= this.HostWindow_Activated;
+                this.hostWindow.Deactivated -= this.HostWindow_Deactivated;
             }
             this.Unloaded -= this.CustomValidationPopup_Unloaded;
             this.Opened -= this.CustomValidationPopup_Opened;
-            this._hostWindow = null;
+            this.hostWindow = null;
         }
 
         private void HostWindow_StateChanged(object sender, EventArgs e)
         {
-            if (this._hostWindow != null && this._hostWindow.WindowState != WindowState.Minimized)
+            if (this.hostWindow != null && this.hostWindow.WindowState != WindowState.Minimized)
             {
                 var target = this.PlacementTarget as FrameworkElement;
                 var holder = target != null ? target.DataContext as AdornedElementPlaceholder : null;
@@ -144,7 +144,7 @@ namespace WinCap.Views.Controls
             this.HorizontalOffset = offset;
         }
 
-        private bool? _appliedTopMost;
+        private bool? appliedTopMost;
         static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
         static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
         static readonly IntPtr HWND_TOP = new IntPtr(0);
@@ -152,7 +152,7 @@ namespace WinCap.Views.Controls
 
         private void SetTopmostState(bool isTop)
         {
-            if (this._appliedTopMost.HasValue && this._appliedTopMost == isTop)
+            if (this.appliedTopMost.HasValue && this.appliedTopMost == isTop)
             {
                 return;
             }
@@ -196,7 +196,7 @@ namespace WinCap.Views.Controls
                 User32.SetWindowPos(hwnd, HWND_NOTOPMOST, left, top, width, height, TopmostFlags);
             }
 
-            this._appliedTopMost = isTop;
+            this.appliedTopMost = isTop;
         }
     }
 }

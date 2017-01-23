@@ -29,12 +29,12 @@ namespace WinCap.Driver
         /// <summary>
         /// アプリケーション操作クラス。
         /// </summary>
-        private WindowsAppFriend _app;
+        private WindowsAppFriend app;
 
         /// <summary>
         /// タイムアウト検出クラス。
         /// </summary>
-        private TimeoutDetector _detector;
+        private TimeoutDetector detector;
 
         /// <summary>
         /// プロセスを取得します。
@@ -56,14 +56,14 @@ namespace WinCap.Driver
             if (this.Process == null)
             {
                 this.Process = Process.Start(ExecutablePath, "-UITest");
-                this._app = new WindowsAppFriend(this.Process);
+                this.app = new WindowsAppFriend(this.Process);
 
                 // アプリケーション設定をリセットする
-                dynamic provider = this._app.Type("WinCap.Serialization.LocalSettingsProvider");
+                dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
                 provider.Instance.Reset();
             }
-            this._detector = new TimeoutDetector(1000 * 60 * 5);
-            this._detector.Timedout += (sender, e) =>
+            this.detector = new TimeoutDetector(1000 * 60 * 5);
+            this.detector.Timedout += (sender, e) =>
             {
                 this.Shutdown();
             };
@@ -78,7 +78,7 @@ namespace WinCap.Driver
         {
             if (isContinue)
             {
-                this._detector.Finish();
+                this.detector.Finish();
             }
             else
             {
@@ -98,16 +98,16 @@ namespace WinCap.Driver
         /// </summary>
         public void EndProcess()
         {
-            if (this._detector != null)
+            if (this.detector != null)
             {
-                this._detector.Finish();
-                this._detector = null;
+                this.detector.Finish();
+                this.detector = null;
 
                 // ショートカット作成を無効にする
-                dynamic settings = this._app.Type("WinCap.Serialization.Settings");
+                dynamic settings = this.app.Type("WinCap.Serialization.Settings");
                 settings.General.IsRegisterInStartup.Value = false;
                 settings.General.IsCreateShortcutToDesktop.Value = false;
-                dynamic provider = this._app.Type("WinCap.Serialization.LocalSettingsProvider");
+                dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
                 provider.Instance.Save();
 
                 this.Shutdown();
@@ -120,7 +120,7 @@ namespace WinCap.Driver
         /// <returns>設定ウィンドウドライバー</returns>
         public SettingsWindowDriver ShowSettingsWindow()
         {
-            dynamic appVar = this._app.Type<Application>().Current;
+            dynamic appVar = this.app.Type<Application>().Current;
             return new SettingsWindowDriver(new WindowControl(appVar.ApplicationAction.ShowSettings()));
         }
 
@@ -129,8 +129,8 @@ namespace WinCap.Driver
         /// </summary>
         private void Shutdown()
         {
-            this._app?.Type<Application>().Current.Shutdown();
-            this._app = null;
+            this.app?.Type<Application>().Current.Shutdown();
+            this.app = null;
         }
     }
 }

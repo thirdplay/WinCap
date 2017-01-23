@@ -12,12 +12,12 @@ namespace WinCap.Models
         /// <summary>
         /// パス。
         /// </summary>
-        private readonly string _path;
+        private readonly string path;
 
         /// <summary>
         /// ショートカットが存在するかどうか確認します。
         /// </summary>
-        public bool IsExists => File.Exists(this._path);
+        public bool IsExists => File.Exists(this.path);
 
         /// <summary>
         /// コンストラクタ。
@@ -33,7 +33,7 @@ namespace WinCap.Models
         /// <param name="path">ショートカットのファイル名</param>
         public BaseShortcut(string fileName)
         {
-            this._path = GetShortcutFilePath(fileName);
+            this.path = GetShortcutFilePath(fileName);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace WinCap.Models
         {
             if (!this.IsExists)
             {
-                Shortcut.Create(this._path);
+                Shortcut.Create(this.path);
             }
         }
 
@@ -54,7 +54,7 @@ namespace WinCap.Models
         {
             if (this.IsExists)
             {
-                File.Delete(this._path);
+                File.Delete(this.path);
             }
         }
 

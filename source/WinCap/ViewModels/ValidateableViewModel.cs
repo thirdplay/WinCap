@@ -18,7 +18,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 各プロパティのエラーコンテナ
         /// </summary>
-        private readonly OrderedDictionary<string, List<string>> _errors = new OrderedDictionary<string, List<string>>();
+        private readonly OrderedDictionary<string, List<string>> errors = new OrderedDictionary<string, List<string>>();
 
         #region INotifyDataErrorInfoの実装
         /// <summary>
@@ -47,15 +47,15 @@ namespace WinCap.ViewModels
                 if (string.IsNullOrEmpty(propertyName))
                 {
                     var allErrors = new List<string>();
-                    foreach (var errors in this._errors.Values)
+                    foreach (var errors in this.errors.Values)
                     {
                         allErrors.AddRange(errors);
                     }
                     return allErrors;
                 }
-                if (this._errors.ContainsKey(propertyName))
+                if (this.errors.ContainsKey(propertyName))
                 {
-                    return this._errors[propertyName];
+                    return this.errors[propertyName];
                 }
             }
             return null;
@@ -64,7 +64,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 検証エラーがあるかどうか取得します。
         /// </summary>
-        public bool HasErrors => this._errors.Count > 0;
+        public bool HasErrors => this.errors.Count > 0;
         #endregion
 
         /// <summary>
@@ -73,9 +73,9 @@ namespace WinCap.ViewModels
         /// <returns>プロパティ名</returns>
         public string GetErrorPropertyName()
         {
-            if (this._errors.Count > 0)
+            if (this.errors.Count > 0)
             {
-                return this._errors.KeyAt(0);
+                return this.errors.KeyAt(0);
             }
             return "";
         }
@@ -135,13 +135,13 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// 引数で指定されたプロパティに、<see cref="_errors"/> で指定されたエラーをすべて登録します。
+        /// 引数で指定されたプロパティに、<see cref="errors"/> で指定されたエラーをすべて登録します。
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
         /// <param name="errors">エラーリスト</param>
         public void SetErrors(string propertyName, IEnumerable<string> errors)
         {
-            var hasCurrentError = this._errors.ContainsKey(propertyName);
+            var hasCurrentError = this.errors.ContainsKey(propertyName);
             var hasNewError = errors != null && errors.Count() > 0;
 
             if (!hasCurrentError && !hasNewError)
@@ -151,11 +151,11 @@ namespace WinCap.ViewModels
 
             if (hasNewError)
             {
-                this._errors[propertyName] = new List<string>(errors);
+                this.errors[propertyName] = new List<string>(errors);
             }
             else
             {
-                this._errors.Remove(propertyName);
+                this.errors.Remove(propertyName);
             }
             OnErrorsChanged(propertyName);
         }
@@ -168,18 +168,18 @@ namespace WinCap.ViewModels
         {
             if (!string.IsNullOrEmpty(propertyName))
             {
-                if (this._errors.ContainsKey(propertyName))
+                if (this.errors.ContainsKey(propertyName))
                 {
-                    this._errors.Remove(propertyName);
+                    this.errors.Remove(propertyName);
                     OnErrorsChanged(propertyName);
                 }
             }
             else
             {
-                while (this._errors.Count > 0)
+                while (this.errors.Count > 0)
                 {
-                    string key = this._errors.First().Key;
-                    this._errors.Remove(key);
+                    string key = this.errors.First().Key;
+                    this.errors.Remove(key);
                     OnErrorsChanged(key);
                 }
             }

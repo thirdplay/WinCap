@@ -19,7 +19,7 @@ namespace WinCap.Test
         /// <summary>
         /// テスト結果。
         /// </summary>
-        private static Dictionary<string, bool> _tests;
+        private static Dictionary<string, bool> tests;
 
         /// <summary>
         /// テストコンテキストを取得、設定します。
@@ -32,7 +32,7 @@ namespace WinCap.Test
         public static void NotifyClassInitialize()
         {
             App = new AppDriver();
-            _tests = typeof(T).GetMethods().Where(e => 0 < e.GetCustomAttributes(typeof(TestMethodAttribute), true).Length).ToDictionary(e => e.Name, e => true);
+            tests = typeof(T).GetMethods().Where(e => 0 < e.GetCustomAttributes(typeof(TestMethodAttribute), true).Length).ToDictionary(e => e.Name, e => true);
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace WinCap.Test
             if (TestContext.DataRow == null ||
                 ReferenceEquals(TestContext.DataRow, TestContext.DataRow.Table.Rows[TestContext.DataRow.Table.Rows.Count - 1]))
             {
-                _tests.Remove(TestContext.TestName);
+                tests.Remove(TestContext.TestName);
             }
-            App.Release(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed && 0 < _tests.Count);
+            App.Release(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed && 0 < tests.Count);
         }
 
         /// <summary>

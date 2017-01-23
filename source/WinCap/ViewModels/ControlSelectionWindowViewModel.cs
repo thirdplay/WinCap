@@ -20,17 +20,17 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 有効かどうかを示す値。
         /// </summary>
-        private bool _enabled;
+        private bool enabled;
 
         /// <summary>
         /// ウィンドウの左端座標。
         /// </summary>
-        private System.Drawing.Point _location;
+        private System.Drawing.Point location;
 
         /// <summary>
         /// コントロール選択モデル。
         /// </summary>
-        private ControlSelection _controlSelection;
+        private ControlSelection controlSelection;
 
         /// <summary>
         /// DPI倍率を取得または設定します。
@@ -63,10 +63,10 @@ namespace WinCap.ViewModels
         public ControlSelectionWindowViewModel()
         {
             this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
-            this._controlSelection = new ControlSelection();
-            this._controlSelection.Subscribe(nameof(this._controlSelection.SelectedHandle), () =>
+            this.controlSelection = new ControlSelection();
+            this.controlSelection.Subscribe(nameof(this.controlSelection.SelectedHandle), () =>
             {
-                var handle = this._controlSelection.SelectedHandle;
+                var handle = this.controlSelection.SelectedHandle;
                 var bounds = handle.GetWindowBounds();
 
                 // コントロール情報の更新
@@ -76,8 +76,8 @@ namespace WinCap.ViewModels
                 this.Messenger.Raise(new SetRectangleBoundsMessage
                 {
                     MessageKey = "Rectangle.Bounds",
-                    Left = bounds.Left - this._location.X,
-                    Top = bounds.Top - this._location.Y,
+                    Left = bounds.Left - this.location.X,
+                    Top = bounds.Top - this.location.Y,
                     Width = bounds.Width,
                     Height = bounds.Height
                 });
@@ -100,12 +100,12 @@ namespace WinCap.ViewModels
                 Width = screenRect.Width,
                 Height = screenRect.Height
             });
-            this._location = screenRect.Location;
+            this.location = screenRect.Location;
 
             // 初期化
             this.Initialized?.Invoke();
-            this._controlSelection.Initialize();
-            this._enabled = true;
+            this.controlSelection.Initialize();
+            this.enabled = true;
         }
 
         /// <summary>
@@ -114,11 +114,11 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void OnMouseMove(MouseEventArgs e)
         {
-            if (this._enabled)
+            if (this.enabled)
             {
                 var point = e.GetPosition(null);
-                var screenPoint = new System.Drawing.Point((int)point.X + this._location.X, (int)point.Y + this._location.Y);
-                this._controlSelection.UpdateMousePoint(screenPoint);
+                var screenPoint = new System.Drawing.Point((int)point.X + this.location.X, (int)point.Y + this.location.Y);
+                this.controlSelection.UpdateMousePoint(screenPoint);
                 this.ControlSelectInfo.UpdateMousePoint(screenPoint);
             }
         }
@@ -130,7 +130,7 @@ namespace WinCap.ViewModels
         public void OnMouseUp(MouseEventArgs e)
         {
             e.Handled = true;
-            var handle = this._controlSelection.SelectedHandle;
+            var handle = this.controlSelection.SelectedHandle;
             if (e.LeftButton != MouseButtonState.Released)
             {
                 handle = IntPtr.Zero;
@@ -175,7 +175,7 @@ namespace WinCap.ViewModels
             {
                 this.Selected?.Invoke();
             }
-            this._enabled = false;
+            this.enabled = false;
         }
     }
 }

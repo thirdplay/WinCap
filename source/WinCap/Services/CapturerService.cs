@@ -27,42 +27,42 @@ namespace WinCap.Services
         /// <summary>
         /// 基本CompositeDisposable
         /// </summary>
-        private readonly LivetCompositeDisposable _compositeDisposable = new LivetCompositeDisposable();
+        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
         /// フックサービス
         /// </summary>
-        private readonly HookService _hookService;
+        private readonly HookService hookService;
 
         /// <summary>
         /// 画面キャプチャ
         /// </summary>
-        private readonly ScreenCapturer _screenCapturer = new ScreenCapturer();
+        private readonly ScreenCapturer screenCapturer = new ScreenCapturer();
 
         /// <summary>
         /// コントロールキャプチャ
         /// </summary>
-        private readonly ControlCapturer _controlCapturer = new ControlCapturer();
+        private readonly ControlCapturer controlCapturer = new ControlCapturer();
 
         /// <summary>
         /// WebBrowserキャプチャ
         /// </summary>
-        private readonly IWebBrowserCapturer[] _webBrowserCapturers = {
+        private readonly IWebBrowserCapturer[] webBrowserCapturers = {
             new InternetExplorerCapturer()
         };
 
         /// <summary>
         /// コントロール選択ウィンドウのViewModel
         /// </summary>
-        private readonly ControlSelectionWindowViewModel _controlSelectionWindowViewModel;
+        private readonly ControlSelectionWindowViewModel controlSelectionWindowViewModel;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public CapturerService(HookService hookService)
         {
-            this._hookService = hookService;
-            this._controlSelectionWindowViewModel = new ControlSelectionWindowViewModel().AddTo(this);
+            this.hookService = hookService;
+            this.controlSelectionWindowViewModel = new ControlSelectionWindowViewModel().AddTo(this);
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureDesktop()
         {
-            using (this._hookService.Suspend())
+            using (this.hookService.Suspend())
             {
-                ExecuteCapture(() => this._screenCapturer.CaptureFullScreen());
+                ExecuteCapture(() => this.screenCapturer.CaptureFullScreen());
             }
         }
 
@@ -81,9 +81,9 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureActiveControl()
         {
-            using (this._hookService.Suspend())
+            using (this.hookService.Suspend())
             {
-                ExecuteCapture(() => this._controlCapturer.CaptureActiveControl());
+                ExecuteCapture(() => this.controlCapturer.CaptureActiveControl());
             }
         }
 
@@ -92,15 +92,15 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureSelectionControl()
         {
-            using (this._hookService.Suspend())
+            using (this.hookService.Suspend())
             {
-                var viewModel = this._controlSelectionWindowViewModel;
+                var viewModel = this.controlSelectionWindowViewModel;
                 var window = new ControlSelectionWindow { DataContext = viewModel };
                 viewModel.DpiScaleFactor = window.GetDpiScaleFactor();
                 viewModel.Initialized = () => window.Activate();
                 viewModel.Selected = () =>
                 {
-                    ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle));
+                    ExecuteCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle));
                 };
                 window.ShowDialog();
                 window.Close();
@@ -112,9 +112,9 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureWebPage()
         {
-            using (this._hookService.Suspend())
+            using (this.hookService.Suspend())
             {
-                var viewModel = this._controlSelectionWindowViewModel;
+                var viewModel = this.controlSelectionWindowViewModel;
                 var window = new ControlSelectionWindow { DataContext = viewModel };
                 viewModel.DpiScaleFactor = window.GetDpiScaleFactor();
                 viewModel.Initialized = () => window.Activate();
@@ -122,7 +122,7 @@ namespace WinCap.Services
                 {
                     // キャプチャ可能か判定
                     string className = viewModel.SelectedHandle.GetClassName();
-                    var capturer = this._webBrowserCapturers.Where(_ => _.CanCapture(className)).FirstOrDefault();
+                    var capturer = this.webBrowserCapturers.Where(_ => _.CanCapture(className)).FirstOrDefault();
                     if (capturer != null)
                     {
                         // ウェブページ全体をキャプチャ
@@ -133,7 +133,7 @@ namespace WinCap.Services
                     else
                     {
                         // 選択コントロールをキャプチャ
-                        ExecuteCapture(() => this._controlCapturer.CaptureControl(viewModel.SelectedHandle));
+                        ExecuteCapture(() => this.controlCapturer.CaptureControl(viewModel.SelectedHandle));
                     }
                 };
                 window.ShowDialog();
@@ -223,14 +223,14 @@ namespace WinCap.Services
         }
 
         #region IDisposableHoloder members
-        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this._compositeDisposable;
+        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {
-            this._compositeDisposable.Dispose();
+            this.compositeDisposable.Dispose();
         }
         #endregion
     }
