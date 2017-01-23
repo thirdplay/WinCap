@@ -124,5 +124,18 @@ namespace WinCap.Interop.Win32
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+        /// <summary>
+        /// 指定したウィンドウの境界線により決まる長方形領域との交差部分が最も広いディスプレイモニタのハンドルを返します。
+        /// </summary>
+        /// <param name="hwnd">目的のウィンドウのハンドルを指定します。</param>
+        /// <param name="dwFlags">指定したウィンドウと重なるディスプレイモニタが存在しなかった場合は、関数の戻り値の内容を示す値が格納されます。
+        /// このパラメータには、次のいずれかの値が格納されます。</param>
+        /// <returns>
+        /// 指定したウィンドウと重なるディスプレイモニタが１台以上見つかった場合は、ウィンドウとの交差部分が最も広いディスプレイモニタの HMONITOR ハンドルが返ります。
+        /// 指定したウィンドウと重なるディスプレイモニタが見つからなかった場合は、dwFlags パラメータにより示される内容が返ります。
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr MonitorFromWindow(IntPtr hwnd, MonitorDefaultTo dwFlags);
     }
 }

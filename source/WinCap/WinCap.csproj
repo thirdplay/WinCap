@@ -161,10 +161,14 @@
     <Compile Include="Capturers\InternetExplorerCapturer.cs" />
     <Compile Include="Interop\Dpi.cs" />
     <Compile Include="Interop\InteropExtensions.cs" />
+    <Compile Include="Interop\MonitorDpiType.cs" />
+    <Compile Include="Interop\PerMonitorDpi.cs" />
     <Compile Include="Interop\Win32\Dwmapi.cs" />
     <Compile Include="Interop\Win32\Gdi32.cs" />
     <Compile Include="Interop\Win32\MAPVK.cs" />
+    <Compile Include="Interop\Win32\MonitorDefaultTo.cs" />
     <Compile Include="Interop\Win32\Oleacc.cs" />
+    <Compile Include="Interop\Win32\SHCore.cs" />
     <Compile Include="Interop\Win32\SWP.cs" />
     <Compile Include="Interop\Win32\User32.cs" />
     <Compile Include="Interop\Win32\VK.cs" />

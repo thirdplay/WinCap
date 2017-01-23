@@ -188,7 +188,7 @@ namespace WinCap.Drivers
 
             // 横スクロールバーが表示中かつ
             // 「ウィンドウ高さ」と「クライアント高さ」の差分が「水平スクロールバーの高さ」より小さい場合
-            Rectangle wndRect = handle.GetWindowBounds();
+            Rectangle wndRect = InteropExtensions.GetWindowBounds(handle);
             if (IsVisibleScrollbarH && (wndRect.Height - Client.Height) < SystemInformation.HorizontalScrollBarHeight)
             {
                 // ※暫定的にクライアント高さからスクロールバー分を引いて処理する

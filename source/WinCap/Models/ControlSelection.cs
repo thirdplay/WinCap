@@ -62,7 +62,7 @@ namespace WinCap.Models
             var selectedHandle = IntPtr.Zero;
             foreach (var handle in this.handles)
             {
-                Rectangle bounds = handle.GetWindowBounds();
+                Rectangle bounds = InteropExtensions.GetWindowBounds(handle);
                 if (bounds != Rectangle.Empty && bounds.Contains(point))
                 {
                     selectedHandle = handle;
@@ -81,7 +81,7 @@ namespace WinCap.Models
         {
             foreach (var handle in this.handles)
             {
-                Rectangle bounds = handle.GetWindowBounds();
+                Rectangle bounds = InteropExtensions.GetWindowBounds(handle);
                 if (bounds != Rectangle.Empty && bounds.Contains(point))
                 {
                     return handle;
@@ -123,7 +123,7 @@ namespace WinCap.Models
             } while ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
             // クラス名にWinCapを含むウィンドウは除外する
-            list.RemoveAll(x => x.GetClassName().IndexOf(ProductInfo.Product) >= 0);
+            list.RemoveAll(x => InteropExtensions.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
             return list;
         }
 
@@ -162,7 +162,7 @@ namespace WinCap.Models
             if (visible != 0)
             {
                 // 矩形情報を取得
-                Rectangle rect = handle.GetWindowBounds();
+                Rectangle rect = InteropExtensions.GetWindowBounds(handle);
                 if (rect.Width > 0 && rect.Height > 0)
                 {
                     return true;

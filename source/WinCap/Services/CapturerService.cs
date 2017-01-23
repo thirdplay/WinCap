@@ -96,7 +96,6 @@ namespace WinCap.Services
             {
                 var viewModel = this.controlSelectionWindowViewModel;
                 var window = new ControlSelectionWindow { DataContext = viewModel };
-                viewModel.DpiScaleFactor = window.GetDpiScaleFactor();
                 viewModel.Initialized = () => window.Activate();
                 viewModel.Selected = () =>
                 {
@@ -116,12 +115,11 @@ namespace WinCap.Services
             {
                 var viewModel = this.controlSelectionWindowViewModel;
                 var window = new ControlSelectionWindow { DataContext = viewModel };
-                viewModel.DpiScaleFactor = window.GetDpiScaleFactor();
                 viewModel.Initialized = () => window.Activate();
                 viewModel.Selected = () =>
                 {
                     // キャプチャ可能か判定
-                    string className = viewModel.SelectedHandle.GetClassName();
+                    string className = InteropExtensions.GetClassName(viewModel.SelectedHandle);
                     var capturer = this.webBrowserCapturers.Where(_ => _.CanCapture(className)).FirstOrDefault();
                     if (capturer != null)
                     {
