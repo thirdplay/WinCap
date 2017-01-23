@@ -33,6 +33,11 @@ namespace WinCap.ViewModels
         private ControlSelection controlSelection;
 
         /// <summary>
+        /// 初期座標。
+        /// </summary>
+        private Point? initPoint;
+
+        /// <summary>
         /// DPI倍率を取得または設定します。
         /// </summary>
         public Point DpiScaleFactor { get; set; } = new Point(1.0, 1.0);
@@ -106,6 +111,12 @@ namespace WinCap.ViewModels
             this.Initialized?.Invoke();
             this.controlSelection.Initialize();
             this.enabled = true;
+
+            if (this.initPoint != null)
+            {
+                OnMouseMove(this.initPoint.Value);
+                this.initPoint = null;
+            }
         }
 
         /// <summary>
@@ -114,13 +125,18 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void OnMouseMove(MouseEventArgs e)
         {
-            if (this.enabled)
+            if (!this.enabled)
             {
-                var point = e.GetPosition(null);
-                var screenPoint = new System.Drawing.Point((int)point.X + this.location.X, (int)point.Y + this.location.Y);
-                this.controlSelection.UpdateMousePoint(screenPoint);
-                this.ControlSelectInfo.UpdateMousePoint(screenPoint);
+                this.initPoint = e.GetPosition(null);
+                return;
             }
+            OnMouseMove(e.GetPosition(null));
+        }
+        private void OnMouseMove(Point point)
+        {
+            var screenPoint = new System.Drawing.Point((int)point.X + this.location.X, (int)point.Y + this.location.Y);
+            this.controlSelection.UpdateMousePoint(screenPoint);
+            this.ControlSelectInfo.UpdateMousePoint(screenPoint);
         }
 
         /// <summary>

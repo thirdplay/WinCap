@@ -321,7 +321,7 @@ namespace WinCap.Drivers
                 }
 
                 // ウェブブラウザの取得
-                var serviceProvider = (Interop.IServiceProvider)doc.parentWindow;
+                var serviceProvider = (Interop.Win32.IServiceProvider)doc.parentWindow;
                 try
                 {
                     Guid webBrowserAppGUID = typeof(IWebBrowserApp).GUID;

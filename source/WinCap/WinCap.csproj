@@ -169,7 +169,7 @@
     <Compile Include="Interop\Win32\User32.cs" />
     <Compile Include="Interop\Win32\VK.cs" />
     <Compile Include="Interop\IconHelper.cs" />
-    <Compile Include="Interop\IServiceProvider.cs" />
+    <Compile Include="Interop\Win32\IServiceProvider.cs" />
     <Compile Include="Interop\Win32\SMTO.cs" />
     <Compile Include="Models\BaseShortcut.cs" />
     <Compile Include="Models\BitmapExtensions.cs" />
