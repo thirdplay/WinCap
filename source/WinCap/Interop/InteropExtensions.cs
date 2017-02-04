@@ -27,8 +27,9 @@ namespace WinCap.Interop
         /// 指定ウィンドウハンドルの範囲を取得します。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
+        /// <param name="isHighDpi">高DPI対応を処理するかどうか</param>
         /// <returns>ウィンドウの範囲</returns>
-        public static Rectangle GetWindowBounds(IntPtr handle)
+        public static Rectangle GetWindowBounds(IntPtr handle, bool isHighDpi = true)
         {
             var result = Rectangle.Empty;
 
@@ -53,11 +54,14 @@ namespace WinCap.Interop
             if (result != Rectangle.Empty)
             {
                 // 高DPI対応
-                var dpi = PerMonitorDpi.GetDpi(handle);
-                result.X = (int)(result.X * (1 / dpi.ScaleX));
-                result.Y = (int)(result.Y * (1 / dpi.ScaleY));
-                result.Width = (int)(result.Width * (1 / dpi.ScaleX));
-                result.Height = (int)(result.Height * (1 / dpi.ScaleY));
+                if (isHighDpi)
+                {
+                    var dpi = PerMonitorDpi.GetDpi(handle);
+                    result.X = (int)(result.X * (1 / dpi.ScaleX));
+                    result.Y = (int)(result.Y * (1 / dpi.ScaleY));
+                    result.Width = (int)(result.Width * (1 / dpi.ScaleX));
+                    result.Height = (int)(result.Height * (1 / dpi.ScaleY));
+                }
             }
 
             return result;
