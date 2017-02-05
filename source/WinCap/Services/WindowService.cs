@@ -30,9 +30,9 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="closedAction">Closed時の処理メソッド</param>
         /// <returns>ウィンドウ</returns>
-        public SettingsWindow GetSettingsWindow(Action<SettingsWindowViewModel> closedAction)
+        public SettingsWindow GetSettingsWindow(Action<SettingsWindowViewModel> action)
         {
-            return GetWindow<SettingsWindow, SettingsWindowViewModel>(closedAction);
+            return GetWindow<SettingsWindow, SettingsWindowViewModel>(action);
         }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace WinCap.Services
                 Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
                 .Subscribe(x =>
                 {
-                    DispatcherHelper.UIDispatcher.Invoke(() => closedAction(viewModel));
                     this.container.Remove(key);
+                    DispatcherHelper.UIDispatcher.Invoke(() => closedAction(viewModel));
                 });
 
                 this.container.Add(key, window);

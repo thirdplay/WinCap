@@ -171,6 +171,7 @@
     <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
     <Compile Include="Models\ShortcutKey.cs" />
+    <Compile Include="Models\ShortcutKeyRegisterInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

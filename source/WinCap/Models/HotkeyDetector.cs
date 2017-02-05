@@ -77,21 +77,23 @@ namespace WinCap.Models
         /// </summary>
         /// <param name="shortcutKey">ショートカットキー</param>
         /// <param name="action">アクション</param>
-        public void Register(ShortcutKey shortcutKey, Action action)
+        /// <returns>成功の場合はtrue、それ以外はfalseを返します。</returns>
+        public bool Register(ShortcutKey shortcutKey, Action action)
         {
             var modifier = (int)shortcutKey.ModifierKeys;
             var trigger = (int)shortcutKey.Key.ToVirtualKey();
 
             // HotKey登録時に指定するIDを決定する
             // 0x0000～0xbfff はIDとして使用可能
-            while (this.nextHotkeyId < HotkeyIdMax && !User32.RegisterHotKey(this.windowHandle, this.nextHotkeyId, modifier, trigger))
-            {
-                nextHotkeyId++;
-            }
-            if (this.nextHotkeyId < HotkeyIdMax)
+            if (this.nextHotkeyId < HotkeyIdMax && User32.RegisterHotKey(this.windowHandle, this.nextHotkeyId, modifier, trigger))
             {
                 this.hotkeyActions.Add(this.nextHotkeyId, action);
                 nextHotkeyId++;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

@@ -82,11 +82,6 @@ namespace WinCap
                 // ローカル設定の読み込み
                 LocalSettingsProvider.Instance.Load();
 
-                //this.HookService = new HookService().AddTo(this);
-                //this.CapturerService = new CapturerService(this.HookService).AddTo(this);
-                //this.WindowService = new WindowService();
-                //this.ApplicationAction = new ApplicationAction(this).AddTo(this);
-
                 // メインウィンドウ表示
                 this.MainWindow = new MainWindow();
                 if (e.Args.Length > 0 && e.Args[0] == "-UITest")
@@ -103,8 +98,15 @@ namespace WinCap
                 this.ApplicationAction = new ApplicationAction(this).AddTo(this);
 
                 // アプリケーション準備
-                this.CreateShortcut();
                 this.ShowTaskTrayIcon();
+                this.ApplicationAction.CreateShortcut();
+                if (!this.ApplicationAction.RegisterActions())
+                {
+                    if (this.ApplicationAction.ConfirmChangeShortcutKey())
+                    {
+                        this.ApplicationAction.ShowSettings();
+                    }
+                }
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);
@@ -115,18 +117,6 @@ namespace WinCap
                 this.Shutdown();
             }
 #endif
-        }
-
-        /// <summary>
-        /// ショートカットを作成します。
-        /// </summary>
-        public void CreateShortcut()
-        {
-            var shortcut = new StartupShortcut();
-            var desktopShortcut = new DesktopShortcut();
-
-            shortcut.Recreate(Settings.General.IsRegisterInStartup);
-            desktopShortcut.Recreate(Settings.General.IsCreateShortcutToDesktop);
         }
 
         /// <summary>

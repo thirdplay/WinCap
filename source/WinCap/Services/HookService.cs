@@ -59,9 +59,10 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="shortcutKey">ショートカットキー</param>
         /// <param name="action">実行用メソッド</param>
-        public void Register(ShortcutKey shortcutKey, Action action)
+        /// <returns>成功の場合はtrue、それ以外はfalseを返します。</returns>
+        public bool Register(ShortcutKey shortcutKey, Action action)
         {
-            this.detector.Register(shortcutKey, action);
+            return this.detector.Register(shortcutKey, action);
         }
 
         /// <summary>

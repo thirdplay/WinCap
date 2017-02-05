@@ -114,7 +114,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            var shortcutKeys = new Dictionary<string, ShortcutKey>
+            var shortcutKeies = new Dictionary<string, ShortcutKey>
             {
                 {nameof(this.FullScreen), this.FullScreen.ToShortcutKey()},
                 {nameof(this.ActiveControl),  this.ActiveControl.ToShortcutKey()},
@@ -124,10 +124,10 @@ namespace WinCap.ViewModels.Settings
 
             // 重複するショートカットキーがあればエラー
             this.ClearErrors();
-            foreach (var pair in shortcutKeys)
+            foreach (var pair in shortcutKeies)
             {
                 if (pair.Value == ShortcutKey.None) { continue; }
-                if (shortcutKeys.Values.Where(x => x != ShortcutKey.None && x == pair.Value).Count() > 1)
+                if (shortcutKeies.Values.Where(x => x != ShortcutKey.None && x == pair.Value).Count() > 1)
                 {
                     this.SetError(pair.Key, Resources.Settings_ShortcutKeyDuplicationMessage);
                 }
