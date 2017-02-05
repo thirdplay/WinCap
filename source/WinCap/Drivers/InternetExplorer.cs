@@ -184,15 +184,7 @@ namespace WinCap.Drivers
 
             // クライアント領域のオフセットを取得
             this.Offset = GetMargin(this.documentMode);
-            var rect = new Rectangle();
-
-            // 高DPI対応
-            var dpi = PerMonitorDpi.GetDpi(handle);
-            rect.X = (int)(this.Offset.X * (1 / dpi.ScaleX));
-            rect.Y = (int)(this.Offset.Y * (1 / dpi.ScaleY));
-            rect.Width = (int)(this.body.clientWidth * (1 / dpi.ScaleX));
-            rect.Height = (int)(this.body.clientHeight * (1 / dpi.ScaleY));
-            this.Client = rect;
+            this.Client = new Rectangle(this.Offset.X, this.Offset.Y, this.body.clientWidth, this.body.clientHeight);
 
             // 横スクロールバーが表示中かつ
             // 「ウィンドウ高さ」と「クライアント高さ」の差分が「水平スクロールバーの高さ」より小さい場合

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using WinCap.Drivers;
+using WinCap.Interop;
 
 namespace WinCap.Capturers
 {
@@ -45,6 +46,8 @@ namespace WinCap.Capturers
             // IE操作クラスを生成する
             using (InternetExplorer ie = new InternetExplorer(handle))
             {
+                var dpi = PerMonitorDpi.GetDpi(handle);
+
                 // クライアント領域、スクロール位置、スクロールサイズの取得
                 Rectangle client = ie.Client;
                 Point scrollPoint = ie.ScrollPoint;
@@ -58,7 +61,7 @@ namespace WinCap.Capturers
 
                 // 出力先のビットマップ生成
                 // クライアント領域の幅 x (スクロール領域の高さ - スクロール位置Y)
-                Bitmap bmp = new Bitmap(scrollSize.Width - scrollPoint.X, scrollSize.Height - scrollPoint.Y);
+                Bitmap bmp = new Bitmap((int)((scrollSize.Width - scrollPoint.X) * dpi.ScaleX), (int)((scrollSize.Height - scrollPoint.Y) * dpi.ScaleY));
 
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
@@ -68,12 +71,12 @@ namespace WinCap.Capturers
                     Point scrollEnd = new Point(Math.Max(scrollSize.Width - client.Width, 0), Math.Max(scrollSize.Height - client.Height, 0));
 
                     // 右終端までスクロールしながらキャプチャする
-                    captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
+                    captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
                     while (scrollPoint.X < scrollEnd.X)
                     {
                         // スクロールしてキャプチャする
                         scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, this.ScrollDelayTime);
-                        captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
+                        captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
                     }
 
                     // 終端までスクロールしながらキャプチャする
@@ -85,14 +88,14 @@ namespace WinCap.Capturers
                         // スクロールしてキャプチャする
                         scrollPoint.X = scrollStart.X;
                         scrollPoint = ie.ScrollTo(scrollPoint.X, scrollPoint.Y + client.Height, this.ScrollDelayTime);
-                        captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
+                        captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
 
                         // 右端までスクロールしながらキャプチャする
                         while (scrollPoint.X < scrollEnd.X)
                         {
                             // スクロールしてウィンドウキャプチャする
                             scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, this.ScrollDelayTime);
-                            captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart);
+                            captureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
                         }
                     }
                 }
@@ -109,16 +112,28 @@ namespace WinCap.Capturers
         /// <param name="client">クライアント領域</param>
         /// <param name="scrollPoint">スクロール座標</param>
         /// <param name="startScroll">開始スクロール座標</param>
-        private void captureControl(IntPtr hWnd, Graphics g, ref Rectangle client, ref Point scrollPoint, ref Point scrollStart)
+        /// <param name="dpi">DPI情報</param>
+        private void captureControl(IntPtr hWnd, Graphics g, ref Rectangle client, ref Point scrollPoint, ref Point scrollStart, Dpi dpi)
         {
+            // 描画元領域の設定
+            Rectangle srcRect = client;
+            srcRect.X = (int)(srcRect.X * dpi.ScaleX);
+            srcRect.Y = (int)(srcRect.Y * dpi.ScaleY);
+            srcRect.Width = (int)(srcRect.Width * dpi.ScaleX);
+            srcRect.Height = (int)(srcRect.Height * dpi.ScaleY);
+
             // 描画先領域の設定
             Rectangle destRect = new Rectangle(scrollPoint.X - scrollStart.X, scrollPoint.Y - scrollStart.Y, client.Width, client.Height);
+            destRect.X = (int)(destRect.X * dpi.ScaleX);
+            destRect.Y = (int)(destRect.Y * dpi.ScaleY);
+            destRect.Width = (int)(destRect.Width * dpi.ScaleX);
+            destRect.Height = (int)(destRect.Height * dpi.ScaleY);
 
             // ウィンドウをキャプチャする
             using (Bitmap bitmap = capturer.CaptureControl(hWnd))
             {
                 // キャプチャした画像を書き込む
-                g.DrawImage(bitmap, destRect, client, GraphicsUnit.Pixel);
+                g.DrawImage(bitmap, destRect, srcRect, GraphicsUnit.Pixel);
             }
         }
     }
