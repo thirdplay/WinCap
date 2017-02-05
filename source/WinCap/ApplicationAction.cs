@@ -10,7 +10,7 @@ namespace WinCap
     /// <summary>
     /// アプリケーションのアクション機能を提供します。
     /// </summary>
-    public class ApplicationAction : IDisposableHolder
+    public class ApplicationAction : IDisposable
     {
         /// <summary>
         /// アプリケーションのインスタンス
@@ -20,7 +20,7 @@ namespace WinCap
         /// <summary>
         /// 基本CompositeDisposable
         /// </summary>
-        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+        //private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 
         /// <summary>
         /// コンストラクタ
@@ -38,18 +38,10 @@ namespace WinCap
         public void RegisterActions()
         {
             var settings = Settings.ShortcutKey;
-
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.FullScreen.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop()));
-
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.ActiveControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl()));
-
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.SelectionControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl()));
-
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.WebPage.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage()));
+            this.application.HookService.Register(settings.FullScreen.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop());
+            this.application.HookService.Register(settings.ActiveControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl());
+            this.application.HookService.Register(settings.SelectionControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl());
+            this.application.HookService.Register(settings.WebPage.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage());
         }
 
         /// <summary>
@@ -57,11 +49,12 @@ namespace WinCap
         /// </summary>
         public void DeregisterActions()
         {
-            foreach (var register in this.compositeDisposable)
-            {
-                register.Dispose();
-            }
-            this.compositeDisposable.Clear();
+            this.application.HookService.Unregister();
+            //foreach (var register in this.compositeDisposable)
+            //{
+            //    register.Dispose();
+            //}
+            //this.compositeDisposable.Clear();
         }
 
         /// <summary>
@@ -84,8 +77,8 @@ namespace WinCap
             return window;
         }
 
-        #region IDisposableHoloder members
-        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
+        #region IDisposable members
+        //ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。

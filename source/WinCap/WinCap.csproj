@@ -169,6 +169,7 @@
     <Compile Include="Models\OutputFormatTypeExtensions.cs" />
     <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Models\ScreenHelper.cs" />
+    <Compile Include="Models\ShortcutKey.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -182,12 +183,12 @@
     <Compile Include="Serialization\LocalSettingsProvider.cs" />
     <Compile Include="Serialization\Settings.cs" />
     <Compile Include="Serialization\SettingsHost.cs" />
-    <Compile Include="Services\WindowService.cs" />
     <Compile Include="Services\HookService.cs" />
-    <Compile Include="Services\KeyHelper.cs" />
-    <Compile Include="Services\ShortcutKey.cs" />
-    <Compile Include="Services\ShortcutKeyDetector.cs" />
-    <Compile Include="Services\ShortcutKeyPressedEventArgs.cs" />
+    <Compile Include="Models\ShortcutKeyDetector.cs" />
+    <Compile Include="Models\HotkeyDetector.cs" />
+    <Compile Include="Services\WindowService.cs" />
+    <Compile Include="Models\KeyHelper.cs" />
+    <Compile Include="Models\ShortcutKeyPressedEventArgs.cs" />
     <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="Models\DesktopShortcut.cs" />
     <Compile Include="Models\StartupShortcut.cs" />
@@ -218,6 +219,9 @@
     <Compile Include="Views\Controls\CustomValidationPopup.cs" />
     <Compile Include="Views\Controls\HyperLinkEx.cs" />
     <Compile Include="Views\Controls\ShortcutKeyBox.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\VersionInfo.xaml.cs">
       <DependentUpon>VersionInfo.xaml</DependentUpon>
     </Compile>
@@ -313,6 +317,10 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Settings\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

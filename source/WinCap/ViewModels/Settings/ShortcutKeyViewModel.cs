@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WinCap.Models;
 using WinCap.Properties;
 using WinCap.Serialization;
-using WinCap.Services;
 
 namespace WinCap.ViewModels.Settings
 {

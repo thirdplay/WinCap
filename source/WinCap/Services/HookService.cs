@@ -1,8 +1,7 @@
-﻿using Livet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Reactive.Disposables;
+using System.Windows;
+using WinCap.Models;
 
 namespace WinCap.Services
 {
@@ -12,14 +11,9 @@ namespace WinCap.Services
     public class HookService : IDisposable
     {
         /// <summary>
-        /// ショートカットキー検出器
+        /// ホットキー検出器
         /// </summary>
-        private readonly ShortcutKeyDetector detector = new ShortcutKeyDetector();
-
-        /// <summary>
-        /// フックアクションリスト
-        /// </summary>
-        private readonly List<HookAction> hookActions = new List<HookAction>();
+        private readonly HotkeyDetector detector;
 
         /// <summary>
         /// 停止リクエストカウンタ
@@ -34,9 +28,10 @@ namespace WinCap.Services
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public HookService()
+        /// <param name="window">メインウィンドウ</param>
+        public HookService(Window window)
         {
-            this.detector.Pressed += this.KeyHookOnPressed;
+            this.detector = new HotkeyDetector(window);
             this.detector.Start();
         }
 
@@ -64,84 +59,31 @@ namespace WinCap.Services
         /// </summary>
         /// <param name="shortcutKey">ショートカットキー</param>
         /// <param name="action">実行用メソッド</param>
-        /// <returns>登録リクエスト</returns>
-        public IDisposable Register(ShortcutKey shortcutKey, Action action)
+        public void Register(ShortcutKey shortcutKey, Action action)
         {
-            return this.Register(shortcutKey, action, () => true);
+            this.detector.Register(shortcutKey, action);
         }
 
         /// <summary>
-        /// ショートカットキーを登録します。
+        /// ショートカットキーをします。
         /// </summary>
         /// <param name="shortcutKey">ショートカットキー</param>
         /// <param name="action">実行用メソッド</param>
-        /// <param name="canExecute">実行可否判定用メソッド</param>
-        /// <returns>登録リクエスト</returns>
-        public IDisposable Register(ShortcutKey shortcutKey, Action action, Func<bool> canExecute)
+        public void Unregister()
         {
-            var hook = new HookAction(shortcutKey, action, canExecute);
-            this.hookActions.Add(hook);
-
-            return Disposable.Create(() => this.hookActions.Remove(hook));
+            this.detector.Unregister();
         }
 
-        /// <summary>
-        /// ショートカットキー検出イベント
-        /// </summary>
-        /// <param name="sender">イベント発生元オブジェクト</param>
-        /// <param name="args">イベント引数</param>
-        private void KeyHookOnPressed(object sender, ShortcutKeyPressedEventArgs args)
-        {
-            if (args.ShortcutKey == ShortcutKey.None) { return; }
-
-            var target = this.hookActions.FirstOrDefault(x => x.ShortcutKey == args.ShortcutKey);
-            if (target != null && target.CanExecute())
-            {
-                DispatcherHelper.UIDispatcher.Invoke(() => target.Action());
-                args.Handled = true;
-            }
-        }
+        #region IDisposable members
 
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {
-            this.detector.Stop();
+            this.detector.Dispose();
         }
 
-        /// <summary>
-        /// キーフックアクションを表すクラスです。
-        /// </summary>
-        private class HookAction
-        {
-            /// <summary>
-            /// ショートカットキー
-            /// </summary>
-            public ShortcutKey ShortcutKey { get; }
-
-            /// <summary>
-            /// 実行用メソッド
-            /// </summary>
-            public Action Action { get; }
-
-            /// <summary>
-            /// 実行可否判定用メソッド
-            /// </summary>
-            public Func<bool> CanExecute { get; }
-
-            /// <summary>
-            /// コンストラクタ
-            /// </summary>
-            /// <param name="shortcutKey">ショートカットキー</param>
-            /// <param name="action">実行用メソッド</param>
-            /// <param name="canExecute">実行可否判定用メソッド</param>
-            public HookAction(ShortcutKey shortcutKey, Action action, Func<bool> canExecute)
-            {
-                this.ShortcutKey = shortcutKey;
-                this.Action = action;
-                this.CanExecute = canExecute;
-            }
-        }
+        #endregion
     }
 }
