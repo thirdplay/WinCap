@@ -12,7 +12,7 @@ WinCapは、画面キャプチャツールです。
 * 選択コントロールのキャプチャ  
 （デフォルトキー: `Ctrl` + `PrintScreen`）
 * ウェブページ全体のキャプチャ  
-（デフォルトキー: `Ctrl` + `Alt` + `PrintScreen`）  
+（デフォルトキー: `Ctrl` + `Alt` + `PrintScreen`）
 ![webpagecapture](https://cloud.githubusercontent.com/assets/14181039/21992687/c173dce2-dc5a-11e6-9a5c-6c6e7a281dc9.gif)
 
 * 設定ウィンドウ（タスクトレイからの呼び出し）  
