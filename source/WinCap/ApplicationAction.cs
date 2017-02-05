@@ -1,16 +1,18 @@
-﻿using Livet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Windows;
+using WinCap.Models;
 using WinCap.Serialization;
-using WinCap.Util.Lifetime;
 using WinCap.Views;
+using WinCap.Properties;
 
 namespace WinCap
 {
     /// <summary>
     /// アプリケーションのアクション機能を提供します。
     /// </summary>
-    public class ApplicationAction : IDisposableHolder
+    public class ApplicationAction : IDisposable
     {
         /// <summary>
         /// アプリケーションのインスタンス
@@ -18,9 +20,9 @@ namespace WinCap
         private readonly Application application;
 
         /// <summary>
-        /// 基本CompositeDisposable
+        /// 登録に失敗したショートカットキー登録情報
         /// </summary>
-        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+        public readonly List<ShortcutKeyRegisterInfo> FailedRegisters = new List<ShortcutKeyRegisterInfo>();
 
         /// <summary>
         /// コンストラクタ
@@ -29,27 +31,47 @@ namespace WinCap
         public ApplicationAction(Application application)
         {
             this.application = application;
-            this.RegisterActions();
+        }
+
+        /// <summary>
+        /// ショートカットを作成します。
+        /// </summary>
+        public void CreateShortcut()
+        {
+            var shortcut = new StartupShortcut();
+            var desktopShortcut = new DesktopShortcut();
+
+            shortcut.Recreate(Serialization.Settings.General.IsRegisterInStartup);
+            desktopShortcut.Recreate(Serialization.Settings.General.IsCreateShortcutToDesktop);
         }
 
         /// <summary>
         /// アクションを登録します。
         /// </summary>
-        public void RegisterActions()
+        /// <returns>登録成功の場合はtrue、それ以外はfalseを返却します。</returns>
+        public bool RegisterActions()
         {
-            var settings = Settings.ShortcutKey;
+            var settings = Serialization.Settings.ShortcutKey;
+            var captureService = this.application.CapturerService;
+            var hookService = this.application.HookService;
+            var shortcutkeies = new List<ShortcutKeyRegisterInfo>()
+            {
+                new ShortcutKeyRegisterInfo(Resources.Settings_DesktopCapture, settings.FullScreen.Value.ToShortcutKey(), () => captureService.CaptureDesktop()),
+                new ShortcutKeyRegisterInfo(Resources.Settings_ActiveControlCapture, settings.ActiveControl.Value.ToShortcutKey(), () => captureService.CaptureActiveControl()),
+                new ShortcutKeyRegisterInfo(Resources.Settings_SelectionControlCapture, settings.SelectionControl.Value.ToShortcutKey(), () => captureService.CaptureSelectionControl()),
+                new ShortcutKeyRegisterInfo(Resources.Settings_WebPageCapture, settings.WebPage.Value.ToShortcutKey(), () => captureService.CaptureWebPage()),
+            };
 
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.FullScreen.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop()));
-
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.ActiveControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl()));
-
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.SelectionControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl()));
-
-            this.compositeDisposable.Add(this.application.HookService
-                .Register(settings.WebPage.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage()));
+            // ショートカットキーを登録
+            this.FailedRegisters.Clear();
+            foreach (var registerInfo in shortcutkeies)
+            {
+                if (!hookService.Register(registerInfo.ShortcutKey, registerInfo.Action))
+                {
+                    this.FailedRegisters.Add(registerInfo);
+                }
+            }
+            return this.FailedRegisters.Count == 0;
         }
 
         /// <summary>
@@ -57,11 +79,23 @@ namespace WinCap
         /// </summary>
         public void DeregisterActions()
         {
-            foreach (var register in this.compositeDisposable)
+            this.application.HookService.Unregister();
+            this.FailedRegisters.Clear();
+        }
+
+        /// <summary>
+        /// ショートカットキーを変更するか確認するメッセージボックスを表示します。
+        /// </summary>
+        /// <returns>変更する場合はtrue、それ以外はfalseを返却します。</returns>
+        public bool ConfirmChangeShortcutKey()
+        {
+            var sb = new StringBuilder();
+            foreach (var registerInfo in this.FailedRegisters)
             {
-                register.Dispose();
+                sb.Append($"{registerInfo.Name} ({registerInfo.ShortcutKey.ToString()})\n");
             }
-            this.compositeDisposable.Clear();
+            var result = MessageBox.Show(string.Format(Resources.Settings_ShortcutKeyUnusable, sb), ProductInfo.Title, MessageBoxButton.YesNo);
+            return result == MessageBoxResult.Yes;
         }
 
         /// <summary>
@@ -70,22 +104,14 @@ namespace WinCap
         /// <returns>設定ウィンドウ</returns>
         public SettingsWindow ShowSettings()
         {
-            var window = this.application.WindowService.GetSettingsWindow(x =>
-            {
-                if (x.DialogResult)
-                {
-                    LocalSettingsProvider.Instance.Save();
-                    this.application.CreateShortcut();
-                }
-            });
+            var window = this.application.WindowService.GetSettingsWindow((_) => { });
             window.Show();
             window.Activate();
 
             return window;
         }
 
-        #region IDisposableHoloder members
-        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
+        #region IDisposable members
 
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。
@@ -94,6 +120,7 @@ namespace WinCap
         {
             this.DeregisterActions();
         }
+
         #endregion
     }
 }

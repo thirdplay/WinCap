@@ -103,11 +103,8 @@ namespace WinCap.Driver
                 this.detector.Finish();
                 this.detector = null;
 
-                // ショートカット作成を無効にする
-                dynamic settings = this.app.Type("WinCap.Serialization.Settings");
-                settings.General.IsRegisterInStartup.Value = false;
-                settings.General.IsCreateShortcutToDesktop.Value = false;
                 dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
+                provider.Instance.Reset();
                 provider.Instance.Save();
 
                 this.Shutdown();

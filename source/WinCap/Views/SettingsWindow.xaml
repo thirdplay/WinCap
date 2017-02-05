@@ -4,7 +4,7 @@
                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                   xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+                   xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
                    xmlns:chrome="http://schemes.grabacr.net/winfx/2014/chrome"
                    xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
@@ -24,18 +24,18 @@
                    d:DataContext="{d:DesignInstance vm:SettingsWindowViewModel}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
-            <livet:LivetCallMethodAction MethodTarget="{Binding}"
-										 MethodName="Initialize" />
+            <l:LivetCallMethodAction MethodTarget="{Binding}"
+                                     MethodName="Initialize" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="Closed">
-            <livet:DataContextDisposeAction />
+            <l:DataContextDisposeAction />
         </i:EventTrigger>
 
-        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.Close">
+        <l:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                     MessageKey="Window.Close">
             <behaviors:CloseWindowAction />
-        </livet:InteractionMessageTrigger>
+        </l:InteractionMessageTrigger>
     </i:Interaction.Triggers>
 
     <Grid>
@@ -117,8 +117,8 @@
                         IsDefault="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <livet:LivetCallMethodAction MethodTarget="{Binding}"
-                                                         MethodName="Ok" />
+                            <l:LivetCallMethodAction MethodTarget="{Binding}"
+                                                     MethodName="Ok" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -129,8 +129,8 @@
                         IsCancel="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <livet:LivetCallMethodAction MethodTarget="{Binding}"
-                                                         MethodName="Cancel" />
+                            <l:LivetCallMethodAction MethodTarget="{Binding}"
+                                                     MethodName="Cancel" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>

@@ -1,8 +1,8 @@
 ﻿using Livet;
-using Livet.Commands;
 using Livet.Messaging;
 using System.Collections.Generic;
 using System.Linq;
+using WinCap.Serialization;
 using WinCap.Services;
 using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
@@ -118,7 +118,18 @@ namespace WinCap.ViewModels
             }
             this.TabItems.ForEach(x => x.Apply());
 
-            this.DialogResult = true;
+            // 設定の保存と反映
+            LocalSettingsProvider.Instance.Save();
+            this.applicationAction.CreateShortcut();
+            if(!this.applicationAction.RegisterActions())
+            {
+                // ショートカットの登録に失敗した場合、変更確認をして再度設定させる
+                if (this.applicationAction.ConfirmChangeShortcutKey())
+                {
+                    this.SelectedItem = this.ShortcutKey;
+                    return;
+                }
+            }
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 
@@ -129,7 +140,6 @@ namespace WinCap.ViewModels
         {
             this.TabItems.ForEach(x => x.Cancel());
 
-            this.DialogResult = false;
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 
@@ -140,7 +150,6 @@ namespace WinCap.ViewModels
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            this.applicationAction.RegisterActions();
         }
     }
 }

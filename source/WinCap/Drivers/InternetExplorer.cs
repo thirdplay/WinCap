@@ -155,36 +155,36 @@ namespace WinCap.Drivers
         public void SetHandle(IntPtr handle)
         {
             // ウェブブラウザ情報を取得する
-            webBrowser = getWebBrowser(handle);
-            if (webBrowser == null)
+            this.webBrowser = GetWebBrowser(handle);
+            if (this.webBrowser == null)
             {
                 // HTMLDocument情報が取得できなかった
                 throw new Exception("ウェブブラウザ情報の取得に失敗");
             }
 
             // IEのHTML文書を取得する
-            document2 = (IHTMLDocument2)webBrowser.Document;
-            document3 = (IHTMLDocument3)webBrowser.Document;
-            document6 = (IHTMLDocument6)webBrowser.Document;
+            this.document2 = (IHTMLDocument2)this.webBrowser.Document;
+            this.document3 = (IHTMLDocument3)this.webBrowser.Document;
+            this.document6 = (IHTMLDocument6)this.webBrowser.Document;
 
             // HTMLウィンドウを取得する
-            window = document2.parentWindow;
+            this.window = this.document2.parentWindow;
 
             // HTML文書本体の取得
-            body = (IHTMLElement2)document3.documentElement;
+            this.body = (IHTMLElement2)this.document3.documentElement;
             // クライアントサイズが0の場合はbodyを参照する
-            if (body.clientWidth == 0 && body.clientHeight == 0)
+            if (this.body.clientWidth == 0 && this.body.clientHeight == 0)
             {
-                releaseComObject(body);
-                body = (IHTMLElement2)document2.body;
+                this.ReleaseComObject(body);
+                this.body = (IHTMLElement2)this.document2.body;
             }
 
             // ドキュメントモードの取得
-            documentMode = document6.documentMode.ToString();
+            this.documentMode = this.document6.documentMode.ToString();
 
             // クライアント領域のオフセットを取得
-            Offset = getMargin(documentMode);
-            Client = new Rectangle(Offset.X, Offset.Y, body.clientWidth, body.clientHeight);
+            this.Offset = GetMargin(this.documentMode);
+            this.Client = new Rectangle(this.Offset.X, this.Offset.Y, this.body.clientWidth, this.body.clientHeight);
 
             // 横スクロールバーが表示中かつ
             // 「ウィンドウ高さ」と「クライアント高さ」の差分が「水平スクロールバーの高さ」より小さい場合
@@ -192,16 +192,16 @@ namespace WinCap.Drivers
             if (IsVisibleScrollbarH && (wndRect.Height - Client.Height) < SystemInformation.HorizontalScrollBarHeight)
             {
                 // ※暫定的にクライアント高さからスクロールバー分を引いて処理する
-                Client = new Rectangle(Client.X, Client.Y, Client.Width, Client.Height - SystemInformation.HorizontalScrollBarHeight);
+                this.Client = new Rectangle(Client.X, Client.Y, Client.Width, Client.Height - SystemInformation.HorizontalScrollBarHeight);
             }
 
             // 文字サイズと光学ズームの倍率取得
-            charSizeOriginal = GetCharSize();
-            zoomOriginal = GetZoom();
+            this.charSizeOriginal = GetCharSize();
+            this.zoomOriginal = GetZoom();
 
             // 文字サイズとズームを等倍にする
-            SetCharSize(CharSizeMiddle);
-            SetZoom(ZoomActual);
+            this.SetCharSize(CharSizeMiddle);
+            this.SetZoom(ZoomActual);
 
             // 最後にウィンドウハンドルを登録する
             this.handle = handle;
@@ -213,7 +213,7 @@ namespace WinCap.Drivers
         /// <returns>倍率</returns>
         public int GetCharSize()
         {
-            return (int)execWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER);
+            return (int)ExecWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER);
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace WinCap.Drivers
         {
             if (GetCharSize() != size)
             {
-                execWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, size);
+                ExecWB(OLECMDID.OLECMDID_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, size);
             }
         }
 
@@ -248,7 +248,7 @@ namespace WinCap.Drivers
         {
             if (GetZoom() != zoom)
             {
-                execWB(OLECMDID.OLECMDID_OPTICAL_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, zoom);
+                ExecWB(OLECMDID.OLECMDID_OPTICAL_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DONTPROMPTUSER, zoom);
             }
         }
 
@@ -295,7 +295,7 @@ namespace WinCap.Drivers
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
         /// <returns>ウェブブラウザ情報</returns>
-        protected IWebBrowser2 getWebBrowser(IntPtr hWnd)
+        protected IWebBrowser2 GetWebBrowser(IntPtr hWnd)
         {
             UIntPtr sendMessageResult = UIntPtr.Zero;
             Guid IID_IHTMLDocument3 = typeof(IHTMLDocument3).GUID;
@@ -336,7 +336,7 @@ namespace WinCap.Drivers
                 }
                 finally
                 {
-                    releaseComObject(serviceProvider);
+                    ReleaseComObject(serviceProvider);
                 }
             }
             catch (Exception)
@@ -345,7 +345,7 @@ namespace WinCap.Drivers
             }
             finally
             {
-                releaseComObject(doc);
+                ReleaseComObject(doc);
             }
             return wb;
         }
@@ -355,7 +355,7 @@ namespace WinCap.Drivers
         /// </summary>
         /// <param name="documentMode">ドキュメントモード</param>
         /// <returns>クライアント領域のマージン</returns>
-        protected Point getMargin(string documentMode)
+        protected Point GetMargin(string documentMode)
         {
             Point rect = Point.Empty;
             if (documentMode == "7" || documentMode == "8")
@@ -371,7 +371,7 @@ namespace WinCap.Drivers
         /// <param name="cmdId">コマンドID</param>
         /// <param name="cmdExecOpt">コマンド実行オプション</param>
         /// <returns>結果</returns>
-        protected object execWB(OLECMDID cmdId, OLECMDEXECOPT cmdExecOpt)
+        protected object ExecWB(OLECMDID cmdId, OLECMDEXECOPT cmdExecOpt)
         {
             object pvaIn = Type.Missing;
             object pvaOut = Type.Missing;
@@ -385,7 +385,7 @@ namespace WinCap.Drivers
         /// <param name="cmdId">コマンドID</param>
         /// <param name="cmdExecOpt">コマンド実行オプション</param>
         /// <param name="param">設定パラメータ</param>
-        protected void execWB(OLECMDID cmdId, OLECMDEXECOPT cmdExecOpt, object param)
+        protected void ExecWB(OLECMDID cmdId, OLECMDEXECOPT cmdExecOpt, object param)
         {
             object pvaIn = param;
             object pvaOut = Type.Missing;
@@ -396,7 +396,7 @@ namespace WinCap.Drivers
         /// COMオブジェクトを解放する
         /// </summary>
         /// <param name="obj">COMオブジェクト</param>
-        protected void releaseComObject(object obj)
+        protected void ReleaseComObject(object obj)
         {
             // COMオブジェクト以外は処理しない
             if (obj == null)
@@ -413,6 +413,7 @@ namespace WinCap.Drivers
         }
 
         #region IDisposable members
+
         /// <summary>
         /// リソース解放
         /// </summary>
@@ -454,14 +455,15 @@ namespace WinCap.Drivers
                 }
 
                 // アンマネージリソースの解放
-                releaseComObject(body);
-                releaseComObject(window);
-                releaseComObject(document2);
-                releaseComObject(document3);
-                releaseComObject(document6);
-                releaseComObject(webBrowser);
+                ReleaseComObject(body);
+                ReleaseComObject(window);
+                ReleaseComObject(document2);
+                ReleaseComObject(document3);
+                ReleaseComObject(document6);
+                ReleaseComObject(webBrowser);
             }
         }
+
         #endregion
     }
 }

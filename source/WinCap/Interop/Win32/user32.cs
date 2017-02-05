@@ -137,5 +137,27 @@ namespace WinCap.Interop.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr MonitorFromWindow(IntPtr hwnd, MonitorDefaultTo dwFlags);
+
+        /// <summary>
+        /// システムワイド（システム全体に適用される）のホットキーを定義します。
+        /// </summary>
+        /// <param name="hWnd">ウィンドウのハンドル</param>
+        /// <param name="id">ホットキーの識別子（0x0000～0xBFFF）</param>
+        /// <param name="modKey">キー修飾子フラグ</param>
+        /// <param name="key">仮想キーコード</param>
+        /// <returns>成功ならtrue、失敗ならfalseを返します。</returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, int modKey, int key);
+
+        /// <summary>
+        /// 呼び出し側スレッドが既に定義したホットキーを破棄します。
+        /// </summary>
+        /// <param name="hWnd">ウィンドウのハンドル</param>
+        /// <param name="id">ホットキーの識別子（0x0000～0xBFFF）</param>
+        /// <returns>成功ならtrue、失敗ならfalseを返します。</returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
     }
 }

@@ -520,6 +520,18 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   以下のショートカットキーは使用できません。
+        ///
+        ///{0}
+        ///ショートカットキーを変更しますか？ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ShortcutKeyUnusable {
+            get {
+                return ResourceManager.GetString("Settings_ShortcutKeyUnusable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   バージョン情報 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_VersionInfo {

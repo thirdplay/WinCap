@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Interop;
 using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Serialization;
@@ -81,24 +82,34 @@ namespace WinCap
                 // ローカル設定の読み込み
                 LocalSettingsProvider.Instance.Load();
 
-                this.HookService = new HookService().AddTo(this);
+                // メインウィンドウ表示
+                this.MainWindow = new MainWindow();
+                if (e.Args.Length > 0 && e.Args[0] == "-UITest")
+                {
+                    // UIテストの場合、メインウィンドウを表示する
+                    this.MainWindow.ShowInTaskbar = true;
+                    this.MainWindow.WindowState = WindowState.Normal;
+                }
+                this.MainWindow.Show();
+
+                this.HookService = new HookService(this.MainWindow).AddTo(this);
                 this.CapturerService = new CapturerService(this.HookService).AddTo(this);
                 this.WindowService = new WindowService();
                 this.ApplicationAction = new ApplicationAction(this).AddTo(this);
 
                 // アプリケーション準備
-                this.CreateShortcut();
                 this.ShowTaskTrayIcon();
+                this.ApplicationAction.CreateShortcut();
+                if (!this.ApplicationAction.RegisterActions())
+                {
+                    if (this.ApplicationAction.ConfirmChangeShortcutKey())
+                    {
+                        this.ApplicationAction.ShowSettings();
+                    }
+                }
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);
-
-                // UIテストの場合、ダミーウィンドウを表示する
-                if (e.Args.Length > 0 && e.Args[0] == "-UITest")
-                {
-                    this.MainWindow = new Window();
-                    this.MainWindow.Show();
-                }
             }
 #if !DEBUG
             else
@@ -106,18 +117,6 @@ namespace WinCap
                 this.Shutdown();
             }
 #endif
-        }
-
-        /// <summary>
-        /// ショートカットを作成します。
-        /// </summary>
-        public void CreateShortcut()
-        {
-            var shortcut = new StartupShortcut();
-            var desktopShortcut = new DesktopShortcut();
-
-            shortcut.Recreate(Settings.General.IsRegisterInStartup);
-            desktopShortcut.Recreate(Settings.General.IsCreateShortcutToDesktop);
         }
 
         /// <summary>
@@ -193,7 +192,7 @@ ERROR, date = {0}, sender = {1},
             Current.Shutdown();
         }
 
-#region IDisposableHolder members
+        #region IDisposableHolder members
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
@@ -203,6 +202,6 @@ ERROR, date = {0}, sender = {1},
         {
             this.compositeDisposable.Dispose();
         }
-#endregion
+        #endregion
     }
 }
