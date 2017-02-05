@@ -46,6 +46,7 @@ namespace WinCap.Capturers
             // IE操作クラスを生成する
             using (InternetExplorer ie = new InternetExplorer(handle))
             {
+                // DPI取得
                 var dpi = PerMonitorDpi.GetDpi(handle);
 
                 // クライアント領域、スクロール位置、スクロールサイズの取得
@@ -116,18 +117,12 @@ namespace WinCap.Capturers
         private void captureControl(IntPtr hWnd, Graphics g, ref Rectangle client, ref Point scrollPoint, ref Point scrollStart, Dpi dpi)
         {
             // 描画元領域の設定
-            Rectangle srcRect = client;
-            srcRect.X = (int)(srcRect.X * dpi.ScaleX);
-            srcRect.Y = (int)(srcRect.Y * dpi.ScaleY);
-            srcRect.Width = (int)(srcRect.Width * dpi.ScaleX);
-            srcRect.Height = (int)(srcRect.Height * dpi.ScaleY);
+            Rectangle srcRect = client.ToPhysicalPixel(dpi);
 
             // 描画先領域の設定
-            Rectangle destRect = new Rectangle(scrollPoint.X - scrollStart.X, scrollPoint.Y - scrollStart.Y, client.Width, client.Height);
-            destRect.X = (int)(destRect.X * dpi.ScaleX);
-            destRect.Y = (int)(destRect.Y * dpi.ScaleY);
-            destRect.Width = (int)(destRect.Width * dpi.ScaleX);
-            destRect.Height = (int)(destRect.Height * dpi.ScaleY);
+            Rectangle destRect = new Rectangle(
+                scrollPoint.X - scrollStart.X, scrollPoint.Y - scrollStart.Y, client.Width, client.Height
+            ).ToPhysicalPixel(dpi);
 
             // ウィンドウをキャプチャする
             using (Bitmap bitmap = capturer.CaptureControl(hWnd))

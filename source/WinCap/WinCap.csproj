@@ -147,6 +147,7 @@
     <Compile Include="Interop\InteropExtensions.cs" />
     <Compile Include="Interop\MonitorDpiType.cs" />
     <Compile Include="Interop\PerMonitorDpi.cs" />
+    <Compile Include="Interop\RectangleExtensions.cs" />
     <Compile Include="Interop\Win32\Dwmapi.cs" />
     <Compile Include="Interop\Win32\Gdi32.cs" />
     <Compile Include="Interop\Win32\MAPVK.cs" />

@@ -6,6 +6,9 @@ using Rectangle = System.Drawing.Rectangle;
 
 namespace WinCap.Interop
 {
+    /// <summary>
+    /// 相互運用の拡張機能を提供します。
+    /// </summary>
     public static class InteropExtensions
     {
         /// <summary>
@@ -57,10 +60,7 @@ namespace WinCap.Interop
                 if (isHighDpi)
                 {
                     var dpi = PerMonitorDpi.GetDpi(handle);
-                    result.X = (int)(result.X * (1 / dpi.ScaleX));
-                    result.Y = (int)(result.Y * (1 / dpi.ScaleY));
-                    result.Width = (int)(result.Width * (1 / dpi.ScaleX));
-                    result.Height = (int)(result.Height * (1 / dpi.ScaleY));
+                    result = result.ToLogicalPixel(dpi);
                 }
             }
 
