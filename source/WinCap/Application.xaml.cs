@@ -100,13 +100,7 @@ namespace WinCap
                 // アプリケーション準備
                 this.ShowTaskTrayIcon();
                 this.ApplicationAction.CreateShortcut();
-                if (!this.ApplicationAction.RegisterActions())
-                {
-                    if (this.ApplicationAction.ConfirmChangeShortcutKey())
-                    {
-                        this.ApplicationAction.ShowSettings();
-                    }
-                }
+                this.ApplicationAction.RegisterActions();
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);

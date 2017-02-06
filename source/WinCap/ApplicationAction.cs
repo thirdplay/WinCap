@@ -6,6 +6,7 @@ using WinCap.Models;
 using WinCap.Serialization;
 using WinCap.Views;
 using WinCap.Properties;
+using WinCap.ViewModels;
 
 namespace WinCap
 {
@@ -48,8 +49,7 @@ namespace WinCap
         /// <summary>
         /// アクションを登録します。
         /// </summary>
-        /// <returns>登録成功の場合はtrue、それ以外はfalseを返却します。</returns>
-        public bool RegisterActions()
+        public void RegisterActions()
         {
             var settings = Serialization.Settings.ShortcutKey;
             var captureService = this.application.CapturerService;
@@ -71,7 +71,21 @@ namespace WinCap
                     this.FailedRegisters.Add(registerInfo);
                 }
             }
-            return this.FailedRegisters.Count == 0;
+
+            // 登録失敗の場合、設定を変更するか確認し、設定ウィンドウを表示する
+            if (this.FailedRegisters.Count > 0)
+            {
+                var sb = new StringBuilder();
+                foreach (var registerInfo in this.FailedRegisters)
+                {
+                    sb.Append($"{registerInfo.Name} ({registerInfo.ShortcutKey.ToString()})\n");
+                }
+                var result = MessageBox.Show(string.Format(Resources.Settings_ShortcutKeyUnusable, sb), ProductInfo.Title, MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    this.ShowSettings(true);
+                }
+            }
         }
 
         /// <summary>
@@ -84,27 +98,32 @@ namespace WinCap
         }
 
         /// <summary>
-        /// ショートカットキーを変更するか確認するメッセージボックスを表示します。
-        /// </summary>
-        /// <returns>変更する場合はtrue、それ以外はfalseを返却します。</returns>
-        public bool ConfirmChangeShortcutKey()
-        {
-            var sb = new StringBuilder();
-            foreach (var registerInfo in this.FailedRegisters)
-            {
-                sb.Append($"{registerInfo.Name} ({registerInfo.ShortcutKey.ToString()})\n");
-            }
-            var result = MessageBox.Show(string.Format(Resources.Settings_ShortcutKeyUnusable, sb), ProductInfo.Title, MessageBoxButton.YesNo);
-            return result == MessageBoxResult.Yes;
-        }
-
-        /// <summary>
         /// 設定ウィンドウを表示します。
         /// </summary>
+        /// <param name="isShortcutKey">ショートカットキー設定を初期表示するかどうか</param>
         /// <returns>設定ウィンドウ</returns>
-        public SettingsWindow ShowSettings()
+        public SettingsWindow ShowSettings(bool isShortcutKey = false)
         {
-            var window = this.application.WindowService.GetSettingsWindow((_) => { });
+            var window = this.application.WindowService.GetSettingsWindow(
+                () =>
+                {
+                    var viewMode = new SettingsWindowViewModel();
+                    if (isShortcutKey)
+                    {
+                        viewMode.SelectedItem = viewMode.ShortcutKey;
+                    }
+                    return viewMode;
+                },
+                (x) =>
+                {
+                    if (x.DialogResult)
+                    {
+                        LocalSettingsProvider.Instance.Save();
+                        this.CreateShortcut();
+                        this.RegisterActions();
+                    }
+                }
+            );
             window.Show();
             window.Activate();
 

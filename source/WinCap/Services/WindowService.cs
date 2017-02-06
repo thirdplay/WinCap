@@ -28,11 +28,12 @@ namespace WinCap.Services
         /// <summary>
         /// ウィンドウを取得します。
         /// </summary>
-        /// <param name="closedAction">Closed時の処理メソッド</param>
+        /// <param name="create">ViewModel生成メソッド</param>
+        /// <param name="action">Closed時の処理メソッド</param>
         /// <returns>ウィンドウ</returns>
-        public SettingsWindow GetSettingsWindow(Action<SettingsWindowViewModel> action)
+        public SettingsWindow GetSettingsWindow(Func<SettingsWindowViewModel> create, Action<SettingsWindowViewModel> action)
         {
-            return GetWindow<SettingsWindow, SettingsWindowViewModel>(action);
+            return GetWindow<SettingsWindow, SettingsWindowViewModel>(create, action);
         }
 
         /// <summary>
@@ -48,9 +49,9 @@ namespace WinCap.Services
         /// </summary>
         /// <typeparam name="T">ウィンドウクラスを継承したクラス</typeparam>
         /// <typeparam name="U">ViewModelを継承したクラス</typeparam>
-        /// <param name="closedAction">Closed時の処理メソッド</param>
+        /// <param name="action">Closed時の処理メソッド</param>
         /// <returns>ウィンドウ</returns>
-        private T GetWindow<T, U>(Action<U> closedAction)
+        private T GetWindow<T, U>(Func<U> create, Action<U> action)
             where T : Window, new()
             where U : ViewModel, new()
         {
@@ -58,14 +59,14 @@ namespace WinCap.Services
 
             if (!this.container.ContainsKey(key))
             {
-                var viewModel = new U();
+                var viewModel = create();
                 var window = new T() { DataContext = viewModel };
 
                 Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
                 .Subscribe(x =>
                 {
                     this.container.Remove(key);
-                    DispatcherHelper.UIDispatcher.Invoke(() => closedAction(viewModel));
+                    DispatcherHelper.UIDispatcher.Invoke(() => action(viewModel));
                 });
 
                 this.container.Add(key, window);
