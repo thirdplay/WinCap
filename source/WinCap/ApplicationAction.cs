@@ -16,6 +16,11 @@ namespace WinCap
     public class ApplicationAction : IDisposable
     {
         /// <summary>
+        /// ショートカットキー設定のタブ参照値
+        /// </summary>
+        private const int TabIndexShortcutKey = 2;
+
+        /// <summary>
         /// アプリケーションのインスタンス
         /// </summary>
         private readonly Application application;
@@ -23,7 +28,7 @@ namespace WinCap
         /// <summary>
         /// 登録に失敗したショートカットキー登録情報
         /// </summary>
-        public readonly List<ShortcutKeyRegisterInfo> FailedRegisters = new List<ShortcutKeyRegisterInfo>();
+        private readonly List<ShortcutKeyRegisterInfo> failedRegisters = new List<ShortcutKeyRegisterInfo>();
 
         /// <summary>
         /// コンストラクタ
@@ -63,27 +68,27 @@ namespace WinCap
             };
 
             // ショートカットキーを登録
-            this.FailedRegisters.Clear();
+            this.failedRegisters.Clear();
             foreach (var registerInfo in shortcutkeies)
             {
                 if (!hookService.Register(registerInfo.ShortcutKey, registerInfo.Action))
                 {
-                    this.FailedRegisters.Add(registerInfo);
+                    this.failedRegisters.Add(registerInfo);
                 }
             }
 
             // 登録失敗の場合、設定を変更するか確認し、設定ウィンドウを表示する
-            if (this.FailedRegisters.Count > 0)
+            if (this.failedRegisters.Count > 0)
             {
                 var sb = new StringBuilder();
-                foreach (var registerInfo in this.FailedRegisters)
+                foreach (var registerInfo in this.failedRegisters)
                 {
                     sb.Append($"{registerInfo.Name} ({registerInfo.ShortcutKey.ToString()})\n");
                 }
                 var result = MessageBox.Show(string.Format(Resources.Settings_ShortcutKeyUnusable, sb), ProductInfo.Title, MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    this.ShowSettings(true);
+                    this.ShowSettings(TabIndexShortcutKey);
                 }
             }
         }
@@ -94,24 +99,30 @@ namespace WinCap
         public void DeregisterActions()
         {
             this.application.HookService.Unregister();
-            this.FailedRegisters.Clear();
+            this.failedRegisters.Clear();
         }
 
         /// <summary>
         /// 設定ウィンドウを表示します。
         /// </summary>
-        /// <param name="isShortcutKey">ショートカットキー設定を初期表示するかどうか</param>
         /// <returns>設定ウィンドウ</returns>
-        public SettingsWindow ShowSettings(bool isShortcutKey = false)
+        public SettingsWindow ShowSettings()
+        {
+            return ShowSettings(0);
+        }
+
+        /// <summary>
+        /// 設定ウィンドウを表示します。
+        /// </summary>
+        /// <param name="tabIndex">初期表示するタブインデックス</param>
+        /// <returns>設定ウィンドウ</returns>
+        public SettingsWindow ShowSettings(int tabIndex)
         {
             var window = this.application.WindowService.GetSettingsWindow(
                 () =>
                 {
                     var viewMode = new SettingsWindowViewModel();
-                    if (isShortcutKey)
-                    {
-                        viewMode.SelectedItem = viewMode.ShortcutKey;
-                    }
+                    viewMode.SelectedItem = viewMode.TabItems[tabIndex];
                     return viewMode;
                 },
                 (x) =>
