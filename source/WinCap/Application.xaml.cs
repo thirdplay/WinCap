@@ -159,7 +159,8 @@ namespace WinCap
         /// </summary>
         /// <param name="sender">イベント発生元</param>
         /// <param name="exception">例外</param>
-        private static void ReportException(object sender, Exception exception)
+        /// <param name="isShutdown">シャットダウンするかどうか</param>
+        public static void ReportException(object sender, Exception exception, bool isShutdown = true)
         {
 #region const
             const string messageFormat = @"
@@ -183,7 +184,10 @@ ERROR, date = {0}, sender = {1},
             }
 
             // 終了
-            Current.Shutdown();
+            if (isShutdown)
+            {
+                Current.Shutdown();
+            }
         }
 
         #region IDisposableHolder members

@@ -145,13 +145,21 @@ namespace WinCap.Services
         /// <param name="action">キャプチャ処理アクション</param>
         private void ExecuteCapture(Func<Bitmap> action)
         {
-            if (Settings.General.CaptureDelayTime > 0)
+            try
             {
-                Thread.Sleep(Settings.General.CaptureDelayTime);
+                if (Settings.General.CaptureDelayTime > 0)
+                {
+                    Thread.Sleep(Settings.General.CaptureDelayTime);
+                }
+                using (Bitmap bitmap = action())
+                {
+                    SaveCaptureImage(bitmap);
+                }
             }
-            using (Bitmap bitmap = action())
+            catch (Exception ex)
             {
-                SaveCaptureImage(bitmap);
+                MessageBox.Show(ex.Message);
+                Application.ReportException(this, ex, false);
             }
         }
 
