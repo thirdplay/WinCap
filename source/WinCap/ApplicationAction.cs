@@ -1,34 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 using WinCap.Models;
 using WinCap.Serialization;
-using WinCap.Views;
-using WinCap.Properties;
 using WinCap.ViewModels;
+using WinCap.Views;
 
 namespace WinCap
 {
     /// <summary>
     /// アプリケーションのアクション機能を提供します。
     /// </summary>
-    public class ApplicationAction : IDisposable
+    public class ApplicationAction
     {
-        /// <summary>
-        /// ショートカットキー設定のタブ参照値
-        /// </summary>
-        private const int TabIndexShortcutKey = 2;
-
         /// <summary>
         /// アプリケーションのインスタンス
         /// </summary>
         private readonly Application application;
-
-        /// <summary>
-        /// 登録に失敗したショートカットキー登録情報
-        /// </summary>
-        private readonly List<ShortcutKeyRegisterInfo> failedRegisters = new List<ShortcutKeyRegisterInfo>();
 
         /// <summary>
         /// コンストラクタ
@@ -47,8 +33,8 @@ namespace WinCap
             var shortcut = new StartupShortcut();
             var desktopShortcut = new DesktopShortcut();
 
-            shortcut.Recreate(Serialization.Settings.General.IsRegisterInStartup);
-            desktopShortcut.Recreate(Serialization.Settings.General.IsCreateShortcutToDesktop);
+            shortcut.Recreate(Settings.General.IsRegisterInStartup);
+            desktopShortcut.Recreate(Settings.General.IsCreateShortcutToDesktop);
         }
 
         /// <summary>
@@ -56,6 +42,13 @@ namespace WinCap
         /// </summary>
         public void RegisterActions()
         {
+#if true
+            var settings = Settings.ShortcutKey;
+            this.application.HookService.Register(() => settings.FullScreen.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop());
+            this.application.HookService.Register(() => settings.ActiveControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl());
+            this.application.HookService.Register(() => settings.SelectionControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl());
+            this.application.HookService.Register(() => settings.WebPage.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage());
+#else
             var settings = Serialization.Settings.ShortcutKey;
             var captureService = this.application.CapturerService;
             var hookService = this.application.HookService;
@@ -91,15 +84,7 @@ namespace WinCap
                     this.ShowSettings(TabIndexShortcutKey);
                 }
             }
-        }
-
-        /// <summary>
-        /// アクションの登録を解除します。
-        /// </summary>
-        public void DeregisterActions()
-        {
-            this.application.HookService.Unregister();
-            this.failedRegisters.Clear();
+#endif
         }
 
         /// <summary>
@@ -108,49 +93,23 @@ namespace WinCap
         /// <returns>設定ウィンドウ</returns>
         public SettingsWindow ShowSettings()
         {
-            return ShowSettings(0);
-        }
-
-        /// <summary>
-        /// 設定ウィンドウを表示します。
-        /// </summary>
-        /// <param name="tabIndex">初期表示するタブインデックス</param>
-        /// <returns>設定ウィンドウ</returns>
-        public SettingsWindow ShowSettings(int tabIndex)
-        {
-            var window = this.application.WindowService.GetSettingsWindow(
-                () =>
+            using (this.application.HookService.Suspend())
+            {
+                if (SettingsWindow.Instance != null)
                 {
-                    var viewMode = new SettingsWindowViewModel();
-                    viewMode.SelectedItem = viewMode.TabItems[tabIndex];
-                    return viewMode;
-                },
-                (x) =>
-                {
-                    if (x.DialogResult)
-                    {
-                        LocalSettingsProvider.Instance.Save();
-                        this.CreateShortcut();
-                        this.RegisterActions();
-                    }
+                    SettingsWindow.Instance.Activate();
                 }
-            );
-            window.Show();
-            window.Activate();
-
-            return window;
+                else
+                {
+                    SettingsWindow.Instance = new SettingsWindow()
+                    {
+                        DataContext = new SettingsWindowViewModel(this.application.HookService, this)
+                    };
+                    SettingsWindow.Instance.ShowDialog();
+                    SettingsWindow.Instance = null;
+                }
+            }
+            return null;
         }
-
-        #region IDisposable members
-
-        /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄します。
-        /// </summary>
-        public void Dispose()
-        {
-            this.DeregisterActions();
-        }
-
-        #endregion
     }
 }
