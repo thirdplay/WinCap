@@ -81,6 +81,7 @@ namespace WinCap
 
                 // ローカル設定の読み込み
                 LocalSettingsProvider.Instance.Load();
+                this.compositeDisposable.Add(LocalSettingsProvider.Instance.Save);
 
                 this.HookService = new HookService().AddTo(this);
                 this.CapturerService = new CapturerService(this.HookService).AddTo(this);

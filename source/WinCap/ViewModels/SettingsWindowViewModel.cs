@@ -122,7 +122,6 @@ namespace WinCap.ViewModels
             this.DialogResult = true;
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
 
-            LocalSettingsProvider.Instance.Save();
             this.applicationAction.CreateShortcut();
         }
 
