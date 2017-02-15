@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Interop;
 using WinCap.Interop;
-using WinCap.Models;
 using WinCap.Serialization;
 using WinCap.Services;
-using WinCap.Util.Lifetime;
 using WinCap.Views;
+using WpfUtility.Lifetime;
 using PropResources = WinCap.Properties.Resources;
 
 namespace WinCap

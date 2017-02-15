@@ -12,9 +12,9 @@ using WinCap.Capturers;
 using WinCap.Interop;
 using WinCap.Models;
 using WinCap.Properties;
-using WinCap.Util.Lifetime;
 using WinCap.ViewModels;
 using WinCap.Views;
+using WpfUtility.Lifetime;
 using Settings = WinCap.Serialization.Settings;
 
 namespace WinCap.Services

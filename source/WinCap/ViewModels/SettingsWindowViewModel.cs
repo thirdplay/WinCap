@@ -2,10 +2,9 @@
 using Livet.Messaging;
 using System.Collections.Generic;
 using System.Linq;
-using WinCap.Serialization;
 using WinCap.Services;
-using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
+using WpfUtility.Mvvm;
 
 namespace WinCap.ViewModels
 {

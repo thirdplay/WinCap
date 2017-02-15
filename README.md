@@ -1,7 +1,7 @@
 # WinCap
 [![Build status (master)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap/master.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/wincap/branch/master)
 [![Release](https://img.shields.io/github/release/Thirdplay/WinCap.svg?style=flat-square)](https://github.com/Thirdplay/WinCap/releases/latest)
-[![License](https://img.shields.io/github/license/Thirdplay/WinCap.svg?style=flat-square)](https://github.com/Thirdplay/WinCap/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/Thirdplay/WinCap.svg?style=flat-square)](https://github.com/Thirdplay/WinCap/blob/master/LICENSE.txt)
 
 WinCapは、画面キャプチャツールです。  
 デスクトップ全体のキャプチャやウェブページ全体のキャプチャ機能を提供します。
@@ -26,7 +26,7 @@ WinCapは、画面キャプチャツールです。
 
 ### ライセンス
 
-* [The MIT License (MIT)](LICENSE)
+* [The MIT License (MIT)](LICENSE.txt)
 
 ### 使用ライブラリ
 

@@ -150,6 +150,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfUtility, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfUtility.0.1.2\lib\net46\WpfUtility.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="Application.xaml">
@@ -237,7 +241,6 @@
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
     <Compile Include="Views\Controls\CustomValidationPopup.cs" />
-    <Compile Include="Views\Controls\HyperLinkEx.cs" />
     <Compile Include="Views\Controls\ShortcutKeyBox.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -396,10 +399,16 @@
     <Resource Include="Assets\app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WinCap.Util\WinCap.Util.csproj">
-      <Project>{0485173D-5A54-4B4B-A58E-C04BF6CF73EF}</Project>
-      <Name>WinCap.Util</Name>
-    </ProjectReference>
+    <None Include="..\..\LICENSE.txt">
+      <Visible>False</Visible>
+      <Link>license.txt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\licenses\*.*">
+      <Visible>False</Visible>
+      <Link>Licenses\%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="MSHTML">

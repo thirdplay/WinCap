@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using WinCap.Util.Collections.Generic;
+using WpfUtility.Collection.Generic;
 
 namespace WinCap.ViewModels
 {
