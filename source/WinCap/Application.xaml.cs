@@ -64,7 +64,7 @@ namespace WinCap
         {
 #if !DEBUG
             // 多重起動防止チェック
-            var appInstance = new Util.Desktop.ApplicationInstance().AddTo(this);
+            var appInstance = new WpfUtility.Desktop.ApplicationInstance().AddTo(this);
             if (appInstance.IsFirst)
 #endif
             {
