@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using WinCap.Util.Linq;
-using WinCap.Util.Serialization;
+using WpfUtility.Linq;
+using WpfUtility.Serialization;
 
 namespace WinCap.Serialization
 {

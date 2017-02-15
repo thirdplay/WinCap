@@ -1,5 +1,5 @@
 ﻿using WinCap.Models;
-using WinCap.Util.Serialization;
+using WpfUtility.Serialization;
 
 namespace WinCap.Serialization
 {

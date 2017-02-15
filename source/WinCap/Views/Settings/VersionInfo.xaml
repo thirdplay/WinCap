@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+             xmlns:util="http://schemes.tillable/winfx/2017/personal/controls"
 			 xmlns:prop="clr-namespace:WinCap.Properties"
              xmlns:controls="clr-namespace:WinCap.Views.Controls"
              xmlns:vmSettings="clr-namespace:WinCap.ViewModels.Settings"
@@ -33,14 +34,14 @@
         <TextBlock FontFamily="Seigo UI"
                    Margin="0">
             <Run Text="Source code:" />
-            <controls:HyperlinkEx Uri="https://github.com/thirdplay/WinCap">
+            <util:HyperlinkEx Uri="https://github.com/thirdplay/WinCap">
                 <Run Text="https://github.com/thirdplay/WinCap" />
-            </controls:HyperlinkEx>
+            </util:HyperlinkEx>
 			<LineBreak />
             <Run Text="Developer:" />
-            <controls:HyperlinkEx Uri="https://github.com/thirdplay">
+            <util:HyperlinkEx Uri="https://github.com/thirdplay">
                 <Run Text="thirdplay" />
-            </controls:HyperlinkEx>
+            </util:HyperlinkEx>
         </TextBlock>
         <Rectangle Height="1"
                    Margin="0,10"
@@ -53,9 +54,9 @@
             <metro:BindableTextBlock.TextTemplates>
                 <DataTemplate DataType="{x:Type vmSettings:HyperlinkViewModel}">
                     <metro:InlineHolder>
-                        <controls:HyperlinkEx Uri="{Binding Uri}">
+                        <util:HyperlinkEx Uri="{Binding Uri}">
                             <Run Text="{Binding Text, Mode=OneWay}" />
-                        </controls:HyperlinkEx>
+                        </util:HyperlinkEx>
                     </metro:InlineHolder>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vmSettings:BindableTextViewModel}">
@@ -76,9 +77,9 @@
 			<Run Text="OSS"
                  ToolTip="Open Source Software" />
             <Run Text="released under" />
-	        <controls:HyperlinkEx Uri="https://github.com/thirdplay/WinCap/blob/master/LICENSE">
+	        <util:HyperlinkEx Uri="https://github.com/thirdplay/WinCap/blob/master/LICENSE">
 		        <Run Text="The MIT License." />
-	        </controls:HyperlinkEx>
+	        </util:HyperlinkEx>
         </TextBlock>
     </StackPanel>
 </UserControl>

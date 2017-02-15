@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 using WinCap.Models;
 using WinCap.Serialization;
+using WinCap.ViewModels;
 using WinCap.Views;
-using WinCap.Properties;
 
 namespace WinCap
 {
     /// <summary>
     /// アプリケーションのアクション機能を提供します。
     /// </summary>
-    public class ApplicationAction : IDisposable
+    public class ApplicationAction
     {
         /// <summary>
         /// アプリケーションのインスタンス
         /// </summary>
         private readonly Application application;
-
-        /// <summary>
-        /// 登録に失敗したショートカットキー登録情報
-        /// </summary>
-        public readonly List<ShortcutKeyRegisterInfo> FailedRegisters = new List<ShortcutKeyRegisterInfo>();
 
         /// <summary>
         /// コンストラクタ
@@ -41,16 +33,22 @@ namespace WinCap
             var shortcut = new StartupShortcut();
             var desktopShortcut = new DesktopShortcut();
 
-            shortcut.Recreate(Serialization.Settings.General.IsRegisterInStartup);
-            desktopShortcut.Recreate(Serialization.Settings.General.IsCreateShortcutToDesktop);
+            shortcut.Recreate(Settings.General.IsRegisterInStartup);
+            desktopShortcut.Recreate(Settings.General.IsCreateShortcutToDesktop);
         }
 
         /// <summary>
         /// アクションを登録します。
         /// </summary>
-        /// <returns>登録成功の場合はtrue、それ以外はfalseを返却します。</returns>
-        public bool RegisterActions()
+        public void RegisterActions()
         {
+#if true
+            var settings = Settings.ShortcutKey;
+            this.application.HookService.Register(() => settings.FullScreen.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureDesktop());
+            this.application.HookService.Register(() => settings.ActiveControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureActiveControl());
+            this.application.HookService.Register(() => settings.SelectionControl.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureSelectionControl());
+            this.application.HookService.Register(() => settings.WebPage.Value.ToShortcutKey(), () => this.application.CapturerService.CaptureWebPage());
+#else
             var settings = Serialization.Settings.ShortcutKey;
             var captureService = this.application.CapturerService;
             var hookService = this.application.HookService;
@@ -63,39 +61,30 @@ namespace WinCap
             };
 
             // ショートカットキーを登録
-            this.FailedRegisters.Clear();
+            this.failedRegisters.Clear();
             foreach (var registerInfo in shortcutkeies)
             {
                 if (!hookService.Register(registerInfo.ShortcutKey, registerInfo.Action))
                 {
-                    this.FailedRegisters.Add(registerInfo);
+                    this.failedRegisters.Add(registerInfo);
                 }
             }
-            return this.FailedRegisters.Count == 0;
-        }
 
-        /// <summary>
-        /// アクションの登録を解除します。
-        /// </summary>
-        public void DeregisterActions()
-        {
-            this.application.HookService.Unregister();
-            this.FailedRegisters.Clear();
-        }
-
-        /// <summary>
-        /// ショートカットキーを変更するか確認するメッセージボックスを表示します。
-        /// </summary>
-        /// <returns>変更する場合はtrue、それ以外はfalseを返却します。</returns>
-        public bool ConfirmChangeShortcutKey()
-        {
-            var sb = new StringBuilder();
-            foreach (var registerInfo in this.FailedRegisters)
+            // 登録失敗の場合、設定を変更するか確認し、設定ウィンドウを表示する
+            if (this.failedRegisters.Count > 0)
             {
-                sb.Append($"{registerInfo.Name} ({registerInfo.ShortcutKey.ToString()})\n");
+                var sb = new StringBuilder();
+                foreach (var registerInfo in this.failedRegisters)
+                {
+                    sb.Append($"{registerInfo.Name} ({registerInfo.ShortcutKey.ToString()})\n");
+                }
+                var result = MessageBox.Show(string.Format(Resources.Settings_ShortcutKeyUnusable, sb), ProductInfo.Title, MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    this.ShowSettings(TabIndexShortcutKey);
+                }
             }
-            var result = MessageBox.Show(string.Format(Resources.Settings_ShortcutKeyUnusable, sb), ProductInfo.Title, MessageBoxButton.YesNo);
-            return result == MessageBoxResult.Yes;
+#endif
         }
 
         /// <summary>
@@ -104,23 +93,23 @@ namespace WinCap
         /// <returns>設定ウィンドウ</returns>
         public SettingsWindow ShowSettings()
         {
-            var window = this.application.WindowService.GetSettingsWindow((_) => { });
-            window.Show();
-            window.Activate();
-
-            return window;
+            using (this.application.HookService.Suspend())
+            {
+                if (SettingsWindow.Instance != null)
+                {
+                    SettingsWindow.Instance.Activate();
+                }
+                else
+                {
+                    SettingsWindow.Instance = new SettingsWindow()
+                    {
+                        DataContext = new SettingsWindowViewModel(this.application.HookService, this)
+                    };
+                    SettingsWindow.Instance.ShowDialog();
+                    SettingsWindow.Instance = null;
+                }
+            }
+            return null;
         }
-
-        #region IDisposable members
-
-        /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄します。
-        /// </summary>
-        public void Dispose()
-        {
-            this.DeregisterActions();
-        }
-
-        #endregion
     }
 }

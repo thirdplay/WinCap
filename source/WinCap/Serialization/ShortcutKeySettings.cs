@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using WinCap.Util.Serialization;
+using WpfUtility.Serialization;
 
 namespace WinCap.Serialization
 {

@@ -43,7 +43,6 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public Bitmap Capture(IntPtr handle)
         {
-            // IE操作クラスを生成する
             using (InternetExplorer ie = new InternetExplorer(handle))
             {
                 // DPI取得

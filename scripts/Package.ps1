@@ -22,7 +22,7 @@
 
         $target = 'Release'
         $result = 'WinCap'
-        $bin = '..\source\WinCap\bin\x86\'
+        $bin = '..\source\WinCap\bin\'
 
         $targetKeywords = '*.exe','*.dll','*.exe.config','*.txt','*.VisualElementsManifest.xml'
         $ignoreKeywords = '*.vshost.*','Microsoft.*.resources.dll'

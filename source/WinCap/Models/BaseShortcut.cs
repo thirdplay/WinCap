@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
-using WinCap.Util.Desktop;
+using WpfUtility.Desktop;
 
 namespace WinCap.Models
 {

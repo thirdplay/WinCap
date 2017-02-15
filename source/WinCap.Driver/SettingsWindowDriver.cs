@@ -1,4 +1,5 @@
-﻿using Codeer.Friendly.Dynamic;
+﻿using Codeer.Friendly;
+using Codeer.Friendly.Dynamic;
 using Codeer.Friendly.Windows.Grasp;
 using RM.Friendly.WPFStandardControls;
 using System.Collections.Generic;

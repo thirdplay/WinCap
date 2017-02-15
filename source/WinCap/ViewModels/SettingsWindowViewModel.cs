@@ -2,10 +2,9 @@
 using Livet.Messaging;
 using System.Collections.Generic;
 using System.Linq;
-using WinCap.Serialization;
 using WinCap.Services;
-using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Settings;
+using WpfUtility.Mvvm;
 
 namespace WinCap.ViewModels
 {
@@ -78,7 +77,9 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public SettingsWindowViewModel()
+        /// <param name="hookService">フックサービス</param>
+        /// <param name="applicationAction">アクションサービス</param>
+        public SettingsWindowViewModel(HookService hookService, ApplicationAction applicationAction)
         {
             this.TabItems = new List<SettingsBaseViewModel>
             {
@@ -88,8 +89,8 @@ namespace WinCap.ViewModels
                 (this.VersionInfo = new VersionInfoViewModel().AddTo(this)),
             };
             this.SelectedItem = this.TabItems.FirstOrDefault();
-            this.hookService = Application.Instance.HookService;
-            this.applicationAction = Application.Instance.ApplicationAction;
+            this.hookService = hookService;
+            this.applicationAction = applicationAction;
         }
 
         /// <summary>
@@ -99,7 +100,6 @@ namespace WinCap.ViewModels
         public void Initialize()
         {
             this.hookService.Suspend().AddTo(this);
-            this.applicationAction.DeregisterActions();
             this.TabItems.ForEach(x => x.Initialize());
         }
 
@@ -118,19 +118,10 @@ namespace WinCap.ViewModels
             }
             this.TabItems.ForEach(x => x.Apply());
 
-            // 設定の保存と反映
-            LocalSettingsProvider.Instance.Save();
-            this.applicationAction.CreateShortcut();
-            if(!this.applicationAction.RegisterActions())
-            {
-                // ショートカットの登録に失敗した場合、変更確認をして再度設定させる
-                if (this.applicationAction.ConfirmChangeShortcutKey())
-                {
-                    this.SelectedItem = this.ShortcutKey;
-                    return;
-                }
-            }
+            this.DialogResult = true;
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
+
+            this.applicationAction.CreateShortcut();
         }
 
         /// <summary>
@@ -140,6 +131,7 @@ namespace WinCap.ViewModels
         {
             this.TabItems.ForEach(x => x.Cancel());
 
+            this.DialogResult = false;
             this.Messenger.Raise(new InteractionMessage("Window.Close"));
         }
 

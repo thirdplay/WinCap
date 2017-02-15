@@ -1,8 +1,11 @@
-﻿using Codeer.Friendly.Dynamic;
+﻿using Codeer.Friendly;
+using Codeer.Friendly.Dynamic;
 using Codeer.Friendly.Windows;
 using Codeer.Friendly.Windows.Grasp;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace WinCap.Driver
@@ -24,7 +27,7 @@ namespace WinCap.Driver
         /// <summary>
         /// 実行ファイルパスを取得します。
         /// </summary>
-        private static string ExecutablePath { get; } = Path.GetFullPath("../../../../WinCap/bin/x86/" + BuildDir + "/WinCap.exe");
+        private static string ExecutablePath { get; } = Path.GetFullPath("../../../WinCap/bin/" + BuildDir + "/WinCap.exe");
 
         /// <summary>
         /// アプリケーション操作クラス。
@@ -117,8 +120,24 @@ namespace WinCap.Driver
         /// <returns>設定ウィンドウドライバー</returns>
         public SettingsWindowDriver ShowSettingsWindow()
         {
+            return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow()));
+        }
+
+        /// <summary>
+        /// 設定ウィンドウが表示されるまで待ちます。
+        /// </summary>
+        /// <returns>設定ウィンドウ</returns>
+        private AppVar WaitShowSettingsWindow()
+        {
             dynamic appVar = this.app.Type<Application>().Current;
-            return new SettingsWindowDriver(new WindowControl(appVar.ApplicationAction.ShowSettings()));
+            Task.Run(() => appVar.ApplicationAction.ShowSettings());
+
+            dynamic settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
+            do
+            {
+                Thread.Sleep(10);
+            } while (settingsWindow.Instance == null);
+            return settingsWindow.Instance;
         }
 
         /// <summary>

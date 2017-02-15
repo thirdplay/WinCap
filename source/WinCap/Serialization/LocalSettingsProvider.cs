@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
-using WinCap.Util.Serialization;
+using WpfUtility.Serialization;
 
 namespace WinCap.Serialization
 {
@@ -122,21 +122,9 @@ namespace WinCap.Serialization
 
                 var serializer = new DataContractSerializer(typeof(IDictionary<string, object>), this.KnownTypes);
 
-                try
+                using (var stream = this.targetFile.OpenRead())
                 {
-                    using (var stream = this.targetFile.OpenRead())
-                    {
-                        return serializer.ReadObject(stream) as IDictionary<string, object>;
-                    }
-                }
-                catch (SerializationException)
-                {
-#if DEBUG
-                    // デバッグ中は逆シリアル化エラーを無視する
-                    return null;
-#else
-                    throw;
-#endif
+                    return serializer.ReadObject(stream) as IDictionary<string, object>;
                 }
             });
         }

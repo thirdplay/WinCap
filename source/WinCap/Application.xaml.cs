@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Interop;
 using WinCap.Interop;
-using WinCap.Models;
 using WinCap.Serialization;
 using WinCap.Services;
-using WinCap.Util.Lifetime;
 using WinCap.Views;
+using WpfUtility.Lifetime;
 using PropResources = WinCap.Properties.Resources;
 
 namespace WinCap
@@ -66,7 +64,7 @@ namespace WinCap
         {
 #if !DEBUG
             // 多重起動防止チェック
-            var appInstance = new Util.Desktop.ApplicationInstance().AddTo(this);
+            var appInstance = new WpfUtility.Desktop.ApplicationInstance().AddTo(this);
             if (appInstance.IsFirst)
 #endif
             {
@@ -81,6 +79,17 @@ namespace WinCap
 
                 // ローカル設定の読み込み
                 LocalSettingsProvider.Instance.Load();
+                this.compositeDisposable.Add(LocalSettingsProvider.Instance.Save);
+
+                this.HookService = new HookService().AddTo(this);
+                this.CapturerService = new CapturerService(this.HookService).AddTo(this);
+                this.WindowService = new WindowService();
+                this.ApplicationAction = new ApplicationAction(this);
+
+                // アプリケーション準備
+                this.ShowTaskTrayIcon();
+                this.ApplicationAction.CreateShortcut();
+                this.ApplicationAction.RegisterActions();
 
                 // メインウィンドウ表示
                 this.MainWindow = new MainWindow();
@@ -91,22 +100,6 @@ namespace WinCap
                     this.MainWindow.WindowState = WindowState.Normal;
                 }
                 this.MainWindow.Show();
-
-                this.HookService = new HookService(this.MainWindow).AddTo(this);
-                this.CapturerService = new CapturerService(this.HookService).AddTo(this);
-                this.WindowService = new WindowService();
-                this.ApplicationAction = new ApplicationAction(this).AddTo(this);
-
-                // アプリケーション準備
-                this.ShowTaskTrayIcon();
-                this.ApplicationAction.CreateShortcut();
-                if (!this.ApplicationAction.RegisterActions())
-                {
-                    if (this.ApplicationAction.ConfirmChangeShortcutKey())
-                    {
-                        this.ApplicationAction.ShowSettings();
-                    }
-                }
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);
@@ -165,7 +158,8 @@ namespace WinCap
         /// </summary>
         /// <param name="sender">イベント発生元</param>
         /// <param name="exception">例外</param>
-        private static void ReportException(object sender, Exception exception)
+        /// <param name="isShutdown">シャットダウンするかどうか</param>
+        public static void ReportException(object sender, Exception exception, bool isShutdown = true)
         {
 #region const
             const string messageFormat = @"
@@ -189,7 +183,10 @@ ERROR, date = {0}, sender = {1},
             }
 
             // 終了
-            Current.Shutdown();
+            if (isShutdown)
+            {
+                Current.Shutdown();
+            }
         }
 
         #region IDisposableHolder members

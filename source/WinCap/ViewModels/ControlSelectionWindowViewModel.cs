@@ -1,13 +1,12 @@
 ﻿using Livet;
-using Livet.Messaging;
 using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using WinCap.Interop;
 using WinCap.Models;
-using WinCap.Util.Mvvm;
 using WinCap.ViewModels.Messages;
+using WpfUtility.Mvvm;
 using Rectangle = System.Drawing.Rectangle;
 
 namespace WinCap.ViewModels

@@ -19,6 +19,8 @@ namespace WinCap.Views
     /// </summary>
     public partial class SettingsWindow
     {
+        public static SettingsWindow Instance { get; set; }
+
         public SettingsWindow()
         {
             InitializeComponent();
