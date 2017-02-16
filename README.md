@@ -52,20 +52,20 @@ WinCapは、画面キャプチャツールです。
 * **ライセンス :** The MIT License (MIT)
 * **ライセンス全文 :** [licenses/MetroRadiance.txt](licenses/MetroRadiance.txt)
 
+#### [MetroTrilithon](https://github.com/Grabacr07/MetroTrilithon)
+
+> The MIT License (MIT)
+> 
+> Copyright (c) 2015 Manato KAMEYA
+
+* **用途 :** WpfUtility の依存ライブラリ
+* **ライセンス :** The MIT License (MIT)
+* **ライセンス全文 :** [licenses/MetroTrilithon.txt](licenses/MetroTrilithon.txt)
+
 #### [Livet](https://github.com/ugaya40/Livet)
 
 * **用途 :** MVVM(Model/View/ViewModel)パターン用インフラストラクチャ
 * **ライセンス :** zlib/libpng
-
-#### [StatefulModel](https://github.com/ugaya40/StatefulModel)
-
-> The MIT License (MIT)
-> 
-> Copyright (c) 2015 Masanori Onoue
-
-* **用途 :** M-V-Whatever の Model 向けインフラストラクチャ
-* **ライセンス :** The MIT License (MIT)
-* **ライセンス全文 :** [licenses/StatefulModel.txt](licenses/StatefulModel.txt)
 
 #### [Rx(Reactive Extensions)](https://rx.codeplex.com/)
 
@@ -73,3 +73,8 @@ WinCapは、画面キャプチャツールです。
 * **ライセンス :** Apache License Version 2.0
 * **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)
 
+#### [Friendly](http://www.english.codeer.co.jp/test-automation/friendly-fundamental)
+
+* **用途 :** テスト自動化
+* **ライセンス :** Apache License Version 2.0
+* **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)
