@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("WinCap")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("tillable.net")]
 [assembly: AssemblyProduct("WinCap")]
 [assembly: AssemblyCopyright("Copyright © 2017 thirdplay")]
 [assembly: AssemblyTrademark("")]
