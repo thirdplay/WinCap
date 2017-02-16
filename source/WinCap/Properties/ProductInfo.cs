@@ -22,7 +22,6 @@ namespace WinCap.Properties
             new Library("Open.WinKeyboardHook", new Uri("https://github.com/lontivero/Open.WinKeyboardHook")),
             new Library("MetroRadiance", new Uri("https://github.com/Grabacr07/MetroRadiance")),
             new Library("Livet", new Uri("http://ugaya40.hateblo.jp/entry/Livet")),
-            new Library("StatefulModel", new Uri("http://ugaya40.hateblo.jp/entry/StatefulModel")),
         });
 
         /// <summary>
