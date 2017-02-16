@@ -78,15 +78,3 @@ WinCapは、画面キャプチャツールです。
 * **用途 :** テスト自動化
 * **ライセンス :** Apache License Version 2.0
 * **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)
-
-#### [Friendly.Windows](https://github.com/Codeer-Software/Friendly.Windows)
-
-* **用途 :** テスト自動化
-* **ライセンス :** Apache License Version 2.0
-* **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)
-
-#### [Friendly.Windows.Grasp](http://www.english.codeer.co.jp/test-automation/api-reference/codeer-friendly-windows-grasp-dll)
-
-* **用途 :** テスト自動化
-* **ライセンス :** Apache License Version 2.0
-* **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)
