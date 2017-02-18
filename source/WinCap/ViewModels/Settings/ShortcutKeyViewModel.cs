@@ -10,7 +10,7 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// ショートカットキー設定のためのデータを提供します。
     /// </summary>
-    public class ShortcutKeyViewModel : SettingsBaseViewModel
+    public class ShortcutKeyViewModel : TabItemViewModel
     {
         #region TabItemViewModel mebmers
         /// <summary>
@@ -99,7 +99,7 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
-        #region SettingsBaseViewModel members
+        #region TabItemViewModel members
         /// <summary>
         /// 初期化
         /// </summary>

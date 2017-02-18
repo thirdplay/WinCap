@@ -10,7 +10,7 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// バージョン情報のためのデータを提供します。
     /// </summary>
-    public class VersionInfoViewModel : SettingsBaseViewModel
+    public class VersionInfoViewModel : TabItemViewModel
     {
         /// <summary>
         /// ライブラリコンテナ
@@ -40,7 +40,7 @@ namespace WinCap.ViewModels.Settings
                 });
         }
 
-        #region SettingsBaseViewModel members
+        #region ISettingsBaseViewModel members
         /// <summary>
         /// 初期化
         /// </summary>
@@ -54,7 +54,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return this.Validate();
+            return true;
         }
 
         /// <summary>

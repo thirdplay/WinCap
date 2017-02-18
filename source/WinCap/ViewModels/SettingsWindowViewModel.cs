@@ -48,7 +48,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// タブ項目リスト
         /// </summary>
-        public List<SettingsBaseViewModel> TabItems { get; set; }
+        public List<TabItemViewModel> TabItems { get; set; }
 
         #region SelectedItem 変更通知プロパティ
         private TabItemViewModel _SelectedItem;
@@ -81,7 +81,7 @@ namespace WinCap.ViewModels
         /// <param name="applicationAction">アクションサービス</param>
         public SettingsWindowViewModel(HookService hookService, ApplicationAction applicationAction)
         {
-            this.TabItems = new List<SettingsBaseViewModel>
+            this.TabItems = new List<TabItemViewModel>
             {
                 (this.General = new GeneralViewModel().AddTo(this)),
                 (this.Output = new OutputViewModel().AddTo(this)),

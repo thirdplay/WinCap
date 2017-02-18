@@ -9,7 +9,7 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// 出力設定のためのデータを提供します。
     /// </summary>
-    public class OutputViewModel : SettingsBaseViewModel
+    public class OutputViewModel : TabItemViewModel
     {
         #region TabItemViewModel mebmers
         /// <summary>
@@ -117,7 +117,7 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
-        #region SettingsBaseViewModel members
+        #region TabItemViewModel members
         /// <summary>
         /// 初期化
         /// </summary>

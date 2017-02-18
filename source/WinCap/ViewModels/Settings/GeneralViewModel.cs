@@ -7,7 +7,7 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// 一般設定のためのデータを提供します。
     /// </summary>
-    public class GeneralViewModel : SettingsBaseViewModel
+    public class GeneralViewModel : TabItemViewModel
     {
         #region TabItemViewModel mebmers
         /// <summary>
@@ -138,7 +138,7 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
-        #region SettingsBaseViewModel members
+        #region TabItemViewModel members
         /// <summary>
         /// 初期化
         /// </summary>
@@ -153,7 +153,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return this.Validate();
+            return base.Validate();
         }
 
         /// <summary>
