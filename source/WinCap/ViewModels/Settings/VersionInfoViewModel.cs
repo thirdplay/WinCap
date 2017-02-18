@@ -54,7 +54,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return this.ValidateAll();
+            return this.Validate();
         }
 
         /// <summary>

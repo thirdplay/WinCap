@@ -20,7 +20,7 @@ namespace WinCap.ViewModels
         /// </summary>
         private readonly OrderedDictionary<string, List<string>> errors = new OrderedDictionary<string, List<string>>();
 
-        #region INotifyDataErrorInfoの実装
+        #region INotifyDataErrorInfo members
         /// <summary>
         /// 検証エラーイベント
         /// </summary>
@@ -79,7 +79,7 @@ namespace WinCap.ViewModels
             }
             return "";
         }
-
+        
         /// <summary>
         /// プロパティの入力値を検証する
         /// </summary>
@@ -87,37 +87,33 @@ namespace WinCap.ViewModels
         /// <returns>検証エラーがある場合はtrue、それ以外はfalse</returns>
         public bool Validate([CallerMemberName]string propertyName = null)
         {
-            object value = this.GetType().GetProperty(propertyName).GetValue(this);
-            var context = new ValidationContext(this) { MemberName = propertyName };
-            var validationErrors = new List<ValidationResult>();
-            if (!Validator.TryValidateProperty(value, context, validationErrors))
+            if (string.IsNullOrEmpty(propertyName))
             {
-                var errors = validationErrors.Select(error => error.ErrorMessage);
-                this.SetErrors(propertyName, errors);
+                this.ClearErrors();
+                var context = new ValidationContext(this);
+                var validationErrors = new List<ValidationResult>();
+                if (!Validator.TryValidateObject(this, context, validationErrors, true))
+                {
+                    var errors = validationErrors.Where(x => x.MemberNames.Any()).GroupBy(x => x.MemberNames.First());
+                    foreach (var error in errors)
+                    {
+                        this.SetErrors(error.Key, error.Select(x => x.ErrorMessage));
+                    }
+                }
             }
             else
             {
-                this.ClearErrors(propertyName);
-            }
-
-            return !this.HasErrors;
-        }
-
-        /// <summary>
-        /// 全てのプロパティの入力値を検証する
-        /// </summary>
-        /// <returns>検証エラーがある場合はfalse、それ以外はtrue</returns>
-        public bool ValidateAll()
-        {
-            this.ClearErrors();
-            var context = new ValidationContext(this);
-            var validationErrors = new List<ValidationResult>();
-            if (!Validator.TryValidateObject(this, context, validationErrors, true))
-            {
-                var errors = validationErrors.Where(x => x.MemberNames.Any()).GroupBy(x => x.MemberNames.First());
-                foreach (var error in errors)
+                object value = this.GetType().GetProperty(propertyName).GetValue(this);
+                var context = new ValidationContext(this) { MemberName = propertyName };
+                var validationErrors = new List<ValidationResult>();
+                if (!Validator.TryValidateProperty(value, context, validationErrors))
                 {
-                    this.SetErrors(error.Key, error.Select(x => x.ErrorMessage));
+                    var errors = validationErrors.Select(error => error.ErrorMessage);
+                    this.SetErrors(propertyName, errors);
+                }
+                else
+                {
+                    this.ClearErrors(propertyName);
                 }
             }
 
