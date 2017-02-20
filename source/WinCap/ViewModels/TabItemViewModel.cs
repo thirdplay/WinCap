@@ -64,7 +64,7 @@ namespace WinCap.ViewModels
         /// <returns>検証結果</returns>
         public virtual bool Validate()
         {
-            return base.Validate(null);
+            return base.ValidateAll();
         }
 
         /// <summary>

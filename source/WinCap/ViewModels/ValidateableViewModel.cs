@@ -87,21 +87,7 @@ namespace WinCap.ViewModels
         /// <returns>検証エラーがある場合はtrue、それ以外はfalse</returns>
         public bool Validate([CallerMemberName]string propertyName = null)
         {
-            if (string.IsNullOrEmpty(propertyName))
-            {
-                this.ClearErrors();
-                var context = new ValidationContext(this);
-                var validationErrors = new List<ValidationResult>();
-                if (!Validator.TryValidateObject(this, context, validationErrors, true))
-                {
-                    var errors = validationErrors.Where(x => x.MemberNames.Any()).GroupBy(x => x.MemberNames.First());
-                    foreach (var error in errors)
-                    {
-                        this.SetErrors(error.Key, error.Select(x => x.ErrorMessage));
-                    }
-                }
-            }
-            else
+            if (!string.IsNullOrEmpty(propertyName))
             {
                 object value = this.GetType().GetProperty(propertyName).GetValue(this);
                 var context = new ValidationContext(this) { MemberName = propertyName };
@@ -116,7 +102,27 @@ namespace WinCap.ViewModels
                     this.ClearErrors(propertyName);
                 }
             }
+            return !this.HasErrors;
+        }
 
+        /// <summary>
+        /// プロパティの入力値を検証する
+        /// </summary>
+        /// <param name="propertyName">プロパティ名</param>
+        /// <returns>検証エラーがある場合はtrue、それ以外はfalse</returns>
+        public bool ValidateAll()
+        {
+            this.ClearErrors();
+            var context = new ValidationContext(this);
+            var validationErrors = new List<ValidationResult>();
+            if (!Validator.TryValidateObject(this, context, validationErrors, true))
+            {
+                var errors = validationErrors.Where(x => x.MemberNames.Any()).GroupBy(x => x.MemberNames.First());
+                foreach (var error in errors)
+                {
+                    this.SetErrors(error.Key, error.Select(x => x.ErrorMessage));
+                }
+            }
             return !this.HasErrors;
         }
 
