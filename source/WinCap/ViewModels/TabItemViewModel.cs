@@ -1,12 +1,13 @@
 ﻿using MetroRadiance.UI.Controls;
 using WinCap.ViewModels.Settings;
+using WpfUtility.Mvvm;
 
 namespace WinCap.ViewModels
 {
     /// <summary>
     /// タブ項目のためのデータを提供する基底クラスです。
     /// </summary>
-    public abstract class TabItemViewModel : ValidateableViewModel, ITabItem, ISettingsBaseViewModel
+    public abstract class TabItemViewModel : ValidatableViewModel, ITabItem, ISettingsBaseViewModel
     {
         #region Badge 変更通知プロパティ
         private int? _Badge;
@@ -54,18 +55,10 @@ namespace WinCap.ViewModels
         #endregion
 
         /// <summary>
-        /// 初期化
-        /// </summary>
-        public abstract void Initialize();
-
-        /// <summary>
         /// 入力値を検証する
         /// </summary>
         /// <returns>検証結果</returns>
-        public virtual bool Validate()
-        {
-            return base.ValidateAll();
-        }
+        public abstract bool Validate();
 
         /// <summary>
         /// 適用

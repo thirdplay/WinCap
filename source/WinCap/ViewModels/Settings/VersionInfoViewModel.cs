@@ -40,13 +40,19 @@ namespace WinCap.ViewModels.Settings
                 });
         }
 
-        #region ISettingsBaseViewModel members
+        #region WindowViewModel members
+
         /// <summary>
-        /// 初期化
+        /// <see cref="System.Windows.Window.ContentRendered"/> イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public override void Initialize()
+        protected override void InitializeCore()
         {
+            base.InitializeCore();
         }
+
+        #endregion
+
+        #region ISettingsBaseViewModel members
 
         /// <summary>
         /// 入力値を検証する
@@ -70,6 +76,7 @@ namespace WinCap.ViewModels.Settings
         public override void Cancel()
         {
         }
+
         #endregion
     }
 

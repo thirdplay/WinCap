@@ -1,5 +1,4 @@
-﻿using Livet;
-using Livet.Messaging;
+﻿using Livet.Messaging;
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Services;
@@ -11,9 +10,10 @@ namespace WinCap.ViewModels
     /// <summary>
     /// 設定ウィンドウViewModel
     /// </summary>
-    public class SettingsWindowViewModel : ViewModel
+    public class SettingsWindowViewModel : WindowViewModel
     {
         #region ViewModels
+
         /// <summary>
         /// 一般設定ViewModel
         /// </summary>
@@ -33,6 +33,7 @@ namespace WinCap.ViewModels
         /// ショートカットキー設定ViewModel
         /// </summary>
         public VersionInfoViewModel VersionInfo { get; } = new VersionInfoViewModel();
+        
         #endregion
 
         /// <summary>
@@ -70,11 +71,6 @@ namespace WinCap.ViewModels
         #endregion
 
         /// <summary>
-        /// ダイアログ結果を取得します。
-        /// </summary>
-        public bool DialogResult { get; private set; }
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="hookService">フックサービス</param>
@@ -93,15 +89,18 @@ namespace WinCap.ViewModels
             this.applicationAction = applicationAction;
         }
 
+        #region WindowViewModel members
+
         /// <summary>
-		/// <see cref="Window.ContentRendered"/>イベントが発生したときに
-        /// Livet インフラストラクチャによって呼び出されます。
+        /// <see cref="Window.ContentRendered"/>イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public void Initialize()
+        protected override void InitializeCore()
         {
             this.hookService.Suspend().AddTo(this);
             this.TabItems.ForEach(x => x.Initialize());
         }
+
+        #endregion
 
         /// <summary>
         /// OK
@@ -113,14 +112,12 @@ namespace WinCap.ViewModels
             if (tabItem != null)
             {
                 this.SelectedItem = tabItem;
-                this.SelectedItem.Messenger.Raise(new InteractionMessage(this.SelectedItem.GetErrorPropertyName() + ".Focus"));
+                this.SelectedItem.Messenger.Raise(new InteractionMessage(this.SelectedItem.GetErrorProperties().First() + ".Focus"));
                 return;
             }
             this.TabItems.ForEach(x => x.Apply());
 
-            this.DialogResult = true;
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
-
+            this.Close();
             this.applicationAction.CreateShortcut();
         }
 
@@ -131,8 +128,7 @@ namespace WinCap.ViewModels
         {
             this.TabItems.ForEach(x => x.Cancel());
 
-            this.DialogResult = false;
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
+            this.Close();
         }
 
         /// <summary>

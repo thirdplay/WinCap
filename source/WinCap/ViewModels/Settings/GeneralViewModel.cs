@@ -138,14 +138,19 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
-        #region TabItemViewModel members
+        #region WindowViewModel members
+
         /// <summary>
-        /// 初期化
+        /// <see cref="System.Windows.Window.ContentRendered"/> イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public override void Initialize()
+        protected override void InitializeCore()
         {
             this.RevertToSavedSettings();
         }
+
+        #endregion
+
+        #region TabItemViewModel members
 
         /// <summary>
         /// 入力値を検証する
@@ -153,7 +158,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return base.Validate();
+            return base.ValidateAll();
         }
 
         /// <summary>
@@ -178,6 +183,8 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
+        #endregion
+
         /// <summary>
         /// 保存時の設定に戻します。
         /// </summary>
@@ -191,6 +198,5 @@ namespace WinCap.ViewModels.Settings
             this.ScrollDelayTime = settings.ScrollDelayTime.Value.ToString();
             this.CaptureDelayTime = settings.CaptureDelayTime.Value.ToString();
         }
-        #endregion
     }
 }

@@ -117,14 +117,19 @@ namespace WinCap.ViewModels.Settings
         }
         #endregion
 
-        #region TabItemViewModel members
+        #region WindowViewModel members
+
         /// <summary>
-        /// 初期化
+        /// <see cref="System.Windows.Window.ContentRendered"/> イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public override void Initialize()
+        protected override void InitializeCore()
         {
             this.RevertToSavedSettings();
         }
+
+        #endregion
+
+        #region TabItemViewModel members
 
         /// <summary>
         /// 入力値を検証する
@@ -169,6 +174,8 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
+        #endregion
+
         /// <summary>
         /// 出力先選択ダイアログを開きます。
         /// </summary>
@@ -202,6 +209,5 @@ namespace WinCap.ViewModels.Settings
             this.OutputFileNamePattern = settings.OutputFileNamePattern;
             this.OutputFormatType = settings.OutputFormatType;
         }
-        #endregion
     }
 }

@@ -34,11 +34,6 @@ namespace WinCap
         internal CapturerService CapturerService { get; private set; }
 
         /// <summary>
-        /// ウィンドウサービス。
-        /// </summary>
-        internal WindowService WindowService { get; private set; }
-
-        /// <summary>
         /// アプリケーションアクション。
         /// </summary>
         internal ApplicationAction ApplicationAction { get; private set; }
@@ -83,7 +78,6 @@ namespace WinCap
 
                 this.HookService = new HookService().AddTo(this);
                 this.CapturerService = new CapturerService(this.HookService).AddTo(this);
-                this.WindowService = new WindowService();
                 this.ApplicationAction = new ApplicationAction(this);
 
                 // アプリケーション準備

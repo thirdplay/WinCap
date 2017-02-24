@@ -33,8 +33,8 @@
         </i:EventTrigger>
 
         <l:InteractionMessageTrigger Messenger="{Binding Messenger}"
-                                     MessageKey="Window.Close">
-            <behaviors:CloseWindowAction />
+                                     MessageKey="Window.WindowAction">
+            <l:WindowInteractionMessageAction InvokeActionOnlyWhenWindowIsActive="False" />
         </l:InteractionMessageTrigger>
     </i:Interaction.Triggers>
 
