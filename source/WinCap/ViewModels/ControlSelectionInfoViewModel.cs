@@ -29,7 +29,9 @@ namespace WinCap.ViewModels
         public System.Windows.Point Margin { get; } = new System.Windows.Point(12.0, 12.0);
 
         #region Left 変更通知プロパティ
+
         private double _Left;
+
         /// <summary>
         /// コントロール選択情報のX座標を取得または設定します。
         /// </summary>
@@ -45,10 +47,13 @@ namespace WinCap.ViewModels
                 }
             }
         }
-        #endregion
+
+        #endregion Left 変更通知プロパティ
 
         #region Top 変更通知プロパティ
+
         private double _Top;
+
         /// <summary>
         /// コントロール選択情報のY座標を取得または設定します。
         /// </summary>
@@ -64,10 +69,13 @@ namespace WinCap.ViewModels
                 }
             }
         }
-        #endregion
+
+        #endregion Top 変更通知プロパティ
 
         #region ClassName 変更通知プロパティ
+
         private string _ClassName;
+
         /// <summary>
         /// クラス名を取得または設定します。
         /// </summary>
@@ -83,10 +91,13 @@ namespace WinCap.ViewModels
                 }
             }
         }
-        #endregion
+
+        #endregion ClassName 変更通知プロパティ
 
         #region Point 変更通知プロパティ
+
         private System.Drawing.Point _Point;
+
         /// <summary>
         /// 位置を取得または設定します。
         /// </summary>
@@ -94,7 +105,7 @@ namespace WinCap.ViewModels
         {
             get { return _Point; }
             set
-            { 
+            {
                 if (_Point != value)
                 {
                     _Point = value;
@@ -102,10 +113,13 @@ namespace WinCap.ViewModels
                 }
             }
         }
-        #endregion
+
+        #endregion Point 変更通知プロパティ
 
         #region Size 変更通知プロパティ
+
         private System.Drawing.Size _Size;
+
         /// <summary>
         /// サイズを取得または設定します。
         /// </summary>
@@ -113,7 +127,7 @@ namespace WinCap.ViewModels
         {
             get { return _Size; }
             set
-            { 
+            {
                 if (_Size != value)
                 {
                     _Size = value;
@@ -121,7 +135,8 @@ namespace WinCap.ViewModels
                 }
             }
         }
-        #endregion
+
+        #endregion Size 変更通知プロパティ
 
         /// <summary>
         /// コンストラクタ。

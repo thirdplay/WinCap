@@ -131,6 +131,7 @@ namespace WinCap.ViewModels
             }
             OnMouseMove(e.GetPosition(null));
         }
+
         private void OnMouseMove(Point point)
         {
             var screenPoint = new System.Drawing.Point((int)point.X + this.location.X, (int)point.Y + this.location.Y);

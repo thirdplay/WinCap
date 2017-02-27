@@ -7,9 +7,10 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// 一般設定のためのデータを提供します。
     /// </summary>
-    public class GeneralViewModel : TabItemViewModel
+    public class GeneralViewModel : SettingsBaseViewModel
     {
         #region TabItemViewModel mebmers
+
         /// <summary>
         /// タブ名を取得します。
         /// </summary>
@@ -18,10 +19,13 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.Settings_General; }
             protected set { throw new NotImplementedException(); }
         }
-        #endregion
+
+        #endregion TabItemViewModel mebmers
 
         #region IsRegisterInStartup 変更通知プロパティ
+
         private bool _IsRegisterInStartup;
+
         /// <summary>
         /// スタートアップに登録するか取得します。
         /// </summary>
@@ -37,10 +41,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion IsRegisterInStartup 変更通知プロパティ
 
         #region IsCreateShortcutToDesktop 変更通知プロパティ
+
         private bool _IsCreateShortcutToDesktop;
+
         /// <summary>
         /// デスクトップにショートカットを作成するか取得します。
         /// </summary>
@@ -48,7 +55,7 @@ namespace WinCap.ViewModels.Settings
         {
             get { return _IsCreateShortcutToDesktop; }
             set
-            { 
+            {
                 if (_IsCreateShortcutToDesktop != value)
                 {
                     _IsCreateShortcutToDesktop = value;
@@ -56,10 +63,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion IsCreateShortcutToDesktop 変更通知プロパティ
 
         #region IsPlaySeWhenCapture 変更通知プロパティ
+
         private bool _IsPlaySeWhenCapture;
+
         /// <summary>
         /// キャプチャー時に効果音を再生するか取得します。
         /// </summary>
@@ -75,10 +85,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion IsPlaySeWhenCapture 変更通知プロパティ
 
         #region IsWebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
+
         private bool _IsWebPageCaptureStartWhenPageFirstMove;
+
         /// <summary>
         /// ウェブページ全体キャプチャ開始時にページ先頭に移動するか取得します。
         /// </summary>
@@ -94,10 +107,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion IsWebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
 
         #region ScrollDelayTime 変更通知プロパティ
+
         private string _ScrollDelayTime;
+
         /// <summary>
         /// スクロール時の遅延時間を取得します。
         /// </summary>
@@ -115,10 +131,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion ScrollDelayTime 変更通知プロパティ
 
         #region CaptureDelayTime 変更通知プロパティ
+
         private string _CaptureDelayTime;
+
         /// <summary>
         /// キャプチャ時の遅延時間を取得します。
         /// </summary>
@@ -136,7 +155,8 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion CaptureDelayTime 変更通知プロパティ
 
         #region WindowViewModel members
 
@@ -148,7 +168,7 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
-        #endregion
+        #endregion WindowViewModel members
 
         #region TabItemViewModel members
 
@@ -183,7 +203,7 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
-        #endregion
+        #endregion TabItemViewModel members
 
         /// <summary>
         /// 保存時の設定に戻します。

@@ -10,7 +10,7 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// バージョン情報のためのデータを提供します。
     /// </summary>
-    public class VersionInfoViewModel : TabItemViewModel
+    public class VersionInfoViewModel : SettingsBaseViewModel
     {
         /// <summary>
         /// ライブラリコンテナ
@@ -18,6 +18,7 @@ namespace WinCap.ViewModels.Settings
         public IReadOnlyCollection<BindableTextViewModel> Libraries { get; }
 
         #region TabItemViewModel mebmers
+
         /// <summary>
         /// タブ名を取得します。
         /// </summary>
@@ -26,7 +27,8 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.Settings_VersionInfo; }
             protected set { throw new NotImplementedException(); }
         }
-        #endregion
+
+        #endregion TabItemViewModel mebmers
 
         public VersionInfoViewModel()
         {
@@ -50,7 +52,7 @@ namespace WinCap.ViewModels.Settings
             base.InitializeCore();
         }
 
-        #endregion
+        #endregion WindowViewModel members
 
         #region ISettingsBaseViewModel members
 
@@ -77,7 +79,7 @@ namespace WinCap.ViewModels.Settings
         {
         }
 
-        #endregion
+        #endregion ISettingsBaseViewModel members
     }
 
     /// <summary>
@@ -86,7 +88,9 @@ namespace WinCap.ViewModels.Settings
     public class BindableTextViewModel : ViewModel
     {
         #region Text 変更通知プロパティ
+
         private string _Text;
+
         /// <summary>
         /// テキストを取得します。
         /// </summary>
@@ -102,7 +106,8 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion Text 変更通知プロパティ
     }
 
     /// <summary>
@@ -111,7 +116,9 @@ namespace WinCap.ViewModels.Settings
     public class HyperlinkViewModel : BindableTextViewModel
     {
         #region Uri 変更通知プロパティ
+
         private Uri _Uri;
+
         /// <summary>
         /// URIを取得します。
         /// </summary>
@@ -127,6 +134,7 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion Uri 変更通知プロパティ
     }
 }

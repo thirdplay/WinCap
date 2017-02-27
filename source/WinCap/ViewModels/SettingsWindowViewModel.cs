@@ -33,8 +33,8 @@ namespace WinCap.ViewModels
         /// ショートカットキー設定ViewModel
         /// </summary>
         public VersionInfoViewModel VersionInfo { get; } = new VersionInfoViewModel();
-        
-        #endregion
+
+        #endregion ViewModels
 
         /// <summary>
         /// フックサービス
@@ -49,10 +49,12 @@ namespace WinCap.ViewModels
         /// <summary>
         /// タブ項目リスト
         /// </summary>
-        public List<TabItemViewModel> TabItems { get; set; }
+        public List<SettingsBaseViewModel> TabItems { get; set; }
 
         #region SelectedItem 変更通知プロパティ
+
         private TabItemViewModel _SelectedItem;
+
         /// <summary>
         /// 選択中のタブ項目を取得します。
         /// </summary>
@@ -68,7 +70,8 @@ namespace WinCap.ViewModels
                 }
             }
         }
-        #endregion
+
+        #endregion SelectedItem 変更通知プロパティ
 
         /// <summary>
         /// コンストラクタ
@@ -77,7 +80,7 @@ namespace WinCap.ViewModels
         /// <param name="applicationAction">アクションサービス</param>
         public SettingsWindowViewModel(HookService hookService, ApplicationAction applicationAction)
         {
-            this.TabItems = new List<TabItemViewModel>
+            this.TabItems = new List<SettingsBaseViewModel>
             {
                 (this.General = new GeneralViewModel().AddTo(this)),
                 (this.Output = new OutputViewModel().AddTo(this)),
@@ -100,7 +103,7 @@ namespace WinCap.ViewModels
             this.TabItems.ForEach(x => x.Initialize());
         }
 
-        #endregion
+        #endregion WindowViewModel members
 
         /// <summary>
         /// OK
@@ -129,15 +132,6 @@ namespace WinCap.ViewModels
             this.TabItems.ForEach(x => x.Cancel());
 
             this.Close();
-        }
-
-        /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄します。
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
         }
     }
 }

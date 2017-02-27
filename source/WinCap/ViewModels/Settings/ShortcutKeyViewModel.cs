@@ -10,9 +10,10 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// ショートカットキー設定のためのデータを提供します。
     /// </summary>
-    public class ShortcutKeyViewModel : TabItemViewModel
+    public class ShortcutKeyViewModel : SettingsBaseViewModel
     {
         #region TabItemViewModel mebmers
+
         /// <summary>
         /// タブ名を取得します。
         /// </summary>
@@ -21,10 +22,13 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.Settings_ShortcutKey; }
             protected set { throw new NotImplementedException(); }
         }
-        #endregion
+
+        #endregion TabItemViewModel mebmers
 
         #region FullScreen 変更通知プロパティ
+
         private int[] _FullScreen;
+
         /// <summary>
         /// 画面全体をキャプチャするショートカットキーを取得します。
         /// </summary>
@@ -40,10 +44,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion FullScreen 変更通知プロパティ
 
         #region ActiveControl 変更通知プロパティ
+
         private int[] _ActiveControl;
+
         /// <summary>
         /// アクティブコントロールをキャプチャするショートカットキーを取得します。
         /// </summary>
@@ -59,10 +66,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion ActiveControl 変更通知プロパティ
 
         #region SelectionControl 変更通知プロパティ
+
         private int[] _SelectionControl;
+
         /// <summary>
         /// 選択コントロールをキャプチャするショートカットキーを取得します。
         /// </summary>
@@ -78,10 +88,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion SelectionControl 変更通知プロパティ
 
         #region WebPage 変更通知プロパティ
+
         private int[] _WebPage;
+
         /// <summary>
         /// Webページ全体をキャプチャするショートカットキーを取得します。
         /// </summary>
@@ -97,7 +110,8 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion WebPage 変更通知プロパティ
 
         #region WindowViewModel members
 
@@ -109,7 +123,7 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
-        #endregion
+        #endregion WindowViewModel members
 
         #region TabItemViewModel members
 
@@ -161,7 +175,7 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
-        #endregion
+        #endregion TabItemViewModel members
 
         /// <summary>
         /// 保存時の設定に戻します。

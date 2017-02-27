@@ -9,9 +9,10 @@ namespace WinCap.ViewModels.Settings
     /// <summary>
     /// 出力設定のためのデータを提供します。
     /// </summary>
-    public class OutputViewModel : TabItemViewModel
+    public class OutputViewModel : SettingsBaseViewModel
     {
         #region TabItemViewModel mebmers
+
         /// <summary>
         /// タブ名を取得します。
         /// </summary>
@@ -20,10 +21,13 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.Settings_Output; }
             protected set { throw new NotImplementedException(); }
         }
-        #endregion
+
+        #endregion TabItemViewModel mebmers
 
         #region OutputMethodType 変更通知プロパティ
+
         private OutputMethodType _OutputMethodType;
+
         /// <summary>
         /// 出力方法を取得します。
         /// </summary>
@@ -39,10 +43,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion OutputMethodType 変更通知プロパティ
 
         #region OutputFolder 変更通知プロパティ
+
         private string _OutputFolder;
+
         /// <summary>
         /// 出力フォルダを取得します。
         /// </summary>
@@ -58,10 +65,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion OutputFolder 変更通知プロパティ
 
         #region IsAutoSaveImage 変更通知プロパティ
+
         private bool _IsAutoSaveImage;
+
         /// <summary>
         /// 画像を自動保存するか取得します。
         /// </summary>
@@ -77,10 +87,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion IsAutoSaveImage 変更通知プロパティ
 
         #region OutputFileNamePattern 変更通知プロパティ
+
         private string _OutputFileNamePattern;
+
         /// <summary>
         /// 出力ファイル名パターンを取得します。
         /// </summary>
@@ -96,10 +109,13 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion OutputFileNamePattern 変更通知プロパティ
 
         #region OutputFormatType 変更通知プロパティ
+
         private OutputFormatType _OutputFormatType;
+
         /// <summary>
         /// 出力形式を取得します。
         /// </summary>
@@ -115,7 +131,8 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion OutputFormatType 変更通知プロパティ
 
         #region WindowViewModel members
 
@@ -127,7 +144,7 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
-        #endregion
+        #endregion WindowViewModel members
 
         #region TabItemViewModel members
 
@@ -174,7 +191,7 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
-        #endregion
+        #endregion TabItemViewModel members
 
         /// <summary>
         /// 出力先選択ダイアログを開きます。
