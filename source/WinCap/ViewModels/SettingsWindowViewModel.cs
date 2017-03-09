@@ -60,12 +60,12 @@ namespace WinCap.ViewModels
         /// </summary>
         public TabItemViewModel SelectedItem
         {
-            get { return _SelectedItem; }
+            get { return this._SelectedItem; }
             set
             {
-                if (_SelectedItem != value)
+                if (this._SelectedItem != value)
                 {
-                    _SelectedItem = value;
+                    this._SelectedItem = value;
                     RaisePropertyChanged();
                 }
             }

@@ -31,12 +31,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public bool IsRegisterInStartup
         {
-            get { return _IsRegisterInStartup; }
+            get { return this._IsRegisterInStartup; }
             set
             {
-                if (_IsRegisterInStartup != value)
+                if (this._IsRegisterInStartup != value)
                 {
-                    _IsRegisterInStartup = value;
+                    this._IsRegisterInStartup = value;
                     RaisePropertyChanged();
                 }
             }
@@ -53,12 +53,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public bool IsCreateShortcutToDesktop
         {
-            get { return _IsCreateShortcutToDesktop; }
+            get { return this._IsCreateShortcutToDesktop; }
             set
             {
-                if (_IsCreateShortcutToDesktop != value)
+                if (this._IsCreateShortcutToDesktop != value)
                 {
-                    _IsCreateShortcutToDesktop = value;
+                    this._IsCreateShortcutToDesktop = value;
                     RaisePropertyChanged();
                 }
             }
@@ -75,12 +75,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public bool IsPlaySeWhenCapture
         {
-            get { return _IsPlaySeWhenCapture; }
+            get { return this._IsPlaySeWhenCapture; }
             set
             {
-                if (_IsPlaySeWhenCapture != value)
+                if (this._IsPlaySeWhenCapture != value)
                 {
-                    _IsPlaySeWhenCapture = value;
+                    this._IsPlaySeWhenCapture = value;
                     RaisePropertyChanged();
                 }
             }
@@ -97,12 +97,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public bool IsWebPageCaptureStartWhenPageFirstMove
         {
-            get { return _IsWebPageCaptureStartWhenPageFirstMove; }
+            get { return this._IsWebPageCaptureStartWhenPageFirstMove; }
             set
             {
-                if (_IsWebPageCaptureStartWhenPageFirstMove != value)
+                if (this._IsWebPageCaptureStartWhenPageFirstMove != value)
                 {
-                    _IsWebPageCaptureStartWhenPageFirstMove = value;
+                    this._IsWebPageCaptureStartWhenPageFirstMove = value;
                     RaisePropertyChanged();
                 }
             }
@@ -121,12 +121,12 @@ namespace WinCap.ViewModels.Settings
         [Range(0, 1000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public string ScrollDelayTime
         {
-            get { return _ScrollDelayTime; }
+            get { return this._ScrollDelayTime; }
             set
             {
-                if (_ScrollDelayTime != value)
+                if (this._ScrollDelayTime != value)
                 {
-                    _ScrollDelayTime = value;
+                    this._ScrollDelayTime = value;
                     RaisePropertyChanged();
                 }
             }
@@ -145,12 +145,12 @@ namespace WinCap.ViewModels.Settings
         [Range(0, 10000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public string CaptureDelayTime
         {
-            get { return _CaptureDelayTime; }
+            get { return this._CaptureDelayTime; }
             set
             {
-                if (_CaptureDelayTime != value)
+                if (this._CaptureDelayTime != value)
                 {
-                    _CaptureDelayTime = value;
+                    this._CaptureDelayTime = value;
                     RaisePropertyChanged();
                 }
             }

@@ -34,12 +34,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public int[] FullScreen
         {
-            get { return _FullScreen; }
+            get { return this._FullScreen; }
             set
             {
-                if (_FullScreen != value)
+                if (this._FullScreen != value)
                 {
-                    _FullScreen = value;
+                    this._FullScreen = value;
                     RaisePropertyChanged();
                 }
             }
@@ -56,12 +56,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public int[] ActiveControl
         {
-            get { return _ActiveControl; }
+            get { return this._ActiveControl; }
             set
             {
-                if (_ActiveControl != value)
+                if (this._ActiveControl != value)
                 {
-                    _ActiveControl = value;
+                    this._ActiveControl = value;
                     RaisePropertyChanged();
                 }
             }
@@ -78,12 +78,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public int[] SelectionControl
         {
-            get { return _SelectionControl; }
+            get { return this._SelectionControl; }
             set
             {
-                if (_SelectionControl != value)
+                if (this._SelectionControl != value)
                 {
-                    _SelectionControl = value;
+                    this._SelectionControl = value;
                     RaisePropertyChanged();
                 }
             }
@@ -100,12 +100,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public int[] WebPage
         {
-            get { return _WebPage; }
+            get { return this._WebPage; }
             set
             {
-                if (_WebPage != value)
+                if (this._WebPage != value)
                 {
-                    _WebPage = value;
+                    this._WebPage = value;
                     RaisePropertyChanged();
                 }
             }

@@ -25,12 +25,12 @@ namespace WinCap.Models
         /// </summary>
         public IntPtr SelectedHandle
         {
-            get { return _SelectedHandle; }
+            get { return this._SelectedHandle; }
             set
             { 
-                if (_SelectedHandle != value)
+                if (this._SelectedHandle != value)
                 {
-                    _SelectedHandle = value;
+                    this._SelectedHandle = value;
                     RaisePropertyChanged();
                 }
             }

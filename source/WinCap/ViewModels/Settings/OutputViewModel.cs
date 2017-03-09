@@ -33,12 +33,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public OutputMethodType OutputMethodType
         {
-            get { return _OutputMethodType; }
+            get { return this._OutputMethodType; }
             set
             {
-                if (_OutputMethodType != value)
+                if (this._OutputMethodType != value)
                 {
-                    _OutputMethodType = value;
+                    this._OutputMethodType = value;
                     RaisePropertyChanged();
                 }
             }
@@ -55,12 +55,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public string OutputFolder
         {
-            get { return _OutputFolder; }
+            get { return this._OutputFolder; }
             set
             {
-                if (_OutputFolder != value)
+                if (this._OutputFolder != value)
                 {
-                    _OutputFolder = value;
+                    this._OutputFolder = value;
                     RaisePropertyChanged();
                 }
             }
@@ -77,12 +77,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public bool IsAutoSaveImage
         {
-            get { return _IsAutoSaveImage; }
+            get { return this._IsAutoSaveImage; }
             set
             {
-                if (_IsAutoSaveImage != value)
+                if (this._IsAutoSaveImage != value)
                 {
-                    _IsAutoSaveImage = value;
+                    this._IsAutoSaveImage = value;
                     RaisePropertyChanged();
                 }
             }
@@ -99,12 +99,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public string OutputFileNamePattern
         {
-            get { return _OutputFileNamePattern; }
+            get { return this._OutputFileNamePattern; }
             set
             {
-                if (_OutputFileNamePattern != value)
+                if (this._OutputFileNamePattern != value)
                 {
-                    _OutputFileNamePattern = value;
+                    this._OutputFileNamePattern = value;
                     RaisePropertyChanged();
                 }
             }
@@ -121,12 +121,12 @@ namespace WinCap.ViewModels.Settings
         /// </summary>
         public OutputFormatType OutputFormatType
         {
-            get { return _OutputFormatType; }
+            get { return this._OutputFormatType; }
             set
             {
-                if (_OutputFormatType != value)
+                if (this._OutputFormatType != value)
                 {
-                    _OutputFormatType = value;
+                    this._OutputFormatType = value;
                     RaisePropertyChanged();
                 }
             }

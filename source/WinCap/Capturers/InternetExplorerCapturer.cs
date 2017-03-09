@@ -124,7 +124,7 @@ namespace WinCap.Capturers
             ).ToPhysicalPixel(dpi);
 
             // ウィンドウをキャプチャする
-            using (Bitmap bitmap = capturer.CaptureControl(hWnd))
+            using (Bitmap bitmap = this.capturer.CaptureControl(hWnd))
             {
                 // キャプチャした画像を書き込む
                 g.DrawImage(bitmap, destRect, srcRect, GraphicsUnit.Pixel);

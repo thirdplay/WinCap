@@ -155,14 +155,16 @@ namespace WinCap
         /// <param name="isShutdown">シャットダウンするかどうか</param>
         public static void ReportException(object sender, Exception exception, bool isShutdown = true)
         {
-#region const
+            #region const
+
             const string messageFormat = @"
 ===========================================================
 ERROR, date = {0}, sender = {1},
 {2}
 ";
             const string path = "error.log";
-#endregion
+
+            #endregion const
 
             try
             {
@@ -184,6 +186,7 @@ ERROR, date = {0}, sender = {1},
         }
 
         #region IDisposableHolder members
+
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
@@ -193,6 +196,7 @@ ERROR, date = {0}, sender = {1},
         {
             this.compositeDisposable.Dispose();
         }
-        #endregion
+
+        #endregion IDisposableHolder members
     }
 }

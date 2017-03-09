@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MetroRadiance.Utilities;
+using System;
 using System.Drawing;
-using WinCap.Interop;
 using WinCap.Interop.Win32;
 using WinCap.Models;
 
@@ -27,16 +27,18 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public Bitmap CaptureBounds(Rectangle bounds)
         {
-            Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height);
-            IntPtr screenDC = User32.GetDC(IntPtr.Zero);
+            var bitmap = new Bitmap(bounds.Width, bounds.Height);
+            var screenDC = User32.GetDC(IntPtr.Zero);
+            using (Disposable.Create(() => User32.ReleaseDC(IntPtr.Zero, screenDC)))
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                IntPtr hDC = g.GetHdc();
-                Gdi32.BitBlt(hDC, 0, 0, bitmap.Width, bitmap.Height,
-                    screenDC, bounds.X, bounds.Y, TernaryRasterOperations.SRCCOPY);
-                g.ReleaseHdc(hDC);
+                var hDC = g.GetHdc();
+                using (Disposable.Create(() => g.ReleaseHdc(hDC)))
+                {
+                    Gdi32.BitBlt(hDC, 0, 0, bitmap.Width, bitmap.Height,
+                        screenDC, bounds.X, bounds.Y, TernaryRasterOperations.SRCCOPY);
+                }
             }
-            User32.ReleaseDC(IntPtr.Zero, screenDC);
 
             return bitmap;
         }

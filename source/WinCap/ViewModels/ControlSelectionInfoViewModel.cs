@@ -37,12 +37,12 @@ namespace WinCap.ViewModels
         /// </summary>
         public double Left
         {
-            get { return _Left; }
+            get { return this._Left; }
             set
             {
-                if (_Left != value)
+                if (this._Left != value)
                 {
-                    _Left = value;
+                    this._Left = value;
                     RaisePropertyChanged();
                 }
             }
@@ -59,12 +59,12 @@ namespace WinCap.ViewModels
         /// </summary>
         public double Top
         {
-            get { return _Top; }
+            get { return this._Top; }
             set
             {
-                if (_Top != value)
+                if (this._Top != value)
                 {
-                    _Top = value;
+                    this._Top = value;
                     RaisePropertyChanged();
                 }
             }
@@ -81,12 +81,12 @@ namespace WinCap.ViewModels
         /// </summary>
         public string ClassName
         {
-            get { return _ClassName; }
+            get { return this._ClassName; }
             set
             {
-                if (_ClassName != value)
+                if (this._ClassName != value)
                 {
-                    _ClassName = value;
+                    this._ClassName = value;
                     RaisePropertyChanged();
                 }
             }
@@ -103,12 +103,12 @@ namespace WinCap.ViewModels
         /// </summary>
         public System.Drawing.Point Point
         {
-            get { return _Point; }
+            get { return this._Point; }
             set
             {
-                if (_Point != value)
+                if (this._Point != value)
                 {
-                    _Point = value;
+                    this._Point = value;
                     RaisePropertyChanged();
                 }
             }
@@ -125,12 +125,12 @@ namespace WinCap.ViewModels
         /// </summary>
         public System.Drawing.Size Size
         {
-            get { return _Size; }
+            get { return this._Size; }
             set
             {
-                if (_Size != value)
+                if (this._Size != value)
                 {
-                    _Size = value;
+                    this._Size = value;
                     RaisePropertyChanged();
                 }
             }
@@ -182,8 +182,8 @@ namespace WinCap.ViewModels
             var screen = ScreenHelper.GetCurrentScreen(point);
 
             // スクリーンの左端座標に設定する
-            this.Left = screen.Bounds.Left + Margin.X;
-            this.Top = screen.Bounds.Top + Margin.Y;
+            this.Left = screen.Bounds.Left + this.Margin.X;
+            this.Top = screen.Bounds.Top + this.Margin.Y;
         }
     }
 }

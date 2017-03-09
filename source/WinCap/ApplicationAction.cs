@@ -1,5 +1,4 @@
-﻿using System;
-using WinCap.Models;
+﻿using WinCap.Models;
 using WinCap.Serialization;
 using WinCap.ViewModels;
 using WinCap.Views;
