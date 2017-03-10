@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinCap.Models
+namespace WinCap.ShortcutKeys
 {
     /// <summary>
     /// ショートカットキーの登録情報を表します。

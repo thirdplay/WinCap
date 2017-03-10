@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace WinCap.Models
+namespace WinCap.ShortcutKeys
 {
     /// <summary>
     /// キーの補助機能を提供します。

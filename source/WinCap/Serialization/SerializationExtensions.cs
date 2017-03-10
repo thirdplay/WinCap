@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
-using WinCap.Models;
+using WinCap.ShortcutKeys;
 
 namespace WinCap.Serialization
 {

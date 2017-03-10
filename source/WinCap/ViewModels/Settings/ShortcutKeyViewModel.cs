@@ -4,6 +4,7 @@ using System.Linq;
 using WinCap.Models;
 using WinCap.Properties;
 using WinCap.Serialization;
+using WinCap.ShortcutKeys;
 
 namespace WinCap.ViewModels.Settings
 {

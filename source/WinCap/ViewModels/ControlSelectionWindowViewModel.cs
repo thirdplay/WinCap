@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using WinCap.Capturers;
 using WinCap.Interop;
 using WinCap.Models;
 using WinCap.ViewModels.Messages;

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Open.WinKeyboardHook;
 using ModifierKeys = System.Windows.Input.ModifierKeys;
 
-namespace WinCap.Models
+namespace WinCap.ShortcutKeys
 {
     /// <summary>
     /// ショートカットキーを検出する機能を提供します。

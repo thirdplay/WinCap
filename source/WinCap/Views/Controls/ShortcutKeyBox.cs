@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WinCap.Models;
 using WinCap.Serialization;
+using WinCap.ShortcutKeys;
 
 namespace WinCap.Views.Controls
 {

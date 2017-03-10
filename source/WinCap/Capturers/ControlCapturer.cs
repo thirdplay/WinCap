@@ -2,7 +2,6 @@
 using System.Drawing;
 using WinCap.Interop;
 using WinCap.Interop.Win32;
-using WinCap.Models;
 
 namespace WinCap.Capturers
 {
@@ -11,11 +10,6 @@ namespace WinCap.Capturers
     /// </summary>
     public class ControlCapturer
     {
-        /// <summary>
-        /// 画面キャプチャ
-        /// </summary>
-        private readonly ScreenCapturer capturer = new ScreenCapturer();
-
         /// <summary>
         /// アクティブなコントロールをキャプチャします。
         /// </summary>
@@ -32,7 +26,7 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public Bitmap CaptureControl(IntPtr handle)
         {
-            return this.capturer.CaptureBounds(InteropExtensions.GetWindowBounds(handle, false));
+            return ScreenHelper.CaptureScreen(InteropExtensions.GetWindowBounds(handle, false));
         }
     }
 }

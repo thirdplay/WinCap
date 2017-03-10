@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using WinCap.Interop.Win32;
 
-namespace WinCap.Models
+namespace WinCap.ShortcutKeys
 {
     /// <summary>
     /// ショートカットキーを表します。([modifer key(s)] + [key] style)

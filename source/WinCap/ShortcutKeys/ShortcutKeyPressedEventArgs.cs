@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace WinCap.Models
+namespace WinCap.ShortcutKeys
 {
     /// <summary>
     /// ショートカットキー押下イベントの引数クラスです。

@@ -229,6 +229,7 @@ namespace WinCap.Services
         }
 
         #region IDisposableHoloder members
+
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
@@ -238,6 +239,7 @@ namespace WinCap.Services
         {
             this.compositeDisposable.Dispose();
         }
+
         #endregion
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Livet;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
+using WinCap.Capturers;
 using WinCap.Interop;
-using WinCap.Models;
 using WinCap.ViewModels.Messages;
 
 namespace WinCap.ViewModels
@@ -179,7 +181,9 @@ namespace WinCap.ViewModels
         public void UpdateMousePoint(System.Drawing.Point point)
         {
             // スクリーン取得
-            var screen = ScreenHelper.GetCurrentScreen(point);
+            var screen = Screen.AllScreens
+                .Where(x => x.Bounds.Contains(point))
+                .FirstOrDefault();
 
             // スクリーンの左端座標に設定する
             this.Left = screen.Bounds.Left + this.Margin.X;
