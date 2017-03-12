@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using WinCap.Models;
 using WinCap.Serialization;
+using ProductInfo = WinCap.Properties.ProductInfo;
 
 namespace WinCap.Capturers
 {
@@ -12,10 +13,10 @@ namespace WinCap.Capturers
     /// キャプチャする機能を提供する基底クラス。
     /// </summary>
     /// <typeparam name="TTarget">キャプチャ対象の型</typeparam>
-    public abstract class CaptureBase<TTarget>
+    public abstract class CapturerBase<TTarget>
     {
         /// <summary>
-        /// 画面などをキャプチャします。
+        /// 画面をキャプチャします。
         /// </summary>
         public void Capture()
         {
@@ -23,6 +24,7 @@ namespace WinCap.Capturers
             {
                 // キャプチャ対象取得
                 var target = GetTargetCore();
+                if (target == null) return;
 
                 // キャプチャ遅延時間
                 if (Settings.General.CaptureDelayTime > 0)
@@ -52,16 +54,16 @@ namespace WinCap.Capturers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, ProductInfo.Title);
                 Application.ReportException(this, ex, false);
             }
         }
 
         /// <summary>
-        /// キャプチャコア処理。
+        /// キャプチャのコア処理。
         /// </summary>
         /// <param name="target">キャプチャ対象</param>
-        /// <returns></returns>
+        /// <returns>キャプチャ画像</returns>
         protected abstract Bitmap CaptureCore(TTarget target);
 
         /// <summary>

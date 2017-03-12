@@ -2,31 +2,41 @@
 using System.Drawing;
 using WinCap.Interop;
 using WinCap.Interop.Win32;
+using WinCap.ViewModels;
+using WinCap.Views;
 
 namespace WinCap.Capturers
 {
     /// <summary>
     /// コントロールをキャプチャーする機能を提供します。
     /// </summary>
-    public class ControlCapturer
+    public class ControlCapturer : CapturerBase<IntPtr?>
     {
         /// <summary>
-        /// アクティブなコントロールをキャプチャします。
+        /// キャプチャのコア処理。
         /// </summary>
-        /// <returns>ビットマップ</returns>
-        public Bitmap CaptureActiveControl()
+        /// <param name="target">キャプチャ対象</param>
+        /// <returns>キャプチャ画像</returns>
+        protected override Bitmap CaptureCore(IntPtr? target)
         {
-            return CaptureControl(User32.GetForegroundWindow());
+            return ScreenHelper.CaptureScreen(target.Value);
         }
 
         /// <summary>
-        /// 指定ハンドルのコントロールをキャプチャします。
+        /// キャプチャ対象を取得します。
         /// </summary>
-        /// <param name="handle">ウィンドウハンドル</param>
-        /// <returns>ビットマップ</returns>
-        public Bitmap CaptureControl(IntPtr handle)
+        /// <returns>キャプチャ対象</returns>
+        protected override IntPtr? GetTargetCore()
         {
-            return ScreenHelper.CaptureScreen(InteropExtensions.GetWindowBounds(handle, false));
+            var viewModel = new ControlSelectionWindowViewModel();
+            var window = new ControlSelectionWindow { DataContext = viewModel };
+            viewModel.Initialized = () => window.Activate();
+            window.ShowDialog();
+            window.Close();
+
+            return (viewModel.SelectedHandle != IntPtr.Zero
+                ? viewModel.SelectedHandle as IntPtr?
+                : null);
         }
     }
 }

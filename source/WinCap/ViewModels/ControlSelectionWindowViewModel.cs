@@ -58,11 +58,6 @@ namespace WinCap.ViewModels
         public Action Initialized;
 
         /// <summary>
-        /// コントロール選択時に呼び出すアクション。
-        /// </summary>
-        public Action Selected;
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         public ControlSelectionWindowViewModel()
@@ -72,7 +67,7 @@ namespace WinCap.ViewModels
             this.controlSelection.Subscribe(nameof(this.controlSelection.SelectedHandle), () =>
             {
                 var handle = this.controlSelection.SelectedHandle;
-                var bounds = InteropExtensions.GetWindowBounds(handle);
+                var bounds = InteropHelper.GetWindowBounds(handle);
 
                 // コントロール情報の更新
                 this.ControlSelectInfo.SetInfo(handle, bounds);
@@ -188,10 +183,6 @@ namespace WinCap.ViewModels
             this.SelectedHandle = handle;
             this.SetVisibility(Visibility.Hidden);
             DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
-            if (handle != IntPtr.Zero)
-            {
-                this.Selected?.Invoke();
-            }
             this.enabled = false;
         }
     }

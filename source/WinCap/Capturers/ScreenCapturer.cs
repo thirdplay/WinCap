@@ -5,15 +5,25 @@ namespace WinCap.Capturers
     /// <summary>
     /// 画面をキャプチャする機能を提供します。
     /// </summary>
-    public class ScreenCapturer
+    public class ScreenCapturer : CapturerBase<Rectangle?>
     {
         /// <summary>
-        /// 画面全体をキャプチャする。
+        /// キャプチャのコア処理。
         /// </summary>
-        /// <returns>ビットマップ</returns>
-        public Bitmap CaptureFullScreen()
+        /// <param name="target">キャプチャ対象</param>
+        /// <returns>キャプチャ画像</returns>
+        protected override Bitmap CaptureCore(Rectangle? target)
         {
-            return ScreenHelper.CaptureScreen(ScreenHelper.GetFullScreenBounds());
+            return ScreenHelper.CaptureScreen(target.Value);
+        }
+
+        /// <summary>
+        /// キャプチャ対象を取得します。
+        /// </summary>
+        /// <returns>キャプチャ対象</returns>
+        protected override Rectangle? GetTargetCore()
+        {
+            return ScreenHelper.GetFullScreenBounds();
         }
     }
 }

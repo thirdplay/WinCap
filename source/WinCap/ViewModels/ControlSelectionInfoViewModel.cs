@@ -169,7 +169,7 @@ namespace WinCap.ViewModels
         /// <param name="bounds">コントロールの範囲</param>
         public void SetInfo(IntPtr handle, Rectangle bounds)
         {
-            this.ClassName = InteropExtensions.GetClassName(handle);
+            this.ClassName = InteropHelper.GetClassName(handle);
             this.Point = bounds.Location;
             this.Size = bounds.Size;
         }

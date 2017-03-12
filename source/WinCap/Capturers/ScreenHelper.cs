@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows.Forms;
+using WinCap.Interop;
 using WinCap.Interop.Win32;
 
 namespace WinCap.Capturers
@@ -55,6 +56,16 @@ namespace WinCap.Capturers
             }
 
             return bitmap;
+        }
+
+        /// <summary>
+        /// 指定ウィンドウハンドルの範囲をキャプチャします。
+        /// </summary>
+        /// <param name="handle">ウィンドウハンドル</param>
+        /// <returns>ビットマップ</returns>
+        public static Bitmap CaptureScreen(IntPtr handle)
+        {
+            return CaptureScreen(InteropHelper.GetWindowBounds(handle));
         }
     }
 }

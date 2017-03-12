@@ -7,9 +7,9 @@ using Rectangle = System.Drawing.Rectangle;
 namespace WinCap.Interop
 {
     /// <summary>
-    /// 相互運用の拡張機能を提供します。
+    /// 相互運用の補助機能を提供します。
     /// </summary>
-    public static class InteropExtensions
+    public static class InteropHelper
     {
         /// <summary>
         /// ウィンドウクラス名を取得します。

@@ -12,9 +12,9 @@ using Resources = WinCap.Properties.Resources;
 namespace WinCap.Models
 {
     /// <summary>
-    /// Bitmapの拡張機能を提供します。
+    /// Bitmapの補助機能を提供します。
     /// </summary>
-    public static class BitmapExtensions
+    public static class BitmapHelper
     {
         /// <summary>
         /// BitmapをBitmapSourceに変換します。
