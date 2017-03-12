@@ -76,15 +76,6 @@ namespace WinCap
                 LocalSettingsProvider.Instance.Load();
                 this.compositeDisposable.Add(LocalSettingsProvider.Instance.Save);
 
-                this.HookService = new HookService().AddTo(this);
-                this.CapturerService = new CapturerService(this.HookService).AddTo(this);
-                this.ApplicationAction = new ApplicationAction(this);
-
-                // アプリケーション準備
-                this.ShowTaskTrayIcon();
-                this.ApplicationAction.CreateShortcut();
-                this.ApplicationAction.RegisterActions();
-
                 // メインウィンドウ表示
                 this.MainWindow = new MainWindow();
                 if (e.Args.Length > 0 && e.Args[0] == "-UITest")
@@ -94,6 +85,18 @@ namespace WinCap
                     this.MainWindow.WindowState = WindowState.Normal;
                 }
                 this.MainWindow.Show();
+
+                this.HookService = new HookService(this.MainWindow).AddTo(this);
+                this.CapturerService = new CapturerService(this.HookService).AddTo(this);
+                this.ApplicationAction = new ApplicationAction(this).AddTo(this);
+
+                // アプリケーション準備
+                this.ShowTaskTrayIcon();
+                this.ApplicationAction.CreateShortcut();
+                if (!this.ApplicationAction.RegisterActions())
+                {
+                    this.ApplicationAction.ShowSettings();
+                }
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);
