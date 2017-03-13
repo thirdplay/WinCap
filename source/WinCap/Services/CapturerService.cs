@@ -21,6 +21,11 @@ namespace WinCap.Services
         /// </summary>
         private readonly HookService hookService;
 
+        /// <summary>
+        /// ウィンドウサービス
+        /// </summary>
+        private readonly WindowService windowService;
+
         #region Captures
 
         /// <summary>
@@ -48,13 +53,14 @@ namespace WinCap.Services
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CapturerService(HookService hookService)
+        public CapturerService(HookService hookService, WindowService windowService)
         {
+            this.hookService = hookService;
+            this.windowService = windowService;
             this.screenCapturer = new ScreenCapturer();
             this.activeControlCapturer = new ActiveControlCapturer();
-            this.controlCapturer = new ControlCapturer();
-            this.webBrowserCapturer = new WebBrowserCapturer();
-            this.hookService = hookService;
+            this.controlCapturer = new ControlCapturer(windowService);
+            this.webBrowserCapturer = new WebBrowserCapturer(windowService);
         }
 
         /// <summary>

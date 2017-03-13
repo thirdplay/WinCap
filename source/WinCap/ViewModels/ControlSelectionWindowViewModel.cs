@@ -1,4 +1,5 @@
 ﻿using Livet;
+using Livet.Messaging.Windows;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -15,13 +16,8 @@ namespace WinCap.ViewModels
     /// <summary>
     /// コントロール選択ウィンドウViewModel
     /// </summary>
-    public class ControlSelectionWindowViewModel : ViewModel
+    public class ControlSelectionWindowViewModel : WindowViewModel
     {
-        /// <summary>
-        /// 有効かどうかを示す値。
-        /// </summary>
-        private bool enabled;
-
         /// <summary>
         /// ウィンドウの左端座標。
         /// </summary>
@@ -53,11 +49,6 @@ namespace WinCap.ViewModels
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
 
         /// <summary>
-        /// 初期化時に呼び出すアクション。
-        /// </summary>
-        public Action Initialized;
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         public ControlSelectionWindowViewModel()
@@ -85,10 +76,9 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-		/// <see cref="Window.ContentRendered"/>イベントが発生したときに
-        /// Livet インフラストラクチャによって呼び出されます。
+		/// 初期化処理。
         /// </summary>
-        public void Initialize()
+        protected override void InitializeCore()
         {
             // ウィンドウに画面全体の範囲を設定する
             Rectangle screenRect = ScreenHelper.GetFullScreenBounds();
@@ -103,9 +93,9 @@ namespace WinCap.ViewModels
             this.location = screenRect.Location;
 
             // 初期化
-            this.Initialized?.Invoke();
+            this.SendWindowAction(WindowAction.Active);
+            //this.Initialized?.Invoke();
             this.controlSelection.Initialize();
-            this.enabled = true;
 
             if (this.initPoint != null)
             {
@@ -120,7 +110,7 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void OnMouseMove(MouseEventArgs e)
         {
-            if (!this.enabled)
+            if (!this.IsInitialized)
             {
                 this.initPoint = e.GetPosition(null);
                 return;
@@ -162,6 +152,17 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
+        /// ウィンドウを非表示にしてコントロールを選択します。
+        /// </summary>
+        /// <param name="handle">選択したハンドル</param>
+        private void SelectedControl(IntPtr handle)
+        {
+            this.SelectedHandle = handle;
+            this.SetVisibility(Visibility.Hidden);
+            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
+        }
+
+        /// <summary>
         /// ウィンドウの表示状態を設定します。
         /// </summary>
         /// <param name="value">表示状態</param>
@@ -172,18 +173,6 @@ namespace WinCap.ViewModels
                 MessageKey = "Window.Visibility",
                 Visibility = visibility
             });
-        }
-
-        /// <summary>
-        /// ウィンドウを非表示にしてコントロールを選択します。
-        /// </summary>
-        /// <param name="handle">選択したハンドル</param>
-        private void SelectedControl(IntPtr handle)
-        {
-            this.SelectedHandle = handle;
-            this.SetVisibility(Visibility.Hidden);
-            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
-            this.enabled = false;
         }
     }
 }

@@ -4,12 +4,9 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
         xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
         xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
         xmlns:views="clr-namespace:WinCap.Views"
-        xmlns:prop="clr-namespace:WinCap.Properties"
-        xmlns:vm="clr-namespace:WinCap.ViewModels"
         mc:Ignorable="d"
         Title="SelectControlWindow"
         Background="#01000000"
@@ -23,6 +20,10 @@
 										 MethodName="Initialize" />
             <livet:LivetCallMethodAction MethodTarget="{Binding ControlSelectInfo}"
 										 MethodName="Initialize" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseMove">

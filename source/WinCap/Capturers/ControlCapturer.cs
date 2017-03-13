@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using WinCap.Interop;
-using WinCap.Interop.Win32;
-using WinCap.ViewModels;
-using WinCap.Views;
+using WinCap.Services;
 
 namespace WinCap.Capturers
 {
@@ -12,6 +9,20 @@ namespace WinCap.Capturers
     /// </summary>
     public class ControlCapturer : CapturerBase<IntPtr?>
     {
+        /// <summary>
+        /// ウィンドウサービス
+        /// </summary>
+        private readonly WindowService windowService;
+
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        /// <param name="windowService">ウィンドウサービス</param>
+        public ControlCapturer(WindowService windowService)
+        {
+            this.windowService = windowService;
+        }
+
         /// <summary>
         /// キャプチャのコア処理。
         /// </summary>
@@ -28,14 +39,9 @@ namespace WinCap.Capturers
         /// <returns>キャプチャ対象</returns>
         protected override IntPtr? GetTargetCore()
         {
-            var viewModel = new ControlSelectionWindowViewModel();
-            var window = new ControlSelectionWindow { DataContext = viewModel };
-            viewModel.Initialized = () => window.Activate();
-            window.ShowDialog();
-            window.Close();
-
-            return (viewModel.SelectedHandle != IntPtr.Zero
-                ? viewModel.SelectedHandle as IntPtr?
+            var handle = this.windowService.ShowControlSelectionWindow();
+            return (handle != IntPtr.Zero
+                ? handle as IntPtr?
                 : null);
         }
     }
