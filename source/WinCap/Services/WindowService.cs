@@ -1,10 +1,12 @@
 ﻿using Livet;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Windows;
 using WinCap.ViewModels;
 using WinCap.Views;
 using WpfUtility.Lifetime;
+using WpfUtility.Mvvm;
 
 namespace WinCap.Services
 {
@@ -40,12 +42,6 @@ namespace WinCap.Services
         {
             var window = GetWindow<ControlSelectionWindow, ControlSelectionWindowViewModel>();
             var viewModel = window.DataContext as ControlSelectionWindowViewModel;
-
-            if (viewModel.IsInitialized)
-            {
-                Console.WriteLine("IsInitialized");
-                viewModel.Initialize();
-            }
             window.ShowDialog();
 
             return viewModel.SelectedHandle;
@@ -59,16 +55,27 @@ namespace WinCap.Services
         /// <returns>ウィンドウのインスタンス</returns>
         private TWindow GetWindow<TWindow, TViewModel>()
             where TWindow : Window, new()
-            where TViewModel : ViewModel, new()
+            where TViewModel : WindowViewModel, new()
         {
             var windowName = typeof(TWindow).Name;
             if (!this.container.ContainsKey(windowName))
             {
+                var viewModel = new TViewModel();
                 var window = new TWindow()
                 {
-                    DataContext = new TViewModel()
+                    DataContext = viewModel
                 };
-                window.Closed += (sender, e) => this.container.Remove(windowName);
+
+                Observable.FromEventPattern(window, nameof(window.Closed))
+                    .Subscribe(x => this.container.Remove(windowName))
+                    .AddTo(this);
+
+                Observable.FromEventPattern(window, nameof(window.Activated))
+                    .Select(x => (x.Sender as TWindow).DataContext as TViewModel)
+                    .Where(x => x.IsInitialized)
+                    .Subscribe(_ => viewModel.Initialize())
+                    .AddTo(this);
+
                 this.container.Add(windowName, window);
             }
 

@@ -49,7 +49,6 @@ namespace WinCap.Views.Controls
             if (this.CloseOnMouseLeftButtonDown)
             {
                 this.IsOpen = false;
-                Console.WriteLine("");
             }
         }
 

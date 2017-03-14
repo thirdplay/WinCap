@@ -18,8 +18,6 @@
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
 										 MethodName="Initialize" />
-            <livet:LivetCallMethodAction MethodTarget="{Binding ControlSelectInfo}"
-										 MethodName="Initialize" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="Closed">

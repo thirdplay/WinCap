@@ -31,7 +31,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 初期座標。
         /// </summary>
-        private Point? initPoint;
+        //private Point? initPoint;
 
         /// <summary>
         /// DPI倍率を取得または設定します。
@@ -81,7 +81,7 @@ namespace WinCap.ViewModels
         protected override void InitializeCore()
         {
             // ウィンドウに画面全体の範囲を設定する
-            Rectangle screenRect = ScreenHelper.GetFullScreenBounds();
+            var screenRect = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
@@ -94,39 +94,36 @@ namespace WinCap.ViewModels
 
             // 初期化
             this.SendWindowAction(WindowAction.Active);
-            //this.Initialized?.Invoke();
             this.controlSelection.Initialize();
+            this.ControlSelectInfo.Initialize();
 
-            if (this.initPoint != null)
-            {
-                OnMouseMove(this.initPoint.Value);
-                this.initPoint = null;
-            }
+            // マウス移動処理の呼び出し
+            this.MouseMoveCore(System.Windows.Forms.Cursor.Position);
         }
 
         /// <summary>
-        /// マウス移動時に呼ばれます。
+        /// マウス移動処理。
         /// </summary>
         /// <param name="e">イベント引数</param>
         public void OnMouseMove(MouseEventArgs e)
         {
-            if (!this.IsInitialized)
-            {
-                this.initPoint = e.GetPosition(null);
-                return;
-            }
-            OnMouseMove(e.GetPosition(null));
+            var p = e.GetPosition(null);
+            this.MouseMoveCore(new System.Drawing.Point((int)p.X, (int)p.Y));
         }
 
-        private void OnMouseMove(Point point)
+        /// <summary>
+        /// マウス移動のコア処理。
+        /// </summary>
+        /// <param name="point">マウス座標</param>
+        private void MouseMoveCore(System.Drawing.Point point)
         {
-            var screenPoint = new System.Drawing.Point((int)point.X + this.location.X, (int)point.Y + this.location.Y);
+            var screenPoint = new System.Drawing.Point(point.X + this.location.X, point.Y + this.location.Y);
             this.controlSelection.UpdateMousePoint(screenPoint);
             this.ControlSelectInfo.UpdateMousePoint(screenPoint);
         }
 
         /// <summary>
-        /// マウスアップ時に呼ばれます。
+        /// マウスアップ処理。
         /// </summary>
         /// <param name="e">イベント引数</param>
         public void OnMouseUp(MouseEventArgs e)
@@ -138,17 +135,17 @@ namespace WinCap.ViewModels
                 handle = IntPtr.Zero;
             }
 
-            SelectedControl(handle);
+            this.SelectedControl(handle);
         }
 
         /// <summary>
-        /// キーダウン時に呼ばれます。
+        /// キーダウン処理。
         /// </summary>
         /// <param name="e">イベント引数</param>
         public void OnKeyDown(KeyEventArgs e)
         {
             e.Handled = true;
-            SelectedControl(IntPtr.Zero);
+            this.SelectedControl(IntPtr.Zero);
         }
 
         /// <summary>

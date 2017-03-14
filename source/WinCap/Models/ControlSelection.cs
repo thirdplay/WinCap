@@ -18,6 +18,11 @@ namespace WinCap.Models
         /// </summary>
         private List<IntPtr> handles;
 
+        /// <summary>
+        /// Initializeメソッドが呼ばれたかどうかを示す値を取得します。
+        /// </summary>
+        public bool IsInitialized { get; private set; }
+
         #region SelectedHandle 変更通知プロパティ
         private IntPtr _SelectedHandle;
         /// <summary>
@@ -51,6 +56,7 @@ namespace WinCap.Models
         {
             this.handles = this.GetHandles();
             this._SelectedHandle = IntPtr.Zero;
+            this.IsInitialized = true;
         }
 
         /// <summary>
@@ -59,6 +65,8 @@ namespace WinCap.Models
         /// <param name="point">マウス座標</param>
         public void UpdateMousePoint(Point point)
         {
+            if (!this.IsInitialized) return;
+
             var selectedHandle = IntPtr.Zero;
             foreach (var handle in this.handles)
             {
@@ -70,25 +78,6 @@ namespace WinCap.Models
                 }
             }
             this.SelectedHandle = selectedHandle;
-        }
-
-        /// <summary>
-        /// 指定座標上に表示されているウィンドウのハンドルを取得します。
-        /// </summary>
-        /// <param name="point">座標</param>
-        /// <returns>ウィンドウハンドル</returns>
-        public IntPtr GetWindowHandle(Point point)
-        {
-            foreach (var handle in this.handles)
-            {
-                Rectangle bounds = InteropHelper.GetWindowBounds(handle);
-                if (bounds != Rectangle.Empty && bounds.Contains(point))
-                {
-                    return handle;
-                }
-            }
-
-            return IntPtr.Zero;
         }
 
         /// <summary>
