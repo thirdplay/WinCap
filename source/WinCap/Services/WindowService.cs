@@ -5,87 +5,95 @@ using System.Reactive.Linq;
 using System.Windows;
 using WinCap.ViewModels;
 using WinCap.Views;
+using WpfUtility.Lifetime;
+using WpfUtility.Mvvm;
 
 namespace WinCap.Services
 {
     /// <summary>
-    /// ウィンドウの作成機能を提供します。
+    /// ウィンドウを制御する機能を提供します。
     /// </summary>
-    public sealed class WindowService : IDisposable
+    public sealed class WindowService : IDisposableHolder
     {
         /// <summary>
-        /// ウィンドウコンテナ
+        /// 基本CompositeDisposable
         /// </summary>
-        private readonly Dictionary<string, Window> container = new Dictionary<string, Window>();
+        private readonly LivetCompositeDisposable compositeDisposable;
+
+        /// <summary>
+        /// ウィンドウを格納するコンテナ
+        /// </summary>
+        private readonly Dictionary<string, Window> container;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public WindowService()
         {
+            this.compositeDisposable = new LivetCompositeDisposable();
+            this.container = new Dictionary<string, Window>();
         }
 
-        ///// <summary>
-        ///// ウィンドウを取得します。
-        ///// </summary>
-        ///// <param name="create">ViewModel生成メソッド</param>
-        ///// <param name="action">Closed時の処理メソッド</param>
-        ///// <returns>ウィンドウ</returns>
-        //public SettingsWindow GetSettingsWindow(Func<SettingsWindowViewModel> create, Action<SettingsWindowViewModel> action)
-        //{
-        //    return GetWindow<SettingsWindow, SettingsWindowViewModel>(create, action);
-        //}
-
-        ///// <summary>
-        ///// ウィンドウが存在するかどうか確認します。
-        ///// </summary>
-        //public bool IsExists<T>() where T : Window, new()
-        //{
-        //    return this.container.ContainsKey(typeof(T).Name);
-        //}
-
-        ///// <summary>
-        ///// ウィンドウを取得します。
-        ///// </summary>
-        ///// <typeparam name="T">ウィンドウクラスを継承したクラス</typeparam>
-        ///// <typeparam name="U">ViewModelを継承したクラス</typeparam>
-        ///// <param name="action">Closed時の処理メソッド</param>
-        ///// <returns>ウィンドウ</returns>
-        //private T GetWindow<T, U>(Func<U> create, Action<U> action)
-        //    where T : Window, new()
-        //    where U : ViewModel, new()
-        //{
-        //    var key = typeof(T).Name;
-
-        //    if (!this.container.ContainsKey(key))
-        //    {
-        //        var viewModel = create();
-        //        var window = new T() { DataContext = viewModel };
-
-        //        Observable.FromEventPattern<EventArgs>(window, nameof(window.Closed))
-        //        .Subscribe(x =>
-        //        {
-        //            this.container.Remove(key);
-        //            DispatcherHelper.UIDispatcher.Invoke(() => action(viewModel));
-        //        });
-
-        //        this.container.Add(key, window);
-        //    }
-        //    return this.container[key] as T;
-        //}
-
-        #region IDisposable members
         /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄する。
+        /// コントロール選択ウィンドウを表示します。
+        /// </summary>
+        /// <returns>選択したウィンドウハンドル</returns>
+        public IntPtr? ShowControlSelectionWindow()
+        {
+            var window = GetWindow<ControlSelectionWindow, ControlSelectionWindowViewModel>();
+            var viewModel = window.DataContext as ControlSelectionWindowViewModel;
+            window.ShowDialog();
+
+            return viewModel.SelectedHandle;
+        }
+
+        /// <summary>
+        /// ウィンドウを取得します。
+        /// </summary>
+        /// <typeparam name="TWindow">ウィンドウの型</typeparam>
+        /// <typeparam name="TViewModel">ViewModelの型</typeparam>
+        /// <returns>ウィンドウのインスタンス</returns>
+        private TWindow GetWindow<TWindow, TViewModel>()
+            where TWindow : Window, new()
+            where TViewModel : WindowViewModel, new()
+        {
+            var windowName = typeof(TWindow).Name;
+            if (!this.container.ContainsKey(windowName))
+            {
+                var viewModel = new TViewModel();
+                var window = new TWindow()
+                {
+                    DataContext = viewModel
+                };
+
+                Observable.FromEventPattern(window, nameof(window.Closed))
+                    .Subscribe(x => this.container.Remove(windowName))
+                    .AddTo(this);
+
+                Observable.FromEventPattern(window, nameof(window.Activated))
+                    .Select(x => (x.Sender as TWindow).DataContext as TViewModel)
+                    .Where(x => x.IsInitialized)
+                    .Subscribe(_ => viewModel.Initialize())
+                    .AddTo(this);
+
+                this.container.Add(windowName, window);
+            }
+
+            return this.container[windowName] as TWindow;
+        }
+
+        #region IDisposableHoloder members
+
+        ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
+
+        /// <summary>
+        /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
         public void Dispose()
         {
-            foreach (Window window in this.container.Values)
-            {
-                window.Close();
-            }
-            this.container.Clear();
+            this.compositeDisposable.Dispose();
         }
+
         #endregion
     }
 }

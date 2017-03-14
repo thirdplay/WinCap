@@ -7,7 +7,6 @@
              xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 			 xmlns:prop="clr-namespace:WinCap.Properties"
-             xmlns:controls="clr-namespace:WinCap.Views.Controls"
              mc:Ignorable="d" 
              d:DesignWidth="600"
              d:DesignHeight="450">

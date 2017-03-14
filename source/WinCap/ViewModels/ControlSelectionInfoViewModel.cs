@@ -1,9 +1,11 @@
 ﻿using Livet;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
+using WinCap.Capturers;
 using WinCap.Interop;
-using WinCap.Models;
 using WinCap.ViewModels.Messages;
 
 namespace WinCap.ViewModels
@@ -29,99 +31,114 @@ namespace WinCap.ViewModels
         public System.Windows.Point Margin { get; } = new System.Windows.Point(12.0, 12.0);
 
         #region Left 変更通知プロパティ
+
         private double _Left;
+
         /// <summary>
         /// コントロール選択情報のX座標を取得または設定します。
         /// </summary>
         public double Left
         {
-            get { return _Left; }
+            get { return this._Left; }
             set
             {
-                if (_Left != value)
+                if (this._Left != value)
                 {
-                    _Left = value;
+                    this._Left = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion Left 変更通知プロパティ
 
         #region Top 変更通知プロパティ
+
         private double _Top;
+
         /// <summary>
         /// コントロール選択情報のY座標を取得または設定します。
         /// </summary>
         public double Top
         {
-            get { return _Top; }
+            get { return this._Top; }
             set
             {
-                if (_Top != value)
+                if (this._Top != value)
                 {
-                    _Top = value;
+                    this._Top = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion Top 変更通知プロパティ
 
         #region ClassName 変更通知プロパティ
+
         private string _ClassName;
+
         /// <summary>
         /// クラス名を取得または設定します。
         /// </summary>
         public string ClassName
         {
-            get { return _ClassName; }
+            get { return this._ClassName; }
             set
             {
-                if (_ClassName != value)
+                if (this._ClassName != value)
                 {
-                    _ClassName = value;
+                    this._ClassName = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion ClassName 変更通知プロパティ
 
         #region Point 変更通知プロパティ
+
         private System.Drawing.Point _Point;
+
         /// <summary>
         /// 位置を取得または設定します。
         /// </summary>
         public System.Drawing.Point Point
         {
-            get { return _Point; }
+            get { return this._Point; }
             set
-            { 
-                if (_Point != value)
+            {
+                if (this._Point != value)
                 {
-                    _Point = value;
+                    this._Point = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion Point 変更通知プロパティ
 
         #region Size 変更通知プロパティ
+
         private System.Drawing.Size _Size;
+
         /// <summary>
         /// サイズを取得または設定します。
         /// </summary>
         public System.Drawing.Size Size
         {
-            get { return _Size; }
+            get { return this._Size; }
             set
-            { 
-                if (_Size != value)
+            {
+                if (this._Size != value)
                 {
-                    _Size = value;
+                    this._Size = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion Size 変更通知プロパティ
 
         /// <summary>
         /// コンストラクタ。
@@ -152,7 +169,7 @@ namespace WinCap.ViewModels
         /// <param name="bounds">コントロールの範囲</param>
         public void SetInfo(IntPtr handle, Rectangle bounds)
         {
-            this.ClassName = InteropExtensions.GetClassName(handle);
+            this.ClassName = InteropHelper.GetClassName(handle);
             this.Point = bounds.Location;
             this.Size = bounds.Size;
         }
@@ -164,11 +181,13 @@ namespace WinCap.ViewModels
         public void UpdateMousePoint(System.Drawing.Point point)
         {
             // スクリーン取得
-            var screen = ScreenHelper.GetCurrentScreen(point);
+            var screen = Screen.AllScreens
+                .Where(x => x.Bounds.Contains(point))
+                .FirstOrDefault();
 
             // スクリーンの左端座標に設定する
-            this.Left = screen.Bounds.Left + Margin.X;
-            this.Top = screen.Bounds.Top + Margin.Y;
+            this.Left = screen.Bounds.Left + this.Margin.X;
+            this.Top = screen.Bounds.Top + this.Margin.Y;
         }
     }
 }

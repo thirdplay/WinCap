@@ -71,16 +71,16 @@
       <HintPath>..\packages\LivetExtensions.1.1.0.0\lib\net45\Livet.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MetroRadiance, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MetroRadiance.2.3.0\lib\net46\MetroRadiance.dll</HintPath>
+    <Reference Include="MetroRadiance, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroRadiance.2.4.0\lib\net46\MetroRadiance.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MetroRadiance.Chrome, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroRadiance.Chrome.2.2.0\lib\net46\MetroRadiance.Chrome.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MetroRadiance.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MetroRadiance.Core.2.2.0\lib\net46\MetroRadiance.Core.dll</HintPath>
+    <Reference Include="MetroRadiance.Core, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroRadiance.Core.2.4.0\lib\net46\MetroRadiance.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -146,8 +146,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfUtility, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfUtility.0.1.3\lib\net46\WpfUtility.dll</HintPath>
+    <Reference Include="WpfUtility, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfUtility.0.1.4\lib\net46\WpfUtility.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -157,10 +157,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationAction.cs" />
-    <Compile Include="Capturers\IWebBrowserCapturer.cs" />
-    <Compile Include="Capturers\InternetExplorerCapturer.cs" />
+    <Compile Include="Capturers\CapturerBase.cs" />
+    <Compile Include="Capturers\ActiveControlCapturer.cs" />
+    <Compile Include="Capturers\WebBrowserCapturer.cs" />
     <Compile Include="Interop\Dpi.cs" />
-    <Compile Include="Interop\InteropExtensions.cs" />
+    <Compile Include="Interop\InteropHelper.cs" />
     <Compile Include="Interop\MonitorDpiType.cs" />
     <Compile Include="Interop\Mshtml\IHTMLDocumentCompatibleInfo.cs" />
     <Compile Include="Interop\Mshtml\IHTMLDocumentCompatibleInfoCollection.cs" />
@@ -180,17 +181,18 @@
     <Compile Include="Interop\Win32\IServiceProvider.cs" />
     <Compile Include="Interop\Win32\SMTO.cs" />
     <Compile Include="Models\BaseShortcut.cs" />
-    <Compile Include="Models\BitmapExtensions.cs" />
+    <Compile Include="Models\BitmapHelper.cs" />
     <Compile Include="Models\ControlSelection.cs" />
     <Compile Include="Models\FileHelper.cs" />
     <Compile Include="Models\FileNamePattern.cs" />
     <Compile Include="Models\Helper.cs" />
     <Compile Include="Models\OutputFormatType.cs" />
-    <Compile Include="Models\OutputFormatTypeExtensions.cs" />
     <Compile Include="Models\OutputMethodType.cs" />
-    <Compile Include="Models\ScreenHelper.cs" />
-    <Compile Include="Models\ShortcutKey.cs" />
-    <Compile Include="Models\ShortcutKeyRegisterInfo.cs" />
+    <Compile Include="Capturers\ScreenHelper.cs" />
+    <Compile Include="Services\WindowService.cs" />
+    <Compile Include="ShortcutKeys\HotkeyDetector.cs" />
+    <Compile Include="ShortcutKeys\ShortcutKey.cs" />
+    <Compile Include="ShortcutKeys\ShortcutKeyRegisterInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -205,10 +207,9 @@
     <Compile Include="Serialization\Settings.cs" />
     <Compile Include="Serialization\SettingsHost.cs" />
     <Compile Include="Services\HookService.cs" />
-    <Compile Include="Models\ShortcutKeyDetector.cs" />
-    <Compile Include="Services\WindowService.cs" />
-    <Compile Include="Models\KeyHelper.cs" />
-    <Compile Include="Models\ShortcutKeyPressedEventArgs.cs" />
+    <Compile Include="ShortcutKeys\ShortcutKeyDetector.cs" />
+    <Compile Include="ShortcutKeys\KeyHelper.cs" />
+    <Compile Include="ShortcutKeys\ShortcutKeyPressedEventArgs.cs" />
     <Compile Include="Capturers\ScreenCapturer.cs" />
     <Compile Include="Models\DesktopShortcut.cs" />
     <Compile Include="Models\StartupShortcut.cs" />
@@ -228,9 +229,7 @@
     <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetWindowBoundsMessage.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
-    <Compile Include="ViewModels\ValidateableViewModel.cs" />
     <Compile Include="Views\Behaviors\CallMethodWithArgumentAction.cs" />
-    <Compile Include="Views\Behaviors\CloseWindowAction.cs" />
     <Compile Include="Views\Behaviors\SetMarginAction.cs" />
     <Compile Include="Views\Behaviors\SetDialogResultAction.cs" />
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />

@@ -56,12 +56,12 @@ namespace WinCap.Test
         /// </summary>
         public void NotifyTestCleanup()
         {
-            if (TestContext.DataRow == null ||
-                ReferenceEquals(TestContext.DataRow, TestContext.DataRow.Table.Rows[TestContext.DataRow.Table.Rows.Count - 1]))
+            if (this.TestContext.DataRow == null ||
+                ReferenceEquals(this.TestContext.DataRow, this.TestContext.DataRow.Table.Rows[this.TestContext.DataRow.Table.Rows.Count - 1]))
             {
-                tests.Remove(TestContext.TestName);
+                tests.Remove(this.TestContext.TestName);
             }
-            App.Release(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed && 0 < tests.Count);
+            App.Release(this.TestContext.CurrentTestOutcome == UnitTestOutcome.Passed && 0 < tests.Count);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace WinCap.Test
             Data data = new Data();
             foreach (var e in typeof(Data).GetProperties())
             {
-                e.GetSetMethod().Invoke(data, new object[] { Convert(e.PropertyType, TestContext.DataRow[e.Name]) });
+                e.GetSetMethod().Invoke(data, new object[] { Convert(e.PropertyType, this.TestContext.DataRow[e.Name]) });
             }
             return data;
         }

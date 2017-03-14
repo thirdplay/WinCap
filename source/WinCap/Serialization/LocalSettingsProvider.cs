@@ -66,7 +66,7 @@ namespace WinCap.Serialization
         }
 
         /// <summary>
-        /// 非同期保存のコア処理。
+        /// 保存の非同期コア処理。
         /// </summary>
         /// <param name="dic">メモリ上の設定内容</param>
         /// <returns>タスク</returns>
@@ -103,7 +103,7 @@ namespace WinCap.Serialization
         }
 
         /// <summary>
-        /// 非同期読み込みのコア処理。
+        /// 読み込みの非同期コア処理。
         /// </summary>
         /// <returns>タスク</returns>
         protected override Task<IDictionary<string, object>> LoadAsyncCore()

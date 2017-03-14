@@ -18,6 +18,11 @@ namespace WinCap.Models
         /// </summary>
         private List<IntPtr> handles;
 
+        /// <summary>
+        /// Initializeメソッドが呼ばれたかどうかを示す値を取得します。
+        /// </summary>
+        public bool IsInitialized { get; private set; }
+
         #region SelectedHandle 変更通知プロパティ
         private IntPtr _SelectedHandle;
         /// <summary>
@@ -25,12 +30,12 @@ namespace WinCap.Models
         /// </summary>
         public IntPtr SelectedHandle
         {
-            get { return _SelectedHandle; }
+            get { return this._SelectedHandle; }
             set
             { 
-                if (_SelectedHandle != value)
+                if (this._SelectedHandle != value)
                 {
-                    _SelectedHandle = value;
+                    this._SelectedHandle = value;
                     RaisePropertyChanged();
                 }
             }
@@ -51,6 +56,7 @@ namespace WinCap.Models
         {
             this.handles = this.GetHandles();
             this._SelectedHandle = IntPtr.Zero;
+            this.IsInitialized = true;
         }
 
         /// <summary>
@@ -59,10 +65,12 @@ namespace WinCap.Models
         /// <param name="point">マウス座標</param>
         public void UpdateMousePoint(Point point)
         {
+            if (!this.IsInitialized) return;
+
             var selectedHandle = IntPtr.Zero;
             foreach (var handle in this.handles)
             {
-                Rectangle bounds = InteropExtensions.GetWindowBounds(handle);
+                Rectangle bounds = InteropHelper.GetWindowBounds(handle);
                 if (bounds != Rectangle.Empty && bounds.Contains(point))
                 {
                     selectedHandle = handle;
@@ -70,25 +78,6 @@ namespace WinCap.Models
                 }
             }
             this.SelectedHandle = selectedHandle;
-        }
-
-        /// <summary>
-        /// 指定座標上に表示されているウィンドウのハンドルを取得します。
-        /// </summary>
-        /// <param name="point">座標</param>
-        /// <returns>ウィンドウハンドル</returns>
-        public IntPtr GetWindowHandle(Point point)
-        {
-            foreach (var handle in this.handles)
-            {
-                Rectangle bounds = InteropExtensions.GetWindowBounds(handle);
-                if (bounds != Rectangle.Empty && bounds.Contains(point))
-                {
-                    return handle;
-                }
-            }
-
-            return IntPtr.Zero;
         }
 
         /// <summary>
@@ -123,7 +112,7 @@ namespace WinCap.Models
             } while ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
             // クラス名にWinCapを含むウィンドウは除外する
-            list.RemoveAll(x => InteropExtensions.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
+            list.RemoveAll(x => InteropHelper.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
             return list;
         }
 
@@ -162,7 +151,7 @@ namespace WinCap.Models
             if (visible != 0)
             {
                 // 矩形情報を取得
-                Rectangle rect = InteropExtensions.GetWindowBounds(handle);
+                Rectangle rect = InteropHelper.GetWindowBounds(handle);
                 if (rect.Width > 0 && rect.Height > 0)
                 {
                     return true;

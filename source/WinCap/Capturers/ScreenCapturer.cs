@@ -1,44 +1,29 @@
-﻿using System;
-using System.Drawing;
-using WinCap.Interop;
-using WinCap.Interop.Win32;
-using WinCap.Models;
+﻿using System.Drawing;
 
 namespace WinCap.Capturers
 {
     /// <summary>
     /// 画面をキャプチャする機能を提供します。
     /// </summary>
-    public class ScreenCapturer
+    public class ScreenCapturer : CapturerBase<Rectangle?>
     {
         /// <summary>
-        /// 画面全体をキャプチャする。
+        /// キャプチャのコア処理。
         /// </summary>
-        /// <returns>ビットマップ</returns>
-        public Bitmap CaptureFullScreen()
+        /// <param name="target">キャプチャ対象</param>
+        /// <returns>キャプチャ画像</returns>
+        protected override Bitmap CaptureCore(Rectangle? target)
         {
-            return CaptureBounds(ScreenHelper.GetFullScreenBounds());
+            return ScreenHelper.CaptureScreen(target.Value);
         }
 
         /// <summary>
-        /// 指定範囲の画面をキャプチャする。
+        /// キャプチャ対象を取得します。
         /// </summary>
-        /// <param name="bounds">範囲</param>
-        /// <returns>ビットマップ</returns>
-        public Bitmap CaptureBounds(Rectangle bounds)
+        /// <returns>キャプチャ対象</returns>
+        protected override Rectangle? GetTargetCore()
         {
-            Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height);
-            IntPtr screenDC = User32.GetDC(IntPtr.Zero);
-            using (Graphics g = Graphics.FromImage(bitmap))
-            {
-                IntPtr hDC = g.GetHdc();
-                Gdi32.BitBlt(hDC, 0, 0, bitmap.Width, bitmap.Height,
-                    screenDC, bounds.X, bounds.Y, TernaryRasterOperations.SRCCOPY);
-                g.ReleaseHdc(hDC);
-            }
-            User32.ReleaseDC(IntPtr.Zero, screenDC);
-
-            return bitmap;
+            return ScreenHelper.GetFullScreenBounds();
         }
     }
 }

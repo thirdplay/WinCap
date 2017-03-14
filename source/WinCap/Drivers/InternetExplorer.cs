@@ -95,7 +95,7 @@ namespace WinCap.Drivers
         /// <summary>
         /// 横スクロールバーが表示されているかどうか
         /// </summary>
-        public bool IsVisibleScrollbarH => Client.Width < this.body.scrollWidth;
+        public bool IsVisibleScrollbarH => this.Client.Width < this.body.scrollWidth;
 
         /// <summary>
         /// コンストラクタ
@@ -151,7 +151,7 @@ namespace WinCap.Drivers
                 if (this.body.clientWidth == 0 && this.body.clientHeight == 0)
                 {
                     // クライアントサイズが0の場合はbodyを参照
-                    this.ReleaseComObject(body);
+                    this.ReleaseComObject(this.body);
                     this.body = (IHTMLElement2)document2.body;
                 }
 
@@ -161,11 +161,11 @@ namespace WinCap.Drivers
 
                 // 横スクロールバーが表示中かつ
                 // 「ウィンドウ高さ」と「クライアント高さ」の差分が「水平スクロールバーの高さ」より小さい場合
-                Rectangle wndRect = InteropExtensions.GetWindowBounds(handle);
-                if (IsVisibleScrollbarH && (wndRect.Height - Client.Height) < SystemInformation.HorizontalScrollBarHeight)
+                Rectangle wndRect = InteropHelper.GetWindowBounds(handle);
+                if (this.IsVisibleScrollbarH && (wndRect.Height - this.Client.Height) < SystemInformation.HorizontalScrollBarHeight)
                 {
                     // ※暫定的にクライアント高さからスクロールバー分を引いて処理する
-                    this.Client = new Rectangle(Client.X, Client.Y, Client.Width, Client.Height - SystemInformation.HorizontalScrollBarHeight);
+                    this.Client = new Rectangle(this.Client.X, this.Client.Y, this.Client.Width, this.Client.Height - SystemInformation.HorizontalScrollBarHeight);
                 }
 
 
@@ -257,7 +257,7 @@ namespace WinCap.Drivers
         public Point ScrollTo(int x, int y, int delayTime)
         {
             // スクロール位置の設定
-            Point nextPoint = new Point(Math.Min(x, ScrollSize.Width - Client.Width), Math.Min(y, ScrollSize.Height - Client.Height));
+            Point nextPoint = new Point(Math.Min(x, this.ScrollSize.Width - this.Client.Width), Math.Min(y, this.ScrollSize.Height - this.Client.Height));
             this.window.scrollTo(nextPoint.X, nextPoint.Y);
 
             // 遅延時間が設定されている場合、指定時間スリープする

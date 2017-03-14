@@ -29,14 +29,14 @@ namespace WinCap
         internal HookService HookService { get; private set; }
 
         /// <summary>
-        /// キャプチャサービス。
-        /// </summary>
-        internal CapturerService CapturerService { get; private set; }
-
-        /// <summary>
         /// ウィンドウサービス。
         /// </summary>
         internal WindowService WindowService { get; private set; }
+
+        /// <summary>
+        /// キャプチャサービス。
+        /// </summary>
+        internal CapturerService CapturerService { get; private set; }
 
         /// <summary>
         /// アプリケーションアクション。
@@ -81,16 +81,6 @@ namespace WinCap
                 LocalSettingsProvider.Instance.Load();
                 this.compositeDisposable.Add(LocalSettingsProvider.Instance.Save);
 
-                this.HookService = new HookService().AddTo(this);
-                this.CapturerService = new CapturerService(this.HookService).AddTo(this);
-                this.WindowService = new WindowService();
-                this.ApplicationAction = new ApplicationAction(this);
-
-                // アプリケーション準備
-                this.ShowTaskTrayIcon();
-                this.ApplicationAction.CreateShortcut();
-                this.ApplicationAction.RegisterActions();
-
                 // メインウィンドウ表示
                 this.MainWindow = new MainWindow();
                 if (e.Args.Length > 0 && e.Args[0] == "-UITest")
@@ -100,6 +90,19 @@ namespace WinCap
                     this.MainWindow.WindowState = WindowState.Normal;
                 }
                 this.MainWindow.Show();
+
+                this.HookService = new HookService(this.MainWindow).AddTo(this);
+                this.WindowService = new WindowService().AddTo(this);
+                this.CapturerService = new CapturerService(this.HookService, this.WindowService).AddTo(this);
+                this.ApplicationAction = new ApplicationAction(this).AddTo(this);
+
+                // アプリケーション準備
+                this.ShowTaskTrayIcon();
+                this.ApplicationAction.CreateShortcut();
+                if (!this.ApplicationAction.RegisterActions())
+                {
+                    this.ApplicationAction.ShowSettings();
+                }
 
                 // 親メソッド呼び出し
                 base.OnStartup(e);
@@ -161,14 +164,16 @@ namespace WinCap
         /// <param name="isShutdown">シャットダウンするかどうか</param>
         public static void ReportException(object sender, Exception exception, bool isShutdown = true)
         {
-#region const
+            #region const
+
             const string messageFormat = @"
 ===========================================================
 ERROR, date = {0}, sender = {1},
 {2}
 ";
             const string path = "error.log";
-#endregion
+
+            #endregion const
 
             try
             {
@@ -190,6 +195,7 @@ ERROR, date = {0}, sender = {1},
         }
 
         #region IDisposableHolder members
+
         ICollection<IDisposable> IDisposableHolder.CompositeDisposable => this.compositeDisposable;
 
         /// <summary>
@@ -199,6 +205,7 @@ ERROR, date = {0}, sender = {1},
         {
             this.compositeDisposable.Dispose();
         }
-        #endregion
+
+        #endregion IDisposableHolder members
     }
 }

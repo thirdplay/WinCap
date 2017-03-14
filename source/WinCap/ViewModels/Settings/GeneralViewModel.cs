@@ -10,6 +10,7 @@ namespace WinCap.ViewModels.Settings
     public class GeneralViewModel : SettingsBaseViewModel
     {
         #region TabItemViewModel mebmers
+
         /// <summary>
         /// タブ名を取得します。
         /// </summary>
@@ -18,86 +19,101 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.Settings_General; }
             protected set { throw new NotImplementedException(); }
         }
-        #endregion
+
+        #endregion TabItemViewModel mebmers
 
         #region IsRegisterInStartup 変更通知プロパティ
+
         private bool _IsRegisterInStartup;
+
         /// <summary>
         /// スタートアップに登録するか取得します。
         /// </summary>
         public bool IsRegisterInStartup
         {
-            get { return _IsRegisterInStartup; }
+            get { return this._IsRegisterInStartup; }
             set
             {
-                if (_IsRegisterInStartup != value)
+                if (this._IsRegisterInStartup != value)
                 {
-                    _IsRegisterInStartup = value;
+                    this._IsRegisterInStartup = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion IsRegisterInStartup 変更通知プロパティ
 
         #region IsCreateShortcutToDesktop 変更通知プロパティ
+
         private bool _IsCreateShortcutToDesktop;
+
         /// <summary>
         /// デスクトップにショートカットを作成するか取得します。
         /// </summary>
         public bool IsCreateShortcutToDesktop
         {
-            get { return _IsCreateShortcutToDesktop; }
+            get { return this._IsCreateShortcutToDesktop; }
             set
-            { 
-                if (_IsCreateShortcutToDesktop != value)
+            {
+                if (this._IsCreateShortcutToDesktop != value)
                 {
-                    _IsCreateShortcutToDesktop = value;
+                    this._IsCreateShortcutToDesktop = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion IsCreateShortcutToDesktop 変更通知プロパティ
 
         #region IsPlaySeWhenCapture 変更通知プロパティ
+
         private bool _IsPlaySeWhenCapture;
+
         /// <summary>
         /// キャプチャー時に効果音を再生するか取得します。
         /// </summary>
         public bool IsPlaySeWhenCapture
         {
-            get { return _IsPlaySeWhenCapture; }
+            get { return this._IsPlaySeWhenCapture; }
             set
             {
-                if (_IsPlaySeWhenCapture != value)
+                if (this._IsPlaySeWhenCapture != value)
                 {
-                    _IsPlaySeWhenCapture = value;
+                    this._IsPlaySeWhenCapture = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion IsPlaySeWhenCapture 変更通知プロパティ
 
         #region IsWebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
+
         private bool _IsWebPageCaptureStartWhenPageFirstMove;
+
         /// <summary>
         /// ウェブページ全体キャプチャ開始時にページ先頭に移動するか取得します。
         /// </summary>
         public bool IsWebPageCaptureStartWhenPageFirstMove
         {
-            get { return _IsWebPageCaptureStartWhenPageFirstMove; }
+            get { return this._IsWebPageCaptureStartWhenPageFirstMove; }
             set
             {
-                if (_IsWebPageCaptureStartWhenPageFirstMove != value)
+                if (this._IsWebPageCaptureStartWhenPageFirstMove != value)
                 {
-                    _IsWebPageCaptureStartWhenPageFirstMove = value;
+                    this._IsWebPageCaptureStartWhenPageFirstMove = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion IsWebPageCaptureStartWhenPageFirstMove 変更通知プロパティ
 
         #region ScrollDelayTime 変更通知プロパティ
+
         private string _ScrollDelayTime;
+
         /// <summary>
         /// スクロール時の遅延時間を取得します。
         /// </summary>
@@ -105,20 +121,23 @@ namespace WinCap.ViewModels.Settings
         [Range(0, 1000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public string ScrollDelayTime
         {
-            get { return _ScrollDelayTime; }
+            get { return this._ScrollDelayTime; }
             set
             {
-                if (_ScrollDelayTime != value)
+                if (this._ScrollDelayTime != value)
                 {
-                    _ScrollDelayTime = value;
+                    this._ScrollDelayTime = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion ScrollDelayTime 変更通知プロパティ
 
         #region CaptureDelayTime 変更通知プロパティ
+
         private string _CaptureDelayTime;
+
         /// <summary>
         /// キャプチャ時の遅延時間を取得します。
         /// </summary>
@@ -126,26 +145,32 @@ namespace WinCap.ViewModels.Settings
         [Range(0, 10000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
         public string CaptureDelayTime
         {
-            get { return _CaptureDelayTime; }
+            get { return this._CaptureDelayTime; }
             set
             {
-                if (_CaptureDelayTime != value)
+                if (this._CaptureDelayTime != value)
                 {
-                    _CaptureDelayTime = value;
+                    this._CaptureDelayTime = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
 
-        #region SettingsBaseViewModel members
+        #endregion CaptureDelayTime 変更通知プロパティ
+
+        #region WindowViewModel members
+
         /// <summary>
-        /// 初期化
+        /// <see cref="System.Windows.Window.ContentRendered"/> イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public override void Initialize()
+        protected override void InitializeCore()
         {
             this.RevertToSavedSettings();
         }
+
+        #endregion WindowViewModel members
+
+        #region TabItemViewModel members
 
         /// <summary>
         /// 入力値を検証する
@@ -153,7 +178,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return this.ValidateAll();
+            return base.ValidateAll();
         }
 
         /// <summary>
@@ -178,6 +203,8 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
+        #endregion TabItemViewModel members
+
         /// <summary>
         /// 保存時の設定に戻します。
         /// </summary>
@@ -191,6 +218,5 @@ namespace WinCap.ViewModels.Settings
             this.ScrollDelayTime = settings.ScrollDelayTime.Value.ToString();
             this.CaptureDelayTime = settings.CaptureDelayTime.Value.ToString();
         }
-        #endregion
     }
 }

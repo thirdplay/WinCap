@@ -77,7 +77,7 @@
 			<Run Text="OSS"
                  ToolTip="Open Source Software" />
             <Run Text="released under" />
-	        <util:HyperlinkEx Uri="https://github.com/thirdplay/WinCap/blob/master/LICENSE">
+	        <util:HyperlinkEx Uri="https://github.com/thirdplay/WinCap/blob/master/LICENSE.txt">
 		        <Run Text="The MIT License." />
 	        </util:HyperlinkEx>
         </TextBlock>

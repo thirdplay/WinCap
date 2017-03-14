@@ -46,10 +46,9 @@ namespace WinCap.Views.Controls
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if (CloseOnMouseLeftButtonDown)
+            if (this.CloseOnMouseLeftButtonDown)
             {
                 this.IsOpen = false;
-                Console.WriteLine("");
             }
         }
 

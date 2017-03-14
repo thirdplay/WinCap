@@ -15,9 +15,12 @@
 			 Background="{DynamicResource BackgroundBrushKey}">
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style TargetType="{x:Type TextBlock}">
+            <Style TargetType="{x:Type TextBlock}"
+                   BasedOn="{StaticResource DefaultTextStyleKey}">
                 <Setter Property="Margin"
                         Value="0,1" />
+                <Setter Property="FontSize"
+                        Value="11" />
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>

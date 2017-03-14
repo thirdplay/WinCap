@@ -18,6 +18,7 @@ namespace WinCap.ViewModels.Settings
         public IReadOnlyCollection<BindableTextViewModel> Libraries { get; }
 
         #region TabItemViewModel mebmers
+
         /// <summary>
         /// タブ名を取得します。
         /// </summary>
@@ -26,7 +27,8 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.Settings_VersionInfo; }
             protected set { throw new NotImplementedException(); }
         }
-        #endregion
+
+        #endregion TabItemViewModel mebmers
 
         public VersionInfoViewModel()
         {
@@ -40,13 +42,19 @@ namespace WinCap.ViewModels.Settings
                 });
         }
 
-        #region SettingsBaseViewModel members
+        #region WindowViewModel members
+
         /// <summary>
-        /// 初期化
+        /// <see cref="System.Windows.Window.ContentRendered"/> イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public override void Initialize()
+        protected override void InitializeCore()
         {
+            base.InitializeCore();
         }
+
+        #endregion WindowViewModel members
+
+        #region ISettingsBaseViewModel members
 
         /// <summary>
         /// 入力値を検証する
@@ -54,7 +62,7 @@ namespace WinCap.ViewModels.Settings
         /// <returns>検証結果</returns>
         public override bool Validate()
         {
-            return this.ValidateAll();
+            return true;
         }
 
         /// <summary>
@@ -70,7 +78,8 @@ namespace WinCap.ViewModels.Settings
         public override void Cancel()
         {
         }
-        #endregion
+
+        #endregion ISettingsBaseViewModel members
     }
 
     /// <summary>
@@ -79,7 +88,9 @@ namespace WinCap.ViewModels.Settings
     public class BindableTextViewModel : ViewModel
     {
         #region Text 変更通知プロパティ
+
         private string _Text;
+
         /// <summary>
         /// テキストを取得します。
         /// </summary>
@@ -95,7 +106,8 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion Text 変更通知プロパティ
     }
 
     /// <summary>
@@ -104,7 +116,9 @@ namespace WinCap.ViewModels.Settings
     public class HyperlinkViewModel : BindableTextViewModel
     {
         #region Uri 変更通知プロパティ
+
         private Uri _Uri;
+
         /// <summary>
         /// URIを取得します。
         /// </summary>
@@ -120,6 +134,7 @@ namespace WinCap.ViewModels.Settings
                 }
             }
         }
-        #endregion
+
+        #endregion Uri 変更通知プロパティ
     }
 }

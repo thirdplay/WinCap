@@ -12,6 +12,7 @@ namespace WinCap.ViewModels.Settings
     public class OutputViewModel : SettingsBaseViewModel
     {
         #region TabItemViewModel mebmers
+
         /// <summary>
         /// タブ名を取得します。
         /// </summary>
@@ -20,111 +21,132 @@ namespace WinCap.ViewModels.Settings
             get { return Resources.Settings_Output; }
             protected set { throw new NotImplementedException(); }
         }
-        #endregion
+
+        #endregion TabItemViewModel mebmers
 
         #region OutputMethodType 変更通知プロパティ
+
         private OutputMethodType _OutputMethodType;
+
         /// <summary>
         /// 出力方法を取得します。
         /// </summary>
         public OutputMethodType OutputMethodType
         {
-            get { return _OutputMethodType; }
+            get { return this._OutputMethodType; }
             set
             {
-                if (_OutputMethodType != value)
+                if (this._OutputMethodType != value)
                 {
-                    _OutputMethodType = value;
+                    this._OutputMethodType = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion OutputMethodType 変更通知プロパティ
 
         #region OutputFolder 変更通知プロパティ
+
         private string _OutputFolder;
+
         /// <summary>
         /// 出力フォルダを取得します。
         /// </summary>
         public string OutputFolder
         {
-            get { return _OutputFolder; }
+            get { return this._OutputFolder; }
             set
             {
-                if (_OutputFolder != value)
+                if (this._OutputFolder != value)
                 {
-                    _OutputFolder = value;
+                    this._OutputFolder = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion OutputFolder 変更通知プロパティ
 
         #region IsAutoSaveImage 変更通知プロパティ
+
         private bool _IsAutoSaveImage;
+
         /// <summary>
         /// 画像を自動保存するか取得します。
         /// </summary>
         public bool IsAutoSaveImage
         {
-            get { return _IsAutoSaveImage; }
+            get { return this._IsAutoSaveImage; }
             set
             {
-                if (_IsAutoSaveImage != value)
+                if (this._IsAutoSaveImage != value)
                 {
-                    _IsAutoSaveImage = value;
+                    this._IsAutoSaveImage = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion IsAutoSaveImage 変更通知プロパティ
 
         #region OutputFileNamePattern 変更通知プロパティ
+
         private string _OutputFileNamePattern;
+
         /// <summary>
         /// 出力ファイル名パターンを取得します。
         /// </summary>
         public string OutputFileNamePattern
         {
-            get { return _OutputFileNamePattern; }
+            get { return this._OutputFileNamePattern; }
             set
             {
-                if (_OutputFileNamePattern != value)
+                if (this._OutputFileNamePattern != value)
                 {
-                    _OutputFileNamePattern = value;
+                    this._OutputFileNamePattern = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
+
+        #endregion OutputFileNamePattern 変更通知プロパティ
 
         #region OutputFormatType 変更通知プロパティ
+
         private OutputFormatType _OutputFormatType;
+
         /// <summary>
         /// 出力形式を取得します。
         /// </summary>
         public OutputFormatType OutputFormatType
         {
-            get { return _OutputFormatType; }
+            get { return this._OutputFormatType; }
             set
             {
-                if (_OutputFormatType != value)
+                if (this._OutputFormatType != value)
                 {
-                    _OutputFormatType = value;
+                    this._OutputFormatType = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
 
-        #region SettingsBaseViewModel members
+        #endregion OutputFormatType 変更通知プロパティ
+
+        #region WindowViewModel members
+
         /// <summary>
-        /// 初期化
+        /// <see cref="System.Windows.Window.ContentRendered"/> イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public override void Initialize()
+        protected override void InitializeCore()
         {
             this.RevertToSavedSettings();
         }
+
+        #endregion WindowViewModel members
+
+        #region TabItemViewModel members
 
         /// <summary>
         /// 入力値を検証する
@@ -169,6 +191,8 @@ namespace WinCap.ViewModels.Settings
             this.RevertToSavedSettings();
         }
 
+        #endregion TabItemViewModel members
+
         /// <summary>
         /// 出力先選択ダイアログを開きます。
         /// </summary>
@@ -202,6 +226,5 @@ namespace WinCap.ViewModels.Settings
             this.OutputFileNamePattern = settings.OutputFileNamePattern;
             this.OutputFormatType = settings.OutputFormatType;
         }
-        #endregion
     }
 }

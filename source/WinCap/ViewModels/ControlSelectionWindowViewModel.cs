@@ -1,26 +1,22 @@
 ﻿using Livet;
+using Livet.Messaging.Windows;
 using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using WinCap.Capturers;
 using WinCap.Interop;
 using WinCap.Models;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
-using Rectangle = System.Drawing.Rectangle;
 
 namespace WinCap.ViewModels
 {
     /// <summary>
     /// コントロール選択ウィンドウViewModel
     /// </summary>
-    public class ControlSelectionWindowViewModel : ViewModel
+    public class ControlSelectionWindowViewModel : WindowViewModel
     {
-        /// <summary>
-        /// 有効かどうかを示す値。
-        /// </summary>
-        private bool enabled;
-
         /// <summary>
         /// ウィンドウの左端座標。
         /// </summary>
@@ -30,11 +26,6 @@ namespace WinCap.ViewModels
         /// コントロール選択モデル。
         /// </summary>
         private ControlSelection controlSelection;
-
-        /// <summary>
-        /// 初期座標。
-        /// </summary>
-        private Point? initPoint;
 
         /// <summary>
         /// DPI倍率を取得または設定します。
@@ -52,16 +43,6 @@ namespace WinCap.ViewModels
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
 
         /// <summary>
-        /// 初期化時に呼び出すアクション。
-        /// </summary>
-        public Action Initialized;
-
-        /// <summary>
-        /// コントロール選択時に呼び出すアクション。
-        /// </summary>
-        public Action Selected;
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         public ControlSelectionWindowViewModel()
@@ -71,7 +52,7 @@ namespace WinCap.ViewModels
             this.controlSelection.Subscribe(nameof(this.controlSelection.SelectedHandle), () =>
             {
                 var handle = this.controlSelection.SelectedHandle;
-                var bounds = InteropExtensions.GetWindowBounds(handle);
+                var bounds = InteropHelper.GetWindowBounds(handle);
 
                 // コントロール情報の更新
                 this.ControlSelectInfo.SetInfo(handle, bounds);
@@ -89,13 +70,12 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-		/// <see cref="Window.ContentRendered"/>イベントが発生したときに
-        /// Livet インフラストラクチャによって呼び出されます。
+		/// 初期化処理。
         /// </summary>
-        public void Initialize()
+        protected override void InitializeCore()
         {
             // ウィンドウに画面全体の範囲を設定する
-            Rectangle screenRect = ScreenHelper.GetFullScreenBounds();
+            var screenRect = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
@@ -107,39 +87,37 @@ namespace WinCap.ViewModels
             this.location = screenRect.Location;
 
             // 初期化
-            this.Initialized?.Invoke();
+            this.SendWindowAction(WindowAction.Active);
             this.controlSelection.Initialize();
-            this.enabled = true;
+            this.ControlSelectInfo.Initialize();
 
-            if (this.initPoint != null)
-            {
-                OnMouseMove(this.initPoint.Value);
-                this.initPoint = null;
-            }
+            // マウス移動処理の呼び出し
+            this.MouseMoveCore(System.Windows.Forms.Cursor.Position);
         }
 
         /// <summary>
-        /// マウス移動時に呼ばれます。
+        /// マウス移動処理。
         /// </summary>
         /// <param name="e">イベント引数</param>
         public void OnMouseMove(MouseEventArgs e)
         {
-            if (!this.enabled)
-            {
-                this.initPoint = e.GetPosition(null);
-                return;
-            }
-            OnMouseMove(e.GetPosition(null));
+            var p = e.GetPosition(null);
+            this.MouseMoveCore(new System.Drawing.Point((int)p.X, (int)p.Y));
         }
-        private void OnMouseMove(Point point)
+
+        /// <summary>
+        /// マウス移動のコア処理。
+        /// </summary>
+        /// <param name="point">マウス座標</param>
+        private void MouseMoveCore(System.Drawing.Point point)
         {
-            var screenPoint = new System.Drawing.Point((int)point.X + this.location.X, (int)point.Y + this.location.Y);
+            var screenPoint = new System.Drawing.Point(point.X + this.location.X, point.Y + this.location.Y);
             this.controlSelection.UpdateMousePoint(screenPoint);
             this.ControlSelectInfo.UpdateMousePoint(screenPoint);
         }
 
         /// <summary>
-        /// マウスアップ時に呼ばれます。
+        /// マウスアップ処理。
         /// </summary>
         /// <param name="e">イベント引数</param>
         public void OnMouseUp(MouseEventArgs e)
@@ -151,17 +129,28 @@ namespace WinCap.ViewModels
                 handle = IntPtr.Zero;
             }
 
-            SelectedControl(handle);
+            this.SelectedControl(handle);
         }
 
         /// <summary>
-        /// キーダウン時に呼ばれます。
+        /// キーダウン処理。
         /// </summary>
         /// <param name="e">イベント引数</param>
         public void OnKeyDown(KeyEventArgs e)
         {
             e.Handled = true;
-            SelectedControl(IntPtr.Zero);
+            this.SelectedControl(IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// ウィンドウを非表示にしてコントロールを選択します。
+        /// </summary>
+        /// <param name="handle">選択したハンドル</param>
+        private void SelectedControl(IntPtr handle)
+        {
+            this.SelectedHandle = handle;
+            this.SetVisibility(Visibility.Hidden);
+            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
         }
 
         /// <summary>
@@ -175,22 +164,6 @@ namespace WinCap.ViewModels
                 MessageKey = "Window.Visibility",
                 Visibility = visibility
             });
-        }
-
-        /// <summary>
-        /// ウィンドウを非表示にしてコントロールを選択します。
-        /// </summary>
-        /// <param name="handle">選択したハンドル</param>
-        private void SelectedControl(IntPtr handle)
-        {
-            this.SelectedHandle = handle;
-            this.SetVisibility(Visibility.Hidden);
-            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
-            if (handle != IntPtr.Zero)
-            {
-                this.Selected?.Invoke();
-            }
-            this.enabled = false;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Livet;
-using Livet.Messaging;
+﻿using Livet.Messaging;
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Services;
@@ -11,9 +10,10 @@ namespace WinCap.ViewModels
     /// <summary>
     /// 設定ウィンドウViewModel
     /// </summary>
-    public class SettingsWindowViewModel : ViewModel
+    public class SettingsWindowViewModel : WindowViewModel
     {
         #region ViewModels
+
         /// <summary>
         /// 一般設定ViewModel
         /// </summary>
@@ -33,7 +33,8 @@ namespace WinCap.ViewModels
         /// ショートカットキー設定ViewModel
         /// </summary>
         public VersionInfoViewModel VersionInfo { get; } = new VersionInfoViewModel();
-        #endregion
+
+        #endregion ViewModels
 
         /// <summary>
         /// フックサービス
@@ -51,28 +52,26 @@ namespace WinCap.ViewModels
         public List<SettingsBaseViewModel> TabItems { get; set; }
 
         #region SelectedItem 変更通知プロパティ
+
         private TabItemViewModel _SelectedItem;
+
         /// <summary>
         /// 選択中のタブ項目を取得します。
         /// </summary>
         public TabItemViewModel SelectedItem
         {
-            get { return _SelectedItem; }
+            get { return this._SelectedItem; }
             set
             {
-                if (_SelectedItem != value)
+                if (this._SelectedItem != value)
                 {
-                    _SelectedItem = value;
+                    this._SelectedItem = value;
                     RaisePropertyChanged();
                 }
             }
         }
-        #endregion
 
-        /// <summary>
-        /// ダイアログ結果を取得します。
-        /// </summary>
-        public bool DialogResult { get; private set; }
+        #endregion SelectedItem 変更通知プロパティ
 
         /// <summary>
         /// コンストラクタ
@@ -93,15 +92,19 @@ namespace WinCap.ViewModels
             this.applicationAction = applicationAction;
         }
 
+        #region WindowViewModel members
+
         /// <summary>
-		/// <see cref="Window.ContentRendered"/>イベントが発生したときに
-        /// Livet インフラストラクチャによって呼び出されます。
+        /// <see cref="Window.ContentRendered"/>イベントが発生したときに呼び出される初期化処理。
         /// </summary>
-        public void Initialize()
+        protected override void InitializeCore()
         {
             this.hookService.Suspend().AddTo(this);
+            this.applicationAction.DeregisterActions();
             this.TabItems.ForEach(x => x.Initialize());
         }
+
+        #endregion WindowViewModel members
 
         /// <summary>
         /// OK
@@ -113,15 +116,19 @@ namespace WinCap.ViewModels
             if (tabItem != null)
             {
                 this.SelectedItem = tabItem;
-                this.SelectedItem.Messenger.Raise(new InteractionMessage(this.SelectedItem.GetErrorPropertyName() + ".Focus"));
+                this.SelectedItem.Messenger.Raise(new InteractionMessage(this.SelectedItem.GetErrorProperties().First() + ".Focus"));
                 return;
             }
             this.TabItems.ForEach(x => x.Apply());
 
-            this.DialogResult = true;
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
-
             this.applicationAction.CreateShortcut();
+            if (!this.applicationAction.RegisterActions())
+            {
+                // ショートカットの登録に失敗した場合、変更確認をして再度設定させる
+                this.SelectedItem = this.ShortcutKey;
+                return;
+            }
+            this.Close();
         }
 
         /// <summary>
@@ -131,17 +138,7 @@ namespace WinCap.ViewModels
         {
             this.TabItems.ForEach(x => x.Cancel());
 
-            this.DialogResult = false;
-            this.Messenger.Raise(new InteractionMessage("Window.Close"));
-        }
-
-        /// <summary>
-        /// このインスタンスによって使用されているリソースを全て破棄します。
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
+            this.Close();
         }
     }
 }
