@@ -9,7 +9,6 @@ using WinCap.Interop;
 using WinCap.Models;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
-using Rectangle = System.Drawing.Rectangle;
 
 namespace WinCap.ViewModels
 {
@@ -27,11 +26,6 @@ namespace WinCap.ViewModels
         /// コントロール選択モデル。
         /// </summary>
         private ControlSelection controlSelection;
-
-        /// <summary>
-        /// 初期座標。
-        /// </summary>
-        //private Point? initPoint;
 
         /// <summary>
         /// DPI倍率を取得または設定します。
