@@ -26,6 +26,15 @@ namespace WinCap.Interop.Win32
         public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
         /// <summary>
+        /// 指定されたウィンドウに関する情報を取得します。
+        /// </summary>
+        /// <param name="hWnd">ウィンドウのハンドル</param>
+        /// <param name="nIndex">取得する値のオフセット</param>
+        /// <returns>要求したデータ</returns>
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, GWL nIndex);
+
+        /// <summary>
         /// フォアグラウンドウィンドウ（現在ユーザーが作業しているウィンドウ）のハンドルを返す。
         /// </summary>
         /// <returns>ウィンドウハンドル</returns>

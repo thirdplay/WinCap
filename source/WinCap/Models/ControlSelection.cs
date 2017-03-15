@@ -70,7 +70,7 @@ namespace WinCap.Models
             var selectedHandle = IntPtr.Zero;
             foreach (var handle in this.handles)
             {
-                Rectangle bounds = InteropHelper.GetWindowBounds(handle);
+                Rectangle bounds = InteropHelper.GetWindowSize(handle);
                 if (bounds != Rectangle.Empty && bounds.Contains(point))
                 {
                     selectedHandle = handle;
@@ -151,7 +151,7 @@ namespace WinCap.Models
             if (visible != 0)
             {
                 // 矩形情報を取得
-                Rectangle rect = InteropHelper.GetWindowBounds(handle);
+                Rectangle rect = InteropHelper.GetWindowSize(handle);
                 if (rect.Width > 0 && rect.Height > 0)
                 {
                     return true;

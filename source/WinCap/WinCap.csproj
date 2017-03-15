@@ -170,6 +170,7 @@
     <Compile Include="Interop\Win32\Dwmapi.cs" />
     <Compile Include="Interop\Win32\Gdi32.cs" />
     <Compile Include="Interop\Mshtml\IHTMLDocument6.cs" />
+    <Compile Include="Interop\Win32\GWL.cs" />
     <Compile Include="Interop\Win32\MAPVK.cs" />
     <Compile Include="Interop\Win32\MonitorDefaultTo.cs" />
     <Compile Include="Interop\Win32\Oleacc.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Interop\IconHelper.cs" />
     <Compile Include="Interop\Win32\IServiceProvider.cs" />
     <Compile Include="Interop\Win32\SMTO.cs" />
+    <Compile Include="Interop\Win32\WS.cs" />
     <Compile Include="Models\BaseShortcut.cs" />
     <Compile Include="Models\BitmapHelper.cs" />
     <Compile Include="Models\ControlSelection.cs" />

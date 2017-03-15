@@ -25,7 +25,7 @@ namespace WinCap.Capturers
         /// <returns>キャプチャ対象</returns>
         protected override Rectangle? GetTargetCore()
         {
-            return InteropHelper.GetWindowBounds(User32.GetForegroundWindow(), false);
+            return InteropHelper.GetWindowSize(User32.GetForegroundWindow(), false);
         }
     }
 }

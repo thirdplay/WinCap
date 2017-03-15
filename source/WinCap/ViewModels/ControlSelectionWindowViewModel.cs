@@ -52,7 +52,7 @@ namespace WinCap.ViewModels
             this.controlSelection.Subscribe(nameof(this.controlSelection.SelectedHandle), () =>
             {
                 var handle = this.controlSelection.SelectedHandle;
-                var bounds = InteropHelper.GetWindowBounds(handle);
+                var bounds = InteropHelper.GetWindowSize(handle);
 
                 // コントロール情報の更新
                 this.ControlSelectInfo.SetInfo(handle, bounds);
