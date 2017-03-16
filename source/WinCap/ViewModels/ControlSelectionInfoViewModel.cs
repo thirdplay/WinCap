@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
-using WinCap.Capturers;
 using WinCap.Interop;
 using WinCap.ViewModels.Messages;
 
@@ -18,17 +17,17 @@ namespace WinCap.ViewModels
         /// <summary>
         /// ウィンドウの横幅を取得します。
         /// </summary>
-        public double Width { get; } = 240.0;
+        public double Width => 240.0;
 
         /// <summary>
         /// ウィンドウの高さを取得します。
         /// </summary>
-        public double Height { get; } = 100.0;
+        public double Height => 100.0;
 
         /// <summary>
         /// ウィンドウのマージンを取得します。
         /// </summary>
-        public System.Windows.Point Margin { get; } = new System.Windows.Point(12.0, 12.0);
+        public System.Windows.Point Margin => new System.Windows.Point(12.0, 12.0);
 
         #region Left 変更通知プロパティ
 

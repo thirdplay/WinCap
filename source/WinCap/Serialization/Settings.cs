@@ -8,16 +8,16 @@
         /// <summary>
         /// 一般設定
         /// </summary>
-        public static GeneralSettings General { get; } = new GeneralSettings(LocalSettingsProvider.Instance);
+        public static GeneralSettings General => new GeneralSettings(LocalSettingsProvider.Instance);
 
         /// <summary>
         /// 出力設定
         /// </summary>
-        public static OutputSettings Output { get; } = new OutputSettings(LocalSettingsProvider.Instance);
+        public static OutputSettings Output => new OutputSettings(LocalSettingsProvider.Instance);
 
         /// <summary>
         /// ショートカットキー設定
         /// </summary>
-        public static ShortcutKeySettings ShortcutKey { get; } = new ShortcutKeySettings(LocalSettingsProvider.Instance);
+        public static ShortcutKeySettings ShortcutKey => new ShortcutKeySettings(LocalSettingsProvider.Instance);
     }
 }
