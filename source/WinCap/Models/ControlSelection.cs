@@ -112,7 +112,16 @@ namespace WinCap.Models
             } while ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
             // クラス名にWinCapを含むウィンドウは除外する
-            list.RemoveAll(x => InteropHelper.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
+            list.RemoveAll(x =>
+            {
+                var className = InteropHelper.GetClassName(x);
+                if(className.IndexOf(ProductInfo.Product) >= 0
+                || className == "Intermediate D3D Window")
+                {
+                    return true;
+                }
+                return false;
+            });
             return list;
         }
 

@@ -69,6 +69,9 @@ namespace WinCap.Services
                 Observable.FromEventPattern(window, nameof(window.Closed))
                     .Subscribe(x => this.container.Remove(windowName))
                     .AddTo(this);
+                Observable.FromEventPattern(window, nameof(window.ContentRendered))
+                    .Subscribe(x => (x.Sender as TWindow).Activate())
+                    .AddTo(this);
 
                 Observable.FromEventPattern(window, nameof(window.Activated))
                     .Select(x => (x.Sender as TWindow).DataContext as TViewModel)
