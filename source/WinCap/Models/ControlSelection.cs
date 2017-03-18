@@ -119,7 +119,7 @@ namespace WinCap.Models
                 }
             } while ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
-            // クラス名にWinCapを含むウィンドウは除外する
+            // 除外対象のクラス名のハンドルを除外する
             list.RemoveAll(x =>
             {
                 var className = InteropHelper.GetClassName(x);
