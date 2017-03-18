@@ -19,6 +19,14 @@ namespace WinCap.Models
         private List<IntPtr> handles;
 
         /// <summary>
+        /// ウィンドウハンドル取得時に除外するクラス名
+        /// </summary>
+        private List<string> ignoreClassNames = new List<string>
+        {
+            "Intermediate D3D Window"
+        };
+
+        /// <summary>
         /// Initializeメソッドが呼ばれたかどうかを示す値を取得します。
         /// </summary>
         public bool IsInitialized { get; private set; }
@@ -115,13 +123,9 @@ namespace WinCap.Models
             list.RemoveAll(x =>
             {
                 var className = InteropHelper.GetClassName(x);
-                if(className.IndexOf(ProductInfo.Product) >= 0
-                || className == "Intermediate D3D Window")
-                {
-                    return true;
-                }
-                return false;
+                return (className.IndexOf(ProductInfo.Product) >= 0 || this.ignoreClassNames.Contains(className));
             });
+
             return list;
         }
 
