@@ -198,7 +198,7 @@ namespace WinCap.ViewModels
             this.Left = screen.Bounds.Left + this.Margin.X;
             this.Top = screen.Bounds.Top + this.Margin.Y;
 
-            //// マウスオーバーチェック
+            // マウスオーバーチェック
             //var rect = new Rectangle(this.Location, this.Size);
             //if (rect.Contains(point))
             //{
