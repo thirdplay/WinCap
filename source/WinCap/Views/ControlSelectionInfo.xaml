@@ -74,16 +74,16 @@
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding StringFormat="({0},{1})">
-                                <Binding Path="Point.X"/>
-                                <Binding Path="Point.Y"/>
+                                <Binding Path="ControlLocation.X"/>
+                                <Binding Path="ControlLocation.Y"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding StringFormat="({0} x {1})">
-                                <Binding Path="Size.Width"/>
-                                <Binding Path="Size.Height"/>
+                                <Binding Path="ControlSize.Width"/>
+                                <Binding Path="ControlSize.Height"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>

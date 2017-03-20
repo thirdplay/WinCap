@@ -2,10 +2,10 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Windows;
 using System.Windows.Forms;
 using WinCap.Interop;
 using WinCap.ViewModels.Messages;
+using Visibility = System.Windows.Visibility;
 
 namespace WinCap.ViewModels
 {
@@ -27,7 +27,17 @@ namespace WinCap.ViewModels
         /// <summary>
         /// ウィンドウのマージンを取得します。
         /// </summary>
-        public System.Windows.Point Margin => new System.Windows.Point(12.0, 12.0);
+        public Point Margin => new Point(12, 12);
+
+        /// <summary>
+        /// ウィンドウの位置を取得します。
+        /// </summary>
+        public Point Location => new Point((int)this.Left, (int)this.Top);
+
+        /// <summary>
+        /// ウィンドウのサイズを取得します。
+        /// </summary>
+        public Size Size => new Size((int)this.Width, (int)this.Height);
 
         #region Left 変更通知プロパティ
 
@@ -49,7 +59,7 @@ namespace WinCap.ViewModels
             }
         }
 
-        #endregion Left 変更通知プロパティ
+        #endregion
 
         #region Top 変更通知プロパティ
 
@@ -71,7 +81,7 @@ namespace WinCap.ViewModels
             }
         }
 
-        #endregion Top 変更通知プロパティ
+        #endregion
 
         #region ClassName 変更通知プロパティ
 
@@ -93,51 +103,51 @@ namespace WinCap.ViewModels
             }
         }
 
-        #endregion ClassName 変更通知プロパティ
+        #endregion
 
-        #region Point 変更通知プロパティ
+        #region ControlLocation 変更通知プロパティ
 
-        private System.Drawing.Point _Point;
+        private Point _ControlLocation;
 
         /// <summary>
-        /// 位置を取得または設定します。
+        /// コントロールの位置を取得または設定します。
         /// </summary>
-        public System.Drawing.Point Point
+        public Point ControlLocation
         {
-            get { return this._Point; }
+            get { return this._ControlLocation; }
             set
             {
-                if (this._Point != value)
+                if (this._ControlLocation != value)
                 {
-                    this._Point = value;
+                    this._ControlLocation = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        #endregion Point 変更通知プロパティ
+        #endregion
 
-        #region Size 変更通知プロパティ
+        #region ControlSize 変更通知プロパティ
 
-        private System.Drawing.Size _Size;
+        private Size _ControlSize;
 
         /// <summary>
         /// サイズを取得または設定します。
         /// </summary>
-        public System.Drawing.Size Size
+        public Size ControlSize
         {
-            get { return this._Size; }
+            get { return this._ControlSize; }
             set
             {
-                if (this._Size != value)
+                if (this._ControlSize != value)
                 {
-                    this._Size = value;
+                    this._ControlSize = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        #endregion Size 変更通知プロパティ
+        #endregion
 
         /// <summary>
         /// コンストラクタ。
@@ -169,15 +179,15 @@ namespace WinCap.ViewModels
         public void SetInfo(IntPtr handle, Rectangle bounds)
         {
             this.ClassName = InteropHelper.GetClassName(handle);
-            this.Point = bounds.Location;
-            this.Size = bounds.Size;
+            this.ControlLocation = bounds.Location;
+            this.ControlSize = bounds.Size;
         }
 
         /// <summary>
         /// マウス座標を更新します。
         /// </summary>
         /// <param name="point">マウス座標</param>
-        public void UpdateMousePoint(System.Drawing.Point point)
+        public void UpdateMousePoint(Point point)
         {
             // スクリーン取得
             var screen = Screen.AllScreens
@@ -187,6 +197,13 @@ namespace WinCap.ViewModels
             // スクリーンの左端座標に設定する
             this.Left = screen.Bounds.Left + this.Margin.X;
             this.Top = screen.Bounds.Top + this.Margin.Y;
+
+            //// マウスオーバーチェック
+            //var rect = new Rectangle(this.Location, this.Size);
+            //if (rect.Contains(point))
+            //{
+            //    Console.WriteLine($"Hit!!:({this.Location.X}, {this.Location.Y}), {this.Width} x {this.Height}");
+            //}
         }
     }
 }
