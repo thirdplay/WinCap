@@ -89,7 +89,7 @@ namespace WinCap.ViewModels
             // 初期化
             this.SendWindowAction(WindowAction.Active);
             this.controlSelection.Initialize();
-            this.ControlSelectInfo.Initialize();
+            this.ControlSelectInfo.Initialize(System.Windows.Forms.Cursor.Position);
 
             // マウス移動処理の呼び出し
             this.MouseMoveCore(System.Windows.Forms.Cursor.Position);
