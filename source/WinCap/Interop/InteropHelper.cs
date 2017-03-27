@@ -37,39 +37,34 @@ namespace WinCap.Interop
         /// <returns>ウィンドウサイズ</returns>
         public static Rectangle GetWindowSize(IntPtr handle, bool isHighDpi = true)
         {
-            try
+            var result = GetWindowSize(handle);
+            if (result != Rectangle.Empty)
             {
-                var result = GetWindowSize(handle);
-                if (result != Rectangle.Empty)
+                // 最大化状態のウィンドウの場合
+                var style = User32.GetWindowLong(handle, GWL.STYLE);
+                if ((style & (int)WS.MAXIMIZE) == (int)WS.MAXIMIZE)
                 {
-                    // 最大化状態のウィンドウの場合
-                    var style = User32.GetWindowLong(handle, GWL.STYLE);
-                    if ((style & (int)WS.MAXIMIZE) == (int)WS.MAXIMIZE)
-                    {
-                        // スクリーン取得
-                        var point = new Point(
-                            result.Left + result.Width / 2, result.Top + result.Height / 2);
-                        var screen = Screen.AllScreens
-                            .Where(x => x.Bounds.Contains(point))
-                            .FirstOrDefault();
+                    // スクリーン取得
+                    var point = new Point(
+                        result.Left + result.Width / 2, result.Top + result.Height / 2);
+                    var screen = Screen.AllScreens
+                        .Where(x => x.Bounds.Contains(point))
+                        .FirstOrDefault();
 
-                        // スクリーンの作業領域を設定する
+                    // スクリーンの作業領域を設定する
+                    if (screen != null)
+                    {
                         result = screen.WorkingArea;
                     }
-
-                    // 高DPI対応
-                    if (isHighDpi)
-                    {
-                        result = result.ToLogicalPixel(PerMonitorDpi.GetDpi(handle));
-                    }
                 }
-                return result;
+
+                // 高DPI対応
+                if (isHighDpi)
+                {
+                    result = result.ToLogicalPixel(PerMonitorDpi.GetDpi(handle));
+                }
             }
-            catch (Exception ex)
-            {
-                Application.ReportException(null, ex, false);
-                return Rectangle.Empty;
-            }
+            return result;
         }
 
         /// <summary>
