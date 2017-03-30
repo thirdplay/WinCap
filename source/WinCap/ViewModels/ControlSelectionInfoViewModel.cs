@@ -30,6 +30,11 @@ namespace WinCap.ViewModels
         private const int MarginHeight = 12;
 
         /// <summary>
+        /// 画面の左端
+        /// </summary>
+        private Point screenLocation;
+
+        /// <summary>
         /// 現在ウィンドウを表示しているスクリーン
         /// </summary>
         private Screen screen;
@@ -203,9 +208,11 @@ namespace WinCap.ViewModels
         /// <summary>
 		/// 初期化。
         /// </summary>
+        /// <param name="screenLocation">画面の左端</param>
         /// <param name="point">マウス座標</param>
-        public void Initialize(Point point)
+        public void Initialize(Point screenLocation, Point point)
         {
+            this.screenLocation = screenLocation;
             this.screen = GetScrren(point);
             this.anchor = AnchorLeftTop;
 
@@ -248,11 +255,11 @@ namespace WinCap.ViewModels
 
             // 位置座標の更新
             var location = GetLocation(this.screen, this.anchor);
-            this.Left = location.X;
-            this.Top = location.Y;
+            this.Left = location.X - this.screenLocation.X;
+            this.Top = location.Y - this.screenLocation.Y;
 
             // マウスオーバーチェック
-            var area = new Rectangle(new Point((int)this.Left, (int)this.Top), new Size((int)this.Width, (int)this.Height));
+            var area = new Rectangle(new Point(location.X, location.Y), new Size((int)this.Width, (int)this.Height));
             if (area.Contains(point))
             {
                 // アンカー反転
@@ -269,7 +276,7 @@ namespace WinCap.ViewModels
         {
             return Screen.AllScreens
                 .Where(x => x.Bounds.Contains(point))
-                .FirstOrDefault();
+                .FirstOrDefault() ?? Screen.PrimaryScreen;
         }
 
         /// <summary>
