@@ -2,11 +2,10 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Windows;
 using System.Windows.Forms;
-using WinCap.Capturers;
 using WinCap.Interop;
 using WinCap.ViewModels.Messages;
+using Visibility = System.Windows.Visibility;
 
 namespace WinCap.ViewModels
 {
@@ -16,19 +15,34 @@ namespace WinCap.ViewModels
     public class ControlSelectionInfoViewModel : ViewModel
     {
         /// <summary>
-        /// ウィンドウの横幅を取得します。
+        /// アンカーの左上を表します。
         /// </summary>
-        public double Width { get; } = 240.0;
+        private const AnchorStyles AnchorLeftTop = AnchorStyles.Left | AnchorStyles.Top;
 
         /// <summary>
-        /// ウィンドウの高さを取得します。
+        /// ウィンドウのマージン横幅
         /// </summary>
-        public double Height { get; } = 100.0;
+        private const int MarginWidth = 12;
 
         /// <summary>
-        /// ウィンドウのマージンを取得します。
+        /// ウィンドウのマージン高さ
         /// </summary>
-        public System.Windows.Point Margin { get; } = new System.Windows.Point(12.0, 12.0);
+        private const int MarginHeight = 12;
+
+        /// <summary>
+        /// 画面の左端
+        /// </summary>
+        private Point screenLocation;
+
+        /// <summary>
+        /// 現在ウィンドウを表示しているスクリーン
+        /// </summary>
+        private Screen screen;
+
+        /// <summary>
+        /// ウィンドウのアンカー
+        /// </summary>
+        private AnchorStyles anchor;
 
         #region Left 変更通知プロパティ
 
@@ -50,7 +64,7 @@ namespace WinCap.ViewModels
             }
         }
 
-        #endregion Left 変更通知プロパティ
+        #endregion
 
         #region Top 変更通知プロパティ
 
@@ -72,7 +86,51 @@ namespace WinCap.ViewModels
             }
         }
 
-        #endregion Top 変更通知プロパティ
+        #endregion
+
+        #region Width 変更通知プロパティ
+
+        private double _Width = 240.0;
+
+        /// <summary>
+        /// ウィンドウの横幅を取得します。
+        /// </summary>
+        public double Width
+        {
+            get { return this._Width; }
+            set
+            {
+                if (this._Width != value)
+                {
+                    this._Width = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Width 変更通知プロパティ
+
+        private double _Height = 100.0;
+
+        /// <summary>
+        /// ウィンドウの高さを取得します。
+        /// </summary>
+        public double Height
+        {
+            get { return this._Height; }
+            set
+            {
+                if (this._Height != value)
+                {
+                    this._Height = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
 
         #region ClassName 変更通知プロパティ
 
@@ -94,51 +152,51 @@ namespace WinCap.ViewModels
             }
         }
 
-        #endregion ClassName 変更通知プロパティ
+        #endregion
 
-        #region Point 変更通知プロパティ
+        #region ControlLocation 変更通知プロパティ
 
-        private System.Drawing.Point _Point;
+        private Point _ControlLocation;
 
         /// <summary>
-        /// 位置を取得または設定します。
+        /// コントロールの位置を取得または設定します。
         /// </summary>
-        public System.Drawing.Point Point
+        public Point ControlLocation
         {
-            get { return this._Point; }
+            get { return this._ControlLocation; }
             set
             {
-                if (this._Point != value)
+                if (this._ControlLocation != value)
                 {
-                    this._Point = value;
+                    this._ControlLocation = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        #endregion Point 変更通知プロパティ
+        #endregion
 
-        #region Size 変更通知プロパティ
+        #region ControlSize 変更通知プロパティ
 
-        private System.Drawing.Size _Size;
+        private Size _ControlSize;
 
         /// <summary>
         /// サイズを取得または設定します。
         /// </summary>
-        public System.Drawing.Size Size
+        public Size ControlSize
         {
-            get { return this._Size; }
+            get { return this._ControlSize; }
             set
             {
-                if (this._Size != value)
+                if (this._ControlSize != value)
                 {
-                    this._Size = value;
+                    this._ControlSize = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        #endregion Size 変更通知プロパティ
+        #endregion
 
         /// <summary>
         /// コンストラクタ。
@@ -150,10 +208,17 @@ namespace WinCap.ViewModels
         /// <summary>
 		/// 初期化。
         /// </summary>
-        public void Initialize()
+        /// <param name="screenLocation">画面の左端</param>
+        /// <param name="point">マウス座標</param>
+        public void Initialize(Point screenLocation, Point point)
         {
-            this.Left = this.Margin.X;
-            this.Top = this.Margin.Y;
+            this.screenLocation = screenLocation;
+            this.screen = GetScrren(point);
+            this.anchor = AnchorLeftTop;
+
+            var location = GetLocation(this.screen, this.anchor);
+            this.Left = location.X;
+            this.Top = location.Y;
 
             this.Messenger.Raise(new SetVisibilityMessage
             {
@@ -170,24 +235,70 @@ namespace WinCap.ViewModels
         public void SetInfo(IntPtr handle, Rectangle bounds)
         {
             this.ClassName = InteropHelper.GetClassName(handle);
-            this.Point = bounds.Location;
-            this.Size = bounds.Size;
+            this.ControlLocation = bounds.Location;
+            this.ControlSize = bounds.Size;
         }
 
         /// <summary>
         /// マウス座標を更新します。
         /// </summary>
         /// <param name="point">マウス座標</param>
-        public void UpdateMousePoint(System.Drawing.Point point)
+        public void UpdateMousePoint(Point point)
         {
-            // スクリーン取得
-            var screen = Screen.AllScreens
-                .Where(x => x.Bounds.Contains(point))
-                .FirstOrDefault();
+            // スクリーン、アンカー更新
+            var nextScreen = GetScrren(point);
+            if (this.screen != nextScreen)
+            {
+                this.screen = nextScreen;
+                this.anchor = AnchorLeftTop;
+            }
 
-            // スクリーンの左端座標に設定する
-            this.Left = screen.Bounds.Left + this.Margin.X;
-            this.Top = screen.Bounds.Top + this.Margin.Y;
+            // 位置座標の更新
+            var location = GetLocation(this.screen, this.anchor);
+            this.Left = location.X - this.screenLocation.X;
+            this.Top = location.Y - this.screenLocation.Y;
+
+            // マウスオーバーチェック
+            var area = new Rectangle(new Point(location.X, location.Y), new Size((int)this.Width, (int)this.Height));
+            if (area.Contains(point))
+            {
+                // アンカー反転
+                this.anchor ^= AnchorLeftTop;
+            }
+        }
+
+        /// <summary>
+        /// 指定座標上のスクリーンを取得します。
+        /// </summary>
+        /// <param name="point">座標</param>
+        /// <returns>スクリーン</returns>
+        private Screen GetScrren(Point point)
+        {
+            return Screen.AllScreens
+                .Where(x => x.Bounds.Contains(point))
+                .FirstOrDefault() ?? Screen.PrimaryScreen;
+        }
+
+        /// <summary>
+        /// 指定 <see cref="Screen"/> の <see cref="AnchorStyles"/> 位置の座標を取得します。
+        /// </summary>
+        /// <param name="screen">スクリーン</param>
+        /// <param name="anchor">アンカー</param>
+        /// <returns>位置座標</returns>
+        private Point GetLocation(Screen screen, AnchorStyles anchor)
+        {
+            var result = new Point();
+            if (anchor == AnchorLeftTop)
+            {
+                result.X = screen.Bounds.Left + MarginWidth;
+                result.Y = screen.Bounds.Top + MarginHeight;
+            }
+            else
+            {
+                result.X = screen.Bounds.Right - (int)this.Width - MarginWidth;
+                result.Y = screen.Bounds.Bottom - (int)this.Height - MarginHeight;
+            }
+            return result;
         }
     }
 }

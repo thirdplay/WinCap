@@ -19,6 +19,14 @@ namespace WinCap.Models
         private List<IntPtr> handles;
 
         /// <summary>
+        /// ウィンドウハンドル取得時に除外するクラス名
+        /// </summary>
+        private List<string> ignoreClassNames = new List<string>
+        {
+            "Intermediate D3D Window"
+        };
+
+        /// <summary>
         /// Initializeメソッドが呼ばれたかどうかを示す値を取得します。
         /// </summary>
         public bool IsInitialized { get; private set; }
@@ -70,7 +78,7 @@ namespace WinCap.Models
             var selectedHandle = IntPtr.Zero;
             foreach (var handle in this.handles)
             {
-                Rectangle bounds = InteropHelper.GetWindowBounds(handle);
+                Rectangle bounds = InteropHelper.GetWindowSize(handle);
                 if (bounds != Rectangle.Empty && bounds.Contains(point))
                 {
                     selectedHandle = handle;
@@ -111,8 +119,13 @@ namespace WinCap.Models
                 }
             } while ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
-            // クラス名にWinCapを含むウィンドウは除外する
-            list.RemoveAll(x => InteropHelper.GetClassName(x).IndexOf(ProductInfo.Product) >= 0);
+            // 除外対象のクラス名のハンドルを除外する
+            list.RemoveAll(x =>
+            {
+                var className = InteropHelper.GetClassName(x);
+                return (className.IndexOf(ProductInfo.Product) >= 0 || this.ignoreClassNames.Contains(className));
+            });
+
             return list;
         }
 
@@ -140,7 +153,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 指定ウィンドウをキャプチャ対象ウィンドウとするか返します。
+        /// 指定ウィンドウハンドルがャプチャ対象か返します。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <returns>対象ならtrue、それ以外はfalse</returns>
@@ -151,7 +164,7 @@ namespace WinCap.Models
             if (visible != 0)
             {
                 // 矩形情報を取得
-                Rectangle rect = InteropHelper.GetWindowBounds(handle);
+                Rectangle rect = InteropHelper.GetWindowSize(handle);
                 if (rect.Width > 0 && rect.Height > 0)
                 {
                     return true;

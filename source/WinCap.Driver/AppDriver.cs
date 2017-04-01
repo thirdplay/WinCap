@@ -27,7 +27,7 @@ namespace WinCap.Driver
         /// <summary>
         /// 実行ファイルパスを取得します。
         /// </summary>
-        private static string ExecutablePath { get; } = Path.GetFullPath("../../../WinCap/bin/" + BuildDir + "/WinCap.exe");
+        private static string ExecutablePath => Path.GetFullPath("../../../WinCap/bin/" + BuildDir + "/WinCap.exe");
 
         /// <summary>
         /// アプリケーション操作クラス。

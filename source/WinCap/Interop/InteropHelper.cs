@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 using WinCap.Interop.Win32;
 using Rectangle = System.Drawing.Rectangle;
 
@@ -27,15 +30,57 @@ namespace WinCap.Interop
         }
 
         /// <summary>
-        /// 指定ウィンドウハンドルの範囲を取得します。
+        /// 指定ウィンドウハンドルのウィンドウサイズを取得します。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <param name="isHighDpi">高DPI対応を処理するかどうか</param>
-        /// <returns>ウィンドウの範囲</returns>
-        public static Rectangle GetWindowBounds(IntPtr handle, bool isHighDpi = true)
+        /// <returns>ウィンドウサイズ</returns>
+        public static Rectangle GetWindowSize(IntPtr handle, bool isHighDpi = true)
         {
-            var result = Rectangle.Empty;
+            try
+            {
+                var result = GetWindowSize(handle);
+                if (result != Rectangle.Empty)
+                {
+                    // 最大化状態のウィンドウの場合
+                    var style = User32.GetWindowLong(handle, GWL.STYLE);
+                    if ((style & (int)WS.MAXIMIZE) == (int)WS.MAXIMIZE)
+                    {
+                        // スクリーン取得
+                        var point = new Point(
+                            result.Left + result.Width / 2, result.Top + result.Height / 2);
+                        var screen = Screen.AllScreens
+                            .Where(x => x.Bounds.Contains(point))
+                            .FirstOrDefault();
 
+                        // スクリーンの作業領域を設定する
+                        if (screen != null)
+                        {
+                            result = screen.WorkingArea;
+                        }
+                    }
+
+                    // 高DPI対応
+                    if (isHighDpi)
+                    {
+                        result = result.ToLogicalPixel(PerMonitorDpi.GetDpi(handle));
+                    }
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return Rectangle.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 指定ウィンドウハンドルのウィンドウサイズを取得します。
+        /// </summary>
+        /// <param name="handle">ウィンドウハンドル</param>
+        /// <returns>ウィンドウサイズ</returns>
+        private static Rectangle GetWindowSize(IntPtr handle)
+        {
             // Vista以降の場合、DWMでウィンドウサイズを取得
             var rect = new RECT();
             if (Environment.OSVersion.Version.Major >= 6)
@@ -45,26 +90,15 @@ namespace WinCap.Interop
                     var rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
                     if (rectangle.Width > 0 && rectangle.Height > 0)
                     {
-                        result = rectangle;
+                        return rectangle;
                     }
                 }
             }
-            if (result == Rectangle.Empty && User32.GetWindowRect(handle, out rect))
+            if (User32.GetWindowRect(handle, out rect))
             {
-                result = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+                return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
             }
-
-            if (result != Rectangle.Empty)
-            {
-                // 高DPI対応
-                if (isHighDpi)
-                {
-                    var dpi = PerMonitorDpi.GetDpi(handle);
-                    result = result.ToLogicalPixel(dpi);
-                }
-            }
-
-            return result;
+            return Rectangle.Empty;
         }
     }
 }

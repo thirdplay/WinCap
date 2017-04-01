@@ -17,22 +17,22 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 一般設定ViewModel
         /// </summary>
-        public GeneralViewModel General { get; } = new GeneralViewModel();
+        public GeneralViewModel General { get; }
 
         /// <summary>
         /// 出力設定ViewModel
         /// </summary>
-        public OutputViewModel Output { get; } = new OutputViewModel();
+        public OutputViewModel Output { get; }
 
         /// <summary>
         /// ショートカットキー設定ViewModel
         /// </summary>
-        public ShortcutKeyViewModel ShortcutKey { get; } = new ShortcutKeyViewModel();
+        public ShortcutKeyViewModel ShortcutKey { get; }
 
         /// <summary>
         /// ショートカットキー設定ViewModel
         /// </summary>
-        public VersionInfoViewModel VersionInfo { get; } = new VersionInfoViewModel();
+        public VersionInfoViewModel VersionInfo { get; }
 
         #endregion ViewModels
 

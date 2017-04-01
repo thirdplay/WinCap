@@ -18,9 +18,9 @@ namespace WinCap.ViewModels
     public class ControlSelectionWindowViewModel : WindowViewModel
     {
         /// <summary>
-        /// ウィンドウの左端座標。
+        /// 画面の左端。
         /// </summary>
-        private System.Drawing.Point location;
+        private System.Drawing.Point screenLocation;
 
         /// <summary>
         /// コントロール選択モデル。
@@ -52,7 +52,7 @@ namespace WinCap.ViewModels
             this.controlSelection.Subscribe(nameof(this.controlSelection.SelectedHandle), () =>
             {
                 var handle = this.controlSelection.SelectedHandle;
-                var bounds = InteropHelper.GetWindowBounds(handle);
+                var bounds = InteropHelper.GetWindowSize(handle);
 
                 // コントロール情報の更新
                 this.ControlSelectInfo.SetInfo(handle, bounds);
@@ -61,8 +61,8 @@ namespace WinCap.ViewModels
                 this.Messenger.Raise(new SetRectangleBoundsMessage
                 {
                     MessageKey = "Rectangle.Bounds",
-                    Left = bounds.Left - this.location.X,
-                    Top = bounds.Top - this.location.Y,
+                    Left = bounds.Left - this.screenLocation.X,
+                    Top = bounds.Top - this.screenLocation.Y,
                     Width = bounds.Width,
                     Height = bounds.Height
                 });
@@ -84,12 +84,12 @@ namespace WinCap.ViewModels
                 Width = screenRect.Width,
                 Height = screenRect.Height
             });
-            this.location = screenRect.Location;
+            this.screenLocation = screenRect.Location;
 
             // 初期化
             this.SendWindowAction(WindowAction.Active);
             this.controlSelection.Initialize();
-            this.ControlSelectInfo.Initialize();
+            this.ControlSelectInfo.Initialize(this.screenLocation, System.Windows.Forms.Cursor.Position);
 
             // マウス移動処理の呼び出し
             this.MouseMoveCore(System.Windows.Forms.Cursor.Position);
@@ -111,7 +111,7 @@ namespace WinCap.ViewModels
         /// <param name="point">マウス座標</param>
         private void MouseMoveCore(System.Drawing.Point point)
         {
-            var screenPoint = new System.Drawing.Point(point.X + this.location.X, point.Y + this.location.Y);
+            var screenPoint = new System.Drawing.Point(point.X + this.screenLocation.X, point.Y + this.screenLocation.Y);
             this.controlSelection.UpdateMousePoint(screenPoint);
             this.ControlSelectInfo.UpdateMousePoint(screenPoint);
         }
