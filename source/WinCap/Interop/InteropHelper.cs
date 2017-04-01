@@ -68,9 +68,8 @@ namespace WinCap.Interop
                 }
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Application.ReportException(null, ex, false);
                 return Rectangle.Empty;
             }
         }
