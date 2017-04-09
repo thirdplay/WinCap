@@ -146,9 +146,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfUtility, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfUtility.0.1.4\lib\net46\WpfUtility.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="WpfUtility, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfUtility.0.1.5\lib\net46\WpfUtility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -237,7 +236,6 @@
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
-    <Compile Include="Views\Controls\CustomValidationPopup.cs" />
     <Compile Include="Views\Controls\ShortcutKeyBox.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -318,10 +316,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Fonts.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ValidationErrorTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
