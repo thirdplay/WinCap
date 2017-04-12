@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
+using WinCap.Properties;
 using WpfUtility.Serialization;
 
 namespace WinCap.Serialization
@@ -46,7 +47,7 @@ namespace WinCap.Serialization
             var path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "thirdplay",
-                "WinCap",
+                ProductInfo.Title,
                 this.FileName);
 
             var file = new FileInfo(path);
