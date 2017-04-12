@@ -4,7 +4,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/WinCap;component/Styles/Fonts.xaml"/>
-        <ResourceDictionary Source="/WinCap;component/Styles/ValidationErrorTemplate.xaml"/>
         <ResourceDictionary Source="/WinCap;component/Styles/Controls.Button.xaml"/>
         <ResourceDictionary Source="/WinCap;component/Styles/Controls.CheckBox.xaml"/>
         <ResourceDictionary Source="/WinCap;component/Styles/Controls.PromptTextBox.xaml"/>

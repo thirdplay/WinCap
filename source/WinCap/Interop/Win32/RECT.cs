@@ -28,15 +28,5 @@ namespace WinCap.Interop.Win32
         /// 四角形の底辺のY座標を取得、設定します。
         /// </summary>
         public int bottom;
-
-        /// <summary>
-        /// 四角形の横幅を取得します。
-        /// </summary>
-        public int Width => Math.Abs(right - left);
-
-        /// <summary>
-        /// 四角形の高さを取得します。
-        /// </summary>
-        public int Height => bottom - top;
     }
 }
