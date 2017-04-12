@@ -17,7 +17,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// インスタンス
         /// </summary>
-        public static LocalSettingsProvider Instance => new LocalSettingsProvider();
+        public static LocalSettingsProvider Instance { get; } = new LocalSettingsProvider();
 
         /// <summary>
         /// 対象ファイル情報
