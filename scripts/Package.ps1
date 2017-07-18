@@ -1,24 +1,15 @@
 ﻿function Main
 {
-    [CmdletBinding()]
-    param
-    (
-        [parameter(
-            mandatory = 1,
-            position  = 0,
-            ValueFromPipeline = 1,
-            ValueFromPipelineByPropertyName = 1)]
-        [string]
-        $PsDir
-    )
-
     begin
     {
         $ErrorActionPreference = 'stop'
 
+        # スクリプトディレクトリの取得
+        $scriptDir = Split-Path $MyInvocation.ScriptName -Parent
+
         # カレントディレクトリをスクリプト自身のパスに変更
         $OldDir = Convert-Path .
-        Set-CurrentDirectory $PsDir
+        Set-CurrentDirectory $scriptDir
 
         $target = 'Release'
         $result = 'WinCap'
@@ -346,4 +337,4 @@ function Set-CurrentDirectory ($path) {
     }
 }
 
-Main -psdir (Split-Path $MyInvocation.MyCommand.Path -Parent)
+Main
