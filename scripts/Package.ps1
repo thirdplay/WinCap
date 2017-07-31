@@ -11,14 +11,14 @@
         $OldDir = Convert-Path .
         Set-CurrentDirectory $scriptDir
 
+        $appName = 'WinCap'
         $target = 'Release'
-        $result = 'WinCap'
-        $bin = '..\source\WinCap\bin\'
+        $bin = '..\source\' + $appName + '\bin\'
 
         $targetKeywords = '*.exe','*.dll','*.exe.config','*.txt','*.VisualElementsManifest.xml'
         $ignoreKeywords = '*.vshost.*','Microsoft.*.resources.dll'
 
-        $exeSource  = 'WinCap.exe'
+        $exeSource  = $appName + '.exe'
 
         if (-not(Test-Path $bin))
         {
@@ -42,7 +42,7 @@
             if ((Test-Path $versionSource) -and (Test-Path $target))
             {
                 $version = (Get-ChildItem $versionSource).VersionInfo
-                $result  = $result + '-ver.{0}.{1}.{2}' -f $version.ProductMajorPart, $version.ProductMinorPart, $version.ProductBuildPart
+                $result  = $appName + '-ver.{0}.{1}.{2}' -f $version.ProductMajorPart, $version.ProductMinorPart, $version.ProductBuildPart
 
                 Rename-Item -NewName $result -Path $target
                 New-ZipCompression -source $(Join-Path $(Get-Location) $result) -destination $(Join-Path $(Get-Location).Path ('./' + $result + '.zip'))
