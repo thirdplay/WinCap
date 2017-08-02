@@ -14,15 +14,15 @@
 
     <Style TargetType="{x:Type util:HyperlinkEx}">
         <Setter Property="Foreground"
-				Value="{DynamicResource LinkForegroundBrushKey}" />
+                Value="{DynamicResource LinkForegroundBrushKey}" />
     </Style>
 
     <Style x:Key="SeparatorRectangleStyleKey"
-		   TargetType="{x:Type Rectangle}">
+           TargetType="{x:Type Rectangle}">
         <Setter Property="Fill"
-				Value="{DynamicResource InactiveForegroundBrushKey}" />
+                Value="{DynamicResource InactiveForegroundBrushKey}" />
         <Setter Property="Opacity"
-				Value="0.6" />
+                Value="0.6" />
         <Setter Property="Margin"
                 Value="0,0,0,10" />
     </Style>

@@ -70,7 +70,7 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-		/// 初期化処理。
+        /// 初期化処理。
         /// </summary>
         protected override void InitializeCore()
         {

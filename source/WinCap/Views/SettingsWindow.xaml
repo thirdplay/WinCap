@@ -16,7 +16,7 @@
                    Icon="/WinCap;component/assets/app.ico"
                    WindowStartupLocation="CenterScreen"
                    Background="{DynamicResource ThemeBrushKey}"
-	               Foreground="{DynamicResource ActiveForegroundBrushKey}"
+                   Foreground="{DynamicResource ActiveForegroundBrushKey}"
                    Width="800"
                    Height="550"
                    MinWidth="800"
@@ -49,15 +49,15 @@
         <DockPanel Grid.Row="0" metro:MetroWindow.IsCaptionBar="True">
             <Border DockPanel.Dock="Bottom" Height="8" />
             <StackPanel DockPanel.Dock="Right"
-						Orientation="Horizontal"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Top"
-						WindowChrome.IsHitTestVisibleInChrome="True">
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
                 <metro:SystemButtons />
             </StackPanel>
             <TextBlock Text="{x:Static prop:Resources.Settings}"
-					   FontSize="18"
-					   Margin="12,8" />
+                       FontSize="18"
+                       Margin="12,8" />
         </DockPanel>
         <!-- #endregion  -->
 

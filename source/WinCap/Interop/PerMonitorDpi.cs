@@ -22,8 +22,8 @@ namespace WinCap.Interop
 #if DEBUG
                 return true;
 #else
-				var version = Environment.OSVersion.Version;
-				return (version.Major == 6 && version.Minor == 3) || version.Major >= 10;
+                var version = Environment.OSVersion.Version;
+                return (version.Major == 6 && version.Minor == 3) || version.Major >= 10;
 #endif
             }
         }

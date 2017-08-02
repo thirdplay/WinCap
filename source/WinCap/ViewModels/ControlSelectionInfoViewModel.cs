@@ -206,7 +206,7 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-		/// 初期化。
+        /// 初期化。
         /// </summary>
         /// <param name="screenLocation">画面の左端</param>
         /// <param name="point">マウス座標</param>

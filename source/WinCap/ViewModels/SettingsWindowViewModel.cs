@@ -100,7 +100,6 @@ namespace WinCap.ViewModels
         protected override void InitializeCore()
         {
             this.hookService.Suspend().AddTo(this);
-            this.applicationAction.DeregisterActions();
             this.TabItems.ForEach(x => x.Initialize());
         }
 
@@ -122,6 +121,9 @@ namespace WinCap.ViewModels
             this.TabItems.ForEach(x => x.Apply());
 
             this.applicationAction.CreateShortcut();
+
+            // アクションを再登録する
+            this.applicationAction.DeregisterActions();
             if (!this.applicationAction.RegisterActions())
             {
                 // ショートカットの登録に失敗した場合、変更確認をして再度設定させる
