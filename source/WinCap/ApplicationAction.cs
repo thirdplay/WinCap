@@ -101,21 +101,18 @@ namespace WinCap
         /// </summary>
         public void ShowSettings()
         {
-            using (this.application.HookService.Suspend())
+            if (SettingsWindow.Instance != null)
             {
-                if (SettingsWindow.Instance != null)
+                SettingsWindow.Instance.Activate();
+            }
+            else
+            {
+                SettingsWindow.Instance = new SettingsWindow()
                 {
-                    SettingsWindow.Instance.Activate();
-                }
-                else
-                {
-                    SettingsWindow.Instance = new SettingsWindow()
-                    {
-                        DataContext = new SettingsWindowViewModel(this.application.HookService, this)
-                    };
-                    SettingsWindow.Instance.ShowDialog();
-                    SettingsWindow.Instance = null;
-                }
+                    DataContext = new SettingsWindowViewModel(this.application.HookService, this)
+                };
+                SettingsWindow.Instance.ShowDialog();
+                SettingsWindow.Instance = null;
             }
         }
 

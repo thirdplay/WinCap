@@ -4,38 +4,38 @@
 
     <Style TargetType="{x:Type controls:ShortcutKeyBox}">
         <Setter Property="Background"
-				Value="{DynamicResource SemiactiveBackgroundBrushKey}" />
+                Value="{DynamicResource SemiactiveBackgroundBrushKey}" />
         <Setter Property="BorderBrush"
-				Value="{DynamicResource SemiactiveBorderBrushKey}" />
+                Value="{DynamicResource SemiactiveBorderBrushKey}" />
         <Setter Property="Foreground"
-				Value="{DynamicResource ActiveForegroundBrushKey}" />
+                Value="{DynamicResource ActiveForegroundBrushKey}" />
         <Setter Property="BorderThickness"
-				Value="1" />
+                Value="1" />
         <Setter Property="Padding"
-				Value="2" />
+                Value="2" />
         <Setter Property="Margin"
-				Value="0,2" />
+                Value="0,2" />
         <Setter Property="VerticalContentAlignment"
-				Value="Center" />
+                Value="Center" />
         <Setter Property="Text"
-				Value="" />
+                Value="" />
         <Setter Property="FocusVisualStyle"
-				Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}" />
+                Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:ShortcutKeyBox}">
                     <Border Background="{TemplateBinding Background}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							CornerRadius="0"
-							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <ScrollViewer x:Name="PART_ContentHost"
-									  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-									  HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
-									  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-									  VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
-									  Margin="{TemplateBinding Padding}"
-									  Background="Transparent" />
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                      Margin="{TemplateBinding Padding}"
+                                      Background="Transparent" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -44,29 +44,29 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver"
-					 Value="True">
+                     Value="True">
                 <Setter Property="Background"
-						Value="{DynamicResource ActiveBackgroundBrushKey}" />
+                        Value="{DynamicResource ActiveBackgroundBrushKey}" />
                 <Setter Property="BorderBrush"
-						Value="{DynamicResource ActiveBorderBrushKey}" />
+                        Value="{DynamicResource ActiveBorderBrushKey}" />
             </Trigger>
 
             <Trigger Property="IsKeyboardFocusWithin"
-					 Value="True">
+                     Value="True">
                 <Setter Property="Background"
-						Value="{DynamicResource ActiveBackgroundBrushKey}" />
+                        Value="{DynamicResource ActiveBackgroundBrushKey}" />
                 <Setter Property="BorderBrush"
-						Value="{DynamicResource AccentBrushKey}" />
+                        Value="{DynamicResource AccentBrushKey}" />
             </Trigger>
 
             <Trigger Property="IsEnabled"
-					 Value="False">
+                     Value="False">
                 <Setter Property="Background"
-						Value="{DynamicResource InactiveBackgroundBrushKey}" />
+                        Value="{DynamicResource InactiveBackgroundBrushKey}" />
                 <Setter Property="BorderBrush"
-						Value="{DynamicResource InactiveBorderBrushKey}" />
+                        Value="{DynamicResource InactiveBorderBrushKey}" />
                 <Setter Property="Foreground"
-						Value="{DynamicResource InactiveForegroundBrushKey}" />
+                        Value="{DynamicResource InactiveForegroundBrushKey}" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -12,7 +12,7 @@
              Width="{Binding Width}"
              Height="{Binding Height}"
              Foreground="#FFFFFFFF"
-			 Background="{DynamicResource BackgroundBrushKey}">
+             Background="{DynamicResource BackgroundBrushKey}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type TextBlock}"
@@ -32,7 +32,7 @@
         </livet:InteractionMessageTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.Visibility">
+                                         MessageKey="Window.Visibility">
             <behaviors:SetVisibilityAction />
         </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
@@ -90,7 +90,7 @@
                 </UniformGrid>
             </Grid>
             <Rectangle Height="1"
-				       Style="{DynamicResource SeparatorRectangleStyleKey}"
+                       Style="{DynamicResource SeparatorRectangleStyleKey}"
                        Margin="0,4" />
             <TextBlock>
                 <Run Text="{x:Static prop:Resources.ControlSelectionInfo_Description}"/>

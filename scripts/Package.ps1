@@ -1,33 +1,24 @@
 ﻿function Main
 {
-    [CmdletBinding()]
-    param
-    (
-        [parameter(
-            mandatory = 1,
-            position  = 0,
-            ValueFromPipeline = 1,
-            ValueFromPipelineByPropertyName = 1)]
-        [string]
-        $PsDir
-    )
-
     begin
     {
         $ErrorActionPreference = 'stop'
 
+        # スクリプトディレクトリの取得
+        $scriptDir = Split-Path $MyInvocation.ScriptName -Parent
+
         # カレントディレクトリをスクリプト自身のパスに変更
         $OldDir = Convert-Path .
-        Set-CurrentDirectory $PsDir
+        Set-CurrentDirectory $scriptDir
 
+        $appName = 'WinCap'
         $target = 'Release'
-        $result = 'WinCap'
-        $bin = '..\source\WinCap\bin\'
+        $bin = '..\source\' + $appName + '\bin\'
 
         $targetKeywords = '*.exe','*.dll','*.exe.config','*.txt','*.VisualElementsManifest.xml'
         $ignoreKeywords = '*.vshost.*','Microsoft.*.resources.dll'
 
-        $exeSource  = 'WinCap.exe'
+        $exeSource  = $appName + '.exe'
 
         if (-not(Test-Path $bin))
         {
@@ -51,7 +42,7 @@
             if ((Test-Path $versionSource) -and (Test-Path $target))
             {
                 $version = (Get-ChildItem $versionSource).VersionInfo
-                $result  = $result + '-ver.{0}.{1}.{2}' -f $version.ProductMajorPart, $version.ProductMinorPart, $version.ProductBuildPart
+                $result  = $appName + '-ver.{0}.{1}.{2}' -f $version.ProductMajorPart, $version.ProductMinorPart, $version.ProductBuildPart
 
                 Rename-Item -NewName $result -Path $target
                 New-ZipCompression -source $(Join-Path $(Get-Location) $result) -destination $(Join-Path $(Get-Location).Path ('./' + $result + '.zip'))
@@ -346,4 +337,4 @@ function Set-CurrentDirectory ($path) {
     }
 }
 
-Main -psdir (Split-Path $MyInvocation.MyCommand.Path -Parent)
+Main

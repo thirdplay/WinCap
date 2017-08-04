@@ -4,7 +4,7 @@
     <Style TargetType="{x:Type RadioButton}"
            BasedOn="{StaticResource {x:Type RadioButton}}">
         <Setter Property="FontFamily"
-				Value="{DynamicResource DefaultFontFamilyKey}" />
+                Value="{DynamicResource DefaultFontFamilyKey}" />
         <Setter Property="Margin"
                 Value="0,2" />
     </Style>

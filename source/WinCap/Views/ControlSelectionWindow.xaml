@@ -17,7 +17,7 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
-										 MethodName="Initialize" />
+                                         MethodName="Initialize" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="Closed">
@@ -40,12 +40,12 @@
         </i:EventTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.Bounds">
+                                         MessageKey="Window.Bounds">
             <behaviors:SetWindowBoundsAction />
         </livet:InteractionMessageTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										 MessageKey="Window.Visibility">
+                                         MessageKey="Window.Visibility">
             <behaviors:SetVisibilityAction />
         </livet:InteractionMessageTrigger>
 
@@ -58,7 +58,7 @@
                    Height="0">
             <i:Interaction.Triggers>
                 <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-										         MessageKey="Rectangle.Bounds">
+                                                 MessageKey="Rectangle.Bounds">
                     <behaviors:SetRectangleBoundsAction />
                 </livet:InteractionMessageTrigger>
             </i:Interaction.Triggers>

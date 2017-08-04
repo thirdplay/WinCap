@@ -7,6 +7,9 @@ using WinCap.Services;
 
 namespace WinCap.Capturers
 {
+    /// <summary>
+    /// ウェブブラウザをキャプチャする機能を提供します。
+    /// </summary>
     public class WebBrowserCapturer : CapturerBase<IntPtr?>
     {
         /// <summary>

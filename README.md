@@ -1,6 +1,7 @@
 # WinCap
 [![Build status (master)](https://img.shields.io/appveyor/ci/Thirdplay/WinCap/master.svg?style=flat-square)](https://ci.appveyor.com/project/thirdplay/wincap/branch/master)
 [![Release](https://img.shields.io/github/release/Thirdplay/WinCap.svg?style=flat-square)](https://github.com/thirdplay/WinCap/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/thirdplay/WinCap/total.svg?style=flat-square)](https://github.com/thirdplay/WinCap/releases/latest)
 [![License](https://img.shields.io/github/license/Thirdplay/WinCap.svg?style=flat-square)](https://github.com/thirdplay/WinCap/blob/master/LICENSE.txt)
 
 WinCapは、画面キャプチャツールです。  
@@ -21,7 +22,7 @@ WinCapは、画面キャプチャツールです。
 ![settingswindow](https://cloud.githubusercontent.com/assets/14181039/21991387/bd50f456-dc55-11e6-994c-3aa3a91325a9.png)
 
 ### 動作環境
-* Windows7以降
+* Windows7 以降
 * [.NET Framework 4.6](https://www.microsoft.com/ja-jp/download/details.aspx?id=48130)
 
 ### ライセンス

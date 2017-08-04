@@ -4,58 +4,58 @@
 
     <!-- ReSharper disable once InconsistentNaming -->
     <Style x:Key="DefaultTextStyleKey"
-		   TargetType="{x:Type TextBlock}">
+           TargetType="{x:Type TextBlock}">
         <Setter Property="VerticalAlignment"
-				Value="Center" />
+                Value="Center" />
         <Setter Property="FontFamily"
-				Value="{DynamicResource DefaultFontFamilyKey}" />
+                Value="{DynamicResource DefaultFontFamilyKey}" />
         <Setter Property="FontSize"
-				Value="{DynamicResource DefaultFontSizeKey}" />
+                Value="{DynamicResource DefaultFontSizeKey}" />
         <Setter Property="Foreground"
                 Value="{DynamicResource ActiveForegroundBrushKey}" />
         <Setter Property="TextTrimming"
-				Value="WordEllipsis" />
+                Value="WordEllipsis" />
         <Setter Property="TextWrapping"
-				Value="Wrap" />
+                Value="Wrap" />
         <Style.Triggers>
             <Trigger Property="IsEnabled"
-					 Value="False">
+                     Value="False">
                 <Setter Property="Foreground"
-						Value="{DynamicResource InactiveForegroundBrushKey}" />
+                        Value="{DynamicResource InactiveForegroundBrushKey}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}"
-		   BasedOn="{StaticResource DefaultTextStyleKey}">
+           BasedOn="{StaticResource DefaultTextStyleKey}">
     </Style>
 
     <Style x:Key="DetailTextStyleKey"
-		   TargetType="{x:Type TextBlock}"
-		   BasedOn="{StaticResource DefaultTextStyleKey}">
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource DefaultTextStyleKey}">
         <Setter Property="FontFamily"
-				Value="{DynamicResource DetailFontFamilyKey}" />
+                Value="{DynamicResource DetailFontFamilyKey}" />
         <Setter Property="FontSize"
-				Value="{DynamicResource DetailFontSizeKey}" />
+                Value="{DynamicResource DetailFontSizeKey}" />
         <Setter Property="Foreground"
-				Value="{DynamicResource ForegroundBrushKey}" />
+                Value="{DynamicResource ForegroundBrushKey}" />
         <Setter Property="TextTrimming"
-				Value="WordEllipsis" />
+                Value="WordEllipsis" />
         <Setter Property="TextWrapping"
-				Value="Wrap" />
+                Value="Wrap" />
     </Style>
 
     <Style x:Key="HeaderTextStyleKey"
-		   TargetType="{x:Type TextBlock}"
-		   BasedOn="{StaticResource DefaultTextStyleKey}">
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource DefaultTextStyleKey}">
         <Setter Property="FontFamily"
-				Value="{DynamicResource HeaderFontFamilyKey}" />
+                Value="{DynamicResource HeaderFontFamilyKey}" />
         <Setter Property="FontSize"
-				Value="{DynamicResource HeaderFontSizeKey}" />
+                Value="{DynamicResource HeaderFontSizeKey}" />
         <Setter Property="Foreground"
-				Value="{DynamicResource ForegroundBrushKey}" />
+                Value="{DynamicResource ForegroundBrushKey}" />
         <Setter Property="TextTrimming"
-				Value="WordEllipsis" />
+                Value="WordEllipsis" />
     </Style>
 
 </ResourceDictionary>

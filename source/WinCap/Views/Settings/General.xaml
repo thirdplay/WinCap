@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
              xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
-			 xmlns:prop="clr-namespace:WinCap.Properties"
+             xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
              d:DesignWidth="600"
              d:DesignHeight="450">
