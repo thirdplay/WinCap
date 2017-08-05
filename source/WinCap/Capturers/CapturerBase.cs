@@ -23,8 +23,11 @@ namespace WinCap.Capturers
             try
             {
                 // キャプチャ対象取得
-                var target = GetTargetCore();
-                if (target == null) return;
+                var target = GetCaptureTarget();
+                if (target == null)
+                {
+                    return;
+                }
 
                 // キャプチャ遅延時間
                 if (Settings.General.CaptureDelayTime > 0)
@@ -60,16 +63,16 @@ namespace WinCap.Capturers
         }
 
         /// <summary>
+        /// キャプチャ対象を取得します。
+        /// </summary>
+        /// <returns>キャプチャ対象</returns>
+        protected abstract TTarget GetCaptureTarget();
+
+        /// <summary>
         /// キャプチャのコア処理。
         /// </summary>
         /// <param name="target">キャプチャ対象</param>
         /// <returns>キャプチャ画像</returns>
         protected abstract Bitmap CaptureCore(TTarget target);
-
-        /// <summary>
-        /// キャプチャ対象を取得します。
-        /// </summary>
-        /// <returns>キャプチャ対象</returns>
-        protected abstract TTarget GetTargetCore();
     }
 }

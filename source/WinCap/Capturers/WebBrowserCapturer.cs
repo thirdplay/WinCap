@@ -31,6 +31,20 @@ namespace WinCap.Capturers
             this.windowService = windowService;
         }
 
+        #region CapturerBase members 
+
+        /// <summary>
+        /// キャプチャ対象を取得します。
+        /// </summary>
+        /// <returns>キャプチャ対象</returns>
+        protected override IntPtr? GetCaptureTarget()
+        {
+            var handle = this.windowService.ShowControlSelectionWindow();
+            return (handle != IntPtr.Zero
+                ? handle as IntPtr?
+                : null);
+        }
+
         /// <summary>
         /// キャプチャのコア処理。
         /// </summary>
@@ -54,17 +68,7 @@ namespace WinCap.Capturers
             }
         }
 
-        /// <summary>
-        /// キャプチャ対象を取得します。
-        /// </summary>
-        /// <returns>キャプチャ対象</returns>
-        protected override IntPtr? GetTargetCore()
-        {
-            var handle = this.windowService.ShowControlSelectionWindow();
-            return (handle != IntPtr.Zero
-                ? handle as IntPtr?
-                : null);
-        }
+        #endregion
 
         /// <summary>
         /// InternetExplorerのページ全体をキャプチャします。

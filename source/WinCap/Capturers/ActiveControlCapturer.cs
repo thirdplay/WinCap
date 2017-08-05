@@ -9,6 +9,17 @@ namespace WinCap.Capturers
     /// </summary>
     public class ActiveControlCapturer : CapturerBase<Rectangle?>
     {
+        #region CapturerBase members
+
+        /// <summary>
+        /// キャプチャ対象を取得します。
+        /// </summary>
+        /// <returns>キャプチャ対象</returns>
+        protected override Rectangle? GetCaptureTarget()
+        {
+            return InteropHelper.GetWindowSize(User32.GetForegroundWindow(), false);
+        }
+
         /// <summary>
         /// キャプチャのコア処理。
         /// </summary>
@@ -19,13 +30,6 @@ namespace WinCap.Capturers
             return ScreenHelper.CaptureScreen(target.Value);
         }
 
-        /// <summary>
-        /// キャプチャ対象を取得します。
-        /// </summary>
-        /// <returns>キャプチャ対象</returns>
-        protected override Rectangle? GetTargetCore()
-        {
-            return InteropHelper.GetWindowSize(User32.GetForegroundWindow(), false);
-        }
+        #endregion
     }
 }
