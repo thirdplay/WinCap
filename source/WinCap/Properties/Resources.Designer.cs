@@ -97,6 +97,15 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
+        ///   選択範囲をキャプチャ(&amp;R) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ContextMenu_RegionCapture {
+            get {
+                return ResourceManager.GetString("ContextMenu_RegionCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   設定(&amp;S) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_Settings {

@@ -131,6 +131,7 @@ namespace WinCap
                 {
                     new TaskTrayIconItem(PropResources.ContextMenu_DesktopCapture, () => this.CapturerService.CaptureDesktop()),
                     new TaskTrayIconItem(PropResources.ContextMenu_ControlCapture, () => this.CapturerService.CaptureSelectionControl()),
+                    //new TaskTrayIconItem(PropResources.ContextMenu_RegionCapture, () => this.CapturerService.CaptureSelectionRegion()),
                     new TaskTrayIconItem(PropResources.ContextMenu_WebPageCapture, () => this.CapturerService.CaptureWebPage()),
                 }),
                 new TaskTrayIconItem(PropResources.ContextMenu_Settings, () => this.ApplicationAction.ShowSettings()),

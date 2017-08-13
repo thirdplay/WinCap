@@ -129,6 +129,9 @@
   <data name="ContextMenu_Exit" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
+  <data name="ContextMenu_RegionCapture" xml:space="preserve">
+    <value>選択範囲をキャプチャ(&amp;R)</value>
+  </data>
   <data name="ContextMenu_Settings" xml:space="preserve">
     <value>設定(&amp;S)</value>
   </data>
