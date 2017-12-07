@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using WinCap.Drivers;
+using WinCap.Browsers;
 using WinCap.Interop;
 using WinCap.Serialization;
 using WinCap.Services;

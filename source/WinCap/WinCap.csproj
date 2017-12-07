@@ -263,7 +263,7 @@
       <DependentUpon>ControlSelectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interop\Win32\WM.cs" />
-    <Compile Include="Drivers\InternetExplorer.cs" />
+    <Compile Include="Browsers\InternetExplorer.cs" />
     <DesignData Include="SampleData\ControlSelectInfoViewModelSampleData.xaml">
       <SubType>Designer</SubType>
     </DesignData>
