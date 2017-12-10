@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WinCap.Driver;
+using WinCap.Driver.Drivers;
 
 namespace WinCap.Test
 {
@@ -100,6 +101,10 @@ namespace WinCap.Test
             else if (type == typeof(string))
             {
                 return value;
+            }
+            else if (type == typeof(int[]))
+            {
+                return int.Parse(value);
             }
             throw new NotSupportedException();
         }

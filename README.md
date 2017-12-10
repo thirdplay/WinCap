@@ -22,7 +22,7 @@ WinCapは、画面キャプチャツールです。
 ![settingswindow](https://cloud.githubusercontent.com/assets/14181039/21991387/bd50f456-dc55-11e6-994c-3aa3a91325a9.png)
 
 ### 動作環境
-* Windows7 以降
+* Windows 7 / 8 / 10
 * [.NET Framework 4.6](https://www.microsoft.com/ja-jp/download/details.aspx?id=48130)
 
 ### ライセンス
@@ -76,6 +76,6 @@ WinCapは、画面キャプチャツールです。
 
 #### [Friendly](http://www.english.codeer.co.jp/test-automation/friendly-fundamental)
 
-* **用途 :** テスト自動化
+* **用途 :** UIテスト自動化
 * **ライセンス :** Apache License Version 2.0
 * **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)
