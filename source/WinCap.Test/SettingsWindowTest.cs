@@ -111,7 +111,7 @@ namespace WinCap.Test
             general.ScrollDelayTime.EmulateChangeText(param.ScrollDelayTime);
             general.CaptureDelayTime.EmulateChangeText(param.CaptureDelayTime);
             buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.General.GetError(param.PropertyName);
+            string errorMessage = general.GetError(param.PropertyName);
             Assert.AreEqual(param.Message, errorMessage);
         }
 
@@ -145,7 +145,7 @@ namespace WinCap.Test
             output.OutputFolder.EmulateChangeText(param.OutputFolder);
             output.IsAutoSaveImage.EmulateCheck(param.IsAutoSaveImage);
             buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.Output.GetError(param.PropertyName);
+            string errorMessage = output.GetError(param.PropertyName);
             Assert.AreEqual(param.Message, errorMessage);
         }
     }
