@@ -83,12 +83,7 @@ namespace WinCap.Driver.Drivers
             var logicalTree = windowControl.LogicalTree();
 
             this.Window = windowControl;
-            this.ViewModel = new SettingsViewModel()
-            {
-                General = new GeneralViewModel(windowControl.Dynamic().DataContext.General),
-                Output = new OutputViewModel(windowControl.Dynamic().DataContext.Output),
-                ShortcutKey = new ShortcutKeyViewModel(windowControl.Dynamic().DataContext.ShortcutKey),
-            };
+            this.ViewModel = new SettingsViewModel(windowControl);
             this.TabItems = new WPFListBox(logicalTree.ByType("MetroRadiance.UI.Controls.TabView").ByBinding("TabItems").Single());
             this.ButtonOk = new WPFButtonBase(windowControl.Dynamic()._buttonOk);
         }
