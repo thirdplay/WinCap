@@ -90,6 +90,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\WPFShortcutKeyBox.cs" />
     <Compile Include="Drivers\AppDriver.cs" />
     <Compile Include="ViewModels\ShortcutKeyViewModel.cs" />
     <Compile Include="ViewModels\OutputViewModel.cs" />

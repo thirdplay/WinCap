@@ -1,8 +1,7 @@
-﻿using Codeer.Friendly;
-using Codeer.Friendly.Dynamic;
+﻿using Codeer.Friendly.Dynamic;
 using Codeer.Friendly.Windows.Grasp;
 using RM.Friendly.WPFStandardControls;
-using WinCap.Driver.Drivers;
+using WinCap.Driver.Controls;
 using WinCap.Driver.ViewModels;
 
 namespace WinCap.Driver.Drivers
@@ -143,13 +142,6 @@ namespace WinCap.Driver.Drivers
             this.ScrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
             this.CaptureDelayTime = new WPFTextBox(visualTree.ByBinding("CaptureDelayTime").Single());
         }
-
-        /// <summary>
-        /// プロパティ名のエラーメッセージを取得します。
-        /// </summary>
-        /// <param name="propertyName">プロパティ名</param>
-        /// <returns>エラーメッセージ</returns>
-        public string GetError(string propertyName) => this.ViewModel.GetError(propertyName);
     }
 
     /// <summary>
@@ -184,13 +176,6 @@ namespace WinCap.Driver.Drivers
             this.OutputFolder = new WPFTextBox(visualTree.ByBinding("OutputFolder").Single());
             this.IsAutoSaveImage = new WPFToggleButton(visualTree.ByBinding("IsAutoSaveImage").Single());
         }
-
-        /// <summary>
-        /// プロパティ名のエラーメッセージを取得します。
-        /// </summary>
-        /// <param name="propertyName">プロパティ名</param>
-        /// <returns>エラーメッセージ</returns>
-        public string GetError(string propertyName) => this.ViewModel.GetError(propertyName);
     }
 
     /// <summary>
@@ -204,6 +189,26 @@ namespace WinCap.Driver.Drivers
         public ShortcutKeyViewModel ViewModel { get; private set; }
 
         /// <summary>
+        /// 画面全体をキャプチャするショートカットキーを取得します。
+        /// </summary>
+        public WPFShortcutKeyBox FullScreen { get; private set; }
+
+        /// <summary>
+        /// アクティブコントロールをキャプチャするショートカットキーを取得します。
+        /// </summary>
+        public WPFShortcutKeyBox ActiveControl { get; private set; }
+
+        /// <summary>
+        /// 選択コントロールをキャプチャするショートカットキーを取得します
+        /// </summary>
+        public WPFShortcutKeyBox SelectionControl { get; private set; }
+
+        /// <summary>
+        /// Webページ全体をキャプチャするショートカットキーを取得します。
+        /// </summary>
+        public WPFShortcutKeyBox WebPage { get; private set; }
+
+        /// <summary>
         /// コンストラクタ。
         /// </summary>
         /// <param name="windowControl">ウィンドウコントロール</param>
@@ -212,17 +217,10 @@ namespace WinCap.Driver.Drivers
         {
             var visualTree = windowControl.VisualTree();
             this.ViewModel = viewModel;
-            var fullScreen = visualTree.ByBinding("FullScreen").Single();
-
-            //var current = (int[])fullScreen.Dynamic().Current;
-            //System.Diagnostics.Debug.WriteLine("Current:" + current[0]);
+            this.FullScreen = new WPFShortcutKeyBox(visualTree.ByBinding("FullScreen").Single());
+            this.ActiveControl = new WPFShortcutKeyBox(visualTree.ByBinding("ActiveControl").Single());
+            this.SelectionControl = new WPFShortcutKeyBox(visualTree.ByBinding("SelectionControl").Single());
+            this.WebPage = new WPFShortcutKeyBox(visualTree.ByBinding("WebPage").Single());
         }
-
-        /// <summary>
-        /// プロパティ名のエラーメッセージを取得します。
-        /// </summary>
-        /// <param name="propertyName">プロパティ名</param>
-        /// <returns>エラーメッセージ</returns>
-        public string GetError(string propertyName) => this.ViewModel.GetError(propertyName);
     }
 }

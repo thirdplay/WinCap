@@ -104,7 +104,13 @@ namespace WinCap.Test
             }
             else if (type == typeof(int[]))
             {
-                return int.Parse(value);
+                return (string.IsNullOrEmpty(value))
+                    ? Array.Empty<int>()
+                    : value.Split(',').Select(x => int.Parse(x)).ToArray();
+            }
+            else if (type == typeof(string[]))
+            {
+                return value.Split(',').Select(x => x.Trim()).ToArray();
             }
             throw new NotSupportedException();
         }
