@@ -21,6 +21,15 @@ namespace WinCap.Driver.ViewModels
         public ViewModelBase(AppVar appVar)
         {
             this.appVar = appVar;
+            RevertToSavedSettings();
+        }
+
+        /// <summary>
+        /// 保存時の設定に戻します。
+        /// </summary>
+        public void RevertToSavedSettings()
+        {
+            this.appVar.Dynamic().RevertToSavedSettings();
         }
 
         /// <summary>
