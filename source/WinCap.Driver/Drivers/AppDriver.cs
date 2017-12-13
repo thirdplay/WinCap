@@ -58,7 +58,7 @@ namespace WinCap.Driver.Drivers
         {
             if (this.Process == null)
             {
-                this.Process = Process.Start(ExecutablePath, "ShowSettingsWindow");
+                this.Process = Process.Start(ExecutablePath, "-UITest");
                 this.app = new WindowsAppFriend(this.Process);
 
                 // アプリケーション設定をリセットする
@@ -145,7 +145,6 @@ namespace WinCap.Driver.Drivers
         /// </summary>
         private void Shutdown()
         {
-            this.app?.Type("WinCap.Views.SettingsWindow").Instance?.Close();
             this.app?.Type<Application>().Current.Shutdown();
             this.app = null;
         }
