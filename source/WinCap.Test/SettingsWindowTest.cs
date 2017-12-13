@@ -55,12 +55,12 @@ namespace WinCap.Test
             var general = settingsWindow.General;
             var buttonOk = settingsWindow.ButtonOk;
 
-            general.ScrollDelayTime.EmulateChangeText("200");
+            general.ScrollDelayTime.EmulateChangeText("400");
             buttonOk.EmulateClick();
             var errorMessage = general.ViewModel.GetError("ScrollDelayTime");
 
             Assert.IsTrue(string.IsNullOrEmpty(errorMessage));
-            Assert.AreEqual("200", general.ScrollDelayTime.Text);
+            Assert.AreEqual("400", general.ScrollDelayTime.Text);
         }
 
         /// <summary>
