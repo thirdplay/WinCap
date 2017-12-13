@@ -167,6 +167,7 @@ namespace WinCap.Test
         /// <summary>
         /// ショートカットキータブの入力エラーテスト。
         /// </summary>
+        [TestMethod]
         [DataSource("System.Data.OleDB",
             @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=Params.xlsx; Extended Properties='Excel 12.0;HDR=yes';",
             "TestShortcutKeyError$",

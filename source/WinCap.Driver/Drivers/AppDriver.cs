@@ -145,6 +145,7 @@ namespace WinCap.Driver.Drivers
         /// </summary>
         private void Shutdown()
         {
+            this.app?.Type("WinCap.Views.SettingsWindow").Instance?.Close();
             this.app?.Type<Application>().Current.Shutdown();
             this.app = null;
         }
