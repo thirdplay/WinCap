@@ -132,7 +132,7 @@ namespace WinCap.Driver.Drivers
             dynamic appVar = this.app.Type<Application>().Current;
             Task.Run(() => appVar.ApplicationAction.ShowSettings());
 
-            var settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
+            dynamic settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
             do
             {
                 Thread.Sleep(10);
