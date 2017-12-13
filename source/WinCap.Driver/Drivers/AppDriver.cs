@@ -62,7 +62,7 @@ namespace WinCap.Driver.Drivers
                 this.app = new WindowsAppFriend(this.Process);
 
                 // アプリケーション設定をリセットする
-                var provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
+                dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
                 provider.Instance.Reset();
             }
             this.detector = new TimeoutDetector(1000 * 60 * 5);
@@ -106,7 +106,7 @@ namespace WinCap.Driver.Drivers
                 this.detector.Finish();
                 this.detector = null;
 
-                var provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
+                dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
                 provider.Instance.Reset();
                 provider.Instance.Save();
 
@@ -129,7 +129,7 @@ namespace WinCap.Driver.Drivers
         /// <returns>設定ウィンドウ</returns>
         private AppVar WaitShowSettingsWindow()
         {
-            var appVar = this.app.Type<Application>().Current;
+            dynamic appVar = this.app.Type<Application>().Current;
             Task.Run(() => appVar.ApplicationAction.ShowSettings());
 
             var settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
