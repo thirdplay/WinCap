@@ -83,12 +83,6 @@ namespace WinCap
 
                 // メインウィンドウ表示
                 this.MainWindow = new MainWindow();
-                if (e.Args.Length > 0 && e.Args[0] == "-UITest")
-                {
-                    // UIテストの場合、メインウィンドウを表示する
-                    this.MainWindow.ShowInTaskbar = true;
-                    this.MainWindow.WindowState = WindowState.Normal;
-                }
                 this.MainWindow.Show();
 
                 this.HookService = new HookService(this.MainWindow).AddTo(this);
@@ -100,6 +94,11 @@ namespace WinCap
                 this.ShowTaskTrayIcon();
                 this.ApplicationAction.CreateShortcut();
                 if (!this.ApplicationAction.RegisterActions())
+                {
+                    this.ApplicationAction.ShowSettings();
+                }
+
+                if (e.Args.Length > 0 && e.Args[0] == "ShowSettingsWindow")
                 {
                     this.ApplicationAction.ShowSettings();
                 }

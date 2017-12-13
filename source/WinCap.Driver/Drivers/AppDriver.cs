@@ -58,11 +58,11 @@ namespace WinCap.Driver.Drivers
         {
             if (this.Process == null)
             {
-                this.Process = Process.Start(ExecutablePath, "-UITest");
+                this.Process = Process.Start(ExecutablePath, "ShowSettingsWindow");
                 this.app = new WindowsAppFriend(this.Process);
 
                 // アプリケーション設定をリセットする
-                dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
+                var provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
                 provider.Instance.Reset();
             }
             this.detector = new TimeoutDetector(1000 * 60 * 5);
@@ -106,7 +106,7 @@ namespace WinCap.Driver.Drivers
                 this.detector.Finish();
                 this.detector = null;
 
-                dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
+                var provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
                 provider.Instance.Reset();
                 provider.Instance.Save();
 
@@ -129,10 +129,10 @@ namespace WinCap.Driver.Drivers
         /// <returns>設定ウィンドウ</returns>
         private AppVar WaitShowSettingsWindow()
         {
-            dynamic appVar = this.app.Type<Application>().Current;
+            var appVar = this.app.Type<Application>().Current;
             Task.Run(() => appVar.ApplicationAction.ShowSettings());
 
-            dynamic settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
+            var settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
             do
             {
                 Thread.Sleep(10);

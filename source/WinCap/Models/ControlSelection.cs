@@ -153,7 +153,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 指定ウィンドウハンドルがャプチャ対象か返します。
+        /// 指定ウィンドウハンドルがキャプチャ対象か返します。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <returns>対象ならtrue、それ以外はfalse</returns>
