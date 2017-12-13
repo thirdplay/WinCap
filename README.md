@@ -19,7 +19,7 @@ WinCapは、画面キャプチャツールです。
 ![webpagecapture](https://cloud.githubusercontent.com/assets/14181039/21992687/c173dce2-dc5a-11e6-9a5c-6c6e7a281dc9.gif)
 
 * 設定ウィンドウ（タスクトレイからの呼び出し）  
-![settingswindow](https://cloud.githubusercontent.com/assets/14181039/21991387/bd50f456-dc55-11e6-994c-3aa3a91325a9.png)
+![settingswindow](https://user-images.githubusercontent.com/14181039/33948687-d25899de-e06a-11e7-885f-4202750c0f22.png)
 
 ### 動作環境
 * Windows 7 / 8 / 10
