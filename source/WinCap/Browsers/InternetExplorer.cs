@@ -73,6 +73,11 @@ namespace WinCap.Browsers
         private int zoomOriginal = ZoomActual;
 
         /// <summary>
+        /// スクロール遅延時間
+        /// </summary>
+        public int ScrollDelayTime { get; set; }
+
+        /// <summary>
         /// クライアント領域の矩形
         /// </summary>
         public Rectangle Client { get; set; }
@@ -108,8 +113,10 @@ namespace WinCap.Browsers
         /// コンストラクタ
         /// </summary>
         /// <param name="hWnd">ウィンドウハンドル</param>
-        public InternetExplorer(IntPtr hWnd)
+        /// <param name="defaultScrollDelayTime">スクロール遅延時間</param>
+        public InternetExplorer(IntPtr hWnd, int scrollDelayTime = 0)
         {
+            this.ScrollDelayTime = scrollDelayTime;
             SetHandle(hWnd);
         }
 
@@ -125,7 +132,7 @@ namespace WinCap.Browsers
         /// 指定ウィンドウハンドルのIEを制御する
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
-        public void SetHandle(IntPtr handle)
+        private void SetHandle(IntPtr handle)
         {
             IHTMLDocument2 document2 = null;
             IHTMLDocument3 document3 = null;
@@ -240,11 +247,10 @@ namespace WinCap.Browsers
         /// </summary>
         /// <param name="x">スクロール位置X</param>
         /// <param name="y">スクロール位置Y</param>
-        /// <param name="delayTime">遅延時間</param>
         /// <returns>設定後のスクロール位置</returns>
         public Point ScrollTo(int x, int y)
         {
-            return ScrollTo(x, y, 0);
+            return ScrollTo(x, y, this.ScrollDelayTime);
         }
 
         /// <summary>

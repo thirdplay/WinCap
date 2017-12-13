@@ -44,7 +44,7 @@ namespace WinCap.Serialization
         /// <summary>
         /// スクロール遅延時間
         /// </summary>
-        public SerializableProperty<int> ScrollDelayTime => this.Cache(key => new SerializableProperty<int>(key, this.provider, 100));
+        public SerializableProperty<int> ScrollDelayTime => this.Cache(key => new SerializableProperty<int>(key, this.provider, 200));
 
         /// <summary>
         /// キャプチャ遅延時間

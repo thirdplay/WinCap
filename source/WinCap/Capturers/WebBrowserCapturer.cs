@@ -80,7 +80,7 @@ namespace WinCap.Capturers
             var isScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
             var scrollDelayTime = Settings.General.ScrollDelayTime.Value;
 
-            using (InternetExplorer ie = new InternetExplorer(handle))
+            using (InternetExplorer ie = new InternetExplorer(handle, scrollDelayTime))
             {
                 // DPI取得
                 var dpi = PerMonitorDpi.GetDpi(handle);
@@ -112,7 +112,7 @@ namespace WinCap.Capturers
                     while (scrollPoint.X < scrollEnd.X)
                     {
                         // スクロールしてキャプチャする
-                        scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, scrollDelayTime);
+                        scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y);
                         CaptureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
                     }
 
@@ -124,14 +124,14 @@ namespace WinCap.Capturers
 
                         // スクロールしてキャプチャする
                         scrollPoint.X = scrollStart.X;
-                        scrollPoint = ie.ScrollTo(scrollPoint.X, scrollPoint.Y + client.Height, scrollDelayTime);
+                        scrollPoint = ie.ScrollTo(scrollPoint.X, scrollPoint.Y + client.Height);
                         CaptureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
 
                         // 右端までスクロールしながらキャプチャする
                         while (scrollPoint.X < scrollEnd.X)
                         {
                             // スクロールしてウィンドウキャプチャする
-                            scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y, scrollDelayTime);
+                            scrollPoint = ie.ScrollTo(scrollPoint.X + client.Width, scrollPoint.Y);
                             CaptureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
                         }
                     }
