@@ -66,6 +66,7 @@ namespace WinCap.Test
         /// <summary>
         /// キャプチャ遅延時間のテスト。
         /// </summary>
+        [TestMethod]
         public void TestCaptureDelayTime()
         {
             var settingsWindow = App.ShowSettingsWindow();
@@ -94,6 +95,7 @@ namespace WinCap.Test
         /// <summary>
         /// 全般タブの入力エラーテスト。
         /// </summary>
+        [TestMethod]
         [DataSource("System.Data.OleDB",
             @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=Params.xlsx; Extended Properties='Excel 12.0;HDR=yes';",
             "TestGeneralError$",
