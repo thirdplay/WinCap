@@ -154,7 +154,7 @@ namespace WinCap.Driver.Drivers
             do
             {
                 Thread.Sleep(10);
-            } while (settingsWindow.Instance == null || !settingsWindow.Instance?.DataContext?.IsInitialized);
+            } while (settingsWindow.Instance == null || settingsWindow.Instance.Visibility != Visibility.Visible);
             return settingsWindow.Instance;
         }
 
