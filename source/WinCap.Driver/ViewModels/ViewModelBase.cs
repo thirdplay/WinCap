@@ -21,7 +21,7 @@ namespace WinCap.Driver.ViewModels
         public ViewModelBase(AppVar appVar)
         {
             this.appVar = appVar;
-            //RevertToSavedSettings();
+            RevertToSavedSettings();
         }
 
         /// <summary>
