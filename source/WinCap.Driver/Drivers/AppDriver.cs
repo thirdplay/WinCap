@@ -126,7 +126,27 @@ namespace WinCap.Driver.Drivers
         /// <returns>設定ウィンドウドライバー</returns>
         public SettingsWindowDriver ShowSettingsWindow()
         {
-            return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow()));
+            const int maxRetryCount = 3;
+            int retryCount = 0;
+            while (true)
+            {
+                try
+                {
+                    return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow()));
+                }
+                catch (WindowIdentifyException)
+                {
+                    if (retryCount < maxRetryCount)
+                    {
+                        retryCount++;
+                        Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -137,15 +157,12 @@ namespace WinCap.Driver.Drivers
         {
             dynamic appVar = this.app.Type<Application>().Current;
             Task.Run(() => appVar.ApplicationAction.ShowSettings());
-            this.mainWindow.WaitForNextModal();
-            //dynamic appVar = this.app.Type<Application>().Current;
-            //this.app.(() => appVar.ApplicationAction.ShowSettings());
 
             dynamic settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
-            //do
-            //{
-            //    Thread.Sleep(10);
-            //} while (!(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
+            do
+            {
+                Thread.Sleep(100);
+            } while (!(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
 
             return settingsWindow.Instance;
         }
