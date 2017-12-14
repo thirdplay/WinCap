@@ -120,24 +120,25 @@ namespace WinCap.Driver.Drivers
         /// <returns>設定ウィンドウドライバー</returns>
         public SettingsWindowDriver ShowSettingsWindow()
         {
-            const int maxRetryCount = 3;
-            int retryCount = 0;
-            while(true)
-            {
-                try
-                {
-                    return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow()));
-                }
-                catch (WindowIdentifyException)
-                {
-                    if (retryCount < maxRetryCount) {
-                        retryCount++;
-                        Thread.Sleep(1000);
-                    } else {
-                        throw;
-                    }
-                }
-            }
+            return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow()));
+//             const int maxRetryCount = 3;
+//             int retryCount = 0;
+//             while(true)
+//             {
+//                 try
+//                 {
+//                     return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow()));
+//                 }
+//                 catch (WindowIdentifyException)
+//                 {
+//                     if (retryCount < maxRetryCount) {
+//                         retryCount++;
+//                         Thread.Sleep(1000);
+//                     } else {
+//                         throw;
+//                     }
+//                 }
+//             }
         }
 
         /// <summary>
@@ -153,7 +154,7 @@ namespace WinCap.Driver.Drivers
             do
             {
                 Thread.Sleep(10);
-            } while (settingsWindow.Instance == null);
+            } while (settingsWindow.Instance == null || !settingsWindow.Instance.DataContext.IsInitialized);
             return settingsWindow.Instance;
         }
 
