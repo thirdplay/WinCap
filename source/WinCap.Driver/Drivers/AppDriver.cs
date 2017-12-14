@@ -35,6 +35,11 @@ namespace WinCap.Driver.Drivers
         private WindowsAppFriend app;
 
         /// <summary>
+        /// メインウィンドウ。
+        /// </summary>
+        private WindowControl mainWindow;
+
+        /// <summary>
         /// タイムアウト検出クラス。
         /// </summary>
         private TimeoutDetector detector;
@@ -60,6 +65,7 @@ namespace WinCap.Driver.Drivers
             {
                 this.Process = Process.Start(ExecutablePath, "-UITest");
                 this.app = new WindowsAppFriend(this.Process);
+                this.mainWindow = new WindowControl(this.app.Type<Application>().Current.MainWindow);
 
                 // アプリケーション設定をリセットする
                 dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
@@ -131,12 +137,15 @@ namespace WinCap.Driver.Drivers
         {
             dynamic appVar = this.app.Type<Application>().Current;
             Task.Run(() => appVar.ApplicationAction.ShowSettings());
+            this.mainWindow.WaitForNextModal();
+            //dynamic appVar = this.app.Type<Application>().Current;
+            //this.app.(() => appVar.ApplicationAction.ShowSettings());
 
             dynamic settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
-            do
-            {
-                Thread.Sleep(10);
-            } while (settingsWindow.Instance == null || !(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
+            //do
+            //{
+            //    Thread.Sleep(10);
+            //} while (!(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
 
             return settingsWindow.Instance;
         }

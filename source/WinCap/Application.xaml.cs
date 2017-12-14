@@ -102,7 +102,7 @@ namespace WinCap
                 this.ApplicationAction.CreateShortcut();
                 if (!this.ApplicationAction.RegisterActions())
                 {
-                    this.ApplicationAction.ShowSettings();
+                    Task.Run(() => this.ApplicationAction.ShowSettings());
                 }
 
                 // 親メソッド呼び出し
