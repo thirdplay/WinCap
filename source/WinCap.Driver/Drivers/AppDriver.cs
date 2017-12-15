@@ -126,43 +126,41 @@ namespace WinCap.Driver.Drivers
         /// <returns>設定ウィンドウドライバー</returns>
         public SettingsWindowDriver ShowSettingsWindow()
         {
-            const int maxRetryCount = 3;
-            int retryCount = 0;
-            while (true)
-            {
-                try
-                {
-                    return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow()));
-                }
-                catch (WindowIdentifyException)
-                {
-                    if (retryCount < maxRetryCount)
-                    {
-                        retryCount++;
-                        Thread.Sleep(1000);
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
+            dynamic appVar = this.app.Type<Application>().Current;
+            Task.Run(() => appVar.ApplicationAction.ShowSettings());
+
+            return new SettingsWindowDriver(new WindowControl(WaitShowSettingsWindow(3)));
         }
 
         /// <summary>
         /// 設定ウィンドウが表示されるまで待ちます。
         /// </summary>
+        /// <param name="maxRetryCount">最大リトライ回数</param>
         /// <returns>設定ウィンドウ</returns>
-        private AppVar WaitShowSettingsWindow()
+        private AppVar WaitShowSettingsWindow(int maxRetryCount)
         {
-            dynamic appVar = this.app.Type<Application>().Current;
-            Task.Run(() => appVar.ApplicationAction.ShowSettings());
-
-            dynamic settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
-            do
+            int retryCount = 0;
+            while (true)
             {
-                Thread.Sleep(100);
-            } while (!(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
+                try
+                {
+                    dynamic settingsWindow = this.app.Type("WinCap.Views.SettingsWindow");
+                    do
+                    {
+                        Thread.Sleep(100);
+                    } while (!(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
+                    break;
+                }
+                catch (Exception)
+                {
+                    if (retryCount >= maxRetryCount)
+                    {
+                        throw;
+                    }
+                    retryCount++;
+                    Thread.Sleep(1000);
+                }
+            }
 
             return settingsWindow.Instance;
         }
