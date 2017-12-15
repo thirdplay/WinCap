@@ -1,7 +1,8 @@
-﻿using Codeer.Friendly;
+using Codeer.Friendly;
 using Codeer.Friendly.Dynamic;
 using Codeer.Friendly.Windows;
 using Codeer.Friendly.Windows.Grasp;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
