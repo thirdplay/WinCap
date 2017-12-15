@@ -150,7 +150,8 @@ namespace WinCap.Driver.Drivers
                     {
                         Thread.Sleep(100);
                     } while (!(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
-                    break;
+
+                    return settingsWindow.Instance;
                 }
                 catch (Exception)
                 {
@@ -162,8 +163,6 @@ namespace WinCap.Driver.Drivers
                     Thread.Sleep(1000);
                 }
             }
-
-            return settingsWindow.Instance;
         }
 
         /// <summary>
