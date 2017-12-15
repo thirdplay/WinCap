@@ -149,7 +149,7 @@ namespace WinCap.Driver.Drivers
                     do
                     {
                         Thread.Sleep(100);
-                    } while (!settingsWindow.IsNull && !(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
+                    } while (!(bool)settingsWindow.Instance?.DataContext?.IsInitialized);
 
                     return settingsWindow.Instance;
                 }
