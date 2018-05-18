@@ -57,7 +57,7 @@ namespace WinCap.ViewModels
                 // コントロール情報の更新
                 this.ControlSelectInfo.SetInfo(handle, bounds);
 
-                // コントロール座標に変換して選択範囲を設定する
+                // スクリーン座標に変換して選択範囲を設定する
                 this.Messenger.Raise(new SetRectangleBoundsMessage
                 {
                     MessageKey = "Rectangle.Bounds",
