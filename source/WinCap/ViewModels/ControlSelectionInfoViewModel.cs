@@ -217,8 +217,8 @@ namespace WinCap.ViewModels
             this.anchor = AnchorLeftTop;
 
             var location = GetLocation(this.screen, this.anchor);
-            this.Left = location.X;
-            this.Top = location.Y;
+            this.Left = location.X - this.screenLocation.X;
+            this.Top = location.Y - this.screenLocation.Y;
 
             this.Messenger.Raise(new SetVisibilityMessage
             {
