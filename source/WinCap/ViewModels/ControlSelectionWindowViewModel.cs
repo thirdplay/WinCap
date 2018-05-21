@@ -28,11 +28,6 @@ namespace WinCap.ViewModels
         private ControlSelection controlSelection;
 
         /// <summary>
-        /// DPI倍率を取得または設定します。
-        /// </summary>
-        public Point DpiScaleFactor { get; set; } = new Point(1.0, 1.0);
-
-        /// <summary>
         /// 選択コントロールのハンドルを取得します。
         /// </summary>
         public IntPtr SelectedHandle { get; private set; }
