@@ -18,14 +18,14 @@ namespace WinCap.ViewModels
     public class ControlSelectionWindowViewModel : WindowViewModel
     {
         /// <summary>
-        /// 画面の左端。
+        /// スクリーンの原点。
         /// </summary>
-        private System.Drawing.Point screenLocation;
+        private System.Drawing.Point screenOrigin;
 
         /// <summary>
         /// コントロール選択モデル。
         /// </summary>
-        private ControlSelection controlSelection;
+        private ControlSelector controlSelector;
 
         /// <summary>
         /// 選択コントロールのハンドルを取得します。
@@ -43,21 +43,21 @@ namespace WinCap.ViewModels
         public ControlSelectionWindowViewModel()
         {
             this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
-            this.controlSelection = new ControlSelection();
-            this.controlSelection.Subscribe(nameof(this.controlSelection.SelectedHandle), () =>
+            this.controlSelector = new ControlSelector();
+            this.controlSelector.Subscribe(nameof(this.controlSelector.SelectedHandle), () =>
             {
-                var handle = this.controlSelection.SelectedHandle;
+                var handle = this.controlSelector.SelectedHandle;
                 var bounds = InteropHelper.GetWindowSize(handle);
 
                 // コントロール情報の更新
                 this.ControlSelectInfo.SetInfo(handle, bounds);
 
-                // スクリーン座標に変換して選択範囲を設定する
+                // ワールド座標に変換して選択範囲を設定する
                 this.Messenger.Raise(new SetRectangleBoundsMessage
                 {
                     MessageKey = "Rectangle.Bounds",
-                    Left = bounds.Left - this.screenLocation.X,
-                    Top = bounds.Top - this.screenLocation.Y,
+                    Left = bounds.Left - this.screenOrigin.X,
+                    Top = bounds.Top - this.screenOrigin.Y,
                     Width = bounds.Width,
                     Height = bounds.Height
                 });
@@ -79,12 +79,12 @@ namespace WinCap.ViewModels
                 Width = screenRect.Width,
                 Height = screenRect.Height
             });
-            this.screenLocation = screenRect.Location;
+            this.screenOrigin = screenRect.Location;
 
             // 初期化
             this.SendWindowAction(WindowAction.Active);
-            this.controlSelection.Initialize();
-            this.ControlSelectInfo.Initialize(this.screenLocation, System.Windows.Forms.Cursor.Position);
+            this.controlSelector.Initialize();
+            this.ControlSelectInfo.Initialize(this.screenOrigin, System.Windows.Forms.Cursor.Position);
 
             // マウス移動処理の呼び出し
             this.MouseMoveCore(System.Windows.Forms.Cursor.Position);
@@ -106,8 +106,8 @@ namespace WinCap.ViewModels
         /// <param name="point">マウス座標</param>
         private void MouseMoveCore(System.Drawing.Point point)
         {
-            var screenPoint = new System.Drawing.Point(point.X + this.screenLocation.X, point.Y + this.screenLocation.Y);
-            this.controlSelection.UpdateMousePoint(screenPoint);
+            var screenPoint = new System.Drawing.Point(point.X + this.screenOrigin.X, point.Y + this.screenOrigin.Y);
+            this.controlSelector.UpdateMousePoint(screenPoint);
             this.ControlSelectInfo.UpdateMousePoint(screenPoint);
         }
 
@@ -118,7 +118,7 @@ namespace WinCap.ViewModels
         public void OnMouseUp(MouseEventArgs e)
         {
             e.Handled = true;
-            var handle = this.controlSelection.SelectedHandle;
+            var handle = this.controlSelector.SelectedHandle;
             if (e.LeftButton != MouseButtonState.Released)
             {
                 handle = IntPtr.Zero;

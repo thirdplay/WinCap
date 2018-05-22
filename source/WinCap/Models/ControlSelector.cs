@@ -11,7 +11,7 @@ namespace WinCap.Models
     /// <summary>
     /// コントロール選択ウィンドウのロジックを提供します。
     /// </summary>
-    public class ControlSelection : NotificationObject
+    public class ControlSelector : NotificationObject
     {
         /// <summary>
         /// ウィンドウハンドルリスト。
@@ -53,7 +53,7 @@ namespace WinCap.Models
         /// <summary>
         /// コンストラクタ。
         /// </summary>
-        public ControlSelection()
+        public ControlSelector()
         {
         }
 

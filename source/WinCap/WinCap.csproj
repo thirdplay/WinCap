@@ -177,7 +177,7 @@
     <Compile Include="Interop\Win32\WS.cs" />
     <Compile Include="Models\BaseShortcut.cs" />
     <Compile Include="Models\BitmapHelper.cs" />
-    <Compile Include="Models\ControlSelection.cs" />
+    <Compile Include="Models\ControlSelector.cs" />
     <Compile Include="Models\FileHelper.cs" />
     <Compile Include="Models\FileNamePattern.cs" />
     <Compile Include="Models\Helper.cs" />
