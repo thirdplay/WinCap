@@ -9,6 +9,7 @@ using WinCap.Interop;
 using WinCap.Models;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
+using Point = System.Drawing.Point;
 
 namespace WinCap.ViewModels
 {
@@ -20,7 +21,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// スクリーンの原点。
         /// </summary>
-        private System.Drawing.Point screenOrigin;
+        private Point screenOrigin;
 
         /// <summary>
         /// コントロール選択モデル。
@@ -36,6 +37,28 @@ namespace WinCap.ViewModels
         /// コントロール選択情報ViewModel
         /// </summary>
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
+
+        #region MousePoint 変更通知プロパティ
+
+        private Point _MousePoint;
+
+        /// <summary>
+        /// マウス座標を取得または設定します。
+        /// </summary>
+        public Point MousePoint
+        {
+            get { return this._MousePoint; }
+            set
+            {
+                if (this._MousePoint != value)
+                {
+                    this._MousePoint = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// コンストラクタ
@@ -62,6 +85,11 @@ namespace WinCap.ViewModels
                     Height = bounds.Height
                 });
             }).AddTo(this);
+            this.Subscribe(nameof(this.MousePoint), () =>
+            {
+                this.controlSelector.Update(this.MousePoint);
+                this.ControlSelectInfo.Update(this.MousePoint);
+            }).AddTo(this);
         }
 
         /// <summary>
@@ -86,8 +114,8 @@ namespace WinCap.ViewModels
             this.controlSelector.Initialize();
             this.ControlSelectInfo.Initialize(this.screenOrigin, System.Windows.Forms.Cursor.Position);
 
-            // マウス移動処理の呼び出し
-            this.MouseMoveCore(System.Windows.Forms.Cursor.Position);
+            // マウス座標の設定
+            this.SetMousePoint(System.Windows.Forms.Cursor.Position);
         }
 
         /// <summary>
@@ -97,18 +125,16 @@ namespace WinCap.ViewModels
         public void OnMouseMove(MouseEventArgs e)
         {
             var p = e.GetPosition(null);
-            this.MouseMoveCore(new System.Drawing.Point((int)p.X, (int)p.Y));
+            this.SetMousePoint(new Point((int)p.X, (int)p.Y));
         }
 
         /// <summary>
-        /// マウス移動のコア処理。
+        /// マウス座標を設定します。
         /// </summary>
-        /// <param name="point">マウス座標</param>
-        private void MouseMoveCore(System.Drawing.Point point)
+        /// <param name="point">ワールド座標のマウス座標</param>
+        private void SetMousePoint(Point point)
         {
-            var screenPoint = new System.Drawing.Point(point.X + this.screenOrigin.X, point.Y + this.screenOrigin.Y);
-            this.controlSelector.UpdateMousePoint(screenPoint);
-            this.ControlSelectInfo.UpdateMousePoint(screenPoint);
+            this.MousePoint = new Point(point.X + this.screenOrigin.X, point.Y + this.screenOrigin.Y);
         }
 
         /// <summary>

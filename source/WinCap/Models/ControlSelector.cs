@@ -21,7 +21,7 @@ namespace WinCap.Models
         /// <summary>
         /// ウィンドウハンドル取得時に除外するクラス名
         /// </summary>
-        private List<string> ignoreClassNames = new List<string>
+        private readonly List<string> ignoreClassNames = new List<string>
         {
             "Intermediate D3D Window"
         };
@@ -68,10 +68,10 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// マウス座標を更新します。
+        /// 更新処理。
         /// </summary>
         /// <param name="point">マウス座標</param>
-        public void UpdateMousePoint(Point point)
+        public void Update(Point point)
         {
             if (!this.IsInitialized) return;
 

@@ -30,9 +30,9 @@ namespace WinCap.ViewModels
         private const int MarginHeight = 12;
 
         /// <summary>
-        /// コントロールの位置
+        /// スクリーンの原点
         /// </summary>
-        private Point controlLocation;
+        private Point screenOrigin;
 
         /// <summary>
         /// 現在ウィンドウを表示しているスクリーン
@@ -208,11 +208,11 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 初期化。
         /// </summary>
-        /// <param name="controlLocation">コントロールの位置</param>
+        /// <param name="screenOrigin">スクリーンの原点</param>
         /// <param name="point">マウス座標</param>
-        public void Initialize(Point controlLocation, Point point)
+        public void Initialize(Point screenOrigin, Point point)
         {
-            this.controlLocation = controlLocation;
+            this.screenOrigin = screenOrigin;
             this.screen = GetScreen(point);
             this.anchor = AnchorLeftTop;
 
@@ -240,10 +240,10 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// マウス座標を更新します。
+        /// 更新処理。
         /// </summary>
         /// <param name="point">マウス座標</param>
-        public void UpdateMousePoint(Point point)
+        public void Update(Point point)
         {
             // スクリーン、アンカー更新
             var nextScreen = GetScreen(point);
@@ -312,8 +312,8 @@ namespace WinCap.ViewModels
             }
 
             // スクリーン座標に変換し、座標を反映する
-            this.Left = location.X - this.controlLocation.X;
-            this.Top = location.Y - this.controlLocation.Y;
+            this.Left = location.X - this.screenOrigin.X;
+            this.Top = location.Y - this.screenOrigin.Y;
         }
     }
 }
