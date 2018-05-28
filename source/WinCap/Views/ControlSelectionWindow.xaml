@@ -40,6 +40,11 @@
         </i:EventTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="Window.WindowAction">
+            <livet:WindowInteractionMessageAction />
+        </livet:InteractionMessageTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
                                          MessageKey="Window.Bounds">
             <behaviors:SetWindowBoundsAction />
         </livet:InteractionMessageTrigger>
