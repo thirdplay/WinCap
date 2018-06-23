@@ -209,6 +209,7 @@
     <Compile Include="Models\DesktopShortcut.cs" />
     <Compile Include="Models\StartupShortcut.cs" />
     <Compile Include="TaskTrayIcon.cs" />
+    <Compile Include="ViewModels\SwitchablePanelViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetDialogResultMessage.cs" />
     <Compile Include="ViewModels\Settings\VersionInfoViewModel.cs" />
     <Compile Include="ViewModels\Settings\GeneralViewModel.cs" />
