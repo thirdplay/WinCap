@@ -56,6 +56,7 @@ namespace WinCap
             sb.Append(RegisterAction(settings.FullScreen.Value.ToShortcutKey(), () => captureService.CaptureDesktop(), Resources.Settings_DesktopCapture));
             sb.Append(RegisterAction(settings.ActiveControl.Value.ToShortcutKey(), () => captureService.CaptureActiveControl(), Resources.Settings_ActiveControlCapture));
             sb.Append(RegisterAction(settings.SelectionControl.Value.ToShortcutKey(), () => captureService.CaptureSelectionControl(), Resources.Settings_SelectionControlCapture));
+            sb.Append(RegisterAction(settings.SelectionRegion.Value.ToShortcutKey(), () => captureService.CaptureSelectionRegion(), Resources.Settings_SelectionRegionCapture));
             sb.Append(RegisterAction(settings.WebPage.Value.ToShortcutKey(), () => captureService.CaptureWebPage(), Resources.Settings_WebPageCapture));
 
             // 登録失敗したキーがある場合、再登録の確認をする

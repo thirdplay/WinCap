@@ -32,9 +32,9 @@ namespace WinCap.Capturers
         protected override IntPtr? GetCaptureTarget()
         {
             var handle = this.windowService.ShowControlSelectionWindow();
-            return (handle != IntPtr.Zero
+            return handle != IntPtr.Zero
                 ? handle as IntPtr?
-                : null);
+                : null;
         }
 
         /// <summary>

@@ -267,6 +267,9 @@
   <data name="Settings_SelectionControlCapture" xml:space="preserve">
     <value>選択コントロールをキャプチャ</value>
   </data>
+  <data name="Settings_SelectionRegionCapture" xml:space="preserve">
+    <value>選択範囲をキャプチャ</value>
+  </data>
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>
   </data>

@@ -32,11 +32,11 @@ namespace WinCap.Models
         public bool IsInitialized { get; private set; }
 
         #region SelectedHandle 変更通知プロパティ
-        private IntPtr _SelectedHandle;
+        private IntPtr? _SelectedHandle;
         /// <summary>
         /// 選択コントロールのハンドルを取得します。
         /// </summary>
-        public IntPtr SelectedHandle
+        public IntPtr? SelectedHandle
         {
             get { return this._SelectedHandle; }
             set
@@ -63,7 +63,7 @@ namespace WinCap.Models
         public void Initialize()
         {
             this.handles = this.GetHandles();
-            this._SelectedHandle = IntPtr.Zero;
+            this._SelectedHandle = null;
             this.IsInitialized = true;
         }
 
@@ -73,7 +73,7 @@ namespace WinCap.Models
         /// <param name="point">マウス座標</param>
         public void Update(Point point)
         {
-            if (!this.IsInitialized) return;
+            if (!this.IsInitialized) { return; }
 
             var selectedHandle = IntPtr.Zero;
             foreach (var handle in this.handles)

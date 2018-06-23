@@ -1,0 +1,103 @@
+﻿<Window x:Class="WinCap.Views.RegionSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
+        xmlns:views="clr-namespace:WinCap.Views"
+        mc:Ignorable="d"
+        Title="SelectControlWindow"
+        Background="#01000000"
+        WindowStyle="None"
+        Topmost="True"
+        AllowsTransparency="True"
+        ShowInTaskbar="False">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <livet:LivetCallMethodAction MethodTarget="{Binding}"
+                                         MethodName="Initialize" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseMove">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnMouseMove" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseUp">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnMouseUp" />
+        </i:EventTrigger>
+        
+        <i:EventTrigger EventName="KeyDown">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnKeyDown" />
+        </i:EventTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="Window.WindowAction">
+            <livet:WindowInteractionMessageAction />
+        </livet:InteractionMessageTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="Window.Bounds">
+            <behaviors:SetWindowBoundsAction />
+        </livet:InteractionMessageTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="Window.Visibility">
+            <behaviors:SetVisibilityAction />
+        </livet:InteractionMessageTrigger>
+
+    </i:Interaction.Triggers>
+    
+    <Canvas>
+        <Rectangle Stroke="#CCFF0000"
+                   StrokeThickness="4"
+                   Width="0"
+                   Height="0">
+            <i:Interaction.Triggers>
+                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                                 MessageKey="Rectangle.Bounds">
+                    <behaviors:SetRectangleBoundsAction />
+                </livet:InteractionMessageTrigger>
+            </i:Interaction.Triggers>
+        </Rectangle>
+        <Line Stroke="#FF002060"
+              StrokeThickness="1"
+              X1="0"
+              Y1="0"
+              X2="0"
+              Y2="0">
+            <i:Interaction.Triggers>
+                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                                 MessageKey="HorizontalLine.Point">
+                    <behaviors:SetLinePointAction />
+                </livet:InteractionMessageTrigger>
+            </i:Interaction.Triggers>
+        </Line>
+        <Line Stroke="#FF002060"
+              StrokeThickness="1"
+              X1="0"
+              Y1="0"
+              X2="0"
+              Y2="0">
+            <i:Interaction.Triggers>
+                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                                 MessageKey="VerticalLine.Point">
+                    <behaviors:SetLinePointAction />
+                </livet:InteractionMessageTrigger>
+            </i:Interaction.Triggers>
+        </Line>
+        <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}"
+                                    Canvas.Left="{Binding Left, Mode=OneWay}"
+                                    Canvas.Top="{Binding Top, Mode=OneWay}"
+                                    Visibility="Hidden">
+        </views:ControlSelectionInfo>
+    </Canvas>
+</Window>

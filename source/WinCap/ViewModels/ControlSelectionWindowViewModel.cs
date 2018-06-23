@@ -31,7 +31,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 選択コントロールのハンドルを取得します。
         /// </summary>
-        public IntPtr SelectedHandle { get; private set; }
+        public IntPtr? SelectedHandle { get; private set; }
 
         /// <summary>
         /// コントロール選択情報ViewModel
@@ -70,10 +70,11 @@ namespace WinCap.ViewModels
             this.controlSelector.Subscribe(nameof(this.controlSelector.SelectedHandle), () =>
             {
                 var handle = this.controlSelector.SelectedHandle;
-                var bounds = InteropHelper.GetWindowSize(handle);
+                if (handle == null) { return; }
+                var bounds = InteropHelper.GetWindowSize(handle.Value);
 
                 // コントロール情報の更新
-                this.ControlSelectInfo.SetInfo(handle, bounds);
+                this.ControlSelectInfo.SetInfo(handle.Value, bounds);
 
                 // ワールド座標に変換して選択範囲を設定する
                 this.Messenger.Raise(new SetRectangleBoundsMessage
@@ -147,7 +148,7 @@ namespace WinCap.ViewModels
             var handle = this.controlSelector.SelectedHandle;
             if (e.LeftButton != MouseButtonState.Released)
             {
-                handle = IntPtr.Zero;
+                handle = null;
             }
 
             this.SelectedControl(handle);
@@ -160,14 +161,14 @@ namespace WinCap.ViewModels
         public void OnKeyDown(KeyEventArgs e)
         {
             e.Handled = true;
-            this.SelectedControl(IntPtr.Zero);
+            this.SelectedControl(null);
         }
 
         /// <summary>
         /// ウィンドウを非表示にしてコントロールを選択します。
         /// </summary>
         /// <param name="handle">選択したハンドル</param>
-        private void SelectedControl(IntPtr handle)
+        private void SelectedControl(IntPtr? handle)
         {
             this.SelectedHandle = handle;
             this.SetVisibility(Visibility.Hidden);

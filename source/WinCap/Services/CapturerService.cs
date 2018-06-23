@@ -44,6 +44,11 @@ namespace WinCap.Services
         private readonly ControlCapturer controlCapturer;
 
         /// <summary>
+        /// 範囲キャプチャ
+        /// </summary>
+        private readonly RegionCapturer regionCapturer;
+
+        /// <summary>
         /// ウェブブラウザキャプチャ
         /// </summary>
         private readonly WebBrowserCapturer webBrowserCapturer;
@@ -60,6 +65,7 @@ namespace WinCap.Services
             this.screenCapturer = new ScreenCapturer();
             this.activeControlCapturer = new ActiveControlCapturer();
             this.controlCapturer = new ControlCapturer(windowService);
+            this.regionCapturer = new RegionCapturer(windowService);
             this.webBrowserCapturer = new WebBrowserCapturer(windowService);
         }
 
@@ -93,6 +99,17 @@ namespace WinCap.Services
             using (this.hookService.Suspend())
             {
                 this.controlCapturer.Capture();
+            }
+        }
+
+        /// <summary>
+        /// 選択範囲をキャプチャします。
+        /// </summary>
+        public void CaptureSelectionRegion()
+        {
+            using (this.hookService.Suspend())
+            {
+                this.regionCapturer.Capture();
             }
         }
 
