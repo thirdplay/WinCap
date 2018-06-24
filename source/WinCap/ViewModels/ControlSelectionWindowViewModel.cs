@@ -1,6 +1,8 @@
 ﻿using Livet;
 using Livet.Messaging.Windows;
 using System;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -37,6 +39,33 @@ namespace WinCap.ViewModels
         /// コントロール選択情報ViewModel
         /// </summary>
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
+
+        /// <summary>
+        /// コントロール選択の通知オブジェクト
+        /// </summary>
+        private readonly Subject<IntPtr?> notifier;
+
+        #region SelectedRegion 変更通知プロパティ
+
+        private Rect _SelectedRegion;
+
+        /// <summary>
+        /// 選択範囲を取得または設定します。
+        /// </summary>
+        public Rect SelectedRegion
+        {
+            get { return this._SelectedRegion; }
+            set
+            {
+                if (this._SelectedRegion != value)
+                {
+                    this._SelectedRegion = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
 
         #region MousePoint 変更通知プロパティ
 
@@ -77,20 +106,27 @@ namespace WinCap.ViewModels
                 this.ControlSelectInfo.SetInfo(handle.Value, bounds);
 
                 // ワールド座標に変換して選択範囲を設定する
-                this.Messenger.Raise(new SetRectangleBoundsMessage
-                {
-                    MessageKey = "Rectangle.Bounds",
-                    Left = bounds.Left - this.screenOrigin.X,
-                    Top = bounds.Top - this.screenOrigin.Y,
-                    Width = bounds.Width,
-                    Height = bounds.Height
-                });
+                this.SelectedRegion = new Rect(
+                    bounds.Left - this.screenOrigin.X,
+                    bounds.Top - this.screenOrigin.Y,
+                    bounds.Width,
+                    bounds.Height);
             }).AddTo(this);
+
+            // マウス座標変更イベントの購読
             this.Subscribe(nameof(this.MousePoint), () =>
             {
                 this.controlSelector.Update(this.MousePoint);
                 this.ControlSelectInfo.Update(this.MousePoint);
             }).AddTo(this);
+
+            // 選択範囲をクリア、設定する
+            this.notifier = new Subject<IntPtr?>();
+            this.notifier
+                .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
+                .Delay(TimeSpan.FromMilliseconds(100))
+                .Subscribe(x => this.SelectControl(x))
+                .AddTo(this);
         }
 
         /// <summary>
@@ -150,8 +186,7 @@ namespace WinCap.ViewModels
             {
                 handle = null;
             }
-
-            this.SelectControl(handle);
+            this.notifier.OnNext(handle);
         }
 
         /// <summary>
@@ -161,7 +196,7 @@ namespace WinCap.ViewModels
         public void OnKeyDown(KeyEventArgs e)
         {
             e.Handled = true;
-            this.SelectControl(null);
+            this.notifier.OnNext(null);
         }
 
         /// <summary>
@@ -171,21 +206,12 @@ namespace WinCap.ViewModels
         private void SelectControl(IntPtr? handle)
         {
             this.Result = handle;
-            this.SetVisibility(Visibility.Hidden);
-            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
-        }
-
-        /// <summary>
-        /// ウィンドウの表示状態を設定します。
-        /// </summary>
-        /// <param name="value">表示状態</param>
-        private void SetVisibility(Visibility visibility)
-        {
             this.Messenger.Raise(new SetVisibilityMessage
             {
                 MessageKey = "Window.Visibility",
-                Visibility = visibility
+                Visibility = Visibility.Hidden
             });
+            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
         }
     }
 }

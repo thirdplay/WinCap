@@ -47,7 +47,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// 範囲選択の通知オブジェクト
         /// </summary>
-        private Subject<Rectangle?> notifier;
+        private readonly Subject<Rectangle?> notifier;
 
         #region SelectedRegion 変更通知プロパティ
 
@@ -105,15 +105,15 @@ namespace WinCap.ViewModels
                 this.ControlSelectInfo.Update(this.MousePoint);
                 if (this.startPoint.HasValue)
                 {
-                    // 選択範囲を設定する
+                    // ワールド座標に変換して選択範囲を設定する
                     var region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
-                    this.SelectedRegion = new Rect(region.X, region.Y, region.Width, region.Height);
+                    this.SelectedRegion = new Rect(region.X - this.ScreenOrigin.X, region.Y - this.ScreenOrigin.Y, region.Width, region.Height);
                 }
             }).AddTo(this);
 
-            // 選択範囲をクリアし、設定する
-            notifier = new Subject<Rectangle?>();
-            notifier
+            // 選択範囲をクリア、設定する
+            this.notifier = new Subject<Rectangle?>();
+            this.notifier
                 .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
                 .Delay(TimeSpan.FromMilliseconds(100))
                 .Subscribe(x => this.SelectRegion(x))
@@ -186,9 +186,15 @@ namespace WinCap.ViewModels
             if (e.LeftButton == MouseButtonState.Released)
             {
                 region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
+            }
+            if (region.HasValue && region.Value.Width != 0 && region.Value.Height != 0)
+            {
+                notifier.OnNext(region);
+            }
+            else
+            {
                 this.startPoint = null;
             }
-            notifier.OnNext(region);
         }
 
         /// <summary>
@@ -198,7 +204,7 @@ namespace WinCap.ViewModels
         public void OnKeyDown(KeyEventArgs e)
         {
             e.Handled = true;
-            this.SelectRegion(null);
+            notifier.OnNext(null);
         }
 
         /// <summary>
@@ -207,6 +213,7 @@ namespace WinCap.ViewModels
         /// <param name="handle">選択したハンドル</param>
         private void SelectRegion(Rectangle? region)
         {
+            this.startPoint = null;
             this.Result = region;
             this.Messenger.Raise(new SetVisibilityMessage
             {

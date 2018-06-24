@@ -69,12 +69,6 @@
                    Height="{Binding SelectedRegion.Height, Mode=OneWay}"
                    Canvas.Left="{Binding SelectedRegion.Left, Mode=OneWay}"
                    Canvas.Top="{Binding SelectedRegion.Top, Mode=OneWay}">
-            <i:Interaction.Triggers>
-                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-                                                 MessageKey="Rectangle.Bounds">
-                    <behaviors:SetRectangleBoundsAction />
-                </livet:InteractionMessageTrigger>
-            </i:Interaction.Triggers>
         </Rectangle>
         <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}"
                                     Canvas.Left="{Binding Left, Mode=OneWay}"

@@ -223,13 +223,11 @@
     <Compile Include="ViewModels\ControlSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetVisibilityMessage.cs" />
     <Compile Include="ViewModels\SettingsWindowViewModel.cs" />
-    <Compile Include="ViewModels\Messages\SetRectangleBoundsMessage.cs" />
     <Compile Include="ViewModels\Messages\SetWindowBoundsMessage.cs" />
     <Compile Include="ViewModels\TabItemViewModel.cs" />
     <Compile Include="Views\Behaviors\CallMethodWithArgumentAction.cs" />
     <Compile Include="Views\Behaviors\SetDialogResultAction.cs" />
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
-    <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
     <Compile Include="Views\RegionSelectionWindow.xaml.cs">
       <DependentUpon>RegionSelectionWindow.xaml</DependentUpon>

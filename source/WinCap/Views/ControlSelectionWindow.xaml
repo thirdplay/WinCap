@@ -59,14 +59,10 @@
     <Canvas>
         <Rectangle Stroke="#CCFF0000"
                    StrokeThickness="4"
-                   Width="0"
-                   Height="0">
-            <i:Interaction.Triggers>
-                <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-                                                 MessageKey="Rectangle.Bounds">
-                    <behaviors:SetRectangleBoundsAction />
-                </livet:InteractionMessageTrigger>
-            </i:Interaction.Triggers>
+                   Width="{Binding SelectedRegion.Width, Mode=OneWay}"
+                   Height="{Binding SelectedRegion.Height, Mode=OneWay}"
+                   Canvas.Left="{Binding SelectedRegion.Left, Mode=OneWay}"
+                   Canvas.Top="{Binding SelectedRegion.Top, Mode=OneWay}">
         </Rectangle>
         <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}"
                                     Canvas.Left="{Binding Left, Mode=OneWay}"
