@@ -72,7 +72,7 @@ namespace WinCap.Driver.Drivers
                 dynamic provider = this.app.Type("WinCap.Serialization.LocalSettingsProvider");
                 provider.Instance.Reset();
             }
-            this.detector = new TimeoutDetector(1000 * 60 * 10);
+            this.detector = new TimeoutDetector(1000 * 60 * 5);
             this.detector.Timedout += (sender, e) =>
             {
                 this.Shutdown();

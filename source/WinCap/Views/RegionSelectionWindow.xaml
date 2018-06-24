@@ -13,7 +13,8 @@
         WindowStyle="None"
         Topmost="True"
         AllowsTransparency="True"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False"
+        Cursor="Cross">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"
@@ -27,6 +28,11 @@
         <i:EventTrigger EventName="MouseMove">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
                                                     MethodName="OnMouseMove" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseDown">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnMouseDown" />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseUp">

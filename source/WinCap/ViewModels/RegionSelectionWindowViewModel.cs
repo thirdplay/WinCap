@@ -6,8 +6,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using WinCap.Capturers;
-using WinCap.Interop;
-using WinCap.Models;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
 using Point = System.Drawing.Point;
@@ -37,7 +35,12 @@ namespace WinCap.ViewModels
         /// <summary>
         /// スクリーンの原点
         /// </summary>
-        private Point ScreenOrigin => ScreenBounds.Location;
+        private Point ScreenOrigin => this.ScreenBounds.Location;
+
+        /// <summary>
+        /// 選択範囲の始点
+        /// </summary>
+        public Point? StartPoint { get; set; }
 
         #region MousePoint 変更通知プロパティ
 
@@ -69,8 +72,12 @@ namespace WinCap.ViewModels
             this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
             this.Subscribe(nameof(MousePoint), () =>
             {
-                SetLinePoint(MousePoint);
                 this.ControlSelectInfo.Update(this.MousePoint);
+                if (this.StartPoint.HasValue)
+                {
+                    // 選択範囲を設定する
+                    this.SetSelectedRegion(GetSelectedRegion(this.StartPoint.Value, this.MousePoint));
+                }
             }).AddTo(this);
         }
 
@@ -80,19 +87,19 @@ namespace WinCap.ViewModels
         protected override void InitializeCore()
         {
             // ウィンドウに画面全体の範囲を設定する
-            ScreenBounds = ScreenHelper.GetFullScreenBounds();
+            this.ScreenBounds = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
-                Left = ScreenBounds.Left,
-                Top = ScreenBounds.Top,
-                Width = ScreenBounds.Width,
-                Height = ScreenBounds.Height
+                Left = this.ScreenBounds.Left,
+                Top = this.ScreenBounds.Top,
+                Width = this.ScreenBounds.Width,
+                Height = this.ScreenBounds.Height
             });
 
             // 初期化
             this.SendWindowAction(WindowAction.Active);
-            this.ControlSelectInfo.Initialize(ScreenOrigin, System.Windows.Forms.Cursor.Position);
+            this.ControlSelectInfo.Initialize(this.ScreenOrigin, System.Windows.Forms.Cursor.Position);
 
             // マウス座標の設定
             this.SetMousePoint(System.Windows.Forms.Cursor.Position);
@@ -114,7 +121,19 @@ namespace WinCap.ViewModels
         /// <param name="point">ワールド座標のマウス座標</param>
         private void SetMousePoint(Point point)
         {
-            this.MousePoint = new Point(point.X + ScreenOrigin.X, point.Y + ScreenOrigin.Y);
+            this.MousePoint = new Point(point.X + this.ScreenOrigin.X, point.Y + this.ScreenOrigin.Y);
+        }
+
+        /// <summary>
+        /// マウスダウン処理。
+        /// </summary>
+        /// <param name="e">イベント引数</param>
+        public void OnMouseDown(MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.StartPoint = this.MousePoint;
+            }
         }
 
         /// <summary>
@@ -123,14 +142,15 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void OnMouseUp(MouseEventArgs e)
         {
+            Rectangle? region = null;
             e.Handled = true;
-            //var handle = this.controlSelector.SelectedHandle;
-            //if (e.LeftButton != MouseButtonState.Released)
-            //{
-            //    handle = IntPtr.Zero;
-            //}
-
-            this.SelectRegion(ScreenHelper.GetFullScreenBounds());
+            if (e.LeftButton == MouseButtonState.Released)
+            {
+                region = GetSelectedRegion(this.StartPoint.Value, this.MousePoint);
+                this.StartPoint = null;
+            }
+            this.ClearSelectedRegion();
+            this.SelectRegion(region);
         }
 
         /// <summary>
@@ -168,27 +188,50 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// 指定されたマウス座標に従い、ライン座標を設定します。
+        /// 選択範囲を設定します。
         /// </summary>
-        /// <param name="point">マウス座標</param>
-        private void SetLinePoint(Point point)
+        /// <param name="region"></param>
+        private void SetSelectedRegion(Rectangle region)
         {
-            this.Messenger.Raise(new SetLinePointMessage
+            this.Messenger.Raise(new SetRectangleBoundsMessage
             {
-                MessageKey = "HorizontalLine.Point",
-                X1 = ScreenBounds.X,
-                Y1 = point.Y - ScreenBounds.Y,
-                X2 = ScreenBounds.Width,
-                Y2 = point.Y - ScreenBounds.Y,
+                MessageKey = "Rectangle.Bounds",
+                Left = region.X - this.ScreenOrigin.X,
+                Top = region.Y - this.ScreenOrigin.Y,
+                Width = region.Width,
+                Height = region.Height,
             });
-            this.Messenger.Raise(new SetLinePointMessage
+        }
+
+        /// <summary>
+        /// 選択範囲をクリアします。
+        /// </summary>
+        private void ClearSelectedRegion()
+        {
+            this.Messenger.Raise(new SetRectangleBoundsMessage
             {
-                MessageKey = "VerticalLine.Point",
-                X1 = point.X - ScreenBounds.X,
-                Y1 = ScreenBounds.Y,
-                X2 = point.X - ScreenBounds.X,
-                Y2 = ScreenBounds.Height,
+                MessageKey = "Rectangle.Bounds",
+                Width = 0,
+                Height = 0,
             });
+            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
+        }
+
+        /// <summary>
+        /// 選択範囲を取得します。
+        /// </summary>
+        /// <param name="p1">始点座標</param>
+        /// <param name="p2">終点座標</param>
+        /// <returns>選択範囲</returns>
+        private Rectangle GetSelectedRegion(Point p1, Point p2)
+        {
+            return new Rectangle()
+            {
+                X = Math.Min(p1.X, p2.X),
+                Y = Math.Min(p1.Y, p2.Y),
+                Width = Math.Abs(p1.X - p2.X),
+                Height = Math.Abs(p1.Y - p2.Y),
+            };
         }
     }
 }

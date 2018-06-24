@@ -151,7 +151,7 @@ namespace WinCap.ViewModels
                 handle = null;
             }
 
-            this.SelectedControl(handle);
+            this.SelectControl(handle);
         }
 
         /// <summary>
@@ -161,14 +161,14 @@ namespace WinCap.ViewModels
         public void OnKeyDown(KeyEventArgs e)
         {
             e.Handled = true;
-            this.SelectedControl(null);
+            this.SelectControl(null);
         }
 
         /// <summary>
         /// ウィンドウを非表示にしてコントロールを選択します。
         /// </summary>
         /// <param name="handle">選択したハンドル</param>
-        private void SelectedControl(IntPtr? handle)
+        private void SelectControl(IntPtr? handle)
         {
             this.SelectedHandle = handle;
             this.SetVisibility(Visibility.Hidden);
