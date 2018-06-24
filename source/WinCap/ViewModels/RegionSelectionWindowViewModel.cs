@@ -45,7 +45,7 @@ namespace WinCap.ViewModels
         private Point? startPoint;
 
         /// <summary>
-        /// 範囲選択の通知オブジェクト
+        /// 範囲選択時の処理シーケンス
         /// </summary>
         private readonly Subject<Rectangle?> notifier;
 
@@ -111,7 +111,7 @@ namespace WinCap.ViewModels
                 }
             }).AddTo(this);
 
-            // 選択範囲をクリア、設定する
+            // 範囲選択時の処理シーケンスの生成
             this.notifier = new Subject<Rectangle?>();
             this.notifier
                 .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))

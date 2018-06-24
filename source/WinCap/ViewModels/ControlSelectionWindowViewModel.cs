@@ -41,7 +41,7 @@ namespace WinCap.ViewModels
         public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
 
         /// <summary>
-        /// コントロール選択の通知オブジェクト
+        /// コントロール選択時の処理シーケンス
         /// </summary>
         private readonly Subject<IntPtr?> notifier;
 
@@ -120,7 +120,7 @@ namespace WinCap.ViewModels
                 this.ControlSelectInfo.Update(this.MousePoint);
             }).AddTo(this);
 
-            // 選択範囲をクリア、設定する
+            // コントロール選択時の処理シーケンスの生成
             this.notifier = new Subject<IntPtr?>();
             this.notifier
                 .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
