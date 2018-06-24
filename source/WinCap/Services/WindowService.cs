@@ -49,9 +49,9 @@ namespace WinCap.Services
         }
 
         /// <summary>
-        /// 範囲選択ウィンドウを表示します。
+        /// 領域選択ウィンドウを表示します。
         /// </summary>
-        /// <returns>選択した範囲</returns>
+        /// <returns>選択した領域</returns>
         public Rectangle? ShowRegionSelectionWindow()
         {
             var window = GetWindow<RegionSelectionWindow, RegionSelectionWindowViewModel>();

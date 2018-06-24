@@ -97,7 +97,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   選択範囲をキャプチャ(&amp;R) に類似しているローカライズされた文字列を検索します。
+        ///   選択領域をキャプチャ(&amp;R) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_RegionCapture {
             get {
@@ -156,6 +156,42 @@ namespace WinCap.Properties {
         public static string ControlSelectionInfo_Size {
             get {
                 return ResourceManager.GetString("ControlSelectionInfo_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ドラッグで領域を選択してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_Description {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   終点 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_EndPoint {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_EndPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   サイズ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_Size {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   始点 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_StartPoint {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_StartPoint", resourceCulture);
             }
         }
         
@@ -511,7 +547,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   選択範囲をキャプチャ に類似しているローカライズされた文字列を検索します。
+        ///   選択領域をキャプチャ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_SelectionRegionCapture {
             get {

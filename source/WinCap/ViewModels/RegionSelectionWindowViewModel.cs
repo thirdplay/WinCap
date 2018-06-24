@@ -15,7 +15,7 @@ using Point = System.Drawing.Point;
 namespace WinCap.ViewModels
 {
     /// <summary>
-    /// 範囲選択ウィンドウViewModel。
+    /// 領域選択ウィンドウViewModel。
     /// </summary>
     public class RegionSelectionWindowViewModel : WindowViewModel
     {
@@ -25,9 +25,9 @@ namespace WinCap.ViewModels
         public Rectangle? Result { get; private set; }
 
         /// <summary>
-        /// コントロール選択情報ViewModel
+        /// 領域選択情報ViewModel
         /// </summary>
-        public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
+        public RegionSelectionInfoViewModel RegionSelectionInfo { get; set; }
 
         /// <summary>
         /// スクリーンの範囲
@@ -40,12 +40,12 @@ namespace WinCap.ViewModels
         private Point ScreenOrigin => this.screenBounds.Location;
 
         /// <summary>
-        /// 選択範囲の始点
+        /// 選択領域の始点
         /// </summary>
         private Point? startPoint;
 
         /// <summary>
-        /// 範囲選択時の処理シーケンス
+        /// 領域選択時の処理シーケンス
         /// </summary>
         private readonly Subject<Rectangle?> notifier;
 
@@ -54,7 +54,7 @@ namespace WinCap.ViewModels
         private Rect _SelectedRegion;
 
         /// <summary>
-        /// 選択範囲を取得または設定します。
+        /// 選択領域を取得または設定します。
         /// </summary>
         public Rect SelectedRegion
         {
@@ -98,20 +98,27 @@ namespace WinCap.ViewModels
         /// </summary>
         public RegionSelectionWindowViewModel()
         {
-            this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
+            this.RegionSelectionInfo = new RegionSelectionInfoViewModel().AddTo(this);
 
             this.Subscribe(nameof(MousePoint), () =>
             {
-                this.ControlSelectInfo.Update(this.MousePoint);
+                Rectangle? region = null;
                 if (this.startPoint.HasValue)
                 {
-                    // ワールド座標に変換して選択範囲を設定する
-                    var region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
-                    this.SelectedRegion = new Rect(region.X - this.ScreenOrigin.X, region.Y - this.ScreenOrigin.Y, region.Width, region.Height);
+                    // ドラッグ中の場合、ワールド座標に変換して選択領域を設定する
+                    region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
+                    this.SelectedRegion = new Rect(
+                        region.Value.X - this.ScreenOrigin.X,
+                        region.Value.Y - this.ScreenOrigin.Y,
+                        region.Value.Width,
+                        region.Value.Height);
                 }
+
+                // 領域選択情報の更新
+                this.RegionSelectionInfo.Update(this.MousePoint, this.startPoint, region);
             }).AddTo(this);
 
-            // 範囲選択時の処理シーケンスの生成
+            // 領域選択時の処理シーケンスの生成
             this.notifier = new Subject<Rectangle?>();
             this.notifier
                 .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
@@ -125,7 +132,7 @@ namespace WinCap.ViewModels
         /// </summary>
         protected override void InitializeCore()
         {
-            // ウィンドウに画面全体の範囲を設定する
+            // ウィンドウに画面全体の領域を設定する
             this.screenBounds = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
@@ -138,7 +145,7 @@ namespace WinCap.ViewModels
 
             // 初期化
             this.SendWindowAction(WindowAction.Active);
-            this.ControlSelectInfo.Initialize(this.ScreenOrigin, System.Windows.Forms.Cursor.Position);
+            this.RegionSelectionInfo.Initialize(this.ScreenOrigin);
 
             // マウス座標の設定
             this.SetMousePoint(System.Windows.Forms.Cursor.Position);
@@ -181,20 +188,18 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void OnMouseUp(MouseEventArgs e)
         {
-            Rectangle? region = null;
+            Rectangle region = new Rectangle(0, 0, 0, 0);
             e.Handled = true;
             if (e.LeftButton == MouseButtonState.Released)
             {
                 region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
             }
-            if (region.HasValue && region.Value.Width != 0 && region.Value.Height != 0)
-            {
-                notifier.OnNext(region);
-            }
-            else
+            if (region.Width == 0 || region.Height == 0)
             {
                 this.startPoint = null;
+                return;
             }
+            notifier.OnNext(region);
         }
 
         /// <summary>
@@ -224,11 +229,11 @@ namespace WinCap.ViewModels
         }
 
         /// <summary>
-        /// 選択範囲を取得します。
+        /// 選択領域を取得します。
         /// </summary>
         /// <param name="p1">始点座標</param>
         /// <param name="p2">終点座標</param>
-        /// <returns>選択範囲</returns>
+        /// <returns>選択領域</returns>
         private Rectangle GetSelectedRegion(Point p1, Point p2)
         {
             return new Rectangle()

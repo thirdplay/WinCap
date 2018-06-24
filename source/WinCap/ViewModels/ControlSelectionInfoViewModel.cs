@@ -88,11 +88,10 @@ namespace WinCap.ViewModels
         /// 初期化。
         /// </summary>
         /// <param name="screenOrigin">スクリーンの原点</param>
-        /// <param name="point">マウス座標</param>
-        public override void Initialize(Point screenOrigin, Point point)
+        public override void Initialize(Point screenOrigin)
         {
             // 親メソッドの呼び出し
-            base.Initialize(screenOrigin, point);
+            base.Initialize(screenOrigin);
 
             // 表示状態の設定
             this.Messenger.Raise(new SetVisibilityMessage
@@ -107,7 +106,7 @@ namespace WinCap.ViewModels
         /// </summary>
         /// <param name="handle">コントロールのハンドル</param>
         /// <param name="bounds">コントロールの範囲</param>
-        public void SetInfo(IntPtr handle, Rectangle bounds)
+        public void UpdateInfo(IntPtr handle, Rectangle bounds)
         {
             this.ClassName = InteropHelper.GetClassName(handle);
             this.ControlLocation = bounds.Location;

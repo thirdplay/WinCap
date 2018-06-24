@@ -64,7 +64,7 @@
                    Canvas.Left="{Binding SelectedRegion.Left, Mode=OneWay}"
                    Canvas.Top="{Binding SelectedRegion.Top, Mode=OneWay}">
         </Rectangle>
-        <views:ControlSelectionInfo DataContext="{Binding ControlSelectInfo}"
+        <views:ControlSelectionInfo DataContext="{Binding ControlSelectionInfo}"
                                     Canvas.Left="{Binding Left, Mode=OneWay}"
                                     Canvas.Top="{Binding Top, Mode=OneWay}"
                                     Visibility="Hidden">

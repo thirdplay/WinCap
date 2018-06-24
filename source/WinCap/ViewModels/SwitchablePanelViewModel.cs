@@ -139,9 +139,10 @@ namespace WinCap.ViewModels
         /// 初期化。
         /// </summary>
         /// <param name="screenOrigin">スクリーンの原点</param>
-        /// <param name="point">マウス座標</param>
-        public virtual void Initialize(Point screenOrigin, Point point)
+        public virtual void Initialize(Point screenOrigin)
         {
+            var point = Cursor.Position;
+
             this.screenOrigin = screenOrigin;
             this.Screen = GetScreen(point);
             this.Anchor = AnchorLeftTop;

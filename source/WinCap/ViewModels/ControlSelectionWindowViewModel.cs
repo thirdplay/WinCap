@@ -38,7 +38,7 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コントロール選択情報ViewModel
         /// </summary>
-        public ControlSelectionInfoViewModel ControlSelectInfo { get; set; }
+        public ControlSelectionInfoViewModel ControlSelectionInfo { get; set; }
 
         /// <summary>
         /// コントロール選択時の処理シーケンス
@@ -94,7 +94,7 @@ namespace WinCap.ViewModels
         /// </summary>
         public ControlSelectionWindowViewModel()
         {
-            this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
+            this.ControlSelectionInfo = new ControlSelectionInfoViewModel().AddTo(this);
             this.controlSelector = new ControlSelector();
             this.controlSelector.Subscribe(nameof(this.controlSelector.SelectedHandle), () =>
             {
@@ -103,7 +103,7 @@ namespace WinCap.ViewModels
                 var bounds = InteropHelper.GetWindowSize(handle.Value);
 
                 // コントロール情報の更新
-                this.ControlSelectInfo.SetInfo(handle.Value, bounds);
+                this.ControlSelectionInfo.UpdateInfo(handle.Value, bounds);
 
                 // ワールド座標に変換して選択範囲を設定する
                 this.SelectedRegion = new Rect(
@@ -117,7 +117,7 @@ namespace WinCap.ViewModels
             this.Subscribe(nameof(this.MousePoint), () =>
             {
                 this.controlSelector.Update(this.MousePoint);
-                this.ControlSelectInfo.Update(this.MousePoint);
+                this.ControlSelectionInfo.Update(this.MousePoint);
             }).AddTo(this);
 
             // コントロール選択時の処理シーケンスの生成
@@ -149,7 +149,7 @@ namespace WinCap.ViewModels
             // 初期化
             this.SendWindowAction(WindowAction.Active);
             this.controlSelector.Initialize();
-            this.ControlSelectInfo.Initialize(this.screenOrigin, System.Windows.Forms.Cursor.Position);
+            this.ControlSelectionInfo.Initialize(this.screenOrigin);
 
             // マウス座標の設定
             this.SetMousePoint(System.Windows.Forms.Cursor.Position);
