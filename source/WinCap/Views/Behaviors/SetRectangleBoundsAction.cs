@@ -1,7 +1,6 @@
 ﻿using Livet.Behaviors.Messaging;
 using Livet.Messaging;
-using System;
-using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 using WinCap.ViewModels.Messages;
 
@@ -23,13 +22,8 @@ namespace WinCap.Views.Behaviors
 
             if (setBoundsMessage.Width.HasValue) this.AssociatedObject.Width = setBoundsMessage.Width.Value;
             if (setBoundsMessage.Height.HasValue) this.AssociatedObject.Height = setBoundsMessage.Height.Value;
-
-            if (setBoundsMessage.Left.HasValue || setBoundsMessage.Top.HasValue)
-            {
-                var left = setBoundsMessage.Left.HasValue ? setBoundsMessage.Left.Value : this.AssociatedObject.Margin.Left;
-                var top = setBoundsMessage.Top.HasValue ? setBoundsMessage.Top.Value : this.AssociatedObject.Margin.Top;
-                this.AssociatedObject.Margin = new Thickness(left, top, 0, 0);
-            }
+            if (setBoundsMessage.Left.HasValue) Canvas.SetLeft(this.AssociatedObject, setBoundsMessage.Left.Value);
+            if (setBoundsMessage.Top.HasValue) Canvas.SetTop(this.AssociatedObject, setBoundsMessage.Top.Value);
         }
     }
 }

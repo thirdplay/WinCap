@@ -210,7 +210,6 @@
     <Compile Include="Models\DesktopShortcut.cs" />
     <Compile Include="Models\StartupShortcut.cs" />
     <Compile Include="TaskTrayIcon.cs" />
-    <Compile Include="ViewModels\Messages\SetLinePointMessage.cs" />
     <Compile Include="ViewModels\RegionSelectionWindowViewModel.cs" />
     <Compile Include="ViewModels\SwitchablePanelViewModel.cs" />
     <Compile Include="ViewModels\Messages\SetDialogResultMessage.cs" />
@@ -229,7 +228,6 @@
     <Compile Include="ViewModels\TabItemViewModel.cs" />
     <Compile Include="Views\Behaviors\CallMethodWithArgumentAction.cs" />
     <Compile Include="Views\Behaviors\SetDialogResultAction.cs" />
-    <Compile Include="Views\Behaviors\SetLinePointAction.cs" />
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetRectangleBoundsAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />

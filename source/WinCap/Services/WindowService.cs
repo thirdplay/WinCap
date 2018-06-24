@@ -45,7 +45,7 @@ namespace WinCap.Services
             var viewModel = window.DataContext as ControlSelectionWindowViewModel;
             window.ShowDialog();
 
-            return viewModel.SelectedHandle;
+            return viewModel.Result;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace WinCap.Services
             var viewModel = window.DataContext as RegionSelectionWindowViewModel;
             window.ShowDialog();
 
-            return viewModel.SelectedRegion;
+            return viewModel.Result;
         }
 
         /// <summary>

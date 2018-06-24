@@ -29,9 +29,9 @@ namespace WinCap.ViewModels
         private ControlSelector controlSelector;
 
         /// <summary>
-        /// 選択コントロールのハンドルを取得します。
+        /// 選択結果を取得します。
         /// </summary>
-        public IntPtr? SelectedHandle { get; private set; }
+        public IntPtr? Result { get; private set; }
 
         /// <summary>
         /// コントロール選択情報ViewModel
@@ -170,7 +170,7 @@ namespace WinCap.ViewModels
         /// <param name="handle">選択したハンドル</param>
         private void SelectControl(IntPtr? handle)
         {
-            this.SelectedHandle = handle;
+            this.Result = handle;
             this.SetVisibility(Visibility.Hidden);
             DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
         }

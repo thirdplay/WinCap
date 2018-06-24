@@ -2,6 +2,8 @@
 using Livet.Messaging.Windows;
 using System;
 using System.Drawing;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -18,9 +20,9 @@ namespace WinCap.ViewModels
     public class RegionSelectionWindowViewModel : WindowViewModel
     {
         /// <summary>
-        /// 選択範囲を取得します。
+        /// 選択結果を取得します。
         /// </summary>
-        public Rectangle? SelectedRegion { get; private set; }
+        public Rectangle? Result { get; private set; }
 
         /// <summary>
         /// コントロール選択情報ViewModel
@@ -30,17 +32,44 @@ namespace WinCap.ViewModels
         /// <summary>
         /// スクリーンの範囲
         /// </summary>
-        private Rectangle ScreenBounds { get; set; }
+        private Rectangle screenBounds;
 
         /// <summary>
         /// スクリーンの原点
         /// </summary>
-        private Point ScreenOrigin => this.ScreenBounds.Location;
+        private Point ScreenOrigin => this.screenBounds.Location;
 
         /// <summary>
         /// 選択範囲の始点
         /// </summary>
-        public Point? StartPoint { get; set; }
+        private Point? startPoint;
+
+        /// <summary>
+        /// 範囲選択の通知オブジェクト
+        /// </summary>
+        private Subject<Rectangle?> notifier;
+
+        #region SelectedRegion 変更通知プロパティ
+
+        private Rect _SelectedRegion;
+
+        /// <summary>
+        /// 選択範囲を取得または設定します。
+        /// </summary>
+        public Rect SelectedRegion
+        {
+            get { return this._SelectedRegion; }
+            set
+            {
+                if (this._SelectedRegion != value)
+                {
+                    this._SelectedRegion = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
 
         #region MousePoint 変更通知プロパティ
 
@@ -70,15 +99,25 @@ namespace WinCap.ViewModels
         public RegionSelectionWindowViewModel()
         {
             this.ControlSelectInfo = new ControlSelectionInfoViewModel().AddTo(this);
+
             this.Subscribe(nameof(MousePoint), () =>
             {
                 this.ControlSelectInfo.Update(this.MousePoint);
-                if (this.StartPoint.HasValue)
+                if (this.startPoint.HasValue)
                 {
                     // 選択範囲を設定する
-                    this.SetSelectedRegion(GetSelectedRegion(this.StartPoint.Value, this.MousePoint));
+                    var region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
+                    this.SelectedRegion = new Rect(region.X, region.Y, region.Width, region.Height);
                 }
             }).AddTo(this);
+
+            // 選択範囲をクリアし、設定する
+            notifier = new Subject<Rectangle?>();
+            notifier
+                .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
+                .Delay(TimeSpan.FromMilliseconds(100))
+                .Subscribe(x => this.SelectRegion(x))
+                .AddTo(this);
         }
 
         /// <summary>
@@ -87,14 +126,14 @@ namespace WinCap.ViewModels
         protected override void InitializeCore()
         {
             // ウィンドウに画面全体の範囲を設定する
-            this.ScreenBounds = ScreenHelper.GetFullScreenBounds();
+            this.screenBounds = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
-                Left = this.ScreenBounds.Left,
-                Top = this.ScreenBounds.Top,
-                Width = this.ScreenBounds.Width,
-                Height = this.ScreenBounds.Height
+                Left = this.screenBounds.Left,
+                Top = this.screenBounds.Top,
+                Width = this.screenBounds.Width,
+                Height = this.screenBounds.Height
             });
 
             // 初期化
@@ -132,7 +171,7 @@ namespace WinCap.ViewModels
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                this.StartPoint = this.MousePoint;
+                this.startPoint = this.MousePoint;
             }
         }
 
@@ -146,11 +185,10 @@ namespace WinCap.ViewModels
             e.Handled = true;
             if (e.LeftButton == MouseButtonState.Released)
             {
-                region = GetSelectedRegion(this.StartPoint.Value, this.MousePoint);
-                this.StartPoint = null;
+                region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
+                this.startPoint = null;
             }
-            this.ClearSelectedRegion();
-            this.SelectRegion(region);
+            notifier.OnNext(region);
         }
 
         /// <summary>
@@ -169,50 +207,11 @@ namespace WinCap.ViewModels
         /// <param name="handle">選択したハンドル</param>
         private void SelectRegion(Rectangle? region)
         {
-            this.SelectedRegion = region;
-            this.SetVisibility(Visibility.Hidden);
-            DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
-        }
-
-        /// <summary>
-        /// ウィンドウの表示状態を設定します。
-        /// </summary>
-        /// <param name="value">表示状態</param>
-        private void SetVisibility(Visibility visibility)
-        {
+            this.Result = region;
             this.Messenger.Raise(new SetVisibilityMessage
             {
                 MessageKey = "Window.Visibility",
-                Visibility = visibility
-            });
-        }
-
-        /// <summary>
-        /// 選択範囲を設定します。
-        /// </summary>
-        /// <param name="region"></param>
-        private void SetSelectedRegion(Rectangle region)
-        {
-            this.Messenger.Raise(new SetRectangleBoundsMessage
-            {
-                MessageKey = "Rectangle.Bounds",
-                Left = region.X - this.ScreenOrigin.X,
-                Top = region.Y - this.ScreenOrigin.Y,
-                Width = region.Width,
-                Height = region.Height,
-            });
-        }
-
-        /// <summary>
-        /// 選択範囲をクリアします。
-        /// </summary>
-        private void ClearSelectedRegion()
-        {
-            this.Messenger.Raise(new SetRectangleBoundsMessage
-            {
-                MessageKey = "Rectangle.Bounds",
-                Width = 0,
-                Height = 0,
+                Visibility = Visibility.Hidden
             });
             DispatcherHelper.UIDispatcher.Invoke(() => { }, DispatcherPriority.Background);
         }

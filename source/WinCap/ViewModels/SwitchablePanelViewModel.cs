@@ -89,7 +89,7 @@ namespace WinCap.ViewModels
         private double _Width = 240.0;
 
         /// <summary>
-        /// ウィンドウの横幅を取得します。
+        /// ウィンドウの横幅を取得または設定します。
         /// </summary>
         public double Width
         {
@@ -106,12 +106,12 @@ namespace WinCap.ViewModels
 
         #endregion
 
-        #region Width 変更通知プロパティ
+        #region Height 変更通知プロパティ
 
         private double _Height = 100.0;
 
         /// <summary>
-        /// ウィンドウの高さを取得します。
+        /// ウィンドウの高さを取得または設定します。
         /// </summary>
         public double Height
         {
