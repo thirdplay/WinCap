@@ -10,15 +10,15 @@ using ProductInfo = WinCap.Properties.ProductInfo;
 namespace WinCap.Capturers
 {
     /// <summary>
-    /// キャプチャする機能を提供する基底クラス。
+    /// キャプチャ機能を提供する基底クラス。
     /// </summary>
     /// <typeparam name="TTarget">キャプチャ対象の型</typeparam>
-    public abstract class CapturerBase<TTarget>
+    public abstract class CapturerBase<TTarget> : ICapturer
     {
         /// <summary>
         /// 画面をキャプチャします。
         /// </summary>
-        public void Capture()
+        void ICapturer.Capture()
         {
             try
             {
@@ -74,5 +74,13 @@ namespace WinCap.Capturers
         /// <param name="target">キャプチャ対象</param>
         /// <returns>キャプチャ画像</returns>
         protected abstract Bitmap CaptureCore(TTarget target);
+    }
+
+    /// <summary>
+    /// キャプチャ機能を提供するインターフェイス。
+    /// </summary>
+    public interface ICapturer
+    {
+        void Capture();
     }
 }

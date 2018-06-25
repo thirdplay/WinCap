@@ -14,7 +14,12 @@ namespace WinCap.Services
         /// <summary>
         /// 基本CompositeDisposable
         /// </summary>
-        private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+        private readonly LivetCompositeDisposable compositeDisposable;
+
+        /// <summary>
+        /// キャプチャーを格納するコンテナ
+        /// </summary>
+        private readonly Dictionary<Type, ICapturer> container;
 
         /// <summary>
         /// フックサービス
@@ -22,51 +27,20 @@ namespace WinCap.Services
         private readonly HookService hookService;
 
         /// <summary>
-        /// ウィンドウサービス
-        /// </summary>
-        private readonly WindowService windowService;
-
-        #region Captures
-
-        /// <summary>
-        /// 画面キャプチャ
-        /// </summary>
-        private readonly ScreenCapturer screenCapturer;
-
-        /// <summary>
-        /// アクティブコントロールキャプチャ
-        /// </summary>
-        private readonly ActiveControlCapturer activeControlCapturer;
-
-        /// <summary>
-        /// コントロールキャプチャ
-        /// </summary>
-        private readonly ControlCapturer controlCapturer;
-
-        /// <summary>
-        /// 範囲キャプチャ
-        /// </summary>
-        private readonly RegionCapturer regionCapturer;
-
-        /// <summary>
-        /// ウェブブラウザキャプチャ
-        /// </summary>
-        private readonly WebBrowserCapturer webBrowserCapturer;
-
-        #endregion
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         public CapturerService(HookService hookService, WindowService windowService)
         {
             this.hookService = hookService;
-            this.windowService = windowService;
-            this.screenCapturer = new ScreenCapturer();
-            this.activeControlCapturer = new ActiveControlCapturer();
-            this.controlCapturer = new ControlCapturer(windowService);
-            this.regionCapturer = new RegionCapturer(windowService);
-            this.webBrowserCapturer = new WebBrowserCapturer(windowService);
+            this.compositeDisposable = new LivetCompositeDisposable();
+            this.container = new Dictionary<Type, ICapturer>()
+            {
+                [typeof(ScreenCapturer)] = new ScreenCapturer(),
+                [typeof(ActiveControlCapturer)] = new ActiveControlCapturer(),
+                [typeof(ControlCapturer)] = new ControlCapturer(windowService),
+                [typeof(RegionCapturer)] = new RegionCapturer(windowService),
+                [typeof(WebBrowserCapturer)] = new WebBrowserCapturer(windowService),
+            };
         }
 
         /// <summary>
@@ -74,10 +48,7 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureDesktop()
         {
-            using (this.hookService.Suspend())
-            {
-                this.screenCapturer.Capture();
-            }
+            Capture<ScreenCapturer>();
         }
 
         /// <summary>
@@ -85,10 +56,7 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureActiveControl()
         {
-            using (this.hookService.Suspend())
-            {
-                this.activeControlCapturer.Capture();
-            }
+            Capture<ActiveControlCapturer>();
         }
 
         /// <summary>
@@ -96,10 +64,7 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureSelectionControl()
         {
-            using (this.hookService.Suspend())
-            {
-                this.controlCapturer.Capture();
-            }
+            Capture<ControlCapturer>();
         }
 
         /// <summary>
@@ -107,10 +72,7 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureSelectionRegion()
         {
-            using (this.hookService.Suspend())
-            {
-                this.regionCapturer.Capture();
-            }
+            Capture<RegionCapturer>();
         }
 
         /// <summary>
@@ -118,9 +80,19 @@ namespace WinCap.Services
         /// </summary>
         public void CaptureWebPage()
         {
+            Capture<WebBrowserCapturer>();
+        }
+
+        /// <summary>
+        /// 指定キャプチャー型のキャプチャー処理を実行します。
+        /// </summary>
+        /// <typeparam name="TType">キャプチャー型</typeparam>
+        private void Capture<TType>()
+            where TType : ICapturer
+        {
             using (this.hookService.Suspend())
             {
-                this.webBrowserCapturer.Capture();
+                this.container[typeof(TType)].Capture();
             }
         }
 
