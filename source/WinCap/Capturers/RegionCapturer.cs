@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using WinCap.Interop;
 using WinCap.Services;
 
 namespace WinCap.Capturers
@@ -41,7 +42,7 @@ namespace WinCap.Capturers
         /// <returns>キャプチャ画像</returns>
         protected override Bitmap CaptureCore(Rectangle? target)
         {
-            return ScreenHelper.CaptureScreen(target.Value);
+            return ScreenHelper.CaptureScreen(target.Value.ToPhysicalPixel(PerMonitorDpi.GetDpi(target.Value)));
         }
 
         #endregion

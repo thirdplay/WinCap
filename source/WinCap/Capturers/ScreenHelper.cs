@@ -65,7 +65,7 @@ namespace WinCap.Capturers
         /// <returns>ビットマップ</returns>
         public static Bitmap CaptureScreen(IntPtr handle)
         {
-            return CaptureScreen(InteropHelper.GetWindowSize(handle));
+            return CaptureScreen(InteropHelper.GetWindowSize(handle, false));
         }
     }
 }

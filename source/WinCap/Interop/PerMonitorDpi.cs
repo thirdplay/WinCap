@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Interop;
 using WinCap.Interop.Win32;
 
@@ -54,7 +55,34 @@ namespace WinCap.Interop
                 MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
 
             uint dpiX = 1, dpiY = 1;
-            SHCore.GetDpiForMonitor(hmonitor, dpiType, ref dpiX, ref dpiY);
+            SHCore.GetDpiForMonitor(hmonitor, dpiType, out dpiX, out dpiY);
+
+            return new Dpi(dpiX, dpiY);
+        }
+
+        /// <summary>
+        /// 指定したハンドルのウィンドウが描画されているモニターの DPI 設定値を取得します。
+        /// </summary>
+        /// <param name="rectangle">DPI を取得する対象の長方形領域を示すRECT構造。</param>
+        /// <param name="dpiType">DPI の種類。既定値は <see cref="MonitorDpiType.Default"/> (<see cref="MonitorDpiType.EffectiveDpi"/> と同値) です。</param>
+        /// <returns><paramref name="hWnd"/> のウィンドウが描画されているモニターの DPI 設定値。サポートされていないシステムの場合は <see cref="Dpi.Default"/>。</returns>
+        public static Dpi GetDpi(Rectangle rectangle, MonitorDpiType dpiType = MonitorDpiType.Default)
+        {
+            if (!IsSupported) { return Dpi.Default; }
+
+            var rect = new RECT()
+            {
+                left = rectangle.Left,
+                top = rectangle.Top,
+                right = rectangle.Right,
+                bottom = rectangle.Bottom,
+            };
+            var hmonitor = User32.MonitorFromRect(
+                ref rect,
+                MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
+
+            uint dpiX = 1, dpiY = 1;
+            SHCore.GetDpiForMonitor(hmonitor, dpiType, out dpiX, out dpiY);
 
             return new Dpi(dpiX, dpiY);
         }
