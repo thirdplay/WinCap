@@ -61,23 +61,6 @@ namespace WinCap.Interop
         }
 
         /// <summary>
-        /// 指定された点を含むモニターの DPI 設定値を取得します。
-        /// </summary>
-        /// <param name="point">DPI を取得する対象の座標</param>
-        /// <param name="dpiType">DPI の種類。既定値は <see cref="MonitorDpiType.Default"/> (<see cref="MonitorDpiType.EffectiveDpi"/> と同値) です。</param>
-        /// <returns><paramref name="hWnd"/> のウィンドウが描画されているモニターの DPI 設定値。サポートされていないシステムの場合は <see cref="Dpi.Default"/>。</returns>
-        public static Dpi GetDpi(Point point, MonitorDpiType dpiType = MonitorDpiType.Default)
-        {
-            var p = new POINT()
-            {
-                x = point.X,
-                y = point.Y,
-            };
-            var hMonitor = User32.MonitorFromPoint(p, MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
-            return GetDpiForMonitor(hMonitor, dpiType);
-        }
-
-        /// <summary>
         /// ディスプレイモニターの DPI 設定値を取得します。
         /// </summary>
         /// <param name="hMonitor">ディスプレイモニタの HMONITOR</param>
