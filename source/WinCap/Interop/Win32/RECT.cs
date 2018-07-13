@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace WinCap.Interop.Win32
 {
     /// <summary>
-    /// 四角形のを表す。
+    /// 四角形を表す構造体。
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT

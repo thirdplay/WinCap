@@ -30,17 +30,6 @@ namespace WinCap.Interop
         }
 
         /// <summary>
-        /// 現在の <see cref="HwndSource"/> が描画されているモニターの DPI 設定値を取得します。
-        /// </summary>
-        /// <param name="hwndSource">DPI を取得する対象の Win32 ウィンドウを特定する <see cref="HwndSource"/> オブジェクト。</param>
-        /// <param name="dpiType">DPI の種類。既定値は <see cref="MonitorDpiType.Default"/> (<see cref="MonitorDpiType.EffectiveDpi"/> と同値) です。</param>
-        /// <returns><paramref name="hwndSource"/> が描画されているモニターの DPI 設定値。サポートされていないシステムの場合は <see cref="Dpi.Default"/>。</returns>
-        public static Dpi GetDpi(this HwndSource hwndSource, MonitorDpiType dpiType = MonitorDpiType.Default)
-        {
-            return GetDpi(hwndSource.Handle, dpiType);
-        }
-
-        /// <summary>
         /// 指定したハンドルのウィンドウが描画されているモニターの DPI 設定値を取得します。
         /// </summary>
         /// <param name="hWnd">DPI を取得する対象の Win32 ウィンドウを示すウィンドウ ハンドル。</param>
@@ -48,41 +37,58 @@ namespace WinCap.Interop
         /// <returns><paramref name="hWnd"/> のウィンドウが描画されているモニターの DPI 設定値。サポートされていないシステムの場合は <see cref="Dpi.Default"/>。</returns>
         public static Dpi GetDpi(IntPtr hWnd, MonitorDpiType dpiType = MonitorDpiType.Default)
         {
-            if (!IsSupported) { return Dpi.Default; }
-
-            var hmonitor = User32.MonitorFromWindow(
-                hWnd,
-                MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
-
-            uint dpiX = 1, dpiY = 1;
-            SHCore.GetDpiForMonitor(hmonitor, dpiType, out dpiX, out dpiY);
-
-            return new Dpi(dpiX, dpiY);
+            var hMonitor = User32.MonitorFromWindow(hWnd, MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
+            return GetDpiForMonitor(hMonitor, dpiType);
         }
 
         /// <summary>
-        /// 指定したハンドルのウィンドウが描画されているモニターの DPI 設定値を取得します。
+        /// 指定した長方形領域との交差部分が最も広いモニターの DPI 設定値を取得します。
         /// </summary>
-        /// <param name="rectangle">DPI を取得する対象の長方形領域を示すRECT構造。</param>
+        /// <param name="rect">DPI を取得する対象の長方形領域</param>
         /// <param name="dpiType">DPI の種類。既定値は <see cref="MonitorDpiType.Default"/> (<see cref="MonitorDpiType.EffectiveDpi"/> と同値) です。</param>
         /// <returns><paramref name="hWnd"/> のウィンドウが描画されているモニターの DPI 設定値。サポートされていないシステムの場合は <see cref="Dpi.Default"/>。</returns>
-        public static Dpi GetDpi(Rectangle rectangle, MonitorDpiType dpiType = MonitorDpiType.Default)
+        public static Dpi GetDpi(Rectangle rect, MonitorDpiType dpiType = MonitorDpiType.Default)
+        {
+            var r = new RECT()
+            {
+                left = rect.Left,
+                top = rect.Top,
+                right = rect.Right,
+                bottom = rect.Bottom,
+            };
+            var hMonitor = User32.MonitorFromRect(ref r, MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
+            return GetDpiForMonitor(hMonitor, dpiType);
+        }
+
+        /// <summary>
+        /// 指定された点を含むモニターの DPI 設定値を取得します。
+        /// </summary>
+        /// <param name="point">DPI を取得する対象の座標</param>
+        /// <param name="dpiType">DPI の種類。既定値は <see cref="MonitorDpiType.Default"/> (<see cref="MonitorDpiType.EffectiveDpi"/> と同値) です。</param>
+        /// <returns><paramref name="hWnd"/> のウィンドウが描画されているモニターの DPI 設定値。サポートされていないシステムの場合は <see cref="Dpi.Default"/>。</returns>
+        public static Dpi GetDpi(Point point, MonitorDpiType dpiType = MonitorDpiType.Default)
+        {
+            var p = new POINT()
+            {
+                x = point.X,
+                y = point.Y,
+            };
+            var hMonitor = User32.MonitorFromPoint(p, MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
+            return GetDpiForMonitor(hMonitor, dpiType);
+        }
+
+        /// <summary>
+        /// ディスプレイモニターの DPI 設定値を取得します。
+        /// </summary>
+        /// <param name="hMonitor">ディスプレイモニタの HMONITOR</param>
+        /// <param name="dpiType">DPI の種類。既定値は <see cref="MonitorDpiType.Default"/> (<see cref="MonitorDpiType.EffectiveDpi"/> と同値) です。</param>
+        /// <returns><paramref name="hWnd"/> のウィンドウが描画されているモニターの DPI 設定値。サポートされていないシステムの場合は <see cref="Dpi.Default"/>。</returns>
+        private static Dpi GetDpiForMonitor(IntPtr hMonitor, MonitorDpiType dpiType)
         {
             if (!IsSupported) { return Dpi.Default; }
 
-            var rect = new RECT()
-            {
-                left = rectangle.Left,
-                top = rectangle.Top,
-                right = rectangle.Right,
-                bottom = rectangle.Bottom,
-            };
-            var hmonitor = User32.MonitorFromRect(
-                ref rect,
-                MonitorDefaultTo.MONITOR_DEFAULTTONEAREST);
-
             uint dpiX = 1, dpiY = 1;
-            SHCore.GetDpiForMonitor(hmonitor, dpiType, out dpiX, out dpiY);
+            SHCore.GetDpiForMonitor(hMonitor, dpiType, out dpiX, out dpiY);
 
             return new Dpi(dpiX, dpiY);
         }

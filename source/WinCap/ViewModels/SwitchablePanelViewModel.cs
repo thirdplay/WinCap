@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using WinCap.Interop;
 
 namespace WinCap.ViewModels
 {
@@ -189,16 +190,17 @@ namespace WinCap.ViewModels
         /// <returns>位置座標</returns>
         private Point GetLocation(Screen screen, AnchorStyles anchor)
         {
+            var bounds = screen.Bounds.ToLogicalPixel();
             var result = new Point();
             if (anchor == AnchorLeftTop)
             {
-                result.X = screen.Bounds.Left + MarginWidth;
-                result.Y = screen.Bounds.Top + MarginHeight;
+                result.X = bounds.Left + MarginWidth;
+                result.Y = bounds.Top + MarginHeight;
             }
             else
             {
-                result.X = screen.Bounds.Right - (int)this.Width - MarginWidth;
-                result.Y = screen.Bounds.Bottom - (int)this.Height - MarginHeight;
+                result.X = bounds.Right - (int)this.Width - MarginWidth;
+                result.Y = bounds.Bottom - (int)this.Height - MarginHeight;
             }
             return result;
         }

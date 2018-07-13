@@ -168,6 +168,7 @@
     <Compile Include="Interop\Win32\MAPVK.cs" />
     <Compile Include="Interop\Win32\MonitorDefaultTo.cs" />
     <Compile Include="Interop\Win32\Oleacc.cs" />
+    <Compile Include="Interop\Win32\POINT.cs" />
     <Compile Include="Interop\Win32\SHCore.cs" />
     <Compile Include="Interop\Win32\SWP.cs" />
     <Compile Include="Interop\Win32\User32.cs" />
