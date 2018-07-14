@@ -162,6 +162,12 @@ namespace WinCap.Browsers
                     this.body = (IHTMLElement2)document2.body;
                 }
 
+                // 文字サイズとズームを等倍にする
+                this.charSizeOriginal = GetCharSize();
+                this.zoomOriginal = GetZoom();
+                this.SetCharSize(CharSizeMiddle);
+                this.SetZoom(ZoomActual);
+
                 // クライアント領域のオフセットを取得
                 this.Offset = GetMargin(document6.documentMode.ToString());
                 this.Client = new Rectangle(this.Offset.X, this.Offset.Y, this.body.clientWidth, this.body.clientHeight);
@@ -174,15 +180,6 @@ namespace WinCap.Browsers
                     // ※暫定的にクライアント高さからスクロールバー分を引いて処理する
                     this.Client = new Rectangle(this.Client.X, this.Client.Y, this.Client.Width, this.Client.Height - SystemInformation.HorizontalScrollBarHeight);
                 }
-
-
-                // 文字サイズと光学ズームの倍率取得
-                this.charSizeOriginal = GetCharSize();
-                this.zoomOriginal = GetZoom();
-
-                // 文字サイズとズームを等倍にする
-                this.SetCharSize(CharSizeMiddle);
-                this.SetZoom(ZoomActual);
 
                 // 最後にウィンドウハンドルを登録する
                 this.handle = handle;
