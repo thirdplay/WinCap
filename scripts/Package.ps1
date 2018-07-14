@@ -8,6 +8,7 @@
         $scriptDir = Split-Path $MyInvocation.ScriptName -Parent
 
         # カレントディレクトリをスクリプト自身のパスに変更
+        $OldDir = Convert-Path .
         cd $scriptDir
 
         $appName = 'WinCap'
@@ -50,6 +51,11 @@
         catch
         {
             throw $_
+        }
+        finally
+        {
+            # カレントディレクトリを元に戻す
+            cd $OldDir
         }
     }
 }
