@@ -8,8 +8,6 @@
         $scriptDir = Split-Path $MyInvocation.ScriptName -Parent
 
         # カレントディレクトリをスクリプト自身のパスに変更
-        $OldDir = Convert-Path .
-        #Set-CurrentDirectory $scriptDir
         cd $scriptDir
 
         $appName = 'WinCap'
@@ -52,11 +50,6 @@
         catch
         {
             throw $_
-        }
-        finally
-        {
-            # カレントディレクトリを元に戻す
-            Set-CurrentDirectory $OldDir
         }
     }
 }
@@ -139,14 +132,6 @@ function Copy-StrictedFilterFileWithDirectoryStructure
 
         # Remove All Empty (none file exist) folders
         Get-ChildItem -Path $Destination -Recurse -Directory | where fullName -notin $folderToKeep | Remove-Item -Recurse
-    }
-}
-
-# カレントディレクトリ変更
-function Set-CurrentDirectory ($path) {
-    Set-Location $path
-    if ((Get-Location).Provider.Name -eq 'FileSystem') {
-        [IO.Directory]::SetCurrentDirectory((Get-Location).ProviderPath)
     }
 }
 
