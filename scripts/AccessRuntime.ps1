@@ -18,7 +18,7 @@ function Main
         {
             # カレントディレクトリをスクリプト自身のパスに変更
             $OldDir = Convert-Path .
-            Set-CurrentDirectory $PsDir
+            cd $PsDir
 
             $ComponentName = "AccessRuntime"
 
@@ -36,7 +36,7 @@ function Main
         finally
         {
             # カレントディレクトリを元に戻す
-            Set-CurrentDirectory $OldDir
+            cd $OldDir
         }
     }
 }
@@ -83,14 +83,6 @@ function Download-File
             throw $_
         }
         Write-Host "- Download completed"
-    }
-}
-
-# カレントディレクトリ変更
-function Set-CurrentDirectory ($path) {
-    Set-Location $path
-    if ((Get-Location).Provider.Name -eq 'FileSystem') {
-        [IO.Directory]::SetCurrentDirectory((Get-Location).ProviderPath)
     }
 }
 
