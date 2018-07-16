@@ -21,11 +21,6 @@ namespace WinCap.Browsers
         #region 定数
         
         /// <summary>
-        /// HTMLObject取得メッセージ
-        /// </summary>
-        private const string HtmlGetObjectMessage = "WM_HTML_GETOBJECT";
-
-        /// <summary>
         /// 文字サイズ：中
         /// </summary>
         private const int CharSizeMiddle = 2;
@@ -35,6 +30,10 @@ namespace WinCap.Browsers
         /// </summary>
         private const int ZoomActual = 100;
 
+        /// <summary>
+        /// HTMLObject取得メッセージ
+        /// </summary>
+        private uint HtmlGetObject = User32.RegisterWindowMessage("WM_HTML_GETOBJECT");
         #endregion
 
         /// <summary>
@@ -134,24 +133,22 @@ namespace WinCap.Browsers
         /// <param name="handle">ウィンドウハンドル</param>
         private void SetHandle(IntPtr handle)
         {
-            IHTMLDocument2 document2 = null;
-            IHTMLDocument3 document3 = null;
-            IHTMLDocument6 document6 = null;
-            try
+            // ウェブブラウザ情報を取得する
+            this.webBrowser = GetWebBrowser(handle);
+            if (this.webBrowser == null)
             {
-                // ウェブブラウザ情報を取得する
-                this.webBrowser = GetWebBrowser(handle);
-                if (this.webBrowser == null)
-                {
-                    // HTMLDocument情報が取得できなかった
-                    throw new Exception("ウェブブラウザ情報の取得に失敗");
-                }
+                // HTMLDocument情報が取得できなかった
+                throw new Exception("ウェブブラウザ情報の取得に失敗");
+            }
 
-                // IEのHTML文書を取得する
-                document2 = (IHTMLDocument2)this.webBrowser.Document;
-                document3 = (IHTMLDocument3)this.webBrowser.Document;
-                document6 = (IHTMLDocument6)this.webBrowser.Document;
-
+            // IEのHTML文書を取得する
+            var document2 = (IHTMLDocument2)this.webBrowser.Document;
+            var document3 = (IHTMLDocument3)this.webBrowser.Document;
+            var document6 = (IHTMLDocument6)this.webBrowser.Document;
+            using (Disposable.Create(() => ReleaseComObject(document2)))
+            using (Disposable.Create(() => ReleaseComObject(document3)))
+            using (Disposable.Create(() => ReleaseComObject(document6)))
+            {
                 // HTMLウィンドウと文書本体を取得
                 this.window = document2.parentWindow;
                 this.body = (IHTMLElement2)document3.documentElement;
@@ -183,13 +180,6 @@ namespace WinCap.Browsers
 
                 // 最後にウィンドウハンドルを登録する
                 this.handle = handle;
-            }
-            finally
-            {
-                // COMオブジェクトの解放
-                ReleaseComObject(document2);
-                ReleaseComObject(document3);
-                ReleaseComObject(document6);
             }
         }
 
@@ -284,14 +274,9 @@ namespace WinCap.Browsers
         private IWebBrowser2 GetWebBrowser(IntPtr hWnd)
         {
             UIntPtr sendMessageResult = UIntPtr.Zero;
-            Guid IID_IHTMLDocument3 = typeof(IHTMLDocument3).GUID;
-            IWebBrowser2 wb = null;
-
-            // WM_HTML_GETOBJECTメッセージの登録
-            uint msg = User32.RegisterWindowMessage(HtmlGetObjectMessage);
 
             // WM_HTML_GETOBJECTメッセージの送信
-            User32.SendMessageTimeout(hWnd, msg, 0, 0, (uint)SMTO.ABORTIFHUNG, 1000, ref sendMessageResult);
+            User32.SendMessageTimeout(hWnd, HtmlGetObject, 0, 0, (uint)SMTO.ABORTIFHUNG, 1000, ref sendMessageResult);
             if (sendMessageResult == UIntPtr.Zero)
             {
                 return null;
@@ -299,6 +284,7 @@ namespace WinCap.Browsers
 
             // HTML文書情報の取得
             IHTMLDocument2 doc = null;
+            var IID_IHTMLDocument3 = typeof(IHTMLDocument3).GUID;
             if (Oleacc.ObjectFromLresult(sendMessageResult, ref IID_IHTMLDocument3, 0, ref doc) != 0)
             {
                 return null;
@@ -309,15 +295,11 @@ namespace WinCap.Browsers
                 var serviceProvider = (Interop.Win32.IServiceProvider)doc.parentWindow;
                 using (Disposable.Create(() => ReleaseComObject(serviceProvider)))
                 {
-                    Guid webBrowserAppGUID = typeof(IWebBrowserApp).GUID;
-                    Guid webBrowserGUID = typeof(IWebBrowser2).GUID;
                     object result;
-                    serviceProvider.QueryService(webBrowserAppGUID, webBrowserGUID, out result);
-                    wb = (IWebBrowser2)result;
-
+                    serviceProvider.QueryService(typeof(IWebBrowserApp).GUID, typeof(IWebBrowser2).GUID, out result);
+                    return (IWebBrowser2)result;
                 }
             }
-            return wb;
         }
 
         /// <summary>
