@@ -204,6 +204,11 @@ namespace WinCap.Driver.Drivers
         public WPFShortcutKeyBox SelectionControl { get; private set; }
 
         /// <summary>
+        /// 選択領域をキャプチャするショートカットキーを取得します
+        /// </summary>
+        public WPFShortcutKeyBox SelectionRegion { get; private set; }
+
+        /// <summary>
         /// Webページ全体をキャプチャするショートカットキーを取得します。
         /// </summary>
         public WPFShortcutKeyBox WebPage { get; private set; }
@@ -220,6 +225,7 @@ namespace WinCap.Driver.Drivers
             this.FullScreen = new WPFShortcutKeyBox(visualTree.ByBinding("FullScreen").Single());
             this.ActiveControl = new WPFShortcutKeyBox(visualTree.ByBinding("ActiveControl").Single());
             this.SelectionControl = new WPFShortcutKeyBox(visualTree.ByBinding("SelectionControl").Single());
+            this.SelectionRegion = new WPFShortcutKeyBox(visualTree.ByBinding("SelectionRegion").Single());
             this.WebPage = new WPFShortcutKeyBox(visualTree.ByBinding("WebPage").Single());
         }
     }

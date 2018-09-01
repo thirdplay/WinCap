@@ -159,6 +159,7 @@ namespace WinCap.Test
             public int[] FullScreen { get; set; }
             public int[] ActiveControl { get; set; }
             public int[] SelectionControl { get; set; }
+            public int[] SelectionRegion { get; set; }
             public int[] WebPage { get; set; }
             public string[] PropertyNames { get; set; }
             public string Message { get; set; }
@@ -184,6 +185,7 @@ namespace WinCap.Test
             shortcutKey.FullScreen.EmulateChangeCurrent(param.FullScreen);
             shortcutKey.ActiveControl.EmulateChangeCurrent(param.ActiveControl);
             shortcutKey.SelectionControl.EmulateChangeCurrent(param.SelectionControl);
+            shortcutKey.SelectionRegion.EmulateChangeCurrent(param.SelectionRegion);
             shortcutKey.WebPage.EmulateChangeCurrent(param.WebPage);
             buttonOk.EmulateClick();
 

@@ -38,7 +38,7 @@ namespace WinCap.Serialization
         public ShortcutkeyProperty SelectionControl => this.Cache(key => new ShortcutkeyProperty(key, this.provider, SelectControlDefaultValue));
 
         /// <summary>
-        /// 選択範囲をキャプチャ
+        /// 選択領域をキャプチャ
         /// </summary>
         public ShortcutkeyProperty SelectionRegion => this.Cache(key => new ShortcutkeyProperty(key, this.provider, SelectRegionDefaultValue));
 
@@ -72,7 +72,7 @@ namespace WinCap.Serialization
         };
 
         /// <summary>
-        /// 選択範囲キャプチャのデフォルト値
+        /// 選択領域キャプチャのデフォルト値
         /// </summary>
         private static int[] SelectRegionDefaultValue { get; } = {
             (int)Key.PrintScreen,

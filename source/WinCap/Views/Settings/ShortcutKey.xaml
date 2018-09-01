@@ -41,6 +41,10 @@
                     <Run Text=": " />
                 </TextBlock>
                 <TextBlock>
+                    <Run Text="{x:Static prop:Resources.Settings_SelectionRegionCapture}" />
+                    <Run Text=": " />
+                </TextBlock>
+                <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_WebPageCapture}" />
                     <Run Text=": " />
                 </TextBlock>
@@ -68,6 +72,14 @@
                                          Margin="2,2">
                     <i:Interaction.Triggers>
                         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="SelectionControl.Focus" >
+                            <livet:SetFocusAction />
+                        </livet:InteractionMessageTrigger>
+                    </i:Interaction.Triggers>
+                </controls:ShortcutKeyBox>
+                <controls:ShortcutKeyBox Current="{Binding SelectionRegion, Mode=TwoWay}"
+                                         Margin="2,2">
+                    <i:Interaction.Triggers>
+                        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="SelectionRegion.Focus" >
                             <livet:SetFocusAction />
                         </livet:InteractionMessageTrigger>
                     </i:Interaction.Triggers>
