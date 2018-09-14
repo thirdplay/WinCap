@@ -13,7 +13,8 @@
         WindowStyle="None"
         Topmost="True"
         AllowsTransparency="True"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False"
+        Cursor="Hand">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="ContentRendered">
             <livet:LivetCallMethodAction MethodTarget="{Binding}"

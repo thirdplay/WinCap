@@ -123,7 +123,11 @@ namespace WinCap.ViewModels
             this.notifier
                 .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
                 .Delay(TimeSpan.FromMilliseconds(100))
-                .Subscribe(x => this.SelectRegion(x))
+                .Subscribe(x =>
+                {
+                    DispatcherHelper.UIDispatcher.Invoke(() => Mouse.OverrideCursor = null);
+                    this.SelectRegion(x);
+                })
                 .AddTo(this);
         }
 
@@ -178,6 +182,7 @@ namespace WinCap.ViewModels
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                Mouse.OverrideCursor = Cursors.None;
                 this.startPoint = this.MousePoint;
             }
         }
