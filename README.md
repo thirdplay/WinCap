@@ -25,7 +25,7 @@ WinCapは、画面キャプチャツールです。
 
 ### 動作環境
 * Windows 7 / 8 / 10
-* [.NET Framework 4.7](https://www.microsoft.com/ja-jp/download/details.aspx?id=55167)
+* [.NET Framework 4.6](https://www.microsoft.com/ja-jp/download/details.aspx?id=48130)
 
 ### ライセンス
 
