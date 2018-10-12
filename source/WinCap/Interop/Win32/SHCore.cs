@@ -11,6 +11,6 @@ namespace WinCap.Interop.Win32
     public static class SHCore
     {
         [DllImport("SHCore.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
-        public static extern void GetDpiForMonitor(IntPtr hmonitor, MonitorDpiType dpiType, ref uint dpiX, ref uint dpiY);
+        public static extern void GetDpiForMonitor(IntPtr hmonitor, MonitorDpiType dpiType, out uint dpiX, out uint dpiY);
     }
 }

@@ -10,21 +10,24 @@ using ProductInfo = WinCap.Properties.ProductInfo;
 namespace WinCap.Capturers
 {
     /// <summary>
-    /// キャプチャする機能を提供する基底クラス。
+    /// キャプチャ機能を提供する基底クラス。
     /// </summary>
     /// <typeparam name="TTarget">キャプチャ対象の型</typeparam>
-    public abstract class CapturerBase<TTarget>
+    public abstract class CapturerBase<TTarget> : ICapturer
     {
         /// <summary>
         /// 画面をキャプチャします。
         /// </summary>
-        public void Capture()
+        void ICapturer.Capture()
         {
             try
             {
                 // キャプチャ対象取得
-                var target = GetTargetCore();
-                if (target == null) return;
+                var target = GetCaptureTarget();
+                if (target == null)
+                {
+                    return;
+                }
 
                 // キャプチャ遅延時間
                 if (Settings.General.CaptureDelayTime > 0)
@@ -60,16 +63,24 @@ namespace WinCap.Capturers
         }
 
         /// <summary>
+        /// キャプチャ対象を取得します。
+        /// </summary>
+        /// <returns>キャプチャ対象</returns>
+        protected abstract TTarget GetCaptureTarget();
+
+        /// <summary>
         /// キャプチャのコア処理。
         /// </summary>
         /// <param name="target">キャプチャ対象</param>
         /// <returns>キャプチャ画像</returns>
         protected abstract Bitmap CaptureCore(TTarget target);
+    }
 
-        /// <summary>
-        /// キャプチャ対象を取得します。
-        /// </summary>
-        /// <returns>キャプチャ対象</returns>
-        protected abstract TTarget GetTargetCore();
+    /// <summary>
+    /// キャプチャ機能を提供するインターフェイス。
+    /// </summary>
+    public interface ICapturer
+    {
+        void Capture();
     }
 }

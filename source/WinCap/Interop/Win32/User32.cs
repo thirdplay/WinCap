@@ -135,6 +135,18 @@ namespace WinCap.Interop.Win32
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         /// <summary>
+        /// 指定した長方形領域との交差部分が最も広いディスプレイモニタのハンドルを返します。
+        /// </summary>
+        /// <param name="lpRect">RECT 構造体へのポインタ</param>
+        /// <param name="dwFlags">指定した長方形領域と重なるモニタがなかった場合のフラグ</param>
+        /// <returns>
+        /// 指定した長方形領域と重なるディスプレイモニタが１台以上見つかった場合は、長方形領域との交差部分が最も広いディスプレイモニタの HMONITOR ハンドルが返ります。
+        /// 指定した長方形領域と重なるディスプレイモニタが見つからなかった場合は、dwFlags パラメータにより示される内容が返ります。
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr MonitorFromRect(ref RECT lpRect, MonitorDefaultTo dwFlags);
+
+        /// <summary>
         /// 指定したウィンドウの境界線により決まる長方形領域との交差部分が最も広いディスプレイモニタのハンドルを返します。
         /// </summary>
         /// <param name="hwnd">目的のウィンドウのハンドルを指定します。</param>

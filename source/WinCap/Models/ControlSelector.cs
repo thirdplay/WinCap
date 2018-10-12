@@ -11,7 +11,7 @@ namespace WinCap.Models
     /// <summary>
     /// コントロール選択ウィンドウのロジックを提供します。
     /// </summary>
-    public class ControlSelection : NotificationObject
+    public class ControlSelector : NotificationObject
     {
         /// <summary>
         /// ウィンドウハンドルリスト。
@@ -21,7 +21,7 @@ namespace WinCap.Models
         /// <summary>
         /// ウィンドウハンドル取得時に除外するクラス名
         /// </summary>
-        private List<string> ignoreClassNames = new List<string>
+        private readonly List<string> ignoreClassNames = new List<string>
         {
             "Intermediate D3D Window"
         };
@@ -32,11 +32,11 @@ namespace WinCap.Models
         public bool IsInitialized { get; private set; }
 
         #region SelectedHandle 変更通知プロパティ
-        private IntPtr _SelectedHandle;
+        private IntPtr? _SelectedHandle;
         /// <summary>
         /// 選択コントロールのハンドルを取得します。
         /// </summary>
-        public IntPtr SelectedHandle
+        public IntPtr? SelectedHandle
         {
             get { return this._SelectedHandle; }
             set
@@ -53,7 +53,7 @@ namespace WinCap.Models
         /// <summary>
         /// コンストラクタ。
         /// </summary>
-        public ControlSelection()
+        public ControlSelector()
         {
         }
 
@@ -63,17 +63,17 @@ namespace WinCap.Models
         public void Initialize()
         {
             this.handles = this.GetHandles();
-            this._SelectedHandle = IntPtr.Zero;
+            this._SelectedHandle = null;
             this.IsInitialized = true;
         }
 
         /// <summary>
-        /// マウス座標を更新します。
+        /// 更新処理。
         /// </summary>
         /// <param name="point">マウス座標</param>
-        public void UpdateMousePoint(Point point)
+        public void Update(Point point)
         {
-            if (!this.IsInitialized) return;
+            if (!this.IsInitialized) { return; }
 
             var selectedHandle = IntPtr.Zero;
             foreach (var handle in this.handles)
@@ -153,7 +153,7 @@ namespace WinCap.Models
         }
 
         /// <summary>
-        /// 指定ウィンドウハンドルがャプチャ対象か返します。
+        /// 指定ウィンドウハンドルがキャプチャ対象か返します。
         /// </summary>
         /// <param name="handle">ウィンドウハンドル</param>
         /// <returns>対象ならtrue、それ以外はfalse</returns>

@@ -16,16 +16,16 @@ function Main
     {
         try
         {
-            # ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğƒXƒNƒŠƒvƒg©g‚ÌƒpƒX‚É•ÏX
+            # ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ã‚¹ã‚¯ãƒªãƒ—ãƒˆè‡ªèº«ã®ãƒ‘ã‚¹ã«å¤‰æ›´
             $OldDir = Convert-Path .
-            Set-CurrentDirectory $PsDir
+            cd $PsDir
 
             $ComponentName = "AccessRuntime"
 
-            # ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ_ƒEƒ“ƒ[ƒh
+            # ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
             Download-File (Convert-Path .) "https://download.microsoft.com/download/9/9/6/996A2380-2842-43F0-BA8A-F80133E6E961/$ComponentName.exe"
 
-            # ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒCƒ“ƒXƒg[ƒ‹
+            # ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
             Start-Process -FilePath .\$ComponentName.exe -ArgumentList "/quiet /log:.\$ComponentName.log" -Wait
             Write-Host "- Install completed"
         }
@@ -35,13 +35,13 @@ function Main
         }
         finally
         {
-            # ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğŒ³‚É–ß‚·
-            Set-CurrentDirectory $OldDir
+            # ã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å…ƒã«æˆ»ã™
+            cd $OldDir
         }
     }
 }
 
-# ƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒhˆ—
+# ãƒ•ã‚¡ã‚¤ãƒ«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å‡¦ç†
 function Download-File
 {
     [CmdletBinding()]
@@ -67,15 +67,15 @@ function Download-File
     {
         try
         {
-            # æ‚èo‚µ‚½URL‚©‚çƒtƒ@ƒCƒ‹–¼‚ğæ‚èo‚·
+            # å–ã‚Šå‡ºã—ãŸURLã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–ã‚Šå‡ºã™
             $uri = New-Object System.Uri($Url)
             $fileName = Split-Path $uri.AbsolutePath -Leaf
 
-            # w’è‚³‚ê‚½URL‚©‚çƒtƒ@ƒCƒ‹‚ğƒ_ƒEƒ“ƒ[ƒh‚µA“¯–¼‚Ìƒtƒ@ƒCƒ‹–¼‚Å•Û‘¶
-            Write-Host "Downloading `'$fileName`' to $Path From $Url..."
-            $client = New-Object System.Net.WebClient
-            $client.DownloadFile($Uri, (Join-Path $Path $fileName))
-            #Start-BitsTransfer -Source $Url -Destination $Path\$fileName -DisplayName "Downloading `'$fileName`' to $Path" -Priority High -Description "From $Url..." -ErrorVariable err
+            # æŒ‡å®šã•ã‚ŒãŸURLã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ã€åŒåã®ãƒ•ã‚¡ã‚¤ãƒ«åã§ä¿å­˜
+            #Write-Host "Downloading `'$fileName`' to $Path From $Url..."
+            #$client = New-Object System.Net.WebClient
+            #$client.DownloadFile($Uri, (Join-Path $Path $fileName))
+            Start-BitsTransfer -Source $Url -Destination $Path\$fileName -DisplayName "Downloading `'$fileName`' to $Path" -Priority High -Description "From $Url..." -ErrorVariable err
         }
         catch
         {
@@ -83,14 +83,6 @@ function Download-File
             throw $_
         }
         Write-Host "- Download completed"
-    }
-}
-
-# ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ•ÏX
-function Set-CurrentDirectory ($path) {
-    Set-Location $path
-    if ((Get-Location).Provider.Name -eq 'FileSystem') {
-        [IO.Directory]::SetCurrentDirectory((Get-Location).ProviderPath)
     }
 }
 

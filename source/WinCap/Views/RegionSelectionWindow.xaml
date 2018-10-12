@@ -1,0 +1,79 @@
+﻿<Window x:Class="WinCap.Views.RegionSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
+        xmlns:views="clr-namespace:WinCap.Views"
+        mc:Ignorable="d"
+        Title="SelectControlWindow"
+        Background="#01000000"
+        WindowStyle="None"
+        Topmost="True"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        Cursor="Cross">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <livet:LivetCallMethodAction MethodTarget="{Binding}"
+                                         MethodName="Initialize" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseMove">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnMouseMove" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseDown">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnMouseDown" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseUp">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnMouseUp" />
+        </i:EventTrigger>
+        
+        <i:EventTrigger EventName="KeyDown">
+            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
+                                                    MethodName="OnKeyDown" />
+        </i:EventTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="Window.WindowAction">
+            <livet:WindowInteractionMessageAction />
+        </livet:InteractionMessageTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="Window.Bounds">
+            <behaviors:SetWindowBoundsAction />
+        </livet:InteractionMessageTrigger>
+
+        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
+                                         MessageKey="Window.Visibility">
+            <behaviors:SetVisibilityAction />
+        </livet:InteractionMessageTrigger>
+
+    </i:Interaction.Triggers>
+    
+    <Canvas>
+        <Rectangle Stroke="#CCFF0000"
+                   StrokeThickness="4"
+                   Width="{Binding SelectedRegion.Width, Mode=OneWay}"
+                   Height="{Binding SelectedRegion.Height, Mode=OneWay}"
+                   Canvas.Left="{Binding SelectedRegion.Left, Mode=OneWay}"
+                   Canvas.Top="{Binding SelectedRegion.Top, Mode=OneWay}">
+        </Rectangle>
+        <views:RegionSelectionInfo DataContext="{Binding RegionSelectionInfo}"
+                                   Canvas.Left="{Binding Left, Mode=OneWay}"
+                                   Canvas.Top="{Binding Top, Mode=OneWay}"
+                                   Visibility="Hidden">
+        </views:RegionSelectionInfo>
+    </Canvas>
+</Window>

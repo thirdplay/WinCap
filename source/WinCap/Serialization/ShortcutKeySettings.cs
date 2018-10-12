@@ -38,22 +38,50 @@ namespace WinCap.Serialization
         public ShortcutkeyProperty SelectionControl => this.Cache(key => new ShortcutkeyProperty(key, this.provider, SelectControlDefaultValue));
 
         /// <summary>
+        /// 選択領域をキャプチャ
+        /// </summary>
+        public ShortcutkeyProperty SelectionRegion => this.Cache(key => new ShortcutkeyProperty(key, this.provider, SelectRegionDefaultValue));
+
+        /// <summary>
         /// ウェブページ全体をキャプチャ
         /// </summary>
         public ShortcutkeyProperty WebPage => this.Cache(key => new ShortcutkeyProperty(key, this.provider, WebPageDefaultValue));
 
         #region default values
+        /// <summary>
+        /// 画面全体キャプチャのデフォルト値
+        /// </summary>
         private static int[] FullScreenDefaultValue { get; } = {
             (int)Key.PrintScreen
         };
+
+        /// <summary>
+        /// アクティブコントロールキャプチャのデフォルト値
+        /// </summary>
         private static int[] ActiveControlDefaultValue { get; } = {
             (int)Key.PrintScreen,
             (int)ModifierKeys.Alt
         };
+
+        /// <summary>
+        /// 選択コントロールキャプチャのデフォルト値
+        /// </summary>
         private static int[] SelectControlDefaultValue { get; } = {
             (int)Key.PrintScreen,
             (int)ModifierKeys.Control
         };
+
+        /// <summary>
+        /// 選択領域キャプチャのデフォルト値
+        /// </summary>
+        private static int[] SelectRegionDefaultValue { get; } = {
+            (int)Key.PrintScreen,
+            (int)ModifierKeys.Shift
+        };
+
+        /// <summary>
+        /// ウェブページ全体キャプチャのデフォルト値
+        /// </summary>
         private static int[] WebPageDefaultValue { get; } = {
             (int)Key.PrintScreen,
             (int)(ModifierKeys.Control | ModifierKeys.Alt)

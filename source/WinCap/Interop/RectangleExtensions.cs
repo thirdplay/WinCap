@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace WinCap.Interop
 {
@@ -26,6 +21,16 @@ namespace WinCap.Interop
                 (int)(rect.Width * dpi.ScaleX),
                 (int)(rect.Height * dpi.ScaleY)
             );
+        }
+
+        /// <summary>
+        /// 位置とサイズを論理ピクセル値に変換します。
+        /// </summary>
+        /// <param name="rect">変換前の位置とサイズ</param>
+        /// <returns>変換後の位置とサイズ</returns>
+        public static Rectangle ToLogicalPixel(this Rectangle rect)
+        {
+            return rect.ToLogicalPixel(PerMonitorDpi.GetDpi(rect));
         }
 
         /// <summary>

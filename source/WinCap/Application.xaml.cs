@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using WinCap.Interop;
 using WinCap.Serialization;
@@ -101,7 +102,7 @@ namespace WinCap
                 this.ApplicationAction.CreateShortcut();
                 if (!this.ApplicationAction.RegisterActions())
                 {
-                    this.ApplicationAction.ShowSettings();
+                    Task.Run(() => this.ApplicationAction.ShowSettings());
                 }
 
                 // 親メソッド呼び出し
@@ -131,6 +132,7 @@ namespace WinCap
                 {
                     new TaskTrayIconItem(PropResources.ContextMenu_DesktopCapture, () => this.CapturerService.CaptureDesktop()),
                     new TaskTrayIconItem(PropResources.ContextMenu_ControlCapture, () => this.CapturerService.CaptureSelectionControl()),
+                    new TaskTrayIconItem(PropResources.ContextMenu_RegionCapture, () => this.CapturerService.CaptureSelectionRegion()),
                     new TaskTrayIconItem(PropResources.ContextMenu_WebPageCapture, () => this.CapturerService.CaptureWebPage()),
                 }),
                 new TaskTrayIconItem(PropResources.ContextMenu_Settings, () => this.ApplicationAction.ShowSettings()),

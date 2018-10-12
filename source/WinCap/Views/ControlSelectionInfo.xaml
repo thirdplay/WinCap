@@ -27,11 +27,6 @@
 
     <i:Interaction.Triggers>
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
-                                         MessageKey="Window.Margin">
-            <behaviors:SetMarginAction />
-        </livet:InteractionMessageTrigger>
-
-        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
                                          MessageKey="Window.Visibility">
             <behaviors:SetVisibilityAction />
         </livet:InteractionMessageTrigger>

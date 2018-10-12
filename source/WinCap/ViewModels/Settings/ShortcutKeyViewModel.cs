@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WinCap.Models;
 using WinCap.Properties;
 using WinCap.Serialization;
 using WinCap.ShortcutKeys;
@@ -92,6 +91,28 @@ namespace WinCap.ViewModels.Settings
 
         #endregion SelectionControl 変更通知プロパティ
 
+        #region SelectionRegion 変更通知プロパティ
+
+        private int[] _SelectionRegion;
+
+        /// <summary>
+        /// 選択領域をキャプチャするショートカットキーを取得します。
+        /// </summary>
+        public int[] SelectionRegion
+        {
+            get { return this._SelectionRegion; }
+            set
+            {
+                if (this._SelectionRegion != value)
+                {
+                    this._SelectionRegion = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion SelectionRegion 変更通知プロパティ
+
         #region WebPage 変更通知プロパティ
 
         private int[] _WebPage;
@@ -139,6 +160,7 @@ namespace WinCap.ViewModels.Settings
                 {nameof(this.FullScreen), this.FullScreen.ToShortcutKey()},
                 {nameof(this.ActiveControl),  this.ActiveControl.ToShortcutKey()},
                 {nameof(this.SelectionControl), this.SelectionControl.ToShortcutKey()},
+                {nameof(this.SelectionRegion), this.SelectionRegion.ToShortcutKey()},
                 {nameof(this.WebPage), this.WebPage.ToShortcutKey()},
             };
 
@@ -165,6 +187,7 @@ namespace WinCap.ViewModels.Settings
             settings.FullScreen.Value = this.FullScreen;
             settings.ActiveControl.Value = this.ActiveControl;
             settings.SelectionControl.Value = this.SelectionControl;
+            settings.SelectionRegion.Value = this.SelectionRegion;
             settings.WebPage.Value = this.WebPage;
         }
 
@@ -187,6 +210,7 @@ namespace WinCap.ViewModels.Settings
             this.FullScreen = settings.FullScreen;
             this.ActiveControl = settings.ActiveControl;
             this.SelectionControl = settings.SelectionControl;
+            this.SelectionRegion = settings.SelectionRegion;
             this.WebPage = settings.WebPage;
         }
     }

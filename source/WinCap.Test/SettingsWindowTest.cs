@@ -55,12 +55,12 @@ namespace WinCap.Test
             var general = settingsWindow.General;
             var buttonOk = settingsWindow.ButtonOk;
 
-            general.ScrollDelayTime.EmulateChangeText("200");
+            general.ScrollDelayTime.EmulateChangeText("400");
             buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.General.GetError("ScrollDelayTime");
+            var errorMessage = general.ViewModel.GetError("ScrollDelayTime");
 
             Assert.IsTrue(string.IsNullOrEmpty(errorMessage));
-            Assert.AreEqual("200", general.ScrollDelayTime.Text);
+            Assert.AreEqual("400", general.ScrollDelayTime.Text);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace WinCap.Test
 
             general.CaptureDelayTime.EmulateChangeText("300");
             buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.General.GetError("CaptureDelayTime");
+            var errorMessage = general.ViewModel.GetError("CaptureDelayTime");
 
             Assert.IsTrue(string.IsNullOrEmpty(errorMessage));
             Assert.AreEqual("300", general.CaptureDelayTime.Text);
@@ -111,7 +111,8 @@ namespace WinCap.Test
             general.ScrollDelayTime.EmulateChangeText(param.ScrollDelayTime);
             general.CaptureDelayTime.EmulateChangeText(param.CaptureDelayTime);
             buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.General.GetError(param.PropertyName);
+
+            var errorMessage = general.ViewModel.GetError(param.PropertyName);
             Assert.AreEqual(param.Message, errorMessage);
         }
 
@@ -145,8 +146,53 @@ namespace WinCap.Test
             output.OutputFolder.EmulateChangeText(param.OutputFolder);
             output.IsAutoSaveImage.EmulateCheck(param.IsAutoSaveImage);
             buttonOk.EmulateClick();
-            string errorMessage = settingsWindow.Output.GetError(param.PropertyName);
+
+            var errorMessage = output.ViewModel.GetError(param.PropertyName);
             Assert.AreEqual(param.Message, errorMessage);
+        }
+
+        /// <summary>
+        /// ショートカットキータブのエラーパラメータを表します。
+        /// </summary>
+        class ShortcutKeyErrorParam
+        {
+            public int[] FullScreen { get; set; }
+            public int[] ActiveControl { get; set; }
+            public int[] SelectionControl { get; set; }
+            public int[] SelectionRegion { get; set; }
+            public int[] WebPage { get; set; }
+            public string[] PropertyNames { get; set; }
+            public string Message { get; set; }
+        }
+
+        /// <summary>
+        /// ショートカットキータブの入力エラーテスト。
+        /// </summary>
+        [TestMethod]
+        [DataSource("System.Data.OleDB",
+            @"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=Params.xlsx; Extended Properties='Excel 12.0;HDR=yes';",
+            "TestShortcutKeyError$",
+            DataAccessMethod.Sequential
+        )]
+        public void TestShortcutKeyError()
+        {
+            var param = GetParam<ShortcutKeyErrorParam>();
+            var settingsWindow = App.ShowSettingsWindow();
+            var shortcutKey = settingsWindow.ShortcutKey;
+            var viewModel = shortcutKey.ViewModel;
+            var buttonOk = settingsWindow.ButtonOk;
+
+            shortcutKey.FullScreen.EmulateChangeCurrent(param.FullScreen);
+            shortcutKey.ActiveControl.EmulateChangeCurrent(param.ActiveControl);
+            shortcutKey.SelectionControl.EmulateChangeCurrent(param.SelectionControl);
+            shortcutKey.SelectionRegion.EmulateChangeCurrent(param.SelectionRegion);
+            shortcutKey.WebPage.EmulateChangeCurrent(param.WebPage);
+            buttonOk.EmulateClick();
+
+            foreach(var propertyName in param.PropertyNames)
+            {
+                Assert.AreEqual(param.Message, viewModel.GetError(propertyName));
+            }
         }
     }
 }

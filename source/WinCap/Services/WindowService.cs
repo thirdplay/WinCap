@@ -1,6 +1,7 @@
 ﻿using Livet;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reactive.Linq;
 using System.Windows;
 using WinCap.ViewModels;
@@ -44,7 +45,20 @@ namespace WinCap.Services
             var viewModel = window.DataContext as ControlSelectionWindowViewModel;
             window.ShowDialog();
 
-            return viewModel.SelectedHandle;
+            return viewModel.Result;
+        }
+
+        /// <summary>
+        /// 領域選択ウィンドウを表示します。
+        /// </summary>
+        /// <returns>選択した領域</returns>
+        public Rectangle? ShowRegionSelectionWindow()
+        {
+            var window = GetWindow<RegionSelectionWindow, RegionSelectionWindowViewModel>();
+            var viewModel = window.DataContext as RegionSelectionWindowViewModel;
+            window.ShowDialog();
+
+            return viewModel.Result;
         }
 
         /// <summary>

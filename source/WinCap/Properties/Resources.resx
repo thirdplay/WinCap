@@ -129,6 +129,9 @@
   <data name="ContextMenu_Exit" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
+  <data name="ContextMenu_RegionCapture" xml:space="preserve">
+    <value>選択領域をキャプチャ(&amp;R)</value>
+  </data>
   <data name="ContextMenu_Settings" xml:space="preserve">
     <value>設定(&amp;S)</value>
   </data>
@@ -146,6 +149,18 @@
   </data>
   <data name="ControlSelectionInfo_Size" xml:space="preserve">
     <value>サイズ</value>
+  </data>
+  <data name="RegionSelectionInfo_Description" xml:space="preserve">
+    <value>ドラッグで領域を選択してください。</value>
+  </data>
+  <data name="RegionSelectionInfo_EndPoint" xml:space="preserve">
+    <value>終点</value>
+  </data>
+  <data name="RegionSelectionInfo_Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="RegionSelectionInfo_StartPoint" xml:space="preserve">
+    <value>始点</value>
   </data>
   <data name="Services_SaveImageFileDialog_Filter" xml:space="preserve">
     <value>Bitmaps(*.bmp)|*.bmp|JPEG Image File(*.jpg)|*.jpg|Portable Network Graphics(*.png)|*.png|CompuServe GIF Image(*.gif)|*.gif</value>
@@ -263,6 +278,9 @@
   </data>
   <data name="Settings_SelectionControlCapture" xml:space="preserve">
     <value>選択コントロールをキャプチャ</value>
+  </data>
+  <data name="Settings_SelectionRegionCapture" xml:space="preserve">
+    <value>選択領域をキャプチャ</value>
   </data>
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>

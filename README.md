@@ -14,15 +14,17 @@ WinCapは、画面キャプチャツールです。
 （デフォルトキー: `Alt` + `PrintScreen`）
 * 選択コントロールのキャプチャ  
 （デフォルトキー: `Ctrl` + `PrintScreen`）
+* 選択領域のキャプチャ  
+（デフォルトキー: `Shift` + `PrintScreen`）
 * ウェブページ全体のキャプチャ  
 （デフォルトキー: `Ctrl` + `Alt` + `PrintScreen`）
 ![webpagecapture](https://cloud.githubusercontent.com/assets/14181039/21992687/c173dce2-dc5a-11e6-9a5c-6c6e7a281dc9.gif)
 
 * 設定ウィンドウ（タスクトレイからの呼び出し）  
-![settingswindow](https://cloud.githubusercontent.com/assets/14181039/21991387/bd50f456-dc55-11e6-994c-3aa3a91325a9.png)
+![settingswindow](https://user-images.githubusercontent.com/14181039/33948687-d25899de-e06a-11e7-885f-4202750c0f22.png)
 
 ### 動作環境
-* Windows7 以降
+* Windows 7 / 8 / 10
 * [.NET Framework 4.6](https://www.microsoft.com/ja-jp/download/details.aspx?id=48130)
 
 ### ライセンス
@@ -76,6 +78,6 @@ WinCapは、画面キャプチャツールです。
 
 #### [Friendly](http://www.english.codeer.co.jp/test-automation/friendly-fundamental)
 
-* **用途 :** テスト自動化
+* **用途 :** UIテスト自動化
 * **ライセンス :** Apache License Version 2.0
 * **ライセンス全文 :** [licenses/Apache.txt](licenses/Apache.txt)

@@ -19,7 +19,7 @@ namespace WinCap.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -47,7 +47,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -93,6 +93,15 @@ namespace WinCap.Properties {
         public static string ContextMenu_Exit {
             get {
                 return ResourceManager.GetString("ContextMenu_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   選択領域をキャプチャ(&amp;R) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ContextMenu_RegionCapture {
+            get {
+                return ResourceManager.GetString("ContextMenu_RegionCapture", resourceCulture);
             }
         }
         
@@ -147,6 +156,42 @@ namespace WinCap.Properties {
         public static string ControlSelectionInfo_Size {
             get {
                 return ResourceManager.GetString("ControlSelectionInfo_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ドラッグで領域を選択してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_Description {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   終点 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_EndPoint {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_EndPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   サイズ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_Size {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   始点 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RegionSelectionInfo_StartPoint {
+            get {
+                return ResourceManager.GetString("RegionSelectionInfo_StartPoint", resourceCulture);
             }
         }
         
@@ -498,6 +543,15 @@ namespace WinCap.Properties {
         public static string Settings_SelectionControlCapture {
             get {
                 return ResourceManager.GetString("Settings_SelectionControlCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   選択領域をキャプチャ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_SelectionRegionCapture {
+            get {
+                return ResourceManager.GetString("Settings_SelectionRegionCapture", resourceCulture);
             }
         }
         
