@@ -227,6 +227,7 @@ namespace WinCap.ViewModels
         private void SelectRegion(Rectangle? region)
         {
             this.startPoint = null;
+            this.SelectedRegion = new Rect();
             this.Result = region;
             this.Messenger.Raise(new SetVisibilityMessage
             {
