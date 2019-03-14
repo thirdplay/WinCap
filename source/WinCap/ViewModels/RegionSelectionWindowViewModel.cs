@@ -105,23 +105,23 @@ namespace WinCap.ViewModels
         {
             this.RegionSelectionInfo = new RegionSelectionInfoViewModel().AddTo(this);
 
-            this.Subscribe(nameof(MousePoint), () =>
-            {
-                Rectangle? region = null;
-                if (this.startPoint.HasValue)
-                {
-                    // ドラッグ中の場合、ワールド座標に変換して選択領域を設定する
-                    region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
-                    this.SelectedRegion = new Rect(
-                        region.Value.X - this.ScreenOrigin.X,
-                        region.Value.Y - this.ScreenOrigin.Y,
-                        region.Value.Width,
-                        region.Value.Height);
-                }
+            //this.Subscribe(nameof(MousePoint), () =>
+            //{
+            //    Rectangle? region = null;
+            //    if (this.startPoint.HasValue)
+            //    {
+            //        // ドラッグ中の場合、ワールド座標に変換して選択領域を設定する
+            //        region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
+            //        this.SelectedRegion = new Rect(
+            //            region.Value.X - this.ScreenOrigin.X,
+            //            region.Value.Y - this.ScreenOrigin.Y,
+            //            region.Value.Width,
+            //            region.Value.Height);
+            //    }
 
-                // 領域選択情報の更新
-                this.RegionSelectionInfo.Update(this.MousePoint, this.startPoint, region);
-            }).AddTo(this);
+            //    // 領域選択情報の更新
+            //    this.RegionSelectionInfo.Update(this.MousePoint, this.startPoint, region);
+            //}).AddTo(this);
 
             // 領域選択時の処理シーケンスの生成
             this.notifier = new Subject<Rectangle?>();
@@ -136,6 +136,9 @@ namespace WinCap.ViewModels
                 .AddTo(this);
 
             this.MouseDown = new ReactiveProperty<Unit>(mode: ReactivePropertyMode.None);
+            this.MouseDown
+                .Subscribe(_ => Console.WriteLine("MouseDown"))
+                .AddTo(this);
         }
 
         /// <summary>

@@ -151,8 +151,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WpfUtility, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfUtility.0.2.0\lib\net46\WpfUtility.dll</HintPath>
+    <Reference Include="WpfUtility, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfUtility.0.2.1\lib\net46\WpfUtility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

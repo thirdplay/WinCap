@@ -96,29 +96,29 @@ namespace WinCap.ViewModels
         {
             this.ControlSelectionInfo = new ControlSelectionInfoViewModel().AddTo(this);
             this.controlSelector = new ControlSelector();
-            this.controlSelector.Subscribe(nameof(this.controlSelector.SelectedHandle), () =>
-            {
-                var handle = this.controlSelector.SelectedHandle;
-                if (handle == null) { return; }
-                var bounds = InteropHelper.GetWindowSize(handle.Value);
+            //this.controlSelector.Subscribe(nameof(this.controlSelector.SelectedHandle), () =>
+            //{
+            //    var handle = this.controlSelector.SelectedHandle;
+            //    if (handle == null) { return; }
+            //    var bounds = InteropHelper.GetWindowSize(handle.Value);
 
-                // コントロール情報の更新
-                this.ControlSelectionInfo.UpdateInfo(handle.Value, bounds);
+            //    // コントロール情報の更新
+            //    this.ControlSelectionInfo.UpdateInfo(handle.Value, bounds);
 
-                // ワールド座標に変換して選択範囲を設定する
-                this.SelectedRegion = new Rect(
-                    bounds.Left - this.screenOrigin.X,
-                    bounds.Top - this.screenOrigin.Y,
-                    bounds.Width,
-                    bounds.Height);
-            }).AddTo(this);
+            //    // ワールド座標に変換して選択範囲を設定する
+            //    this.SelectedRegion = new Rect(
+            //        bounds.Left - this.screenOrigin.X,
+            //        bounds.Top - this.screenOrigin.Y,
+            //        bounds.Width,
+            //        bounds.Height);
+            //}).AddTo(this);
 
-            // マウス座標変更イベントの購読
-            this.Subscribe(nameof(this.MousePoint), () =>
-            {
-                this.controlSelector.Update(this.MousePoint);
-                this.ControlSelectionInfo.Update(this.MousePoint);
-            }).AddTo(this);
+            //// マウス座標変更イベントの購読
+            //this.Subscribe(nameof(this.MousePoint), () =>
+            //{
+            //    this.controlSelector.Update(this.MousePoint);
+            //    this.ControlSelectionInfo.Update(this.MousePoint);
+            //}).AddTo(this);
 
             // コントロール選択時の処理シーケンスの生成
             this.notifier = new Subject<IntPtr?>();
