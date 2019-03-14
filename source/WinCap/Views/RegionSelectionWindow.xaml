@@ -5,8 +5,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
         xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
         xmlns:views="clr-namespace:WinCap.Views"
+        xmlns:vm="clr-namespace:WinCap.ViewModels"
         mc:Ignorable="d"
         Title="SelectControlWindow"
         Background="#01000000"
@@ -25,20 +27,24 @@
             <livet:DataContextDisposeAction />
         </i:EventTrigger>
 
+        <!--
         <i:EventTrigger EventName="MouseMove">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
                                                     MethodName="OnMouseMove" />
         </i:EventTrigger>
+        -->
 
         <i:EventTrigger EventName="MouseDown">
-            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="OnMouseDown" />
+            <r:EventToReactiveProperty ReactiveProperty="{Binding MouseDown}" IgnoreEventArgs="true">
+            </r:EventToReactiveProperty>
         </i:EventTrigger>
 
+        <!--
         <i:EventTrigger EventName="MouseUp">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
                                                     MethodName="OnMouseUp" />
         </i:EventTrigger>
+        -->
         
         <i:EventTrigger EventName="KeyDown">
             <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"

@@ -1,7 +1,10 @@
 ﻿using Livet;
 using Livet.Messaging.Windows;
+using Reactive.Bindings;
+using Reactive.Bindings.Interactivity;
 using System;
 using System.Drawing;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows;
@@ -93,6 +96,8 @@ namespace WinCap.ViewModels
 
         #endregion
 
+        public ReactiveProperty<Unit> MouseDown { get; private set; }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -129,6 +134,8 @@ namespace WinCap.ViewModels
                     this.SelectRegion(x);
                 })
                 .AddTo(this);
+
+            this.MouseDown = new ReactiveProperty<Unit>(mode: ReactivePropertyMode.None);
         }
 
         /// <summary>
@@ -252,6 +259,16 @@ namespace WinCap.ViewModels
                 Width = Math.Abs(p1.X - p2.X),
                 Height = Math.Abs(p1.Y - p2.Y),
             };
+        }
+    }
+
+    public class MouseEventToPointConverter : ReactiveConverter<dynamic, Tuple<int, int>>
+    {
+        protected override IObservable<Tuple<int, int>> OnConvert(IObservable<dynamic> source)
+        {
+            return source
+                .Select(x => x.GetPosition(null))
+                .Select(x => Tuple.Create(1,1/*x.X, x.Y*/));
         }
     }
 }
