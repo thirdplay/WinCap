@@ -171,7 +171,7 @@
     <Compile Include="Interop\Mshtml\IHTMLDocumentCompatibleInfo.cs" />
     <Compile Include="Interop\Mshtml\IHTMLDocumentCompatibleInfoCollection.cs" />
     <Compile Include="Interop\PerMonitorDpi.cs" />
-    <Compile Include="Interop\PointExtensions.cs" />
+    <Compile Include="Models\PointExtensions.cs" />
     <Compile Include="Interop\RectangleExtensions.cs" />
     <Compile Include="Interop\Win32\Dwmapi.cs" />
     <Compile Include="Interop\Win32\Gdi32.cs" />
@@ -244,6 +244,7 @@
     <Compile Include="Views\Behaviors\SetDialogResultAction.cs" />
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
+    <Compile Include="Views\Converters\ReverseDoubleConverter.cs" />
     <Compile Include="Views\RegionSelectionInfo.xaml.cs">
       <DependentUpon>RegionSelectionInfo.xaml</DependentUpon>
     </Compile>
@@ -448,6 +449,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rd /s /q "de", "en", "es", "fr", "it", "ja", "ko", "ru", "zh-Hans", "zh-Hant"</PostBuildEvent>

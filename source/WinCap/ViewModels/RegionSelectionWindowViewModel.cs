@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using WinCap.Capturers;
 using WinCap.Interop;
+using WinCap.Models;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
 using Point = System.Drawing.Point;
@@ -46,9 +47,9 @@ namespace WinCap.ViewModels
         public RegionSelectionInfoViewModel RegionSelectionInfo { get; }
 
         /// <summary>
-        /// 領域選択時の処理シーケンス
+        /// スクリーンの原点
         /// </summary>
-        //private readonly Subject<Rectangle?> notifier;
+        public ReactiveProperty<System.Windows.Point> ScreenOrigin { get; } = new ReactiveProperty<System.Windows.Point>();
 
         /// <summary>
         /// 選択領域
@@ -140,7 +141,7 @@ namespace WinCap.ViewModels
                 .TakeUntil(MouseUp)
                 .Repeat()
                 .Select(_ => GetSelectedRegion(StartPoint.Value, CurrentPoint.Value))
-                .Do(x => x.Location = x.Location.PointToScreen())
+                //.Do(x => x.Location = x.Location.PointToScreen())
                 .Select(x => x.ToRect())
                 .ToReactiveProperty(mode: none)
                 .AddTo(this);
@@ -179,6 +180,7 @@ namespace WinCap.ViewModels
         {
             // ウィンドウに画面全体の領域を設定する
             var screenBounds = ScreenHelper.GetFullScreenBounds();
+            ScreenOrigin.Value = screenBounds.Location.ToPoint();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
