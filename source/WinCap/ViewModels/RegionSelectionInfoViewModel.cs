@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using WinCap.ViewModels.Messages;
+using WpfUtility.Mvvm;
 using Visibility = System.Windows.Visibility;
 
 namespace WinCap.ViewModels
@@ -82,6 +83,25 @@ namespace WinCap.ViewModels
         /// </summary>
         public RegionSelectionInfoViewModel() : base()
         {
+            //// マウス座標変更時に領域選択情報を更新する
+            //viewModel.CurrentPoint
+            //    .Subscribe(p =>
+            //    {
+            //        base.Update(p);
+            //        //if (startPoint.HasValue && size.HasValue)
+            //        //{
+            //        //    this.StartPoint = startPoint.Value;
+            //        //    this.EndPoint = mousePoint;
+            //        //    this.Size = size.Value;
+            //        //}
+            //        //else
+            //        {
+            //            this.StartPoint = p;
+            //            this.EndPoint = new Point();
+            //            this.Size = new Size();
+            //        }
+            //    })
+            //    .AddTo(this);
         }
 
         /// <summary>
@@ -106,27 +126,27 @@ namespace WinCap.ViewModels
             });
         }
 
-        /// <summary>
-        /// 更新処理。
-        /// </summary>
-        /// <param name="mousePoint">マウス座標</param>
-        /// <param name="startPoint">始点</param>
-        /// <param name="region">選択領域</param>
-        public void Update(Point mousePoint, Point? startPoint, Rectangle? region)
-        {
-            base.Update(mousePoint);
-            if (startPoint.HasValue && region.HasValue)
-            {
-                this.StartPoint = startPoint.Value;
-                this.EndPoint = mousePoint;
-                this.Size = region.Value.Size;
-            }
-            else
-            {
-                this.StartPoint = mousePoint;
-                this.EndPoint = new Point();
-                this.Size = new Size();
-            }
-        }
+        ///// <summary>
+        ///// 更新処理。
+        ///// </summary>
+        ///// <param name="mousePoint">マウス座標</param>
+        ///// <param name="startPoint">始点</param>
+        ///// <param name="region">選択領域</param>
+        //public void Update(Point mousePoint, Point? startPoint, Size? size)
+        //{
+        //    base.Update(mousePoint);
+        //    if (startPoint.HasValue && size.HasValue)
+        //    {
+        //        this.StartPoint = startPoint.Value;
+        //        this.EndPoint = mousePoint;
+        //        this.Size = size.Value;
+        //    }
+        //    else
+        //    {
+        //        this.StartPoint = mousePoint;
+        //        this.EndPoint = new Point();
+        //        this.Size = new Size();
+        //    }
+        //}
     }
 }

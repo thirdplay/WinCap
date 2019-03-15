@@ -36,6 +36,16 @@ namespace WinCap.Capturers
         }
 
         /// <summary>
+        /// 画面の原点座標を返却します。
+        /// </summary>
+        /// <returns>画面の原点座標</returns>
+        public static Point GetScreenOrigin()
+        {
+            var bounds = GetFullScreenBounds();
+            return bounds.Location;
+        }
+
+        /// <summary>
         /// 指定範囲の画面をキャプチャします。
         /// </summary>
         /// <param name="bounds">範囲</param>

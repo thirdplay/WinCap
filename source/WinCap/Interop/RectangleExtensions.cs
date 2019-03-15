@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
+using System.Windows;
 
 namespace WinCap.Interop
 {
     /// <summary>
-    /// 四角形の拡張機能を提供します。
+    /// <see cref="Rectangle"/>構造体の拡張機能を提供します。
     /// </summary>
     public static class RectangleExtensions
     {
@@ -47,6 +48,16 @@ namespace WinCap.Interop
                 (int)(rect.Width * (1 / dpi.ScaleX)),
                 (int)(rect.Height * (1 / dpi.ScaleY))
             );
+        }
+
+        /// <summary>
+        /// <see cref="Rectangle"/>構造体を<see cref="Rect"/>構造体に変換します。
+        /// </summary>
+        /// <param name="rect">変換するRectangle構造体</param>
+        /// <returns>Rect構造体</returns>
+        public static Rect ToRect(this Rectangle rect)
+        {
+            return new Rect(rect.X, rect.Y, rect.Width, rect.Height);
         }
     }
 }

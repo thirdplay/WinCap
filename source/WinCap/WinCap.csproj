@@ -171,6 +171,7 @@
     <Compile Include="Interop\Mshtml\IHTMLDocumentCompatibleInfo.cs" />
     <Compile Include="Interop\Mshtml\IHTMLDocumentCompatibleInfoCollection.cs" />
     <Compile Include="Interop\PerMonitorDpi.cs" />
+    <Compile Include="Interop\PointExtensions.cs" />
     <Compile Include="Interop\RectangleExtensions.cs" />
     <Compile Include="Interop\Win32\Dwmapi.cs" />
     <Compile Include="Interop\Win32\Gdi32.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Models\OutputFormatType.cs" />
     <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Capturers\ScreenHelper.cs" />
+    <Compile Include="Models\RegionSelectedModel.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="ShortcutKeys\HotkeyDetector.cs" />
     <Compile Include="ShortcutKeys\ShortcutKey.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="Models\DesktopShortcut.cs" />
     <Compile Include="Models\StartupShortcut.cs" />
     <Compile Include="TaskTrayIcon.cs" />
+    <Compile Include="ViewModels\RegionSelectedViewModel.cs" />
     <Compile Include="ViewModels\RegionSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\RegionSelectionWindowViewModel.cs" />
     <Compile Include="ViewModels\SwitchablePanelViewModel.cs" />

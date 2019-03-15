@@ -3,6 +3,7 @@ using Livet.Messaging.Windows;
 using Reactive.Bindings;
 using Reactive.Bindings.Interactivity;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -11,6 +12,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using WinCap.Capturers;
+using WinCap.Interop;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
 using Point = System.Drawing.Point;
@@ -23,88 +25,71 @@ namespace WinCap.ViewModels
     public class RegionSelectionWindowViewModel : WindowViewModel
     {
         /// <summary>
+        /// ウィンドウを常に手前に表示するか否か返す。
+        /// </summary>
+        /// <remarks>デバッグ中は常に手前には表示しない</remarks>
+        public bool TopMost => Debugger.IsAttached;
+
+        /// <summary>
         /// 選択結果を取得します。
         /// </summary>
         public Rectangle? Result { get; private set; }
 
         /// <summary>
+        /// 選択した領域のViewModel
+        /// </summary>
+        public SelectedRegionViewModel SelectedViewModel { get; }
+
+        /// <summary>
         /// 領域選択情報ViewModel
         /// </summary>
-        public RegionSelectionInfoViewModel RegionSelectionInfo { get; set; }
-
-        /// <summary>
-        /// スクリーンの範囲
-        /// </summary>
-        private Rectangle screenBounds;
-
-        /// <summary>
-        /// スクリーンの原点
-        /// </summary>
-        private Point ScreenOrigin => this.screenBounds.Location;
-
-        /// <summary>
-        /// 選択領域の始点
-        /// </summary>
-        private Point? startPoint;
+        public RegionSelectionInfoViewModel RegionSelectionInfo { get; }
 
         /// <summary>
         /// 領域選択時の処理シーケンス
         /// </summary>
-        private readonly Subject<Rectangle?> notifier;
-
-        #region SelectedRegion 変更通知プロパティ
-
-        private Rect _SelectedRegion;
+        //private readonly Subject<Rectangle?> notifier;
 
         /// <summary>
-        /// 選択領域を取得または設定します。
+        /// 選択領域
         /// </summary>
-        public Rect SelectedRegion
-        {
-            get { return this._SelectedRegion; }
-            set
-            {
-                if (this._SelectedRegion != value)
-                {
-                    this._SelectedRegion = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region MousePoint 変更通知プロパティ
-
-        private Point _MousePoint;
+        public ReactiveProperty<Rect> SelectedRegion { get; }
 
         /// <summary>
-        /// マウス座標を取得または設定します。
+        /// マウスダウン
         /// </summary>
-        public Point MousePoint
-        {
-            get { return this._MousePoint; }
-            set
-            {
-                if (this._MousePoint != value)
-                {
-                    this._MousePoint = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public ReactiveProperty<MouseEventArgs> MouseDown { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
 
-        #endregion
+        /// <summary>
+        /// マウスアップ
+        /// </summary>
+        public ReactiveProperty<MouseEventArgs> MouseUp { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
 
-        public ReactiveProperty<Unit> MouseDown { get; private set; }
+        /// <summary>
+        /// マウス移動
+        /// </summary>
+        public ReactiveProperty<Point> MouseMove { get; } = new ReactiveProperty<Point>(mode: ReactivePropertyMode.None);
+
+        /// <summary>
+        /// 現在のマウス座標
+        /// </summary>
+        public ReactiveProperty<Point> CurrentPoint { get; }
+
+        /// <summary>
+        /// 選択領域の始点
+        /// </summary>
+        public ReactiveProperty<Point> StartPoint { get; }
+
+        /// <summary>
+        /// ドラッグ状態
+        /// </summary>
+        public ReactiveProperty<bool> IsDraging { get; }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public RegionSelectionWindowViewModel()
         {
-            this.RegionSelectionInfo = new RegionSelectionInfoViewModel().AddTo(this);
-
             //this.Subscribe(nameof(MousePoint), () =>
             //{
             //    Rectangle? region = null;
@@ -123,22 +108,68 @@ namespace WinCap.ViewModels
             //    this.RegionSelectionInfo.Update(this.MousePoint, this.startPoint, region);
             //}).AddTo(this);
 
-            // 領域選択時の処理シーケンスの生成
-            this.notifier = new Subject<Rectangle?>();
-            this.notifier
-                .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
+            //// 領域選択時の処理シーケンスの生成
+            //this.notifier = new Subject<Rectangle?>();
+            //this.notifier
+            //    .Do(x => this.SelectedRegion = new Rect())
+            //    .Delay(TimeSpan.FromMilliseconds(100))
+            //    .Subscribe(x =>
+            //    {
+            //        DispatcherHelper.UIDispatcher.Invoke(() => Mouse.OverrideCursor = null);
+            //        this.SelectRegion(x);
+            //    })
+            //    .AddTo(this);
+            var none = ReactivePropertyMode.None;
+
+            // 左ボタン押下時に開始座標を更新する
+            this.StartPoint = this.MouseDown
+                .Where(e => e.LeftButton == MouseButtonState.Pressed)
+                .Select(_ => CurrentPoint.Value)
+                .ToReactiveProperty(mode: none);
+
+            // マウス移動時に現在座標を更新する
+            this.CurrentPoint = this.MouseMove
+                .ToReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+                .AddTo(this);
+
+            // ドラッグ中に選択範囲を設定する
+            this.SelectedRegion = this.MouseDown
+                .Where(e => e.LeftButton == MouseButtonState.Pressed)
+                //.Do(_ => Mouse.OverrideCursor = Cursors.None)
+                .SelectMany(_ => MouseMove)
+                .TakeUntil(MouseUp)
+                .Repeat()
+                .Select(_ => GetSelectedRegion(StartPoint.Value, CurrentPoint.Value))
+                .Do(x => x.Location = x.Location.PointToScreen())
+                .Select(x => x.ToRect())
+                .ToReactiveProperty(mode: none)
+                .AddTo(this);
+
+            // 左ボタンリリース時に選択範囲を設定する
+            this.MouseUp
+                .Where(e => e.LeftButton == MouseButtonState.Released)
+                .Select(_ => GetSelectedRegion(StartPoint.Value, CurrentPoint.Value))
+                .Do(x => this.SelectedRegion.Value = new Rect())
                 .Delay(TimeSpan.FromMilliseconds(100))
+                .ObserveOn(DispatcherHelper.UIDispatcher)
                 .Subscribe(x =>
                 {
-                    DispatcherHelper.UIDispatcher.Invoke(() => Mouse.OverrideCursor = null);
-                    this.SelectRegion(x);
+                    Mouse.OverrideCursor = null;
+                    if (x.Width == 0 || x.Height == 0)
+                    {
+                        // 幅や高さが0の場合は始点選択からやり直し
+                        this.StartPoint.Value = new Point();
+                    }
+                    else
+                    {
+                        this.SelectRegion(x);
+                    }
                 })
                 .AddTo(this);
 
-            this.MouseDown = new ReactiveProperty<Unit>(mode: ReactivePropertyMode.None);
-            this.MouseDown
-                .Subscribe(_ => Console.WriteLine("MouseDown"))
-                .AddTo(this);
+            this.RegionSelectionInfo = new RegionSelectionInfoViewModel().AddTo(this);
+
+            //this.SelectedViewModel = new SelectedRegionViewModel(MouseDown, MouseMove, MouseUp).AddTo(this);
         }
 
         /// <summary>
@@ -147,55 +178,19 @@ namespace WinCap.ViewModels
         protected override void InitializeCore()
         {
             // ウィンドウに画面全体の領域を設定する
-            this.screenBounds = ScreenHelper.GetFullScreenBounds();
+            var screenBounds = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
-                Left = this.screenBounds.Left,
-                Top = this.screenBounds.Top,
-                Width = this.screenBounds.Width,
-                Height = this.screenBounds.Height
+                Left = screenBounds.Left,
+                Top = screenBounds.Top,
+                Width = screenBounds.Width,
+                Height = screenBounds.Height
             });
 
             // 初期化
             this.SendWindowAction(WindowAction.Active);
-            this.RegionSelectionInfo.Initialize(this.ScreenOrigin);
-
-            // マウス座標の設定
-            this.SetMousePoint(System.Windows.Forms.Cursor.Position);
-        }
-
-        /// <summary>
-        /// マウス移動処理。
-        /// </summary>
-        /// <param name="e">イベント引数</param>
-        public void OnMouseMove(MouseEventArgs e)
-        {
-            var p = e.GetPosition(null);
-            this.SetMousePoint(new Point((int)p.X, (int)p.Y));
-        }
-
-        /// <summary>
-        /// マウス座標を設定します。
-        /// </summary>
-        /// <param name="point">ワールド座標のマウス座標</param>
-        private void SetMousePoint(Point point)
-        {
-            this.MousePoint = new Point(point.X + this.ScreenOrigin.X, point.Y + this.ScreenOrigin.Y);
-        }
-
-        /// <summary>
-        /// マウスダウン処理。
-        /// </summary>
-        /// <param name="e">イベント引数</param>
-        public void OnMouseDown(MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                // 始点選択完了→終点選択開始
-                Mouse.OverrideCursor = Cursors.None;
-                this.startPoint = this.MousePoint;
-            }
+            this.RegionSelectionInfo.Initialize(new Point());
         }
 
         /// <summary>
@@ -204,20 +199,20 @@ namespace WinCap.ViewModels
         /// <param name="e">イベント引数</param>
         public void OnMouseUp(MouseEventArgs e)
         {
-            Rectangle region = new Rectangle(0, 0, 0, 0);
-            e.Handled = true;
-            if (e.LeftButton == MouseButtonState.Released)
-            {
-                region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
-            }
-            if (region.Width == 0 || region.Height == 0)
-            {
-                // 幅や高さが0の場合は始点選択からやり直し
-                Mouse.OverrideCursor = null;
-                this.startPoint = null;
-                return;
-            }
-            notifier.OnNext(region);
+            //Rectangle region = new Rectangle(0, 0, 0, 0);
+            //e.Handled = true;
+            //if (e.LeftButton == MouseButtonState.Released)
+            //{
+            //    region = GetSelectedRegion(this.startPoint.Value, this.MousePoint);
+            //}
+            //if (region.Width == 0 || region.Height == 0)
+            //{
+            //    // 幅や高さが0の場合は始点選択からやり直し
+            //    Mouse.OverrideCursor = null;
+            //    this.startPoint = null;
+            //    return;
+            //}
+            //notifier.OnNext(region);
         }
 
         /// <summary>
@@ -227,7 +222,7 @@ namespace WinCap.ViewModels
         public void OnKeyDown(KeyEventArgs e)
         {
             e.Handled = true;
-            notifier.OnNext(null);
+            //notifier.OnNext(null);
         }
 
         /// <summary>
@@ -236,8 +231,8 @@ namespace WinCap.ViewModels
         /// <param name="handle">選択したハンドル</param>
         private void SelectRegion(Rectangle? region)
         {
-            this.startPoint = null;
-            this.SelectedRegion = new Rect();
+            this.StartPoint.Value = new Point();
+            this.SelectedRegion.Value = new Rect();
             this.Result = region;
             this.Messenger.Raise(new SetVisibilityMessage
             {
@@ -265,13 +260,16 @@ namespace WinCap.ViewModels
         }
     }
 
-    public class MouseEventToPointConverter : ReactiveConverter<dynamic, Tuple<int, int>>
+    /// <summary>
+    /// マウスイベントをマウス座標に変換するコンバーター。
+    /// </summary>
+    public class MouseEventToPointConverter : ReactiveConverter<dynamic, Point>
     {
-        protected override IObservable<Tuple<int, int>> OnConvert(IObservable<dynamic> source)
+        protected override IObservable<Point> OnConvert(IObservable<dynamic> source)
         {
             return source
                 .Select(x => x.GetPosition(null))
-                .Select(x => Tuple.Create(1,1/*x.X, x.Y*/));
+                .Select(x => new Point((int)x.X, (int)x.Y));
         }
     }
 }
