@@ -68,6 +68,7 @@
     <Canvas>
         <Rectangle Stroke="#CCFF0000"
                    StrokeThickness="4"
+                   DataContext="{Binding SelectedViewModel}"
                    Width="{Binding SelectedRegion.Value.Width, Mode=OneWay}"
                    Height="{Binding SelectedRegion.Value.Height, Mode=OneWay}"
                    Canvas.Left="{Binding SelectedRegion.Value.Left, Mode=OneWay}"

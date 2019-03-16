@@ -42,6 +42,11 @@ namespace WinCap.ViewModels
         public SelectedRegionViewModel SelectedViewModel { get; }
 
         /// <summary>
+        /// 領域選択Model
+        /// </summary>
+        public RegionSelectionModel SelectionModel { get; }
+
+        /// <summary>
         /// 領域選択情報ViewModel
         /// </summary>
         public RegionSelectionInfoViewModel RegionSelectionInfo { get; }
@@ -120,57 +125,57 @@ namespace WinCap.ViewModels
             //        this.SelectRegion(x);
             //    })
             //    .AddTo(this);
-            var none = ReactivePropertyMode.None;
 
-            // 左ボタン押下時に開始座標を更新する
-            this.StartPoint = this.MouseDown
-                .Where(e => e.LeftButton == MouseButtonState.Pressed)
-                .Select(_ => CurrentPoint.Value)
-                .ToReactiveProperty(mode: none);
+            //// 左ボタン押下時に開始座標を更新する
+            //this.StartPoint = this.MouseDown
+            //    .Where(e => e.LeftButton == MouseButtonState.Pressed)
+            //    .Select(_ => CurrentPoint.Value)
+            //    .ToReactiveProperty(mode: none);
 
-            // マウス移動時に現在座標を更新する
-            this.CurrentPoint = this.MouseMove
-                .ToReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-                .AddTo(this);
+            //// マウス移動時に現在座標を更新する
+            //this.CurrentPoint = this.MouseMove
+            //    .ToReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            //    .AddTo(this);
 
-            // ドラッグ中に選択範囲を設定する
-            this.SelectedRegion = this.MouseDown
-                .Where(e => e.LeftButton == MouseButtonState.Pressed)
-                //.Do(_ => Mouse.OverrideCursor = Cursors.None)
-                .SelectMany(_ => MouseMove)
-                .TakeUntil(MouseUp)
-                .Repeat()
-                .Select(_ => GetSelectedRegion(StartPoint.Value, CurrentPoint.Value))
-                //.Do(x => x.Location = x.Location.PointToScreen())
-                .Select(x => x.ToRect())
-                .ToReactiveProperty(mode: none)
-                .AddTo(this);
+            //// ドラッグ中に選択範囲を設定する
+            //this.SelectedRegion = this.MouseDown
+            //    .Where(e => e.LeftButton == MouseButtonState.Pressed)
+            //    //.Do(_ => Mouse.OverrideCursor = Cursors.None)
+            //    .SelectMany(_ => MouseMove)
+            //    .TakeUntil(MouseUp)
+            //    .Repeat()
+            //    .Select(_ => GetSelectedRegion(StartPoint.Value, CurrentPoint.Value))
+            //    //.Do(x => x.Location = x.Location.PointToScreen())
+            //    .Select(x => x.ToRect())
+            //    .ToReactiveProperty(mode: none)
+            //    .AddTo(this);
 
-            // 左ボタンリリース時に選択範囲を設定する
-            this.MouseUp
-                .Where(e => e.LeftButton == MouseButtonState.Released)
-                .Select(_ => GetSelectedRegion(StartPoint.Value, CurrentPoint.Value))
-                .Do(x => this.SelectedRegion.Value = new Rect())
-                .Delay(TimeSpan.FromMilliseconds(100))
-                .ObserveOn(DispatcherHelper.UIDispatcher)
-                .Subscribe(x =>
-                {
-                    Mouse.OverrideCursor = null;
-                    if (x.Width == 0 || x.Height == 0)
-                    {
-                        // 幅や高さが0の場合は始点選択からやり直し
-                        this.StartPoint.Value = new Point();
-                    }
-                    else
-                    {
-                        this.SelectRegion(x);
-                    }
-                })
-                .AddTo(this);
+            //// 左ボタンリリース時に選択範囲を設定する
+            //this.MouseUp
+            //    .Where(e => e.LeftButton == MouseButtonState.Released)
+            //    .Select(_ => GetSelectedRegion(StartPoint.Value, CurrentPoint.Value))
+            //    .Do(x => this.SelectedRegion.Value = new Rect())
+            //    .Delay(TimeSpan.FromMilliseconds(100))
+            //    .ObserveOn(DispatcherHelper.UIDispatcher)
+            //    .Subscribe(x =>
+            //    {
+            //        Mouse.OverrideCursor = null;
+            //        if (x.Width == 0 || x.Height == 0)
+            //        {
+            //            // 幅や高さが0の場合は始点選択からやり直し
+            //            this.StartPoint.Value = new Point();
+            //        }
+            //        else
+            //        {
+            //            this.SelectRegion(x);
+            //        }
+            //    })
+            //    .AddTo(this);
 
             this.RegionSelectionInfo = new RegionSelectionInfoViewModel().AddTo(this);
 
-            //this.SelectedViewModel = new SelectedRegionViewModel(MouseDown, MouseMove, MouseUp).AddTo(this);
+            this.SelectionModel = new RegionSelectionModel(MouseDown, MouseUp, MouseMove).AddTo(this);
+            this.SelectedViewModel = new SelectedRegionViewModel(SelectionModel).AddTo(this);
         }
 
         /// <summary>
