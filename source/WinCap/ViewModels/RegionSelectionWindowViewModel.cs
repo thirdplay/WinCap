@@ -52,11 +52,6 @@ namespace WinCap.ViewModels
         public RegionSelectionInfoViewModel RegionSelectionInfo { get; }
 
         /// <summary>
-        /// スクリーンの原点
-        /// </summary>
-        public ReactiveProperty<System.Windows.Point> ScreenOrigin { get; } = new ReactiveProperty<System.Windows.Point>();
-
-        /// <summary>
         /// 選択領域
         /// </summary>
         public ReactiveProperty<Rect> SelectedRegion { get; }
@@ -85,11 +80,6 @@ namespace WinCap.ViewModels
         /// 選択領域の始点
         /// </summary>
         public ReactiveProperty<Point> StartPoint { get; }
-
-        /// <summary>
-        /// ドラッグ状態
-        /// </summary>
-        public ReactiveProperty<bool> IsDraging { get; }
 
         /// <summary>
         /// コンストラクタ
@@ -185,7 +175,6 @@ namespace WinCap.ViewModels
         {
             // ウィンドウに画面全体の領域を設定する
             var screenBounds = ScreenHelper.GetFullScreenBounds();
-            ScreenOrigin.Value = screenBounds.Location.ToPoint();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
@@ -264,6 +253,12 @@ namespace WinCap.ViewModels
                 Width = Math.Abs(p1.X - p2.X),
                 Height = Math.Abs(p1.Y - p2.Y),
             };
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            Console.WriteLine("Dispose:RegionSelectionWindowViewModel");
         }
     }
 

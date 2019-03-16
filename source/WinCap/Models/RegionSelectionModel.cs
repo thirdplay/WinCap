@@ -15,9 +15,9 @@ namespace WinCap.Models
     public class RegionSelectionModel : IDisposable
     {
         /// <summary>
-        /// 基本CompositeDisposable。
+        /// リソース解放管理
         /// </summary>
-        private readonly CompositeDisposable compositeDisposable = new CompositeDisposable();
+        private CompositeDisposable Disposable { get; } = new CompositeDisposable();
 
         /// <summary>
         /// 選択領域
@@ -55,12 +55,12 @@ namespace WinCap.Models
                 .Where(e => e.LeftButton == MouseButtonState.Pressed)
                 .Select(_ => CurrentPoint.Value)
                 .ToReactiveProperty(mode: ReactivePropertyMode.None)
-                .AddTo(this.compositeDisposable);
+                .AddTo(this.Disposable);
 
             // マウス移動時に現在座標を更新する
             this.CurrentPoint = mouseMove
                 .ToReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe)
-                .AddTo(this.compositeDisposable);
+                .AddTo(this.Disposable);
 
             // ドラッグ中に選択領域を設定する
             this.SelectedRegion = mouseDown
@@ -72,7 +72,7 @@ namespace WinCap.Models
                 .Repeat()
                 .Select(_ => CreateRegion(StartPoint.Value, CurrentPoint.Value))
                 .ToReactiveProperty(mode: ReactivePropertyMode.None)
-                .AddTo(this.compositeDisposable);
+                .AddTo(this.Disposable);
         }
 
         /// <summary>
@@ -100,13 +100,9 @@ namespace WinCap.Models
             };
         }
 
-        #region Disposable members
-
         /// <summary>
         /// このインスタンスによって使用されているリソースを全て破棄します。
         /// </summary>
-        public void Dispose() => this.compositeDisposable.Dispose();
-
-        #endregion
+        public void Dispose() => this.Disposable.Dispose();
     }
 }

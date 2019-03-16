@@ -73,10 +73,6 @@
                    Height="{Binding SelectedRegion.Value.Height, Mode=OneWay}"
                    Canvas.Left="{Binding SelectedRegion.Value.Left, Mode=OneWay}"
                    Canvas.Top="{Binding SelectedRegion.Value.Top, Mode=OneWay}">
-            <Rectangle.RenderTransform>
-                <TranslateTransform X="{Binding ScreenOrigin.Value.X, Converter={StaticResource ReverseDoubleConverter}}"
-                                    Y="{Binding ScreenOrigin.Value.Y, Converter={StaticResource ReverseDoubleConverter}}" />
-            </Rectangle.RenderTransform>
         </Rectangle>
         <views:RegionSelectionInfo DataContext="{Binding RegionSelectionInfo}"
                                    Canvas.Left="{Binding Left, Mode=OneWay}"
