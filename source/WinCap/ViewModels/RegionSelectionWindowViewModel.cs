@@ -86,9 +86,13 @@ namespace WinCap.ViewModels
                 .Delay(TimeSpan.FromMilliseconds(100))
                 .ObserveOn(DispatcherHelper.UIDispatcher)
                 .Subscribe(x => {
-                    this.Result = Tracker.IsEmptySelectedRange
-                        ? null
-                        : (Rectangle?)Tracker.SelectedRange.Value;
+                    if (!Tracker.IsEmptySelectedRange)
+                    {
+                        // 選択領域の座標をスクリーン座標に変換して設定する
+                        var range = Tracker.SelectedRange.Value;
+                        range.Location = range.Location.PointToScreen();
+                        this.Result = range;
+                    }
                     this.Messenger.Raise(new SetVisibilityMessage
                     {
                         MessageKey = "Window.Visibility",
@@ -103,6 +107,8 @@ namespace WinCap.ViewModels
         /// </summary>
         protected override void InitializeCore()
         {
+            this.Result = null;
+
             // ウィンドウに画面全体の領域を設定する
             var screenBounds = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
@@ -113,6 +119,7 @@ namespace WinCap.ViewModels
                 Width = screenBounds.Width,
                 Height = screenBounds.Height
             });
+            Debug.WriteLine("ScreenOrigin:" + screenBounds.Location);
 
             // 初期化
             Tracker.Initialize();

@@ -1,4 +1,6 @@
-﻿namespace WinCap.Models
+﻿using WinCap.Capturers;
+
+namespace WinCap.Models
 {
     /// <summary>
     /// <see cref="Point"/>構造体の拡張機能を提供します。
@@ -23,6 +25,17 @@
         public static System.Drawing.Point ToPoint(this System.Windows.Point self)
         {
             return new System.Drawing.Point((int)self.X, (int)self.Y);
+        }
+
+        /// <summary>
+        /// コントロール座標をスクリーン座標に変換します。
+        /// </summary>
+        /// <param name="self">System.Windows.Point構造体</param>
+        /// <returns>変換後の座標</returns>
+        public static System.Drawing.Point PointToScreen(this System.Drawing.Point self)
+        {
+            var origin = ScreenHelper.GetScreenOrigin();
+            return new System.Drawing.Point(self.X + origin.X, self.Y + origin.Y);
         }
     }
 }
