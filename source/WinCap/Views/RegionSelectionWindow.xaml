@@ -29,7 +29,6 @@
 
         <i:EventTrigger EventName="MouseMove">
             <r:EventToReactiveProperty ReactiveProperty="{Binding MouseMove}">
-                <vm:MouseEventToPointConverter />
             </r:EventToReactiveProperty>
         </i:EventTrigger>
 
@@ -44,8 +43,8 @@
         </i:EventTrigger>
         
         <i:EventTrigger EventName="KeyDown">
-            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="OnKeyDown" />
+            <r:EventToReactiveProperty ReactiveProperty="{Binding KeyDown}">
+            </r:EventToReactiveProperty>
         </i:EventTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
@@ -74,7 +73,7 @@
                    Canvas.Left="{Binding SelectedRegion.Value.Left, Mode=OneWay}"
                    Canvas.Top="{Binding SelectedRegion.Value.Top, Mode=OneWay}">
         </Rectangle>
-        <views:RegionSelectionInfo DataContext="{Binding RegionSelectionInfo}"
+        <views:RegionSelectionInfo DataContext="{Binding SelectionInfoViewModel}"
                                    Canvas.Left="{Binding Left, Mode=OneWay}"
                                    Canvas.Top="{Binding Top, Mode=OneWay}"
                                    Visibility="Hidden">

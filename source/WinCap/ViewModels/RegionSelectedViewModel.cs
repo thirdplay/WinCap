@@ -1,11 +1,14 @@
 ﻿using Livet;
 using Reactive.Bindings;
+using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
+using System.Windows.Input;
 using WinCap.Interop;
 using WinCap.Models;
 using WpfUtility.Mvvm;
+using SelectionStatus = WinCap.Models.RectangleTracker.SelectionStatus;
 
 namespace WinCap.ViewModels
 {
@@ -22,13 +25,66 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コンストラクタ。
         /// </summary>
-        /// <param name="regionSelectionModel">領域選択Model</param>
-        public SelectedRegionViewModel(RegionSelectionModel regionSelectionModel)
+        /// <param name="tracker">矩形トラッカー</param>
+        public SelectedRegionViewModel(
+            ReactiveProperty<MouseEventArgs> mouseDown, ReactiveProperty<MouseEventArgs> mouseUp, ReactiveProperty<MouseEventArgs> mouseMove,
+            ReactiveProperty<KeyEventArgs> keyDown, RectangleTracker tracker)
         {
-            this.SelectedRegion = regionSelectionModel.SelectedRegion
-                .Select(x => x.ToRect())
-                .ToReactiveProperty(mode: ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+            // 左ボタン押下時に選択開始する
+            mouseDown
+                .Where(e => e.LeftButton == MouseButtonState.Pressed)
+                .Select(e => e.GetPosition(null).ToPoint())
+                .Subscribe(x => tracker.Start(x))
                 .AddTo(this);
+
+            // マウス移動時に現在座標を更新する
+            mouseMove
+                .Select(e => e.GetPosition(null).ToPoint())
+                .Subscribe(x => tracker.Update(x))
+                .AddTo(this);
+
+            // 左ボタンアップ時に選択終了する
+            mouseUp
+                .Where(e => e.LeftButton == MouseButtonState.Released)
+                .Select(e => e.GetPosition(null).ToPoint())
+                .Subscribe(x => tracker.Stop(x))
+                .AddTo(this);
+
+            // キーダウン時に選択を中断する
+            keyDown
+                .Do(e => e.Handled = true)
+                .Subscribe(_ => tracker.Susspend())
+                .AddTo(this);
+
+            // 選択中の場合、選択領域を表示する
+            SelectedRegion = tracker.SelectedRange
+                .Where(_ => tracker.Status.Value == SelectionStatus.Selecting)
+                .Select(x => x.ToRect())
+                .ToReactiveProperty()
+                .AddTo(this);
+
+            // 選択状態に応じて選択領域とマウスカーソルの表示を制御する
+            tracker.Status
+                .Subscribe(s =>
+                {
+                    if (s == SelectionStatus.Selecting)
+                    {
+                        Mouse.OverrideCursor = Cursors.None;
+                    }
+                    else
+                    {
+                        Mouse.OverrideCursor = null;
+                        SelectedRegion.Value = new Rect();
+                    }
+                })
+                .AddTo(this);
+        }
+
+        /// <summary>
+        /// 初期化。
+        /// </summary>
+        public void Initialize()
+        {
         }
     }
 }

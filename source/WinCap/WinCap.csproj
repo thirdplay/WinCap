@@ -198,7 +198,7 @@
     <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Capturers\ScreenHelper.cs" />
     <Compile Include="Models\MousePoint.cs" />
-    <Compile Include="Models\RegionSelectionModel.cs" />
+    <Compile Include="Models\RectangleTracker.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="ShortcutKeys\HotkeyDetector.cs" />
     <Compile Include="ShortcutKeys\ShortcutKey.cs" />
