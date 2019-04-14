@@ -3,7 +3,6 @@ using Reactive.Bindings;
 using System;
 using System.Drawing;
 using System.Reactive.Linq;
-using System.Windows.Forms;
 using WinCap.Models;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
@@ -112,28 +111,5 @@ namespace WinCap.ViewModels
                 Visibility = Visibility.Visible
             });
         }
-
-        ///// <summary>
-        ///// 更新処理。
-        ///// </summary>
-        ///// <param name="mousePoint">マウス座標</param>
-        ///// <param name="startPoint">始点</param>
-        ///// <param name="region">選択領域</param>
-        //public void Update(Point mousePoint, Point? startPoint, Size? size)
-        //{
-        //    base.Update(mousePoint);
-        //    if (startPoint.HasValue && size.HasValue)
-        //    {
-        //        this.StartPoint = startPoint.Value;
-        //        this.EndPoint = mousePoint;
-        //        this.Size = size.Value;
-        //    }
-        //    else
-        //    {
-        //        this.StartPoint = mousePoint;
-        //        this.EndPoint = new Point();
-        //        this.Size = new Size();
-        //    }
-        //}
     }
 }
