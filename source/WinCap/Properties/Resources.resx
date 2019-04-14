@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ContextMenu_Capture" xml:space="preserve">
-    <value>キャプチャ(&amp;C)</value>
+    <value>キャプチャー(&amp;C)</value>
   </data>
   <data name="ContextMenu_ControlCapture" xml:space="preserve">
-    <value>選択コントロールをキャプチャ(&amp;C)</value>
+    <value>選択コントロールをキャプチャー(&amp;C)</value>
   </data>
   <data name="ContextMenu_DesktopCapture" xml:space="preserve">
-    <value>デスクトップ全体をキャプチャ(&amp;D)</value>
+    <value>デスクトップ全体をキャプチャー(&amp;D)</value>
   </data>
   <data name="ContextMenu_Exit" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
   <data name="ContextMenu_RegionCapture" xml:space="preserve">
-    <value>選択領域をキャプチャ(&amp;R)</value>
+    <value>選択領域をキャプチャー(&amp;R)</value>
   </data>
   <data name="ContextMenu_Settings" xml:space="preserve">
     <value>設定(&amp;S)</value>
   </data>
   <data name="ContextMenu_WebPageCapture" xml:space="preserve">
-    <value>ウェブページ全体をキャプチャ(&amp;P)</value>
+    <value>ウェブページ全体をキャプチャー(&amp;P)</value>
   </data>
   <data name="ControlSelectionInfo_Description" xml:space="preserve">
     <value>左クリックで領域を選択してください。</value>
@@ -172,7 +172,7 @@
     <value>設定</value>
   </data>
   <data name="Settings_ActiveControlCapture" xml:space="preserve">
-    <value>アクティブコントロールをキャプチャ</value>
+    <value>アクティブコントロールをキャプチャー</value>
   </data>
   <data name="Settings_AutoSaveImage" xml:space="preserve">
     <value>画像を自動保存する</value>
@@ -181,13 +181,13 @@
     <value>キャンセル</value>
   </data>
   <data name="Settings_Capture" xml:space="preserve">
-    <value>キャプチャ設定</value>
+    <value>キャプチャー設定</value>
   </data>
   <data name="Settings_CaptureDelayTime" xml:space="preserve">
-    <value>キャプチャの遅延時間</value>
+    <value>キャプチャーの遅延時間</value>
   </data>
   <data name="Settings_CaptureOption" xml:space="preserve">
-    <value>キャプチャオプション</value>
+    <value>キャプチャーオプション</value>
   </data>
   <data name="Settings_Clipboard" xml:space="preserve">
     <value>クリップボード</value>
@@ -199,7 +199,13 @@
     <value>遅延時間</value>
   </data>
   <data name="Settings_DesktopCapture" xml:space="preserve">
-    <value>デスクトップ全体をキャプチャ</value>
+    <value>デスクトップ全体をキャプチャー</value>
+  </data>
+  <data name="Settings_FixHeader" xml:space="preserve">
+    <value>固定ヘッダー</value>
+  </data>
+  <data name="Settings_FixHeaderHeight" xml:space="preserve">
+    <value>固定ヘッダーの高さ</value>
   </data>
   <data name="Settings_General" xml:space="preserve">
     <value>一般設定</value>
@@ -258,6 +264,9 @@
   <data name="Settings_OutputMethod" xml:space="preserve">
     <value>出力方法</value>
   </data>
+  <data name="Settings_Pixel" xml:space="preserve">
+    <value>px</value>
+  </data>
   <data name="Settings_PlaySeWhenCapture" xml:space="preserve">
     <value>キャプチャー時に効果音を再生する</value>
   </data>
@@ -277,10 +286,10 @@
     <value>選択</value>
   </data>
   <data name="Settings_SelectionControlCapture" xml:space="preserve">
-    <value>選択コントロールをキャプチャ</value>
+    <value>選択コントロールをキャプチャー</value>
   </data>
   <data name="Settings_SelectionRegionCapture" xml:space="preserve">
-    <value>選択領域をキャプチャ</value>
+    <value>選択領域をキャプチャー</value>
   </data>
   <data name="Settings_ShortcutKey" xml:space="preserve">
     <value>ショートカットキー設定</value>
@@ -298,10 +307,10 @@
     <value>バージョン情報</value>
   </data>
   <data name="Settings_WebPageCapture" xml:space="preserve">
-    <value>ウェブページ全体をキャプチャ</value>
+    <value>ウェブページ全体をキャプチャー</value>
   </data>
   <data name="Settings_WebPageCaptureStartWhenPageFirstMove" xml:space="preserve">
-    <value>ウェブページ全体キャプチャ開始時にページ先頭に移動する</value>
+    <value>ウェブページ全体キャプチャー開始時にページ先頭に移動する</value>
   </data>
   <data name="Validation_Numeric" xml:space="preserve">
     <value>数値を入力してください。</value>

@@ -158,6 +158,30 @@ namespace WinCap.ViewModels.Settings
 
         #endregion CaptureDelayTime 変更通知プロパティ
 
+        #region FixHeaderHeight 変更通知プロパティ
+
+        private string _FixHeaderHeight;
+
+        /// <summary>
+        /// 固定ヘッダーの高さを取得します。
+        /// </summary>
+        [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Required")]
+        [Range(0, 10000, ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Validation_Range")]
+        public string FixHeaderHeight
+        {
+            get { return this._FixHeaderHeight; }
+            set
+            {
+                if (this._FixHeaderHeight != value)
+                {
+                    this._FixHeaderHeight = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion FixHeaderHeight 変更通知プロパティ
+
         #region WindowViewModel members
 
         /// <summary>
@@ -193,6 +217,7 @@ namespace WinCap.ViewModels.Settings
             settings.IsWebPageCaptureStartWhenPageFirstMove.Value = this.IsWebPageCaptureStartWhenPageFirstMove;
             settings.ScrollDelayTime.Value = int.Parse(this.ScrollDelayTime);
             settings.CaptureDelayTime.Value = int.Parse(this.CaptureDelayTime);
+            settings.FixHeaderHeight.Value = int.Parse(this.FixHeaderHeight);
         }
 
         /// <summary>
@@ -217,6 +242,7 @@ namespace WinCap.ViewModels.Settings
             this.IsWebPageCaptureStartWhenPageFirstMove = settings.IsWebPageCaptureStartWhenPageFirstMove;
             this.ScrollDelayTime = settings.ScrollDelayTime.Value.ToString();
             this.CaptureDelayTime = settings.CaptureDelayTime.Value.ToString();
+            this.FixHeaderHeight = settings.FixHeaderHeight.Value.ToString();
         }
     }
 }

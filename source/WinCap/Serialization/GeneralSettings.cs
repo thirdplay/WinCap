@@ -50,5 +50,10 @@ namespace WinCap.Serialization
         /// キャプチャ遅延時間
         /// </summary>
         public SerializableProperty<int> CaptureDelayTime => this.Cache(key => new SerializableProperty<int>(key, this.provider, 0));
+
+        /// <summary>
+        /// 固定ヘッダーの高さ
+        /// </summary>
+        public SerializableProperty<int> FixHeaderHeight => this.Cache(key => new SerializableProperty<int>(key, this.provider, 0));
     }
 }
