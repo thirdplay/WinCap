@@ -9,6 +9,7 @@ using WinCap.Interop;
 using WinCap.Models;
 using WpfUtility.Mvvm;
 using SelectionStatus = WinCap.Models.RectangleTracker.SelectionStatus;
+using EventHolder = WinCap.ViewModels.RegionSelectionWindowViewModel.EventHolder;
 
 namespace WinCap.ViewModels
 {
@@ -27,7 +28,7 @@ namespace WinCap.ViewModels
         /// </summary>
         /// <param name="events">イベント保有者</param>
         /// <param name="tracker">矩形トラッカー</param>
-        public SelectedRegionViewModel(RegionSelectionWindowViewModel.EventHolder events, RectangleTracker tracker)
+        public SelectedRegionViewModel(EventHolder events, RectangleTracker tracker)
         {
             // 左ボタン押下時に選択開始する
             events.MouseDown
