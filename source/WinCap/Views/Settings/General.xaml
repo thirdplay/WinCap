@@ -59,7 +59,7 @@
                          Columns="1">
                 <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_ScrollDelayTime}" />
-                    <Run Text=": " />
+                    <Run Text="  :" />
                 </TextBlock>
                 <TextBlock>
                     <Run Text="{x:Static prop:Resources.Settings_CaptureDelayTime}" />
@@ -94,6 +94,46 @@
                 </TextBlock>
                 <TextBlock Margin="4,0">
                     <Run Text="{x:Static prop:Resources.Settings_Milliseconds}" />
+                </TextBlock>
+            </UniformGrid>
+        </Grid>
+        <Rectangle Height="1" Style="{DynamicResource SeparatorRectangleStyleKey}" />
+        <TextBlock Text="{x:Static prop:Resources.Settings_FixHeader}"
+                   Style="{DynamicResource SettingsHeaderTextStyleKey}" />
+        <Grid Style="{DynamicResource SettingsContentPanelStyleKey}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <UniformGrid Grid.Column="0"
+                         Columns="1">
+                <TextBlock>
+                    <Run Text="{x:Static prop:Resources.Settings_FixHeaderHeight}" />
+                    <Run Text=": " />
+                </TextBlock>
+            </UniformGrid>
+            <UniformGrid Grid.Column="1"
+                         Columns="1">
+                <metro:PromptTextBox Prompt=""
+                                     Margin="0,2"
+                                     Text="{Binding FixHeaderHeight, Mode=TwoWay}">
+                    <i:Interaction.Triggers>
+                        <livet:InteractionMessageTrigger Messenger="{Binding Messenger}" MessageKey="ScrollDelayTime.Focus" >
+                            <livet:SetFocusAction />
+                        </livet:InteractionMessageTrigger>
+                    </i:Interaction.Triggers>
+                </metro:PromptTextBox>
+            </UniformGrid>
+            <UniformGrid Grid.Column="2"
+                         Columns="1">
+                <TextBlock Margin="4,0">
+                    <Run Text="{x:Static prop:Resources.Settings_Pixel}" />
                 </TextBlock>
             </UniformGrid>
         </Grid>
