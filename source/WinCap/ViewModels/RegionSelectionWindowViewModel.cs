@@ -36,6 +36,11 @@ namespace WinCap.ViewModels
         public RectangleTracker Tracker { get; }
 
         /// <summary>
+        /// 表示位置制御パネル
+        /// </summary>
+        public SwitchablePanel Panel { get; }
+
+        /// <summary>
         /// 選択した領域のViewModel
         /// </summary>
         public SelectedRegionViewModel SelectedViewModel { get; }
@@ -70,15 +75,11 @@ namespace WinCap.ViewModels
         /// </summary>
         public RegionSelectionWindowViewModel()
         {
-            //this.Subscribe(nameof(MousePoint), () =>
-            //{
-            //    // 領域選択情報の更新
-            //    this.RegionSelectionInfo.Update(this.MousePoint, this.startPoint, region);
-            //}).AddTo(this);
-
+            // Model/ViewModelの生成
             this.Tracker = new RectangleTracker();
+            this.Panel = new SwitchablePanel(240, 100);
             this.SelectedViewModel = new SelectedRegionViewModel(MouseDown, MouseUp, MouseMove, KeyDown, Tracker).AddTo(this);
-            this.SelectionInfoViewModel = new RegionSelectionInfoViewModel().AddTo(this);
+            this.SelectionInfoViewModel = new RegionSelectionInfoViewModel(Panel, Tracker).AddTo(this);
 
             // 選択完了時にウィンドウを非表示にする
             this.Tracker.Status
@@ -88,10 +89,7 @@ namespace WinCap.ViewModels
                 .Subscribe(x => {
                     if (!Tracker.IsEmptySelectedRange)
                     {
-                        // 選択領域の座標をスクリーン座標に変換して設定する
-                        var range = Tracker.SelectedRange.Value;
-                        range.Location = range.Location.PointToScreen();
-                        this.Result = range;
+                        this.Result = Tracker.SelectedRange.Value;
                     }
                     this.Messenger.Raise(new SetVisibilityMessage
                     {
@@ -119,13 +117,12 @@ namespace WinCap.ViewModels
                 Width = screenBounds.Width,
                 Height = screenBounds.Height
             });
-            Debug.WriteLine("ScreenOrigin:" + screenBounds.Location);
 
             // 初期化
             Tracker.Initialize();
             this.SendWindowAction(WindowAction.Active);
             this.SelectedViewModel.Initialize();
-            this.SelectionInfoViewModel.Initialize(new System.Drawing.Point());
+            this.SelectionInfoViewModel.Initialize();
         }
     }
 }

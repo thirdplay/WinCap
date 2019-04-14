@@ -70,12 +70,12 @@
                    DataContext="{Binding SelectedViewModel}"
                    Width="{Binding SelectedRegion.Value.Width, Mode=OneWay}"
                    Height="{Binding SelectedRegion.Value.Height, Mode=OneWay}"
-                   Canvas.Left="{Binding SelectedRegion.Value.Left, Mode=OneWay}"
-                   Canvas.Top="{Binding SelectedRegion.Value.Top, Mode=OneWay}">
+                   Canvas.Left="{Binding SelectedRegion.Value.Left, Mode=OneWay, Converter={StaticResource ScreenPointConverter}, ConverterParameter=X}"
+                   Canvas.Top="{Binding SelectedRegion.Value.Top, Mode=OneWay, Converter={StaticResource ScreenPointConverter}, ConverterParameter=Y}">
         </Rectangle>
         <views:RegionSelectionInfo DataContext="{Binding SelectionInfoViewModel}"
-                                   Canvas.Left="{Binding Left, Mode=OneWay}"
-                                   Canvas.Top="{Binding Top, Mode=OneWay}"
+                                   Canvas.Left="{Binding Left.Value, Mode=OneWay}"
+                                   Canvas.Top="{Binding Top.Value, Mode=OneWay}"
                                    Visibility="Hidden">
         </views:RegionSelectionInfo>
     </Canvas>

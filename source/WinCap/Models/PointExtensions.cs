@@ -1,4 +1,5 @@
-﻿using WinCap.Capturers;
+﻿using System.Diagnostics;
+using WinCap.Capturers;
 
 namespace WinCap.Models
 {
@@ -36,6 +37,17 @@ namespace WinCap.Models
         {
             var origin = ScreenHelper.GetScreenOrigin();
             return new System.Drawing.Point(self.X + origin.X, self.Y + origin.Y);
+        }
+
+        /// <summary>
+        /// スクリーン座標をコントロール座標に変換します。
+        /// </summary>
+        /// <param name="self">System.Windows.Point構造体</param>
+        /// <returns>変換後の座標</returns>
+        public static System.Drawing.Point PointToControl(this System.Drawing.Point self)
+        {
+            var origin = ScreenHelper.GetScreenOrigin();
+            return new System.Drawing.Point(self.X - origin.X, self.Y - origin.Y);
         }
     }
 }

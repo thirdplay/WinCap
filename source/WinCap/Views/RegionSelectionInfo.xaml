@@ -8,11 +8,11 @@
              xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
              xmlns:prop="clr-namespace:WinCap.Properties"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignData /SampleData/RegionSelectInfoViewModelSampleData.xaml}"
-             Width="{Binding Width}"
-             Height="{Binding Height}"
+             Width="{Binding Width.Value}"
+             Height="{Binding Height.Value}"
              Foreground="#FFFFFFFF"
              Background="{DynamicResource BackgroundBrushKey}">
+    <!-- d:DataContext="{d:DesignData /SampleData/RegionSelectInfoViewModelSampleData.xaml}" -->
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type TextBlock}"
@@ -66,24 +66,24 @@
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding StringFormat="({0},{1})">
-                                <Binding Path="StartPoint.X"/>
-                                <Binding Path="StartPoint.Y"/>
+                                <Binding Path="StartPoint.Value.X"/>
+                                <Binding Path="StartPoint.Value.Y"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding StringFormat="({0},{1})">
-                                <Binding Path="EndPoint.X"/>
-                                <Binding Path="EndPoint.Y"/>
+                                <Binding Path="EndPoint.Value.X"/>
+                                <Binding Path="EndPoint.Value.Y"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding StringFormat="({0} x {1})">
-                                <Binding Path="Size.Width"/>
-                                <Binding Path="Size.Height"/>
+                                <Binding Path="Size.Value.Width"/>
+                                <Binding Path="Size.Value.Height"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>

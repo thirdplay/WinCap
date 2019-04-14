@@ -1,40 +1,47 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using WinCap.Capturers;
 
 namespace WinCap.Views.Converters
 {
     /// <summary>
-    /// double型の値の符号を反転して返すコンバーター。
+    /// スクリーン座標をコントロール座標に変換して返すコンバーター。
     /// </summary>
-    public class ReverseDoubleConverter : IValueConverter
+    public class ScreenPointConverter : IValueConverter
     {
         /// <summary>
-        /// double型の値の符号を反転して返します。
+        /// スクリーン座標をコントロール座標に変換して返します。
         /// </summary>
         /// <param name="value">変換対象の値</param>
         /// <param name="targetType">変換対象の型</param>
-        /// <param name="parameter">コンバートパラメータ</param>
+        /// <param name="parameter">X=X座標,X!=Y座標</param>
         /// <param name="culture">カルチャ</param>
         /// <returns>変換後の値</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is double)) throw new ArgumentException(nameof(value));
-            return -(double)value;
+            var origin = ScreenHelper.GetScreenOrigin();
+            return (parameter.ToString() == "X")
+                ? (double)value - origin.X
+                : (double)value - origin.Y;
         }
 
         /// <summary>
-        /// double型の値の符号を反転して返します。
+        /// コントロール座標をスクリーン座標に変換して返します。
         /// </summary>
         /// <param name="value">変換対象の値</param>
         /// <param name="targetType">変換対象の型</param>
-        /// <param name="parameter">コンバートパラメータ</param>
+        /// <param name="parameter">X=X座標,X!=Y座標</param>
         /// <param name="culture">カルチャ</param>
         /// <returns>変換後の値</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is double)) throw new ArgumentException(nameof(value));
-            return -(double)value;
+            var origin = ScreenHelper.GetScreenOrigin();
+            return (parameter.ToString() == "X")
+                ? (double)value + origin.X
+                : (double)value + origin.Y;
         }
     }
 }

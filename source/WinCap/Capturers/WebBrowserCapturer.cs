@@ -103,9 +103,6 @@ namespace WinCap.Capturers
                 var bmpWidth = (int)((scrollSize.Width - scrollPoint.X) * dpi.ScaleX);
                 var bmpHeight = (int)((scrollSize.Height - scrollPoint.Y) * dpi.ScaleY);
                 Bitmap bmp = new Bitmap(bmpWidth, bmpHeight - (bmpHeight / client.Height - 1) * fixHeaderHeight);
-                Debug.WriteLine($"BitmapHeight:{(int)((scrollSize.Height - scrollPoint.Y) * dpi.ScaleY)}");
-                Debug.WriteLine($"ClientHeight:{client.Height}");
-                Debug.WriteLine($"FixHeaderHeight:{fixHeaderHeight}");
 
                 using (Graphics g = Graphics.FromImage(bmp))
                 {

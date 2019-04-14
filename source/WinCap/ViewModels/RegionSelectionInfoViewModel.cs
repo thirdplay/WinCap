@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Livet;
+using Reactive.Bindings;
+using System;
 using System.Drawing;
+using System.Reactive.Linq;
 using System.Windows.Forms;
+using WinCap.Models;
 using WinCap.ViewModels.Messages;
 using WpfUtility.Mvvm;
 using Visibility = System.Windows.Visibility;
@@ -10,115 +14,98 @@ namespace WinCap.ViewModels
     /// <summary>
     /// 領域選択情報ViewModel
     /// </summary>
-    public class RegionSelectionInfoViewModel : SwitchablePanelViewModel
+    public class RegionSelectionInfoViewModel : ViewModel
     {
-        #region StartPoint 変更通知プロパティ
-
-        private Point _StartPoint;
+        /// <summary>
+        /// 領域選択情報パネルのX座標
+        /// </summary>
+        public ReactiveProperty<double> Left { get; } = new ReactiveProperty<double>();
 
         /// <summary>
-        /// 始点を取得または設定します。
+        /// 領域選択情報パネルのY座標
         /// </summary>
-        public Point StartPoint
-        {
-            get { return this._StartPoint; }
-            set
-            {
-                if (this._StartPoint != value)
-                {
-                    this._StartPoint = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region EndPoint 変更通知プロパティ
-
-        private Point _EndPoint;
+        public ReactiveProperty<double> Top { get; } = new ReactiveProperty<double>();
 
         /// <summary>
-        /// 終点を取得または設定します。
+        /// 領域選択情報パネルの横幅
         /// </summary>
-        public Point EndPoint
-        {
-            get { return this._EndPoint; }
-            set
-            {
-                if (this._EndPoint != value)
-                {
-                    this._EndPoint = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region Size 変更通知プロパティ
-
-        private Size _Size;
+        public ReactiveProperty<double> Width { get; } = new ReactiveProperty<double>();
 
         /// <summary>
-        /// サイズを取得または設定します。
+        /// 領域選択情報パネルの高さ
         /// </summary>
-        public Size Size
-        {
-            get { return this._Size; }
-            set
-            {
-                if (this._Size != value)
-                {
-                    this._Size = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public ReactiveProperty<double> Height { get; } = new ReactiveProperty<double>();
 
-        #endregion
+        /// <summary>
+        /// 始点
+        /// </summary>
+        public ReactiveProperty<Point> StartPoint { get; } = new ReactiveProperty<Point>();
+
+        /// <summary>
+        /// 終点
+        /// </summary>
+        public ReactiveProperty<Point> EndPoint { get; } = new ReactiveProperty<Point>();
+
+        /// <summary>
+        /// サイズ
+        /// </summary>
+        public ReactiveProperty<Size> Size { get; } = new ReactiveProperty<Size>();
 
         /// <summary>
         /// コンストラクタ。
         /// </summary>
-        public RegionSelectionInfoViewModel() : base()
+        /// <param name="panel">表示位置制御パネル</param>
+        /// <param name="tracker">矩形トラッカー</param>
+        public RegionSelectionInfoViewModel(SwitchablePanel panel, RectangleTracker tracker) : base()
         {
-            //// マウス座標変更時に領域選択情報を更新する
-            //viewModel.CurrentPoint
-            //    .Subscribe(p =>
-            //    {
-            //        base.Update(p);
-            //        //if (startPoint.HasValue && size.HasValue)
-            //        //{
-            //        //    this.StartPoint = startPoint.Value;
-            //        //    this.EndPoint = mousePoint;
-            //        //    this.Size = size.Value;
-            //        //}
-            //        //else
-            //        {
-            //            this.StartPoint = p;
-            //            this.EndPoint = new Point();
-            //            this.Size = new Size();
-            //        }
-            //    })
-            //    .AddTo(this);
+            // 領域選択情報パネルの位置とサイズを反映する
+            Left = panel.Location
+                .Select(x => (double)x.X)
+                .ToReactiveProperty()
+                .AddTo(this);
+            Top = panel.Location
+                .Select(x => (double)x.Y)
+                .ToReactiveProperty()
+                .AddTo(this);
+            Width = panel.Size
+                .Select(x => (double)x.Width)
+                .ToReactiveProperty()
+                .AddTo(this);
+            Height = panel.Size
+                .Select(x => (double)x.Height)
+                .ToReactiveProperty()
+                .AddTo(this);
+
+            // マウス座標変更時にパネルを更新する
+            tracker.CurrentPoint
+                .Subscribe(x => panel.Update(x))
+                .AddTo(this);
+
+            // 始点/終点/サイズ変更時に反映する
+            StartPoint = tracker.CurrentPoint
+                .Select(x => tracker.Status.Value == RectangleTracker.SelectionStatus.Selecting
+                    ? tracker.StartPoint.Value
+                    : x)
+                .ToReactiveProperty()
+                .AddTo(this);
+            EndPoint = tracker.CurrentPoint
+                .Select(x => tracker.Status.Value == RectangleTracker.SelectionStatus.Selecting
+                    ? x
+                    : new Point())
+                .ToReactiveProperty()
+                .AddTo(this);
+            Size = tracker.SelectedRange
+                .Select(x => x.Size)
+                .ToReactiveProperty()
+                .AddTo(this);
         }
 
         /// <summary>
         /// 初期化。
         /// </summary>
         /// <param name="screenOrigin">スクリーンの原点</param>
-        public override void Initialize(Point screenOrigin)
+        public void Initialize()
         {
-            // 親メソッドの呼び出し
-            base.Initialize(screenOrigin);
-
-            // 領域情報のクリア
-            this.StartPoint = Cursor.Position;
-            this.EndPoint = new Point();
-            this.Size = new Size();
-
-            // 表示状態の設定
             this.Messenger.Raise(new SetVisibilityMessage
             {
                 MessageKey = "Window.Visibility",

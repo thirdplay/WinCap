@@ -33,20 +33,20 @@ namespace WinCap.ViewModels
             // 左ボタン押下時に選択開始する
             mouseDown
                 .Where(e => e.LeftButton == MouseButtonState.Pressed)
-                .Select(e => e.GetPosition(null).ToPoint())
+                .Select(e => e.GetPosition(null).ToPoint().PointToScreen())
                 .Subscribe(x => tracker.Start(x))
                 .AddTo(this);
 
             // マウス移動時に現在座標を更新する
             mouseMove
-                .Select(e => e.GetPosition(null).ToPoint())
+                .Select(e => e.GetPosition(null).ToPoint().PointToScreen())
                 .Subscribe(x => tracker.Update(x))
                 .AddTo(this);
 
             // 左ボタンアップ時に選択終了する
             mouseUp
                 .Where(e => e.LeftButton == MouseButtonState.Released)
-                .Select(e => e.GetPosition(null).ToPoint())
+                .Select(e => e.GetPosition(null).ToPoint().PointToScreen())
                 .Subscribe(x => tracker.Stop(x))
                 .AddTo(this);
 

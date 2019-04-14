@@ -1,8 +1,8 @@
 ﻿<Application x:Class="WinCap.Application"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:c="http://schemes.tillable.net/winfx/2017/personal/converters"
-             xmlns:c2="clr-namespace:WinCap.Views.Converters"
+             xmlns:utility="http://schemes.tillable.net/winfx/2017/personal/converters"
+             xmlns:c="clr-namespace:WinCap.Views.Converters"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
@@ -18,8 +18,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <c:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-            <c2:ReverseDoubleConverter x:Key="ReverseDoubleConverter" />
+            <utility:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+            <c:ScreenPointConverter x:Key="ScreenPointConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

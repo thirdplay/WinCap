@@ -110,9 +110,9 @@ namespace WinCap.Models
         /// <param name="point">現在のマウス座標</param>
         public void Update(Point point)
         {
+            this.CurrentPoint.Value = point;
             if (this.Status.Value == SelectionStatus.Selecting)
             {
-                this.CurrentPoint.Value = point;
                 this.SelectedRange.Value = CreateRange(this.StartPoint.Value, this.CurrentPoint.Value);
             }
         }

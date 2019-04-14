@@ -197,8 +197,8 @@
     <Compile Include="Models\OutputFormatType.cs" />
     <Compile Include="Models\OutputMethodType.cs" />
     <Compile Include="Capturers\ScreenHelper.cs" />
-    <Compile Include="Models\MousePoint.cs" />
     <Compile Include="Models\RectangleTracker.cs" />
+    <Compile Include="Models\SwitchablePanel.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="ShortcutKeys\HotkeyDetector.cs" />
     <Compile Include="ShortcutKeys\ShortcutKey.cs" />
@@ -245,7 +245,7 @@
     <Compile Include="Views\Behaviors\SetDialogResultAction.cs" />
     <Compile Include="Views\Behaviors\SetVisibilityAction.cs" />
     <Compile Include="Views\Behaviors\SetWindowBoundsAction.cs" />
-    <Compile Include="Views\Converters\ReverseDoubleConverter.cs" />
+    <Compile Include="Views\Converters\ScreenPointConverter.cs" />
     <Compile Include="Views\RegionSelectionInfo.xaml.cs">
       <DependentUpon>RegionSelectionInfo.xaml</DependentUpon>
     </Compile>
