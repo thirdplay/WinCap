@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("tillable.net")]
 [assembly: AssemblyProduct("WinCap")]
-[assembly: AssemblyCopyright("Copyright © 2018 thirdplay")]
+[assembly: AssemblyCopyright("Copyright © 2019 thirdplay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Guid("48082311-5C4C-4E9A-B6A2-A1B5E336C57F")]
@@ -52,6 +52,6 @@ using System.Windows;
 // すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.1.0.0")]
-[assembly: AssemblyFileVersion("2.1.0.0")]
+[assembly: AssemblyVersion("2.1.1.0")]
+[assembly: AssemblyFileVersion("2.1.1.0")]
 
