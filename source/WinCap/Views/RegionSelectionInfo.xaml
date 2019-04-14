@@ -12,7 +12,9 @@
              Height="{Binding Height.Value}"
              Foreground="#FFFFFFFF"
              Background="{DynamicResource BackgroundBrushKey}">
-    <!-- d:DataContext="{d:DesignData /SampleData/RegionSelectInfoViewModelSampleData.xaml}" -->
+    <!--
+    d:DataContext="{d:DesignData /SampleData/RegionSelectInfoViewModelSampleData.xaml}"
+    -->
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type TextBlock}"

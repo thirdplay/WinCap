@@ -289,17 +289,6 @@
     <DesignData Include="SampleData\ControlSelectInfoViewModelSampleData.xaml">
       <SubType>Designer</SubType>
     </DesignData>
-    <DesignData Include="SampleData\SettingWindowViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="SampleData\ControlSelectWindowViewModelSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="SampleData\RegionSelectInfoViewModelSampleData.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Styles\Controls.Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
