@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using WinCap.Browsers;
 using WinCap.Interop;
@@ -80,7 +79,6 @@ namespace WinCap.Capturers
         {
             var isScrollWindowPageTop = Settings.General.IsWebPageCaptureStartWhenPageFirstMove.Value;
             var scrollDelayTime = Settings.General.ScrollDelayTime.Value;
-            var fixHeaderHeight = Settings.General.FixHeaderHeight.Value;
 
             using (InternetExplorer ie = new InternetExplorer(handle, scrollDelayTime))
             {
@@ -100,12 +98,7 @@ namespace WinCap.Capturers
 
                 // 出力先のビットマップ生成
                 // クライアント領域の幅 x (スクロール領域の高さ - スクロール位置Y)
-                var bmpWidth = (int)((scrollSize.Width - scrollPoint.X) * dpi.ScaleX);
-                var bmpHeight = (int)((scrollSize.Height - scrollPoint.Y) * dpi.ScaleY);
-                Bitmap bmp = new Bitmap(bmpWidth, bmpHeight - (bmpHeight / client.Height - 1) * fixHeaderHeight);
-                Debug.WriteLine($"BitmapHeight:{(int)((scrollSize.Height - scrollPoint.Y) * dpi.ScaleY)}");
-                Debug.WriteLine($"ClientHeight:{client.Height}");
-                Debug.WriteLine($"FixHeaderHeight:{fixHeaderHeight}");
+                Bitmap bmp = new Bitmap((int)((scrollSize.Width - scrollPoint.X) * dpi.ScaleX), (int)((scrollSize.Height - scrollPoint.Y) * dpi.ScaleY));
 
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
@@ -123,12 +116,7 @@ namespace WinCap.Capturers
                         CaptureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
                     }
 
-                    // 先頭行以降は固定ヘッダーを除外してキャプチャする
-                    client.Y += fixHeaderHeight;
-                    client.Height -= fixHeaderHeight;
-
                     // 終端までスクロールしながらキャプチャする
-                    bool isFirst = true;
                     int prevScrollY = -1;
                     while (scrollPoint.Y < scrollEnd.Y && prevScrollY != scrollPoint.Y)
                     {
@@ -137,8 +125,7 @@ namespace WinCap.Capturers
                         // スクロールしてキャプチャする
                         scrollPoint.X = scrollStart.X;
                         scrollPoint = ie.ScrollTo(scrollPoint.X, scrollPoint.Y + client.Height);
-                        CaptureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi, (isFirst ? fixHeaderHeight : 0));
-                        isFirst = false;
+                        CaptureControl(handle, g, ref client, ref scrollPoint, ref scrollStart, dpi);
 
                         // 右端までスクロールしながらキャプチャする
                         while (scrollPoint.X < scrollEnd.X)
@@ -162,8 +149,7 @@ namespace WinCap.Capturers
         /// <param name="scrollPoint">スクロール座標</param>
         /// <param name="startScroll">開始スクロール座標</param>
         /// <param name="dpi">DPI情報</param>
-        /// <param name="fixHeaderHeight">固定ヘッダーの高さ</param>
-        private void CaptureControl(IntPtr handle, Graphics g, ref Rectangle client, ref Point scrollPoint, ref Point scrollStart, Dpi dpi, int fixHeaderHeight = 0)
+        private void CaptureControl(IntPtr handle, Graphics g, ref Rectangle client, ref Point scrollPoint, ref Point scrollStart, Dpi dpi)
         {
             // ウィンドウをキャプチャする
             using (Bitmap bitmap = ScreenHelper.CaptureScreen(handle))
@@ -173,7 +159,7 @@ namespace WinCap.Capturers
 
                 // 描画先領域の設定
                 Rectangle destRect = new Rectangle(
-                    scrollPoint.X - scrollStart.X, scrollPoint.Y - scrollStart.Y + fixHeaderHeight, client.Width, client.Height
+                    scrollPoint.X - scrollStart.X, scrollPoint.Y - scrollStart.Y, client.Width, client.Height
                 ).ToPhysicalPixel(dpi);
 
                 // キャプチャした画像を書き込む

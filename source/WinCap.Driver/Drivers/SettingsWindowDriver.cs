@@ -131,11 +131,6 @@ namespace WinCap.Driver.Drivers
         public WPFTextBox CaptureDelayTime { get; private set; }
 
         /// <summary>
-        /// 固定ヘッダーの高さを取得します。
-        /// </summary>
-        public WPFTextBox FixHeaderHeight { get; private set; }
-
-        /// <summary>
         /// コンストラクタ。
         /// </summary>
         /// <param name="windowControl">ウィンドウコントロール</param>
@@ -146,7 +141,6 @@ namespace WinCap.Driver.Drivers
             this.ViewModel = viewModel;
             this.ScrollDelayTime = new WPFTextBox(visualTree.ByBinding("ScrollDelayTime").Single());
             this.CaptureDelayTime = new WPFTextBox(visualTree.ByBinding("CaptureDelayTime").Single());
-            this.FixHeaderHeight = new WPFTextBox(visualTree.ByBinding("FixHeaderHeight").Single());
         }
     }
 

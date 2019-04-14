@@ -64,7 +64,7 @@ namespace WinCap.Test
         }
 
         /// <summary>
-        /// キャプチャー遅延時間のテスト。
+        /// キャプチャ遅延時間のテスト。
         /// </summary>
         [TestMethod]
         public void TestCaptureDelayTime()
@@ -82,31 +82,12 @@ namespace WinCap.Test
         }
 
         /// <summary>
-        /// キャプチャー遅延時間のテスト。
-        /// </summary>
-        [TestMethod]
-        public void TestFixHeaderHeight()
-        {
-            var settingsWindow = App.ShowSettingsWindow();
-            var general = settingsWindow.General;
-            var buttonOk = settingsWindow.ButtonOk;
-
-            general.FixHeaderHeight.EmulateChangeText("200");
-            buttonOk.EmulateClick();
-            var errorMessage = general.ViewModel.GetError("FixHeaderHeight");
-
-            Assert.IsTrue(string.IsNullOrEmpty(errorMessage));
-            Assert.AreEqual("200", general.FixHeaderHeight.Text);
-        }
-
-        /// <summary>
         /// 全般タブのエラーパラメータを表します。
         /// </summary>
         class GeneralErrorParam
         {
             public string ScrollDelayTime { get; set; }
             public string CaptureDelayTime { get; set; }
-            public string FixHeaderHeight { get; set; }
             public string PropertyName { get; set; }
             public string Message { get; set; }
         }
@@ -129,8 +110,6 @@ namespace WinCap.Test
 
             general.ScrollDelayTime.EmulateChangeText(param.ScrollDelayTime);
             general.CaptureDelayTime.EmulateChangeText(param.CaptureDelayTime);
-            general.FixHeaderHeight.EmulateChangeText(param.FixHeaderHeight);
-
             buttonOk.EmulateClick();
 
             var errorMessage = general.ViewModel.GetError(param.PropertyName);

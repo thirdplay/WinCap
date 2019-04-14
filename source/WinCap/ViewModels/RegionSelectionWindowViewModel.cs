@@ -182,7 +182,6 @@ namespace WinCap.ViewModels
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                // 始点選択完了→終点選択開始
                 Mouse.OverrideCursor = Cursors.None;
                 this.startPoint = this.MousePoint;
             }
@@ -202,8 +201,6 @@ namespace WinCap.ViewModels
             }
             if (region.Width == 0 || region.Height == 0)
             {
-                // 幅や高さが0の場合は始点選択からやり直し
-                Mouse.OverrideCursor = null;
                 this.startPoint = null;
                 return;
             }
@@ -227,7 +224,6 @@ namespace WinCap.ViewModels
         private void SelectRegion(Rectangle? region)
         {
             this.startPoint = null;
-            this.SelectedRegion = new Rect();
             this.Result = region;
             this.Messenger.Raise(new SetVisibilityMessage
             {

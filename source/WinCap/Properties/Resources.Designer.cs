@@ -19,7 +19,7 @@ namespace WinCap.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -61,7 +61,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   キャプチャー(&amp;C) に類似しているローカライズされた文字列を検索します。
+        ///   キャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_Capture {
             get {
@@ -70,7 +70,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   選択コントロールをキャプチャー(&amp;C) に類似しているローカライズされた文字列を検索します。
+        ///   選択コントロールをキャプチャ(&amp;C) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_ControlCapture {
             get {
@@ -79,7 +79,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   デスクトップ全体をキャプチャー(&amp;D) に類似しているローカライズされた文字列を検索します。
+        ///   デスクトップ全体をキャプチャ(&amp;D) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_DesktopCapture {
             get {
@@ -97,7 +97,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   選択領域をキャプチャー(&amp;R) に類似しているローカライズされた文字列を検索します。
+        ///   選択領域をキャプチャ(&amp;R) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_RegionCapture {
             get {
@@ -115,7 +115,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   ウェブページ全体をキャプチャー(&amp;P) に類似しているローカライズされた文字列を検索します。
+        ///   ウェブページ全体をキャプチャ(&amp;P) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContextMenu_WebPageCapture {
             get {
@@ -223,7 +223,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   アクティブコントロールをキャプチャー に類似しているローカライズされた文字列を検索します。
+        ///   アクティブコントロールをキャプチャ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_ActiveControlCapture {
             get {
@@ -250,7 +250,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   キャプチャー設定 に類似しているローカライズされた文字列を検索します。
+        ///   キャプチャ設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Capture {
             get {
@@ -259,7 +259,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   キャプチャーの遅延時間 に類似しているローカライズされた文字列を検索します。
+        ///   キャプチャの遅延時間 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_CaptureDelayTime {
             get {
@@ -268,7 +268,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   キャプチャーオプション に類似しているローカライズされた文字列を検索します。
+        ///   キャプチャオプション に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_CaptureOption {
             get {
@@ -304,29 +304,11 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   デスクトップ全体をキャプチャー に類似しているローカライズされた文字列を検索します。
+        ///   デスクトップ全体をキャプチャ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_DesktopCapture {
             get {
                 return ResourceManager.GetString("Settings_DesktopCapture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   固定ヘッダー に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Settings_FixHeader {
-            get {
-                return ResourceManager.GetString("Settings_FixHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   固定ヘッダーの高さ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Settings_FixHeaderHeight {
-            get {
-                return ResourceManager.GetString("Settings_FixHeaderHeight", resourceCulture);
             }
         }
         
@@ -502,15 +484,6 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   px に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Settings_Pixel {
-            get {
-                return ResourceManager.GetString("Settings_Pixel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   キャプチャー時に効果音を再生する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_PlaySeWhenCapture {
@@ -565,7 +538,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   選択コントロールをキャプチャー に類似しているローカライズされた文字列を検索します。
+        ///   選択コントロールをキャプチャ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_SelectionControlCapture {
             get {
@@ -574,7 +547,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   選択領域をキャプチャー に類似しているローカライズされた文字列を検索します。
+        ///   選択領域をキャプチャ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_SelectionRegionCapture {
             get {
@@ -622,7 +595,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   ウェブページ全体をキャプチャー に類似しているローカライズされた文字列を検索します。
+        ///   ウェブページ全体をキャプチャ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_WebPageCapture {
             get {
@@ -631,7 +604,7 @@ namespace WinCap.Properties {
         }
         
         /// <summary>
-        ///   ウェブページ全体キャプチャー開始時にページ先頭に移動する に類似しているローカライズされた文字列を検索します。
+        ///   ウェブページ全体キャプチャ開始時にページ先頭に移動する に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_WebPageCaptureStartWhenPageFirstMove {
             get {
