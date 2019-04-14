@@ -27,22 +27,22 @@
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseMove">
-            <r:EventToReactiveProperty ReactiveProperty="{Binding MouseMove}">
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.MouseMove}">
             </r:EventToReactiveProperty>
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseDown">
-            <r:EventToReactiveProperty ReactiveProperty="{Binding MouseDown}">
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.MouseDown}">
             </r:EventToReactiveProperty>
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseUp">
-            <r:EventToReactiveProperty ReactiveProperty="{Binding MouseUp}">
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.MouseUp}">
             </r:EventToReactiveProperty>
         </i:EventTrigger>
         
         <i:EventTrigger EventName="KeyDown">
-            <r:EventToReactiveProperty ReactiveProperty="{Binding KeyDown}">
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.KeyDown}">
             </r:EventToReactiveProperty>
         </i:EventTrigger>
 

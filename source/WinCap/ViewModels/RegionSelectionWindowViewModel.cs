@@ -19,6 +19,34 @@ namespace WinCap.ViewModels
     /// </summary>
     public class RegionSelectionWindowViewModel : WindowViewModel
     {
+        #region イベントホルダー
+        /// <summary>
+        /// イベント保有者
+        /// </summary>
+        public class EventHolder
+        {
+            /// <summary>
+            /// マウスダウン
+            /// </summary>
+            public ReactiveProperty<MouseEventArgs> MouseDown { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
+
+            /// <summary>
+            /// マウスアップ
+            /// </summary>
+            public ReactiveProperty<MouseEventArgs> MouseUp { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
+
+            /// <summary>
+            /// マウス移動
+            /// </summary>
+            public ReactiveProperty<MouseEventArgs> MouseMove { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
+
+            /// <summary>
+            /// キーダウン
+            /// </summary>
+            public ReactiveProperty<KeyEventArgs> KeyDown { get; } = new ReactiveProperty<KeyEventArgs>(mode: ReactivePropertyMode.None);
+        }
+        #endregion
+
         /// <summary>
         /// ウィンドウを常に手前に表示するか否か返す。
         /// </summary>
@@ -51,24 +79,9 @@ namespace WinCap.ViewModels
         public RegionSelectionInfoViewModel SelectionInfoViewModel { get; }
 
         /// <summary>
-        /// マウスダウン
+        /// イベント
         /// </summary>
-        public ReactiveProperty<MouseEventArgs> MouseDown { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
-
-        /// <summary>
-        /// マウスアップ
-        /// </summary>
-        public ReactiveProperty<MouseEventArgs> MouseUp { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
-
-        /// <summary>
-        /// マウス移動
-        /// </summary>
-        public ReactiveProperty<MouseEventArgs> MouseMove { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
-
-        /// <summary>
-        /// キーダウン
-        /// </summary>
-        public ReactiveProperty<KeyEventArgs> KeyDown { get; } = new ReactiveProperty<KeyEventArgs>(mode: ReactivePropertyMode.None);
+        public EventHolder Events { get; set; } = new EventHolder();
 
         /// <summary>
         /// コンストラクタ
@@ -78,7 +91,7 @@ namespace WinCap.ViewModels
             // Model/ViewModelの生成
             this.Tracker = new RectangleTracker();
             this.Panel = new SwitchablePanel(240, 100);
-            this.SelectedViewModel = new SelectedRegionViewModel(MouseDown, MouseUp, MouseMove, KeyDown, Tracker).AddTo(this);
+            this.SelectedViewModel = new SelectedRegionViewModel(Events, Tracker).AddTo(this);
             this.SelectionInfoViewModel = new RegionSelectionInfoViewModel(Panel, Tracker).AddTo(this);
 
             // 選択完了時にウィンドウを非表示にする

@@ -25,33 +25,32 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コンストラクタ。
         /// </summary>
+        /// <param name="events">イベント保有者</param>
         /// <param name="tracker">矩形トラッカー</param>
-        public SelectedRegionViewModel(
-            ReactiveProperty<MouseEventArgs> mouseDown, ReactiveProperty<MouseEventArgs> mouseUp, ReactiveProperty<MouseEventArgs> mouseMove,
-            ReactiveProperty<KeyEventArgs> keyDown, RectangleTracker tracker)
+        public SelectedRegionViewModel(RegionSelectionWindowViewModel.EventHolder events, RectangleTracker tracker)
         {
             // 左ボタン押下時に選択開始する
-            mouseDown
+            events.MouseDown
                 .Where(e => e.LeftButton == MouseButtonState.Pressed)
                 .Select(e => e.GetPosition(null).ToPoint().PointToScreen())
                 .Subscribe(x => tracker.Start(x))
                 .AddTo(this);
 
             // マウス移動時に現在座標を更新する
-            mouseMove
+            events.MouseMove
                 .Select(e => e.GetPosition(null).ToPoint().PointToScreen())
                 .Subscribe(x => tracker.Update(x))
                 .AddTo(this);
 
             // 左ボタンアップ時に選択終了する
-            mouseUp
+            events.MouseUp
                 .Where(e => e.LeftButton == MouseButtonState.Released)
                 .Select(e => e.GetPosition(null).ToPoint().PointToScreen())
                 .Subscribe(x => tracker.Stop(x))
                 .AddTo(this);
 
             // キーダウン時に選択を中断する
-            keyDown
+            events.KeyDown
                 .Do(e => e.Handled = true)
                 .Subscribe(_ => tracker.Susspend())
                 .AddTo(this);
