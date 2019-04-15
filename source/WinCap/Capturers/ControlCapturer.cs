@@ -29,23 +29,14 @@ namespace WinCap.Capturers
         /// キャプチャ対象を取得します。
         /// </summary>
         /// <returns>キャプチャ対象</returns>
-        protected override IntPtr? GetCaptureTarget()
-        {
-            var handle = this.windowService.ShowControlSelectionWindow();
-            return handle != IntPtr.Zero
-                ? handle as IntPtr?
-                : null;
-        }
+        protected override IntPtr? GetCaptureTarget() => this.windowService.ShowControlSelectionWindow();
 
         /// <summary>
         /// キャプチャのコア処理。
         /// </summary>
         /// <param name="target">キャプチャ対象</param>
         /// <returns>キャプチャ画像</returns>
-        protected override Bitmap CaptureCore(IntPtr? target)
-        {
-            return ScreenHelper.CaptureScreen(target.Value);
-        }
+        protected override Bitmap CaptureCore(IntPtr? target) => ScreenHelper.CaptureScreen(target.Value);
 
         #endregion
     }

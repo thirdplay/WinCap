@@ -79,12 +79,5 @@ namespace WinCap.ViewModels
                 })
                 .AddTo(this);
         }
-
-        /// <summary>
-        /// 初期化。
-        /// </summary>
-        public void Initialize()
-        {
-        }
     }
 }

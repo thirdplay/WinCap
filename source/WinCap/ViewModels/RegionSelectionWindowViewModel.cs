@@ -134,7 +134,6 @@ namespace WinCap.ViewModels
             // 初期化
             Tracker.Initialize();
             this.SendWindowAction(WindowAction.Active);
-            this.SelectedViewModel.Initialize();
             this.SelectionInfoViewModel.Initialize();
         }
     }

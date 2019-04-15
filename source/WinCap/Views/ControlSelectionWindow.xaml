@@ -5,13 +5,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+        xmlns:r="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NET46"
         xmlns:behaviors="clr-namespace:WinCap.Views.Behaviors"
         xmlns:views="clr-namespace:WinCap.Views"
         mc:Ignorable="d"
         Title="SelectControlWindow"
         Background="#01000000"
         WindowStyle="None"
-        Topmost="True"
+        Topmost="{Binding TopMost}"
         AllowsTransparency="True"
         ShowInTaskbar="False"
         Cursor="Hand">
@@ -26,18 +27,23 @@
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseMove">
-            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="OnMouseMove" />
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.MouseMove}">
+            </r:EventToReactiveProperty>
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseDown">
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.MouseDown}">
+            </r:EventToReactiveProperty>
         </i:EventTrigger>
 
         <i:EventTrigger EventName="MouseUp">
-            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="OnMouseUp" />
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.MouseUp}">
+            </r:EventToReactiveProperty>
         </i:EventTrigger>
-        
+
         <i:EventTrigger EventName="KeyDown">
-            <behaviors:CallMethodWithArgumentAction MethodTarget="{Binding}"
-                                                    MethodName="OnKeyDown" />
+            <r:EventToReactiveProperty ReactiveProperty="{Binding Events.KeyDown}">
+            </r:EventToReactiveProperty>
         </i:EventTrigger>
 
         <livet:InteractionMessageTrigger Messenger="{Binding Messenger}"
@@ -60,15 +66,17 @@
     <Canvas>
         <Rectangle Stroke="#CCFF0000"
                    StrokeThickness="4"
-                   Width="{Binding SelectedRegion.Width, Mode=OneWay}"
-                   Height="{Binding SelectedRegion.Height, Mode=OneWay}"
-                   Canvas.Left="{Binding SelectedRegion.Left, Mode=OneWay}"
-                   Canvas.Top="{Binding SelectedRegion.Top, Mode=OneWay}">
+                   DataContext="{Binding SelectedViewModel}"
+                   Width="{Binding SelectedRegion.Value.Width, Mode=OneWay}"
+                   Height="{Binding SelectedRegion.Value.Height, Mode=OneWay}"
+                   Canvas.Left="{Binding SelectedRegion.Value.Left, Mode=OneWay}"
+                   Canvas.Top="{Binding SelectedRegion.Value.Top, Mode=OneWay}">
         </Rectangle>
-        <views:ControlSelectionInfo DataContext="{Binding ControlSelectionInfo}"
+        <!--
+        <views:ControlSelectionInfo DataContext="{Binding SelectionInfoViewModel}"
                                     Canvas.Left="{Binding Left, Mode=OneWay}"
                                     Canvas.Top="{Binding Top, Mode=OneWay}"
                                     Visibility="Hidden">
-        </views:ControlSelectionInfo>
+        </views:ControlSelectionInfo>-->
     </Canvas>
 </Window>

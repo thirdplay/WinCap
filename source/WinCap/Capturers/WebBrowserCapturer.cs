@@ -38,13 +38,7 @@ namespace WinCap.Capturers
         /// キャプチャ対象を取得します。
         /// </summary>
         /// <returns>キャプチャ対象</returns>
-        protected override IntPtr? GetCaptureTarget()
-        {
-            var handle = this.windowService.ShowControlSelectionWindow();
-            return (handle != IntPtr.Zero
-                ? handle as IntPtr?
-                : null);
-        }
+        protected override IntPtr? GetCaptureTarget() => this.windowService.ShowControlSelectionWindow();
 
         /// <summary>
         /// キャプチャのコア処理。

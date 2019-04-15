@@ -1,6 +1,8 @@
 ﻿using Livet;
 using Livet.Messaging.Windows;
+using Reactive.Bindings;
 using System;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Windows;
@@ -20,15 +22,44 @@ namespace WinCap.ViewModels
     /// </summary>
     public class ControlSelectionWindowViewModel : WindowViewModel
     {
+        #region イベントホルダー
         /// <summary>
-        /// スクリーンの原点。
+        /// イベント保有者
         /// </summary>
-        private Point screenOrigin;
+        public class EventHolder
+        {
+            /// <summary>
+            /// マウスアップ
+            /// </summary>
+            public ReactiveProperty<MouseEventArgs> MouseUp { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
+
+            /// <summary>
+            /// マウス移動
+            /// </summary>
+            public ReactiveProperty<MouseEventArgs> MouseMove { get; } = new ReactiveProperty<MouseEventArgs>(mode: ReactivePropertyMode.None);
+
+            /// <summary>
+            /// キーダウン
+            /// </summary>
+            public ReactiveProperty<KeyEventArgs> KeyDown { get; } = new ReactiveProperty<KeyEventArgs>(mode: ReactivePropertyMode.None);
+        }
+        #endregion
 
         /// <summary>
-        /// コントロール選択モデル。
+        /// ウィンドウを常に手前に表示するか否か返す。
         /// </summary>
-        private ControlSelector controlSelector;
+        /// <remarks>デバッグ中は常に手前には表示しない</remarks>
+        public bool TopMost => Debugger.IsAttached;
+
+        /// <summary>
+        /// コントロール選択者
+        /// </summary>
+        private ControlSelector Selector { get; }
+
+        /// <summary>
+        /// 選択したコントロールのViewModel
+        /// </summary>
+        public SelectedControlViewModel SelectedViewModel { get; }
 
         /// <summary>
         /// 選択結果を取得します。
@@ -38,64 +69,20 @@ namespace WinCap.ViewModels
         /// <summary>
         /// コントロール選択情報ViewModel
         /// </summary>
-        public ControlSelectionInfoViewModel ControlSelectionInfo { get; set; }
+        public ControlSelectionInfoViewModel SelectionInfoViewModel { get; set; }
 
         /// <summary>
-        /// コントロール選択時の処理シーケンス
+        /// イベント
         /// </summary>
-        private readonly Subject<IntPtr?> notifier;
-
-        #region SelectedRegion 変更通知プロパティ
-
-        private Rect _SelectedRegion;
-
-        /// <summary>
-        /// 選択範囲を取得または設定します。
-        /// </summary>
-        public Rect SelectedRegion
-        {
-            get { return this._SelectedRegion; }
-            set
-            {
-                if (this._SelectedRegion != value)
-                {
-                    this._SelectedRegion = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region MousePoint 変更通知プロパティ
-
-        private Point _MousePoint;
-
-        /// <summary>
-        /// マウス座標を取得または設定します。
-        /// </summary>
-        public Point MousePoint
-        {
-            get { return this._MousePoint; }
-            set
-            {
-                if (this._MousePoint != value)
-                {
-                    this._MousePoint = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        #endregion
+        public EventHolder Events { get; set; } = new EventHolder();
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public ControlSelectionWindowViewModel()
         {
-            this.ControlSelectionInfo = new ControlSelectionInfoViewModel().AddTo(this);
-            this.controlSelector = new ControlSelector();
+            //this.ControlSelectionInfo = new ControlSelectionInfoViewModel().AddTo(this);
+            //this.controlSelector = new ControlSelector();
             //this.controlSelector.Subscribe(nameof(this.controlSelector.SelectedHandle), () =>
             //{
             //    var handle = this.controlSelector.SelectedHandle;
@@ -120,13 +107,35 @@ namespace WinCap.ViewModels
             //    this.ControlSelectionInfo.Update(this.MousePoint);
             //}).AddTo(this);
 
-            // コントロール選択時の処理シーケンスの生成
-            this.notifier = new Subject<IntPtr?>();
-            this.notifier
-                .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
-                .Delay(TimeSpan.FromMilliseconds(100))
-                .Subscribe(x => this.SelectControl(x))
-                .AddTo(this);
+            //// コントロール選択時の処理シーケンスの生成
+            //this.notifier = new Subject<IntPtr?>();
+            //this.notifier
+            //    .Do(x => this.SelectedRegion = new Rect(0, 0, 0, 0))
+            //    .Delay(TimeSpan.FromMilliseconds(100))
+            //    .Subscribe(x => this.SelectControl(x))
+            //    .AddTo(this);
+
+            // Model/ViewModelの生成
+            Selector = new ControlSelector();
+            SelectedViewModel = new SelectedControlViewModel(Events, Selector).AddTo(this);
+
+            //// 選択完了時にウィンドウを非表示にする
+            //this.Selector.Status
+            //    .Where(x => x == RectangleTracker.SelectionStatus.Completed)
+            //    .Delay(TimeSpan.FromMilliseconds(100))
+            //    .ObserveOn(DispatcherHelper.UIDispatcher)
+            //    .Subscribe(x => {
+            //        if (!Tracker.IsEmptySelectedRange)
+            //        {
+            //            this.Result = Tracker.SelectedRange.Value;
+            //        }
+            //        this.Messenger.Raise(new SetVisibilityMessage
+            //        {
+            //            MessageKey = "Window.Visibility",
+            //            Visibility = Visibility.Hidden
+            //        });
+            //    })
+            //    .AddTo(this);
         }
 
         /// <summary>
@@ -134,70 +143,69 @@ namespace WinCap.ViewModels
         /// </summary>
         protected override void InitializeCore()
         {
+            this.Result = null;
+
             // ウィンドウに画面全体の範囲を設定する
-            var screenRect = ScreenHelper.GetFullScreenBounds();
+            var screenBounds = ScreenHelper.GetFullScreenBounds();
             this.Messenger.Raise(new SetWindowBoundsMessage
             {
                 MessageKey = "Window.Bounds",
-                Left = screenRect.Left,
-                Top = screenRect.Top,
-                Width = screenRect.Width,
-                Height = screenRect.Height
+                Left = screenBounds.Left,
+                Top = screenBounds.Top,
+                Width = screenBounds.Width,
+                Height = screenBounds.Height
             });
-            this.screenOrigin = screenRect.Location;
 
             // 初期化
+            Selector.Initialize();
             this.SendWindowAction(WindowAction.Active);
-            this.controlSelector.Initialize();
-            this.ControlSelectionInfo.Initialize(this.screenOrigin);
-
-            // マウス座標の設定
-            this.SetMousePoint(System.Windows.Forms.Cursor.Position);
+            //this.controlSelector.Initialize();
+            //this.ControlSelectionInfo.Initialize(new Point());
         }
 
-        /// <summary>
-        /// マウス移動処理。
-        /// </summary>
-        /// <param name="e">イベント引数</param>
-        public void OnMouseMove(MouseEventArgs e)
-        {
-            var p = e.GetPosition(null);
-            this.SetMousePoint(new Point((int)p.X, (int)p.Y));
-        }
+        ///// <summary>
+        ///// マウス移動処理。
+        ///// </summary>
+        ///// <param name="e">イベント引数</param>
+        //public void OnMouseMove(MouseEventArgs e)
+        //{
+        //    var p = e.GetPosition(null);
+        //    this.SetMousePoint(new Point((int)p.X, (int)p.Y));
+        //}
 
-        /// <summary>
-        /// マウス座標を設定します。
-        /// </summary>
-        /// <param name="point">ワールド座標のマウス座標</param>
-        private void SetMousePoint(Point point)
-        {
-            this.MousePoint = new Point(point.X + this.screenOrigin.X, point.Y + this.screenOrigin.Y);
-        }
+        ///// <summary>
+        ///// マウス座標を設定します。
+        ///// </summary>
+        ///// <param name="point">ワールド座標のマウス座標</param>
+        //private void SetMousePoint(Point point)
+        //{
+        //    this.MousePoint = new Point(point.X + this.screenOrigin.X, point.Y + this.screenOrigin.Y);
+        //}
 
-        /// <summary>
-        /// マウスアップ処理。
-        /// </summary>
-        /// <param name="e">イベント引数</param>
-        public void OnMouseUp(MouseEventArgs e)
-        {
-            e.Handled = true;
-            var handle = this.controlSelector.SelectedHandle;
-            if (e.LeftButton != MouseButtonState.Released)
-            {
-                handle = null;
-            }
-            this.notifier.OnNext(handle);
-        }
+        ///// <summary>
+        ///// マウスアップ処理。
+        ///// </summary>
+        ///// <param name="e">イベント引数</param>
+        //public void OnMouseUp(MouseEventArgs e)
+        //{
+        //    e.Handled = true;
+        //    var handle = this.controlSelector.SelectedHandle;
+        //    if (e.LeftButton != MouseButtonState.Released)
+        //    {
+        //        handle = null;
+        //    }
+        //    this.notifier.OnNext(handle);
+        //}
 
-        /// <summary>
-        /// キーダウン処理。
-        /// </summary>
-        /// <param name="e">イベント引数</param>
-        public void OnKeyDown(KeyEventArgs e)
-        {
-            e.Handled = true;
-            this.notifier.OnNext(null);
-        }
+        ///// <summary>
+        ///// キーダウン処理。
+        ///// </summary>
+        ///// <param name="e">イベント引数</param>
+        //public void OnKeyDown(KeyEventArgs e)
+        //{
+        //    e.Handled = true;
+        //    this.notifier.OnNext(null);
+        //}
 
         /// <summary>
         /// ウィンドウを非表示にしてコントロールを選択します。

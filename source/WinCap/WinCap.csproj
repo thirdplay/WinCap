@@ -224,7 +224,8 @@
     <Compile Include="Models\DesktopShortcut.cs" />
     <Compile Include="Models\StartupShortcut.cs" />
     <Compile Include="TaskTrayIcon.cs" />
-    <Compile Include="ViewModels\RegionSelectedViewModel.cs" />
+    <Compile Include="ViewModels\SelectedControlViewModel.cs" />
+    <Compile Include="ViewModels\SelectedRegionViewModel.cs" />
     <Compile Include="ViewModels\RegionSelectionInfoViewModel.cs" />
     <Compile Include="ViewModels\RegionSelectionWindowViewModel.cs" />
     <Compile Include="ViewModels\SwitchablePanelViewModel.cs" />

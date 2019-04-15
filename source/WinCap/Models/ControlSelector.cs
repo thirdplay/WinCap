@@ -1,7 +1,8 @@
-﻿using Livet;
+﻿using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using WinCap.Interop;
 using WinCap.Interop.Win32;
 using WinCap.Properties;
@@ -9,14 +10,25 @@ using WinCap.Properties;
 namespace WinCap.Models
 {
     /// <summary>
-    /// コントロール選択ウィンドウのロジックを提供します。
+    /// コントロール選択機能を提供します。
     /// </summary>
-    public class ControlSelector : NotificationObject
+    public class ControlSelector
     {
         /// <summary>
-        /// ウィンドウハンドルリスト。
+        /// コントロール選択の選択状態を表します。
         /// </summary>
-        private List<IntPtr> handles;
+        public enum SelectionStatus
+        {
+            /// <summary>
+            /// 選択中
+            /// </summary>
+            Selecting,
+
+            /// <summary>
+            /// 選択完了
+            /// </summary>
+            Completed,
+        }
 
         /// <summary>
         /// ウィンドウハンドル取得時に除外するクラス名
@@ -27,28 +39,14 @@ namespace WinCap.Models
         };
 
         /// <summary>
-        /// Initializeメソッドが呼ばれたかどうかを示す値を取得します。
+        /// ウィンドウハンドルリスト
         /// </summary>
-        public bool IsInitialized { get; private set; }
+        private List<IntPtr> Handles { get; set; }
 
-        #region SelectedHandle 変更通知プロパティ
-        private IntPtr? _SelectedHandle;
         /// <summary>
-        /// 選択コントロールのハンドルを取得します。
+        /// 選択コントロールのハンドル
         /// </summary>
-        public IntPtr? SelectedHandle
-        {
-            get { return this._SelectedHandle; }
-            set
-            { 
-                if (this._SelectedHandle != value)
-                {
-                    this._SelectedHandle = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-        #endregion
+        public ReactiveProperty<IntPtr?> SelectedHandle { get; } = new ReactiveProperty<IntPtr?>();
         
         /// <summary>
         /// コンストラクタ。
@@ -62,9 +60,8 @@ namespace WinCap.Models
         /// </summary>
         public void Initialize()
         {
-            this.handles = this.GetHandles();
-            this._SelectedHandle = null;
-            this.IsInitialized = true;
+            Handles = GetHandles();
+            SelectedHandle.Value = null;
         }
 
         /// <summary>
@@ -73,19 +70,14 @@ namespace WinCap.Models
         /// <param name="point">マウス座標</param>
         public void Update(Point point)
         {
-            if (!this.IsInitialized) { return; }
-
-            var selectedHandle = IntPtr.Zero;
-            foreach (var handle in this.handles)
-            {
-                Rectangle bounds = InteropHelper.GetWindowSize(handle);
-                if (bounds != Rectangle.Empty && bounds.Contains(point))
+            SelectedHandle.Value = Handles?
+                .Where(x =>
                 {
-                    selectedHandle = handle;
-                    break;
-                }
-            }
-            this.SelectedHandle = selectedHandle;
+                    var bounds = InteropHelper.GetWindowSize(x);
+                    return bounds != Rectangle.Empty && bounds.Contains(point);
+                })
+                .Select(x => (IntPtr?)x)
+                .FirstOrDefault();
         }
 
         /// <summary>
@@ -107,23 +99,23 @@ namespace WinCap.Models
             do
             {
                 // 対象ウィンドウか判定
-                if (this.IsValidWindow(handle))
+                if (IsValidWindow(handle))
                 {
                     // 子ウィンドウ判定
                     IntPtr hWndChild = User32.GetWindow(handle, GW.CHILD);
                     if (hWndChild != IntPtr.Zero)
                     {
-                        this.GetHandles(hWndChild, ref list);
+                        GetHandles(hWndChild, ref list);
                     }
                     list.Add(handle);
                 }
             } while ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero);
 
-            // 除外対象のクラス名のハンドルを除外する
+            // 最後に除外対象のクラス名のハンドルを除外する
             list.RemoveAll(x =>
             {
                 var className = InteropHelper.GetClassName(x);
-                return (className.IndexOf(ProductInfo.Product) >= 0 || this.ignoreClassNames.Contains(className));
+                return (className.IndexOf(ProductInfo.Product) >= 0 || ignoreClassNames.Contains(className));
             });
 
             return list;
@@ -136,19 +128,19 @@ namespace WinCap.Models
         /// <param name="list">ウィンドウハンドルの格納先</param>
         private void GetHandles(IntPtr handle, ref List<IntPtr> list)
         {
-            if (this.IsValidWindow(handle))
+            if (IsValidWindow(handle))
             {
                 IntPtr hWndChild = User32.GetWindow(handle, GW.CHILD);
                 if (hWndChild != IntPtr.Zero)
                 {
-                    this.GetHandles(hWndChild, ref list);
+                    GetHandles(hWndChild, ref list);
                 }
                 list.Add(handle);
             }
 
             if ((handle = User32.GetWindow(handle, GW.HWNDNEXT)) != IntPtr.Zero)
             {
-                this.GetHandles(handle, ref list);
+                GetHandles(handle, ref list);
             }
         }
 
